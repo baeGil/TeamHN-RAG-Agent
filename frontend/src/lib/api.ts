@@ -79,6 +79,7 @@ export async function streamChat(
     let event = "message";
     const dataLines: string[] = [];
     for (const line of lines) {
+      if (line.startsWith(":")) continue; // SSE comment (ping/keepalive)
       if (line.startsWith("event:")) event = line.slice(6).trim();
       else if (line.startsWith("data:")) dataLines.push(line.slice(5).trim());
     }

@@ -29,8 +29,10 @@ export default function AgentTrace({
   events: TraceEvent[];
   live?: boolean;
 }) {
-  const [open, setOpen] = useState(true);
-  if (!events.length) return null;
+  const [open, setOpen] = useState(false);
+  // "thinking" events drive the graph panel only; hide them from the timeline.
+  const visible = events.filter((e) => e.type !== "thinking");
+  if (!visible.length) return null;
 
   return (
     <div className="trace">
@@ -40,7 +42,7 @@ export default function AgentTrace({
       </div>
       {open && (
         <div className="trace-body">
-          {events.map((e, i) => (
+          {visible.map((e, i) => (
             <div key={i} className="trace-item">
               <Icon type={e.type} />
               <div className="trace-content">

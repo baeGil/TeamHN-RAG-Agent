@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Citation, Message, TraceEvent } from "../lib/types";
 import { streamChat } from "../lib/api";
 import Markdown from "./Markdown";
 import AgentTrace from "./AgentTrace";
+import AgentGraph from "./AgentGraph";
 
 interface Props {
   sessionId: string | null;
@@ -76,8 +77,28 @@ export default function ChatPanel({
     });
   };
 
+  // Graph data: prefer the live stream while streaming, otherwise show the
+  // last assistant message's trace so the user can revisit the reasoning.
+  const lastAssistant = useMemo(
+    () => [...messages].reverse().find((m) => m.role === "assistant"),
+    [messages]
+  );
+  const graphEvents = streaming ? liveTrace : lastAssistant?.trace || [];
+  const graphAnswer = streaming ? liveAnswer : lastAssistant?.content || "";
+
   return (
     <div className="chat">
+      <aside className="agent-panel">
+        <div className="agent-panel-head">Agent Graph</div>
+        <AgentGraph events={graphEvents} liveAnswer={graphAnswer} done={!streaming && !!lastAssistant} />
+        <div className="agent-panel-legend">
+          <div><span className="legend-dot active" /> <b>Đang xử lý</b></div>
+          <div><span className="legend-dot done" /> <b>Hoàn thành</b></div>
+          <div><span className="legend-dot error" /> <b>Lỗi</b></div>
+          <div><span className="legend-dot idle" /> <b>Chờ</b></div>
+          <div><span className="legend-dot skipped" /> <b>Bỏ qua</b></div>
+        </div>
+      </aside>
       <div className="messages" ref={scrollRef}>
         {messages.length === 0 && !streaming && (
           <div className="empty-state">
@@ -99,18 +120,18 @@ export default function ChatPanel({
           <div key={i} className={`msg ${m.role}`}>
             <div className="avatar">{m.role === "user" ? "🧑" : "🤖"}</div>
             <div className="bubble">
-              {m.role === "assistant" && m.trace.length > 0 && (
+              {m.role === "assistant" && m.trace && m.trace.length > 0 && m.trace.some(e => e.type !== "thinking") && (
                 <AgentTrace events={m.trace} />
               )}
               {m.role === "assistant" ? (
-                <Markdown content={m.content} citations={m.citations} onCite={(label) => {
-                  const c = m.citations.find((x) => x.label === label);
+                <Markdown content={m.content} citations={m.citations || []} onCite={(label) => {
+                  const c = (m.citations || []).find((x) => x.label === label);
                   if (c) onOpenCitation(c);
                 }} />
               ) : (
                 <div className="user-text">{m.content}</div>
               )}
-              {m.role === "assistant" && m.citations.length > 0 && (
+              {m.role === "assistant" && m.citations && m.citations.length > 0 && (
                 <div className="sources">
                   <div className="sources-title">Nguồn trích dẫn</div>
                   <div className="sources-list">

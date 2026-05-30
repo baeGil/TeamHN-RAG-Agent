@@ -44,7 +44,14 @@ export default function App() {
     localStorage.setItem(LS_KEY, sessionId);
     api
       .getSession(sessionId)
-      .then((s) => setMessages(s.messages || []))
+      .then((s) => {
+        const msgs = (s.messages || []).map((m: any) => ({
+          ...m,
+          citations: m.citations || [],
+          trace: m.trace || [],
+        }));
+        setMessages(msgs);
+      })
       .catch(() => setMessages([]));
   }, [sessionId]);
 
