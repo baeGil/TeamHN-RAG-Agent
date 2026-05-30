@@ -1,24 +1,16 @@
 # RAG Agent Tiếng Việt — Production-grade Hybrid RAG
 
-Hệ thống **RAG Agent** hỏi đáp dựa trên tài liệu tiếng Việt (kiểu NotebookLM): nạp PDF/URL/văn bản,
-trả lời câu hỏi **kèm trích dẫn nguồn**, **không bịa đặt ngoài tài liệu**, hiển thị **quá trình suy luận
-của agent theo thời gian thực**.
+>Note: Sprint 1 week 2 updated.
 
-- **Parsing math-aware (cục bộ, không tốn token)**: trích xuất PDF bằng **PyMuPDF** với remap toán tử
-  lớn theo font (∑, √… từ `CMEX10`), **dựng lại phân số** từ nét vẽ vinculum, **khôi phục dấu cách** theo
-  hình học, lọc watermark và **nhận diện mục/section**. VLM (`gpt-4o-mini`) chỉ là **fallback** cho trang scan
-  (`VLM_PARSE`). Kết quả: công thức trích đúng (vd `S(c)=C1·(24−Nobs(c))/24+(1−C1)·dmin(c,Oc)/3`).
-- **Chunking theo mục + contextual headers**: chia chunk theo ranh giới mục, **giữ nguyên công thức/bảng
-  (atomic)**, và **gắn tiêu đề tài liệu + đường dẫn mục** vào văn bản index (BM25 + embedding) để tăng recall.
-- **Hybrid search**: BM25 (keyword, tách từ tiếng Việt bằng `underthesea`) + Dense (embedding OpenAI)
-  + **Reciprocal Rank Fusion (RRF)** + **cross-encoder reranker** (`bge-reranker-v2-m3`).
-- **Vector index**: [`turbovec`](https://github.com/RyanCodrai/turbovec) — index dựa trên thuật toán
-  **TurboQuant** (ICLR 2026), nén 16×, SIMD → latency truy hồi cực thấp.
-- **Agent điều khiển được** 
-  **Adaptive Router** → single-hop đi đường nhanh, multi-hop chạy đồ thị suy luận tất định
-  (plan → decompose → retrieve → distill → **verify groundedness** → synthesize).
-- **UI**: Vite + React + TypeScript — chat, upload tài liệu, **render LaTeX**, **citation hover + click**,
-  **lưu phiên (reload không mất dữ liệu)**.
+Hệ thống **RAG Agent** hỏi đáp dựa trên tài liệu tiếng Việt (kiểu NotebookLM): nạp PDF/URL/văn bản,
+trả lời câu hỏi **kèm trích dẫn nguồn**, **không bịa đặt ngoài tài liệu**, hiển thị **quá trình suy luận của agent theo thời gian thực**.
+
+- **Parsing math-aware (cục bộ, không tốn token)**: trích xuất PDF bằng **PyMuPDF** với remap toán tử lớn theo font (∑, √… từ `CMEX10`), **dựng lại phân số** từ nét vẽ vinculum, **khôi phục dấu cách** theo hình học, lọc watermark và **nhận diện mục/section**. VLM (`gpt-4o-mini`) chỉ là **fallback** cho trang scan (`VLM_PARSE`). Kết quả: công thức trích đúng (vd `S(c)=C1·(24−Nobs(c))/24+(1−C1)·dmin(c,Oc)/3`).
+- **Chunking theo mục + contextual headers**: chia chunk theo ranh giới mục, **giữ nguyên công thức/bảng (atomic)**, và **gắn tiêu đề tài liệu + đường dẫn mục** vào văn bản index (BM25 + embedding) để tăng recall.
+- **Hybrid search**: BM25 (keyword, tách từ tiếng Việt bằng `underthesea`) + Dense (embedding OpenAI) + **Reciprocal Rank Fusion (RRF)** + **cross-encoder reranker** (`bge-reranker-v2-m3`).
+- **Vector index**: [`turbovec`](https://github.com/RyanCodrai/turbovec) — index dựa trên thuật toán **TurboQuant** (ICLR 2026), nén 16×, SIMD → latency truy hồi cực thấp.
+- **Agent điều khiển được** **Adaptive Router** → single-hop đi đường nhanh, multi-hop chạy đồ thị suy luận tất định (plan → decompose → retrieve → distill → **verify groundedness** → synthesize).
+- **UI**: Vite + React + TypeScript — chat, upload tài liệu, **render LaTeX**, **citation hover + click**, **lưu phiên (reload không mất dữ liệu)**.
 
 ---
 
@@ -31,17 +23,17 @@ của agent theo thời gian thực**.
 ## 1. Kiến trúc
 
 ```
-                ┌──────────────────────── Frontend (Vite + React + TS) ───────────────────────┐
-                │  Chat · Upload PDF/URL · Agent Trace realtime · LaTeX · Citation hover/click │
-                └───────────────▲───────────────────────────────────────────────┬─────────────┘
-                                │ REST + SSE (stream)                            │
-                ┌───────────────┴────────────────── Backend (FastAPI) ───────────▼─────────────┐
-                │  Ingestion      Indexing            Retrieval            Agent (control graph)│
-                │  PDF/URL/text → chunk+meta → BM25  → RRF fusion  → rerank → route → plan →     │
-                │  underthesea          + turbovec                          retrieve → distill → │
-                │                       (TurboQuant)                        verify → synthesize  │
-                │  SQLite: documents · chunks · sessions · messages (persistence)               │
-                └──────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────── Frontend (Vite + React + TS) ───────────────────────┐
+│  Chat · Upload PDF/URL · Agent Trace realtime · LaTeX · Citation hover/click │
+└───────────────▲───────────────────────────────────────────────┬─────────────┘
+                │ REST + SSE (stream)                            │
+┌───────────────┴────────────────── Backend (FastAPI) ───────────▼─────────────┐
+│  Ingestion      Indexing            Retrieval            Agent (control graph)│
+│  PDF/URL/text → chunk+meta → BM25  → RRF fusion  → rerank → route → plan →     │
+│  underthesea          + turbovec                          retrieve → distill → │
+│                       (TurboQuant)                        verify → synthesize  │
+│  SQLite: documents · chunks · sessions · messages (persistence)               │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
 Luồng agent (đồ thị tất định — "bộ não" điều khiển được):
