@@ -4,16 +4,27 @@ Hệ thống **RAG Agent** hỏi đáp dựa trên tài liệu tiếng Việt (k
 trả lời câu hỏi **kèm trích dẫn nguồn**, **không bịa đặt ngoài tài liệu**, hiển thị **quá trình suy luận
 của agent theo thời gian thực**.
 
+- **Parsing math-aware (cục bộ, không tốn token)**: trích xuất PDF bằng **PyMuPDF** với remap toán tử
+  lớn theo font (∑, √… từ `CMEX10`), **dựng lại phân số** từ nét vẽ vinculum, **khôi phục dấu cách** theo
+  hình học, lọc watermark và **nhận diện mục/section**. VLM (`gpt-4o-mini`) chỉ là **fallback** cho trang scan
+  (`VLM_PARSE`). Kết quả: công thức trích đúng (vd `S(c)=C1·(24−Nobs(c))/24+(1−C1)·dmin(c,Oc)/3`).
+- **Chunking theo mục + contextual headers**: chia chunk theo ranh giới mục, **giữ nguyên công thức/bảng
+  (atomic)**, và **gắn tiêu đề tài liệu + đường dẫn mục** vào văn bản index (BM25 + embedding) để tăng recall.
 - **Hybrid search**: BM25 (keyword, tách từ tiếng Việt bằng `underthesea`) + Dense (embedding OpenAI)
   + **Reciprocal Rank Fusion (RRF)** + **cross-encoder reranker** (`bge-reranker-v2-m3`).
 - **Vector index**: [`turbovec`](https://github.com/RyanCodrai/turbovec) — index dựa trên thuật toán
   **TurboQuant** (ICLR 2026), nén 16×, SIMD → latency truy hồi cực thấp.
-- **Agent điều khiển được** (kế thừa ý tưởng từ
-  [NirDiamant/Controllable-RAG-Agent](https://github.com/NirDiamant/Controllable-RAG-Agent)):
+- **Agent điều khiển được** 
   **Adaptive Router** → single-hop đi đường nhanh, multi-hop chạy đồ thị suy luận tất định
   (plan → decompose → retrieve → distill → **verify groundedness** → synthesize).
 - **UI**: Vite + React + TypeScript — chat, upload tài liệu, **render LaTeX**, **citation hover + click**,
   **lưu phiên (reload không mất dữ liệu)**.
+
+---
+
+## Demo
+
+![Demo](artifact/demo-1.gif)
 
 ---
 
@@ -60,7 +71,7 @@ pip install -r requirements.txt
 cp .env.example .env
 # Mở .env và điền:
 #   OPENAI_API_KEY=sk-...
-#   LLM_MODEL=...          (vd: gpt-4o)
+#   LLM_MODEL=...          (vd: gpt-4o-mini)
 #   LLM_MODEL_FAST=...     (vd: gpt-4o-mini)
 #   EMBED_MODEL=...        (vd: text-embedding-3-small)
 ```
@@ -89,7 +100,7 @@ cd backend && uvicorn app.main:app --reload --port 8000
 cd frontend && npm run dev
 ```
 
-Mở **http://localhost:5173**. Tải lên PDF (vd `test/mô_hình_hóa_ĐATN.pdf`) hoặc dán URL, rồi đặt câu hỏi.
+Mở **http://localhost:5173**. Tải lên PDF rồi đặt câu hỏi.
 
 > Lần đầu dùng reranker, model `bge-reranker-v2-m3` (~2GB) sẽ được tải tự động. Có thể tắt bằng
 > `USE_RERANKER=false` trong `.env` (vẫn còn BM25 + Dense + RRF).
@@ -102,7 +113,8 @@ Bộ test có sẵn trong `test/`: `testQA.md` (10 câu single-hop) và `testQA_
 
 ```bash
 cd backend
-python -m eval.run_eval --test-dir ../test
+python -m eval.run_eval --test-dir ../test            # chạy đánh giá
+python -m eval.run_eval --test-dir ../test --reset    # nạp lại từ đầu (sau khi đổi parser)
 ```
 
 Script sẽ:
@@ -111,6 +123,8 @@ Script sẽ:
 3. Gộp ứng viên và dùng **LLM-as-judge** để xác định tập đoạn liên quan (pooling kiểu TREC).
 4. Tính **Recall@5** và **MRR@5** (kèm Hit@5) cho từng cấu hình, theo tổng thể và theo độ khó.
 5. Ghi báo cáo: `data/eval/eval_report.md` + `data/eval/eval_results.json`, kèm **phân tích lỗi**.
+6. Nếu có kết quả trước đó (`--baseline`, mặc định `data/eval_before/eval_results.json`),
+   ghi thêm **so sánh trước/sau**: `data/eval/eval_comparison.md`.
 
 ---
 
@@ -122,7 +136,7 @@ backend/
     config.py                 # đọc .env
     main.py                   # FastAPI: /documents, /sessions, /chat (SSE), /stats
     db/                       # SQLite (documents, chunks, sessions, messages)
-    ingestion/                # loaders (PDF/URL/text) · chunker · vn_text (underthesea)
+    ingestion/                # pdf_extract (PyMuPDF, math-aware) · pdf_vlm (fallback) · loaders · chunker · vn_text
     indexing/                 # embeddings (OpenAI) · vector_index (turbovec) · bm25 · store
     retrieval/                # hybrid (RRF) · reranker (bge-reranker-v2-m3)
     agent/                    # graph (control graph) · nodes · prompts · llm

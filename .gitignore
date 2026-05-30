@@ -10,6 +10,8 @@ backend/.env
 # Storage / indexes / caches
 backend/storage/
 backend/storage_eval/
+backend/storage_eval_before/
+backend/**/parse_cache.db
 backend/**/*.tvim
 backend/**/*.pkl
 
@@ -21,3 +23,4 @@ frontend/dist/
 .DS_Store
 
 /test
+/slides

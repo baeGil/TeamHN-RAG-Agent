@@ -1,0 +1,1193 @@
+{
+  "overall": {
+    "BM25": {
+      "recall@5": 0.74,
+      "mrr@5": 0.6916666666666667,
+      "hit@5": 0.9
+    },
+    "Dense": {
+      "recall@5": 0.8133333333333332,
+      "mrr@5": 0.7916666666666667,
+      "hit@5": 0.95
+    },
+    "Hybrid (RRF)": {
+      "recall@5": 0.9233333333333332,
+      "mrr@5": 0.825,
+      "hit@5": 1.0
+    },
+    "Hybrid + Rerank": {
+      "recall@5": 0.8566666666666667,
+      "mrr@5": 0.85,
+      "hit@5": 0.95
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "BM25": {
+        "recall@5": 0.85,
+        "mrr@5": 0.7,
+        "hit@5": 0.9
+      },
+      "Dense": {
+        "recall@5": 0.8,
+        "mrr@5": 0.8333333333333334,
+        "hit@5": 0.9
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.95,
+        "mrr@5": 0.8833333333333332,
+        "hit@5": 1.0
+      },
+      "Hybrid + Rerank": {
+        "recall@5": 0.95,
+        "mrr@5": 1.0,
+        "hit@5": 1.0
+      }
+    },
+    "hard": {
+      "BM25": {
+        "recall@5": 0.63,
+        "mrr@5": 0.6833333333333333,
+        "hit@5": 0.9
+      },
+      "Dense": {
+        "recall@5": 0.8266666666666665,
+        "mrr@5": 0.75,
+        "hit@5": 1.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.8966666666666668,
+        "mrr@5": 0.7666666666666666,
+        "hit@5": 1.0
+      },
+      "Hybrid + Rerank": {
+        "recall@5": 0.7633333333333333,
+        "mrr@5": 0.7,
+        "hit@5": 0.9
+      }
+    }
+  },
+  "per_question": [
+    {
+      "qid": "e1",
+      "difficulty": "easy",
+      "question": "Đầu vào chính của bài toán quy hoạch đường đi an toàn đa đích gồm những gì?",
+      "n_relevant": 1,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "top5": [
+            11,
+            1,
+            7,
+            5,
+            6
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            8,
+            5,
+            6,
+            3
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            5,
+            2,
+            8,
+            6,
+            11
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            7,
+            12,
+            5,
+            8
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e2",
+      "difficulty": "easy",
+      "question": "Đầu ra của bài toán là gì?",
+      "n_relevant": 1,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            6,
+            7,
+            5
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            7,
+            13,
+            6,
+            12
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            7,
+            6,
+            5,
+            13
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            7,
+            6,
+            12,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e3",
+      "difficulty": "easy",
+      "question": "Robot phải thỏa mãn những ràng buộc nào khi thăm các mục tiêu?",
+      "n_relevant": 1,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            6,
+            5,
+            11,
+            4
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            6,
+            4,
+            11,
+            8
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            6,
+            4,
+            11,
+            5
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            2,
+            6,
+            11,
+            4,
+            8
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e4",
+      "difficulty": "easy",
+      "question": "Mục tiêu tối ưu tổng quát của bài toán được mô hình hóa như thế nào?",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            6,
+            9,
+            11,
+            7
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.5,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            12,
+            7,
+            6,
+            11,
+            8
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            8,
+            7,
+            11,
+            12
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            8,
+            5,
+            9,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e5",
+      "difficulty": "easy",
+      "question": "Chỉ số an toàn `S(c)` của một ô lưới phụ thuộc vào những yếu tố nào?",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            5,
+            3,
+            8,
+            11,
+            4
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            3,
+            8,
+            5,
+            10
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            5,
+            4,
+            8,
+            10
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            8,
+            4,
+            12,
+            6
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e6",
+      "difficulty": "easy",
+      "question": "Độ rủi ro va chạm `risk(P)` được hiểu như thế nào?",
+      "n_relevant": 1,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            4,
+            9,
+            2,
+            5
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            5,
+            2,
+            6,
+            3
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            3,
+            5,
+            2,
+            6
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            3,
+            2,
+            5,
+            9
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e7",
+      "difficulty": "easy",
+      "question": "Độ rủi ro phóng xạ `R(P)` biểu diễn điều gì, tính như thế nào?",
+      "n_relevant": 1,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            3,
+            6,
+            9,
+            14
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            6,
+            5,
+            2,
+            3
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            6,
+            3,
+            5,
+            2
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            2,
+            3,
+            6,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e8",
+      "difficulty": "easy",
+      "question": "Quy trình tối ưu hóa được chia thành hai pha nào?",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            12,
+            11,
+            5,
+            7,
+            10
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "top5": [
+            12,
+            8,
+            14,
+            9,
+            7
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            12,
+            7,
+            11,
+            5,
+            14
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            5,
+            12,
+            11,
+            6,
+            8
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e9",
+      "difficulty": "easy",
+      "question": "Hàm chi phí cục bộ `f(x)` trong FMF cải tiến có vai trò gì?",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            9,
+            7,
+            12,
+            14
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            9,
+            11,
+            12,
+            7
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            9,
+            7,
+            12,
+            11
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            9,
+            14,
+            7,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "qid": "e10",
+      "difficulty": "easy",
+      "question": "Khi hai pháo hoa từ hai mục tiêu khác nhau gặp nhau, phần tử ma trận chi phí $D_{ij}$ được xác định ra sao?",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            3,
+            7,
+            14,
+            12
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            10,
+            5,
+            6,
+            8
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            10,
+            14,
+            5,
+            8
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            7,
+            8,
+            6,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h1",
+      "difficulty": "hard",
+      "question": "Nếu hai đường đi `P1` và `P2` có cùng chiều dài nhưng `P1` đi qua nhiều ô có chỉ số an toàn thấp hơn, theo hàm mục tiêu tổng quát thì đường nào có khả năng được chọn khi `w3 > 0`? Giải thích bằng công thức.",
+      "n_relevant": 3,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.3333333333333333,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            2,
+            4,
+            9,
+            11
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.6666666666666666,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            5,
+            3,
+            6,
+            2,
+            8
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            2,
+            5,
+            4,
+            6
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 0.6666666666666666,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            5,
+            6,
+            2,
+            14
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h2",
+      "difficulty": "hard",
+      "question": "Trong công thức `S(c) = C1 * (24 - Nobs(c)) / 24 + (1 - C1) * dmin(c, Oc) / 3`, điều gì xảy ra với `S(c)` khi `C1 -> 1`? Khi đó thuật toán ưu tiên yếu tố nào hơn?",
+      "n_relevant": 1,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "top5": [
+            3,
+            8,
+            13,
+            9,
+            5
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            4,
+            12,
+            7,
+            10
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            8,
+            4,
+            13,
+            12
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "top5": [
+            3,
+            6,
+            8,
+            12,
+            13
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h3",
+      "difficulty": "hard",
+      "question": "Nếu một ô `c` không có vật cản nào trong vùng lân cận `5 x 5`, hãy suy luận giá trị `S(c)` theo công thức đã cho.",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            4,
+            10,
+            7,
+            8
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            10,
+            7,
+            12,
+            13
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            10,
+            7,
+            4,
+            12
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            4,
+            5,
+            12,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h4",
+      "difficulty": "hard",
+      "question": "Vì sao công thức `R(P) = sum d(pn, pn+1) * (R(pn) + R(pn+1)) / 2 * a / v` có thể làm đường đi dài hơn nhưng ít phơi nhiễm hơn được ưu tiên so với đường ngắn hơn?",
+      "n_relevant": 3,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.6666666666666666,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            6,
+            2,
+            9,
+            8
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            3,
+            6,
+            5,
+            4,
+            2
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            4,
+            2,
+            3,
+            5
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            4,
+            5,
+            8,
+            6,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h5",
+      "difficulty": "hard",
+      "question": "Tại sao ràng buộc `p1 == p_tauP in S` biến bài toán thành dạng chu trình thay vì chỉ là đường đi qua các mục tiêu?",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            7,
+            2,
+            6,
+            5,
+            4
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            2,
+            5,
+            7,
+            8
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            2,
+            7,
+            5,
+            8
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            2,
+            5,
+            4,
+            7
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h6",
+      "difficulty": "hard",
+      "question": "Trong pha 1, nếu `Dij` được tính bằng `min w1 * length(Pij) + w2 * R(Pij) + w3 * Risk(Pij)`, vì sao `Dij` không đơn thuần là khoảng cách hình học giữa hai mục tiêu?",
+      "n_relevant": 3,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.3333333333333333,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            4,
+            3,
+            2,
+            10
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            5,
+            6,
+            3,
+            4,
+            11
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.6666666666666666,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            4,
+            3,
+            5,
+            2
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            5,
+            2,
+            4,
+            11
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h7",
+      "difficulty": "hard",
+      "question": "Với bài toán TSP ở pha 2, biểu thức `G(R) = sum_{i=1}^{n-1} D(r_i, r_{i+1}) + D(r_n, r_1)`, với `n` là số mục tiêu, có ý nghĩa gì và vì sao cần hạng tử cuối `D(r_n, r_1)`?",
+      "n_relevant": 3,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.6666666666666666,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            5,
+            4,
+            2,
+            12
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            5,
+            11,
+            13,
+            2
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            5,
+            2,
+            11,
+            13
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 0.6666666666666666,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            6,
+            5,
+            2,
+            4,
+            14
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h8",
+      "difficulty": "hard",
+      "question": "Hãy giải thích vì sao vùng có `f(x)` lớn làm mặt sóng FMF lan truyền chậm hơn và ảnh hưởng đến đường đi cuối cùng.",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            9,
+            8,
+            11,
+            6,
+            7
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.5,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            9,
+            7,
+            11,
+            13
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            9,
+            8,
+            11,
+            7,
+            6
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            9,
+            8,
+            7,
+            14,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h9",
+      "difficulty": "hard",
+      "question": "Trong công thức giao thoa `Dij ≈ T(x) + T(y) + d(x, y) * (f(x) + f(y)) / 2`, hãy giải thích vai trò của từng thành phần và vì sao dùng trung bình `(f(x) + f(y)) / 2`.",
+      "n_relevant": 2,
+      "methods": {
+        "BM25": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            13,
+            14,
+            4,
+            9
+          ]
+        },
+        "Dense": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            10,
+            13,
+            3,
+            14
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            13,
+            14,
+            10,
+            9
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            11,
+            13,
+            14,
+            4,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "qid": "h10",
+      "difficulty": "hard",
+      "question": "Nếu tăng `w2` trong `f(x) = w1 + w2 * R(x) + w3 * (1 - S(x))` nhưng giữ các trọng số chuẩn hóa, đường đi được tìm bởi FMF cải tiến sẽ thay đổi theo xu hướng nào?",
+      "n_relevant": 5,
+      "methods": {
+        "BM25": {
+          "recall@5": 0.8,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            9,
+            8,
+            7,
+            12,
+            5
+          ]
+        },
+        "Dense": {
+          "recall@5": 0.6,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            12,
+            9,
+            7,
+            6
+          ]
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.8,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            9,
+            12,
+            7,
+            5
+          ]
+        },
+        "Hybrid + Rerank": {
+          "recall@5": 0.8,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            8,
+            7,
+            12,
+            9,
+            5
+          ]
+        }
+      }
+    }
+  ],
+  "n_questions": 20,
+  "k": 5
+}
