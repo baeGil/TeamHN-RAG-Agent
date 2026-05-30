@@ -26,6 +26,20 @@ class VectorIndex:
     def ready(self) -> bool:
         return self._index is not None and self._count > 0
 
+    def rebuild(self, vectors: np.ndarray, ids: list[int]) -> None:
+        """Replace the whole index with the given vectors/ids in one shot."""
+        if vectors is None or len(ids) == 0:
+            self._index = None
+            self._count = 0
+            return
+        self._dim = int(vectors.shape[1])
+        self._index = IdMapIndex(dim=self._dim, bit_width=self.bit_width)
+        vecs = np.ascontiguousarray(vectors, dtype=np.float32)
+        id_arr = np.asarray(ids, dtype=np.uint64)
+        self._index.add_with_ids(vecs, id_arr)
+        self._count = len(ids)
+        self._index.prepare()
+
     def add(self, vectors: np.ndarray, ids: list[int]) -> None:
         if vectors.shape[0] == 0:
             return

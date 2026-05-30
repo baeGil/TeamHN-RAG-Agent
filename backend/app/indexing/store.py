@@ -4,6 +4,8 @@ import threading
 from dataclasses import dataclass
 from typing import Any, Optional
 
+import numpy as np
+
 from ..config import Settings, get_settings
 from ..db.database import Database
 from ..db.repo import Repo
@@ -14,6 +16,19 @@ from ..retrieval.reranker import Reranker
 from .bm25_index import BM25Index
 from .embeddings import Embedder
 from .vector_index import VectorIndex
+
+
+# Bump when tokenization or index_text formatting changes, to force a rebuild of
+# persisted indexes on next load (otherwise stale tokens silently degrade recall).
+_INDEX_VERSION = 3
+
+
+def _index_text(title: Optional[str], section: Optional[str], text: str) -> str:
+    """Contextual chunk header: prepend doc title + section path before the chunk
+    so context-poor chunks still match queries (BM25 + dense). Display/citation
+    text stays clean (this header is index-only)."""
+    head = " › ".join(p for p in (title, section) if p)
+    return f"{head}\n{text}" if head else text
 
 
 @dataclass
@@ -47,12 +62,23 @@ class KnowledgeBase:
     # ---------------- persistence ----------------
     def _load_indexes(self) -> None:
         chunks = self.repo.all_chunks()
+        db_ids = sorted(int(c["id"]) for c in chunks)
+        if not db_ids:
+            return
+
+        meta = {}
+        if self.settings.meta_path.exists():
+            try:
+                with open(self.settings.meta_path, encoding="utf-8") as f:
+                    meta = json.load(f)
+            except Exception:
+                meta = {}
+
         if self.settings.vector_path.exists():
             try:
                 self.vector = VectorIndex.load(
                     self.settings.vector_path, bit_width=self.settings.turbovec_bit_width
                 )
-                self.vector.set_count(len(chunks))
             except Exception:
                 self.vector = VectorIndex(bit_width=self.settings.turbovec_bit_width)
         if self.settings.bm25_path.exists():
@@ -60,22 +86,83 @@ class KnowledgeBase:
                 self.bm25 = BM25Index.load(self.settings.bm25_path)
             except Exception:
                 self.bm25 = BM25Index()
-        # If indexes are empty but DB has chunks, the BM25 (tokens-only) can be
-        # rebuilt cheaply; the vector index cannot (needs embeddings) so we leave it.
-        if self.bm25.count == 0 and chunks:
-            for c in chunks:
-                self.bm25.add(int(c["id"]), c["text"])
-            self.bm25.save(self.settings.bm25_path)
+
+        # The persisted indexes are trusted ONLY if they cover exactly the DB chunk
+        # set. Any drift (stale files, a previous partial ingest, a schema change)
+        # silently drops chunks from retrieval, so we rebuild from the DB instead.
+        indexed_ids = sorted(int(i) for i in meta.get("chunk_ids", []))
+        in_sync = (
+            indexed_ids == db_ids
+            and self.bm25.count == len(db_ids)
+            and self.vector._index is not None
+            and meta.get("index_version") == _INDEX_VERSION
+        )
+        if in_sync:
+            self.vector.set_count(len(db_ids))
+        else:
+            self.rebuild_indexes()
+
+    def rebuild_indexes(self) -> None:
+        """Rebuild BM25 + dense index from the DB so they always match stored chunks.
+        Embeddings are read from the DB; any missing ones are (re)computed and saved."""
+        rows = self.repo.all_chunks_with_embeddings()
+        if not rows:
+            self.bm25 = BM25Index()
+            self.vector = VectorIndex(bit_width=self.settings.turbovec_bit_width)
+            self._persist()
+            return
+
+        ids = [int(r["id"]) for r in rows]
+        index_texts = [
+            _index_text(r.get("doc_title"), r.get("section"), r["text"]) for r in rows
+        ]
+
+        dim = self.embedder.dim
+        vecs: list[Optional[np.ndarray]] = []
+        missing: list[int] = []
+        for i, r in enumerate(rows):
+            blob = r.get("embedding")
+            if blob:
+                v = np.frombuffer(blob, dtype=np.float32)
+                if dim and v.shape[0] != dim:
+                    v = None
+            else:
+                v = None
+            if v is None:
+                missing.append(i)
+            vecs.append(v)
+
+        if missing:
+            fresh = self.embedder.embed_documents([index_texts[i] for i in missing])
+            for j, i in enumerate(missing):
+                vecs[i] = fresh[j]
+            self.repo.set_embeddings([ids[i] for i in missing], fresh)
+
+        matrix = np.vstack(vecs).astype(np.float32)
+
+        self.bm25 = BM25Index()
+        for cid, itext in zip(ids, index_texts):
+            self.bm25.add(cid, itext)
+        self.vector = VectorIndex(bit_width=self.settings.turbovec_bit_width)
+        self.vector.rebuild(matrix, ids)
+        self._persist()
 
     def _persist(self) -> None:
         self.vector.save(self.settings.vector_path)
         self.bm25.save(self.settings.bm25_path)
         with open(self.settings.meta_path, "w", encoding="utf-8") as f:
-            json.dump({"embed_dim": self.embedder.dim}, f)
+            json.dump(
+                {
+                    "embed_dim": self.embedder.dim,
+                    "chunk_ids": list(self.bm25._chunk_ids),
+                    "index_version": _INDEX_VERSION,
+                },
+                f,
+            )
 
     # ---------------- ingestion ----------------
     def ingest_pdf(self, data: bytes, filename: str) -> dict[str, Any]:
-        title, blocks = loaders.load_pdf(data, filename)
+        title, blocks = loaders.load_pdf(data, filename, cache_dir=self.settings.storage_dir)
         return self._ingest(title, filename, "pdf", blocks)
 
     def ingest_url(self, url: str) -> dict[str, Any]:
@@ -87,18 +174,26 @@ class KnowledgeBase:
         return self._ingest(title, title, "text", blocks)
 
     def _ingest(self, title, source, source_type, blocks) -> dict[str, Any]:
-        chunks = chunk_blocks(blocks)
+        chunks = chunk_blocks(
+            blocks,
+            max_chars=self.settings.chunk_max_chars,
+            overlap_chars=self.settings.chunk_overlap,
+        )
         if not chunks:
             raise ValueError("Không tách được đoạn văn bản nào từ nguồn này.")
         with self._lock:
             doc_id = self.repo.add_document(title, source, source_type)
             chunk_ids: list[int] = []
+            index_texts: list[str] = []
             for i, ch in enumerate(chunks):
                 cid = self.repo.add_chunk(doc_id, i, ch.text, ch.page, ch.section)
                 chunk_ids.append(cid)
-                self.bm25.add(cid, ch.text)
+                itext = _index_text(title, ch.section, ch.text)
+                index_texts.append(itext)
+                self.bm25.add(cid, itext)
             self.repo.set_document_chunk_count(doc_id, len(chunks))
-            vectors = self.embedder.embed_documents([c.text for c in chunks])
+            vectors = self.embedder.embed_documents(index_texts)
+            self.repo.set_embeddings(chunk_ids, vectors)
             self.vector.add(vectors, chunk_ids)
             self._persist()
         return {
@@ -111,10 +206,10 @@ class KnowledgeBase:
 
     def delete_document(self, doc_id: int) -> None:
         with self._lock:
-            chunk_ids = self.repo.delete_document(doc_id)
-            self.bm25.remove(set(chunk_ids))
-            self.vector.remove(chunk_ids)
-            self._persist()
+            self.repo.delete_document(doc_id)
+            # Rebuild from the remaining DB chunks (embeddings are stored, so this
+            # needs no API calls) to keep both indexes exactly in sync with the DB.
+            self.rebuild_indexes()
 
     # ---------------- retrieval ----------------
     def retrieve(self, query: str, top_k: Optional[int] = None) -> list[RetrievedChunk]:

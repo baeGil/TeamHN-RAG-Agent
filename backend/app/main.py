@@ -1,9 +1,9 @@
+import asyncio
 import json
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from sse_starlette.sse import EventSourceResponse
-from starlette.concurrency import iterate_in_threadpool
+from starlette.responses import StreamingResponse
 
 from .agent.graph import Agent
 from .config import get_settings
@@ -109,7 +109,11 @@ def delete_session(sid: str):
     return {"deleted": sid}
 
 
-# ---------------- chat (SSE) ----------------
+# ---------------- chat (SSE via StreamingResponse) ----------------
+def _sse_event(event: str, data: object) -> str:
+    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False, default=str)}\n\n"
+
+
 @app.post("/api/chat")
 async def chat(body: ChatIn):
     if not settings.has_openai:
@@ -127,30 +131,60 @@ async def chat(body: ChatIn):
         kb.repo.touch_session(sid, title=body.message[:60])
 
     agent = Agent(kb)
+    final_payload = {"answer": "", "citations": [], "trace": []}
 
-    def sync_events():
-        final_payload = {"answer": "", "citations": [], "trace": []}
+    async def stream():
+        yield _sse_event("session", {"session_id": sid})
+
+        gen = agent.run(body.message, history)
+        gen_exhausted = False
+
+        def _next_event():
+            try:
+                return next(gen)
+            except StopIteration:
+                return None
+
+        loop = asyncio.get_running_loop()
+
         try:
-            for ev in agent.run(body.message, history):
+            while not gen_exhausted:
+                try:
+                    ev = await asyncio.wait_for(
+                        loop.run_in_executor(None, _next_event),
+                        timeout=25,
+                    )
+                except asyncio.TimeoutError:
+                    yield ": keepalive\n\n"
+                    continue
+
+                if ev is None:
+                    gen_exhausted = True
+                    break
+
                 if ev["type"] == "final":
-                    final_payload = ev["data"]
-                yield {"event": ev["type"], "data": json.dumps(ev["data"], ensure_ascii=False)}
+                    final_payload.update(ev["data"])
+                yield _sse_event(ev["type"], ev["data"])
         except Exception as e:
-            yield {"event": "error", "data": json.dumps({"message": str(e)}, ensure_ascii=False)}
+            yield _sse_event("error", {"message": str(e)})
             final_payload["answer"] = f"Lỗi: {e}"
-        # persist assistant message
+
         kb.repo.add_message(
             sid,
             "assistant",
             final_payload.get("answer", ""),
             citations=final_payload.get("citations", []),
-            trace=final_payload.get("trace", []),
+            trace=[e for e in final_payload.get("trace", []) if e.get("type") != "thinking"],
         )
         kb.repo.touch_session(sid)
 
-    async def event_gen():
-        yield {"event": "session", "data": json.dumps({"session_id": sid})}
-        async for item in iterate_in_threadpool(sync_events()):
-            yield item
-
-    return EventSourceResponse(event_gen())
+    return StreamingResponse(
+        stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+            "Pragma": "no-cache",
+        },
+    )

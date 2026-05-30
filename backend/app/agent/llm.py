@@ -52,6 +52,31 @@ class LLM:
         self._track(resp)
         return resp.choices[0].message.content or ""
 
+    def chat_vision(
+        self, system: str, instruction: str, image_b64: str, temperature: float = 0.0
+    ) -> str:
+        """Single-image vision transcription using the configured VLM model."""
+        messages = [
+            {"role": "system", "content": system},
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": instruction},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/png;base64,{image_b64}"},
+                    },
+                ],
+            },
+        ]
+        resp = self.client.chat.completions.create(
+            model=self.settings.vlm_model,
+            messages=messages,
+            temperature=temperature,
+        )
+        self._track(resp)
+        return resp.choices[0].message.content or ""
+
     def chat_json(self, messages: list[dict[str, str]], fast: bool = True) -> Any:
         raw = self.chat(messages, fast=fast, json_mode=True)
         try:

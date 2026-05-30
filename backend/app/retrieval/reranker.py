@@ -12,6 +12,9 @@ class Reranker:
         self._model = None
         self._failed = False
         self._lock = threading.Lock()
+        # The HF tokenizer / model forward is not thread-safe; the agent retrieves
+        # sub-questions in parallel, so reranker calls must be serialized.
+        self._infer_lock = threading.Lock()
 
     def _load(self):
         if self._model is not None or self._failed:
@@ -39,7 +42,8 @@ class Reranker:
         if model is None or not candidates:
             return None
         pairs = [[query, text] for _, text in candidates]
-        scores = model.compute_score(pairs, normalize=True)
+        with self._infer_lock:
+            scores = model.compute_score(pairs, normalize=True)
         if not isinstance(scores, list):
             scores = [scores]
         ranked = sorted(

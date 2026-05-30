@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS chunks (
     text        TEXT NOT NULL,
     page        INTEGER,
     section     TEXT,
+    embedding   BLOB,                  -- float32 vector; lets us rebuild the dense index from the DB
     FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_chunks_doc ON chunks(document_id);
@@ -64,7 +65,14 @@ class Database:
     def _init_schema(self) -> None:
         conn = self._conn()
         conn.executescript(_SCHEMA)
+        self._migrate(conn)
         conn.commit()
+
+    @staticmethod
+    def _migrate(conn: sqlite3.Connection) -> None:
+        cols = {r["name"] for r in conn.execute("PRAGMA table_info(chunks)").fetchall()}
+        if "embedding" not in cols:
+            conn.execute("ALTER TABLE chunks ADD COLUMN embedding BLOB")
 
     @property
     def conn(self) -> sqlite3.Connection:

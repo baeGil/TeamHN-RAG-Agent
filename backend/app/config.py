@@ -28,7 +28,7 @@ class Settings:
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "")
         self.openai_base_url = os.getenv("OPENAI_BASE_URL") or None
 
-        self.llm_model = os.getenv("LLM_MODEL", "gpt-4o")
+        self.llm_model = os.getenv("LLM_MODEL", "gpt-4o-mini")
         self.llm_model_fast = os.getenv("LLM_MODEL_FAST", "gpt-4o-mini")
         self.embed_model = os.getenv("EMBED_MODEL", "text-embedding-3-small")
         _dim = os.getenv("EMBED_DIM", "")
@@ -45,6 +45,14 @@ class Settings:
 
         self.max_replan_iters = _get_int("MAX_REPLAN_ITERS", 3)
         self.turbovec_bit_width = _get_int("TURBOVEC_BIT_WIDTH", 4)
+
+        # Ingestion / parsing
+        # VLM_PARSE: "off" (local only), "auto" (VLM fallback for empty/scanned pages),
+        # "on" (always VLM). Default "auto".
+        self.vlm_parse = (os.getenv("VLM_PARSE", "auto") or "auto").strip().lower()
+        self.vlm_model = os.getenv("VLM_MODEL", "gpt-4o-mini")
+        self.chunk_max_chars = _get_int("CHUNK_MAX_CHARS", 1000)
+        self.chunk_overlap = _get_int("CHUNK_OVERLAP", 200)
 
         storage = os.getenv("STORAGE_DIR", "storage")
         self.storage_dir = (BASE_DIR / storage) if not os.path.isabs(storage) else Path(storage)

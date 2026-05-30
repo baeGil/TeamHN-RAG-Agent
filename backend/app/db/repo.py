@@ -55,6 +55,24 @@ class Repo:
         self.db.conn.commit()
         return int(cur.lastrowid)
 
+    def set_embeddings(self, chunk_ids: list[int], vectors) -> None:
+        rows = [
+            (vectors[i].astype("float32").tobytes(), int(cid))
+            for i, cid in enumerate(chunk_ids)
+        ]
+        self.db.conn.executemany("UPDATE chunks SET embedding=? WHERE id=?", rows)
+        self.db.conn.commit()
+
+    def all_chunks_with_embeddings(self) -> list[dict[str, Any]]:
+        """All chunks (in id order) with their stored float32 embedding bytes (or None)."""
+        rows = self.db.conn.execute(
+            """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding,
+                      d.title AS doc_title
+               FROM chunks c JOIN documents d ON d.id = c.document_id
+               ORDER BY c.id"""
+        ).fetchall()
+        return [dict(r) for r in rows]
+
     def get_chunks(self, chunk_ids: list[int]) -> dict[int, dict[str, Any]]:
         if not chunk_ids:
             return {}
@@ -147,7 +165,7 @@ class Repo:
         for r in rows:
             d = dict(r)
             d["citations"] = json.loads(d["citations"]) if d["citations"] else []
-            d["trace"] = json.loads(d["trace"]) if d["trace"] else []
+            d["trace"] = [e for e in (json.loads(d["trace"]) if d["trace"] else []) if e.get("type") != "thinking"]
             out.append(d)
         return out
 

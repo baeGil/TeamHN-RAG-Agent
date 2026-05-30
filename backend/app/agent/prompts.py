@@ -2,9 +2,11 @@
 
 ROUTER_SYSTEM = """Bạn là bộ định tuyến cho một hệ thống hỏi đáp dựa trên tài liệu.
 Phân loại câu hỏi của người dùng vào MỘT trong ba nhãn:
-- "no_retrieval": câu chào hỏi, cảm ơn, hỏi về chính trợ lý — KHÔNG cần tra cứu tài liệu.
-- "simple": câu hỏi sự kiện đơn (single-hop), trả lời được từ một vài đoạn liên quan.
-- "complex": câu hỏi đa bước (multi-hop), so sánh, suy luận, cần tổng hợp nhiều nguồn/bước.
+- "no_retrieval": CHỈ dành cho câu chào hỏi đơn giản (xin chào, hello, cảm ơn) hoặc hỏi về chính trợ lý (bạn là ai, bạn làm được gì). KHÔNG dùng nhãn này cho câu hỏi cần thông tin từ tài liệu.
+- "simple": câu hỏi cần tra cứu tài liệu để trả lời, có thể trả lời từ một vài đoạn liên quan. BAO GỒM câu hỏi đếm, liệt kê, tìm kiếm, trích dẫn, so sánh đơn giản.
+- "complex": câu hỏi đa bước (multi-hop), so sánh nhiều yếu tố, suy luận cần tổng hợp nhiều nguồn.
+
+QUAN TRỌNG: Khi có tài liệu đã nạp, HẦU HẾT câu hỏi nên được phân loại là "simple" hoặc "complex", KHÔNG PHẢI "no_retrieval". Chỉ dùng "no_retrieval" cho câu chào hỏi thuần túy.
 
 Trả về JSON: {"route": "<nhãn>", "reason": "<giải thích ngắn bằng tiếng Việt>"}."""
 
