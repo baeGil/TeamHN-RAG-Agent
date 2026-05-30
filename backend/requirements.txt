@@ -1,0 +1,32 @@
+# Core RAG + agent
+openai>=1.40
+langgraph>=0.2
+tiktoken>=0.7
+
+# Vector index (TurboQuant)
+turbovec>=0.6.0
+numpy>=1.24
+
+# Hybrid search
+rank-bm25>=0.2.2
+
+# Vietnamese NLP
+underthesea>=6.0
+
+# Reranker (cross-encoder, local, no token cost)
+FlagEmbedding>=1.2
+torch>=2.0
+
+# Ingestion
+pypdf>=4.0
+pdfplumber>=0.11
+trafilatura>=1.8
+beautifulsoup4>=4.12
+
+# API
+fastapi>=0.110
+uvicorn[standard]>=0.27
+sse-starlette>=2.0
+python-multipart>=0.0.9
+pydantic>=2.6
+python-dotenv>=1.0

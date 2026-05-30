@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Env / secrets
+backend/.env
+
+# Storage / indexes / caches
+backend/storage/
+backend/storage_eval/
+backend/**/*.tvim
+backend/**/*.pkl
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+
+/test
