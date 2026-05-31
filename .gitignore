@@ -24,3 +24,9 @@ frontend/dist/
 
 /test
 /slides
+/bugs
+.codegraph/
+.cursor/
+.gemini/
+.kiro/
+opencode.jsonc

@@ -48,6 +48,11 @@ class Settings:
         self.enable_replan = _get_bool("ENABLE_REPLAN", True)
         self.enable_sufficiency = _get_bool("ENABLE_SUFFICIENCY", True)
         self.enable_answer_verify = _get_bool("ENABLE_ANSWER_VERIFY", True)
+
+        self.enable_summarization = _get_bool("ENABLE_SUMMARIZATION", True)
+        self.summary_threshold = _get_int("SUMMARY_THRESHOLD", 12)
+        self.history_window = _get_int("HISTORY_WINDOW", 6)
+        self.summary_model = os.getenv("SUMMARY_MODEL", "") or self.llm_model_fast
         self.turbovec_bit_width = _get_int("TURBOVEC_BIT_WIDTH", 4)
 
         # Ingestion / parsing

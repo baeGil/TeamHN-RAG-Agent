@@ -169,6 +169,44 @@ class Repo:
             out.append(d)
         return out
 
+    def message_count(self, session_id: str) -> int:
+        row = self.db.conn.execute(
+            "SELECT COUNT(*) as cnt FROM messages WHERE session_id=?",
+            (session_id,),
+        ).fetchone()
+        return int(row["cnt"]) if row else 0
+
+    def get_summary(self, session_id: str) -> Optional[dict[str, Any]]:
+        row = self.db.conn.execute(
+            "SELECT * FROM conversation_summaries WHERE session_id=? ORDER BY id DESC LIMIT 1",
+            (session_id,),
+        ).fetchone()
+        return dict(row) if row else None
+
+    def save_summary(self, session_id: str, summary: str, summarized_up_to: int) -> None:
+        existing = self.db.conn.execute(
+            "SELECT id FROM conversation_summaries WHERE session_id=? ORDER BY id DESC LIMIT 1",
+            (session_id,),
+        ).fetchone()
+        if existing:
+            self.db.conn.execute(
+                "UPDATE conversation_summaries SET summary=?, summarized_up_to=?, updated_at=datetime('now') WHERE id=?",
+                (summary, summarized_up_to, existing["id"]),
+            )
+        else:
+            self.db.conn.execute(
+                "INSERT INTO conversation_summaries(session_id, summary, summarized_up_to) VALUES (?,?,?)",
+                (session_id, summary, summarized_up_to),
+            )
+        self.db.conn.commit()
+
+    def messages_up_to(self, session_id: str, up_to_id: int) -> list[dict[str, str]]:
+        rows = self.db.conn.execute(
+            "SELECT id, role, content FROM messages WHERE session_id=? AND id<=? ORDER BY id",
+            (session_id, up_to_id),
+        ).fetchall()
+        return [{"id": r["id"], "role": r["role"], "content": r["content"]} for r in rows]
+
     def recent_history(self, session_id: str, limit: int = 6) -> list[dict[str, str]]:
         rows = self.db.conn.execute(
             "SELECT role, content FROM messages WHERE session_id=? ORDER BY id DESC LIMIT ?",
