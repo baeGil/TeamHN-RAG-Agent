@@ -44,6 +44,10 @@ class Settings:
         self.use_hyde = _get_bool("USE_HYDE", False)
 
         self.max_replan_iters = _get_int("MAX_REPLAN_ITERS", 3)
+        self.max_answer_regenerations = _get_int("MAX_ANSWER_REGENERATIONS", 1)
+        self.enable_replan = _get_bool("ENABLE_REPLAN", True)
+        self.enable_sufficiency = _get_bool("ENABLE_SUFFICIENCY", True)
+        self.enable_answer_verify = _get_bool("ENABLE_ANSWER_VERIFY", True)
         self.turbovec_bit_width = _get_int("TURBOVEC_BIT_WIDTH", 4)
 
         # Ingestion / parsing
