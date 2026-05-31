@@ -1,5 +1,6 @@
 """BM25 keyword index over Vietnamese word-segmented tokens."""
 import pickle
+import threading
 from pathlib import Path
 from typing import Optional
 
@@ -14,25 +15,28 @@ class BM25Index:
         self._corpus_tokens: list[list[str]] = []
         self._bm25: Optional[BM25Okapi] = None
         self._dirty = False
+        self._lock = threading.Lock()
 
     @property
     def count(self) -> int:
         return len(self._chunk_ids)
 
     def add(self, chunk_id: int, text: str) -> None:
-        self._chunk_ids.append(chunk_id)
-        self._corpus_tokens.append(tokenize(text))
-        self._dirty = True
+        with self._lock:
+            self._chunk_ids.append(chunk_id)
+            self._corpus_tokens.append(tokenize(text))
+            self._dirty = True
 
     def remove(self, ids: set[int]) -> None:
-        keep = [
-            (cid, toks)
-            for cid, toks in zip(self._chunk_ids, self._corpus_tokens)
-            if cid not in ids
-        ]
-        self._chunk_ids = [c for c, _ in keep]
-        self._corpus_tokens = [t for _, t in keep]
-        self._dirty = True
+        with self._lock:
+            keep = [
+                (cid, toks)
+                for cid, toks in zip(self._chunk_ids, self._corpus_tokens)
+                if cid not in ids
+            ]
+            self._chunk_ids = [c for c, _ in keep]
+            self._corpus_tokens = [t for _, t in keep]
+            self._dirty = True
 
     def _rebuild(self) -> None:
         if self._corpus_tokens:
@@ -42,17 +46,19 @@ class BM25Index:
         self._dirty = False
 
     def search(self, query: str, k: int) -> list[tuple[int, float]]:
-        if self._dirty:
-            self._rebuild()
-        if self._bm25 is None:
-            return []
+        with self._lock:
+            if self._dirty:
+                self._rebuild()
+            if self._bm25 is None:
+                return []
         q_tokens = tokenize(query)
         if not q_tokens:
             return []
-        scores = self._bm25.get_scores(q_tokens)
-        ranked = sorted(
-            zip(self._chunk_ids, scores), key=lambda x: x[1], reverse=True
-        )
+        with self._lock:
+            scores = self._bm25.get_scores(q_tokens)
+            ranked = sorted(
+                zip(self._chunk_ids, scores), key=lambda x: x[1], reverse=True
+            )
         return [(int(cid), float(sc)) for cid, sc in ranked[:k] if sc > 0]
 
     def save(self, path: Path) -> None:

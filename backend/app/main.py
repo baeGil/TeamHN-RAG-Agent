@@ -164,19 +164,36 @@ async def chat(body: ChatIn):
 
                 if ev["type"] == "final":
                     final_payload.update(ev["data"])
+                    # Persist assistant message immediately on "final" so it
+                    # survives a client disconnect mid-stream.
+                    answer_text = ev["data"].get("answer", "")
+                    if answer_text:
+                        kb.repo.add_message(
+                            sid,
+                            "assistant",
+                            answer_text,
+                            citations=ev["data"].get("citations", []),
+                            trace=[e for e in ev["data"].get("trace", []) if e.get("type") != "thinking"],
+                        )
+                        kb.repo.touch_session(sid)
                 yield _sse_event(ev["type"], ev["data"])
         except Exception as e:
             yield _sse_event("error", {"message": str(e)})
             final_payload["answer"] = f"Lỗi: {e}"
 
-        kb.repo.add_message(
-            sid,
-            "assistant",
-            final_payload.get("answer", ""),
-            citations=final_payload.get("citations", []),
-            trace=[e for e in final_payload.get("trace", []) if e.get("type") != "thinking"],
-        )
-        kb.repo.touch_session(sid)
+        # Fallback: persist error messages or answers that bypassed "final".
+        if final_payload.get("answer") and not any(
+            m["role"] == "assistant" and m["content"] == final_payload["answer"]
+            for m in kb.repo.get_messages(sid)
+        ):
+            kb.repo.add_message(
+                sid,
+                "assistant",
+                final_payload["answer"],
+                citations=final_payload.get("citations", []),
+                trace=[e for e in final_payload.get("trace", []) if e.get("type") != "thinking"],
+            )
+            kb.repo.touch_session(sid)
 
     return StreamingResponse(
         stream(),

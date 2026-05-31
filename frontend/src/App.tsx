@@ -20,6 +20,7 @@ export default function App() {
     localStorage.getItem(LS_KEY)
   );
   const [messages, setMessages] = useState<Message[]>([]);
+  const [messagesLoading, setMessagesLoading] = useState(false);
   const [citation, setCitation] = useState<Citation | null>(null);
 
   const refreshDocs = useCallback(() => {
@@ -42,6 +43,7 @@ export default function App() {
       return;
     }
     localStorage.setItem(LS_KEY, sessionId);
+    setMessagesLoading(true);
     api
       .getSession(sessionId)
       .then((s) => {
@@ -52,11 +54,13 @@ export default function App() {
         }));
         setMessages(msgs);
       })
-      .catch(() => setMessages([]));
+      .catch(() => setMessages([]))
+      .finally(() => setMessagesLoading(false));
   }, [sessionId]);
 
   const handleSession = (id: string) => {
     if (id !== sessionId) {
+      localStorage.setItem(LS_KEY, id);
       setSessionId(id);
       refreshSessions();
     }
@@ -64,6 +68,7 @@ export default function App() {
 
   const newSession = async () => {
     const { id } = await api.createSession();
+    localStorage.setItem(LS_KEY, id);
     setSessionId(id);
     setMessages([]);
     refreshSessions();
@@ -101,6 +106,8 @@ export default function App() {
           onOpenCitation={setCitation}
           hasDocs={documents.length > 0}
           openaiReady={!!config?.openai_configured}
+          configLoaded={config !== null}
+          messagesLoading={messagesLoading}
         />
       </main>
 

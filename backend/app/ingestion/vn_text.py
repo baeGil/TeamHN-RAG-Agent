@@ -1,9 +1,11 @@
 """Vietnamese text utilities for BM25 tokenization (underthesea word segmentation)."""
 import re
+import threading
 import unicodedata
 from functools import lru_cache
 
 _word_tokenize = None
+_word_tokenize_lock = threading.Lock()
 
 # A compact Vietnamese stopword list. Removing these sharpens BM25 keyword matching.
 _STOPWORDS = {
@@ -18,9 +20,16 @@ _STOPWORDS = {
 def _load():
     global _word_tokenize
     if _word_tokenize is None:
-        from underthesea import word_tokenize  # lazy import (heavy)
-
-        _word_tokenize = word_tokenize
+        with _word_tokenize_lock:
+            if _word_tokenize is None:
+                from underthesea import word_tokenize  # lazy import (heavy)
+                # Force model loading on the main thread before any parallel calls.
+                # underthesea's word_tokenize uses a module-level global (word_tokenize_model)
+                # that is lazily initialized on first call. Multiple threads calling
+                # word_tokenize simultaneously can race on this global, causing
+                # 'NoneType' object has no attribute 'process' errors.
+                word_tokenize("init", format="text")
+                _word_tokenize = word_tokenize
     return _word_tokenize
 
 
