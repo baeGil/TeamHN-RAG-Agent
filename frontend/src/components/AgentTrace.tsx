@@ -18,6 +18,12 @@ function Icon({ type }: { type: string }) {
     verify: "✓",
     synthesize: "🧩",
     final: "🏁",
+    replan: "🔄",
+    sufficiency: "📊",
+    converged: "✅",
+    max_iters: "⏹",
+    early_stop: "⚡",
+    verify_answer: "🔍",
   };
   return <span className="trace-icon">{map[type] || "•"}</span>;
 }
@@ -30,7 +36,6 @@ export default function AgentTrace({
   live?: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  // "thinking" events drive the graph panel only; hide them from the timeline.
   const visible = events.filter((e) => e.type !== "thinking");
   if (!visible.length) return null;
 
@@ -55,6 +60,16 @@ export default function AgentTrace({
                 {e.type === "plan" && (
                   <div>
                     <b>Kế hoạch ({e.data.subquestions.length} bước):</b>
+                    <ol className="trace-plan">
+                      {e.data.subquestions.map((s: string, j: number) => (
+                        <li key={j}>{s}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+                {e.type === "replan" && (
+                  <div>
+                    <b>Lập lại kế hoạch (vòng {e.data.iteration}):</b>
                     <ol className="trace-plan">
                       {e.data.subquestions.map((s: string, j: number) => (
                         <li key={j}>{s}</li>
@@ -95,6 +110,39 @@ export default function AgentTrace({
                 {e.type === "verify" && (
                   <div>
                     <b>Kiểm chứng:</b>{" "}
+                    <span className={e.data.grounded ? "ok" : "warn"}>
+                      {e.data.grounded ? "Bám nguồn ✓" : "Chưa chắc chắn ⚠"}
+                    </span>
+                    {e.data.reason ? <span className="trace-sub"> {e.data.reason}</span> : null}
+                  </div>
+                )}
+                {e.type === "sufficiency" && (
+                  <div>
+                    <b>Kiểm tra độ đủ:</b>{" "}
+                    <span className={e.data.sufficient ? "ok" : "warn"}>
+                      {e.data.sufficient ? "Đủ thông tin ✓" : "Chưa đủ thông tin ⚠"}
+                    </span>
+                    {e.data.reason ? <span className="trace-sub"> {e.data.reason}</span> : null}
+                  </div>
+                )}
+                {e.type === "converged" && (
+                  <div>
+                    <b>Tất cả bước đã bám nguồn ✓</b> (vòng {e.data.iteration + 1})
+                  </div>
+                )}
+                {e.type === "max_iters" && (
+                  <div>
+                    <b>Đạt giới hạn lặp ⏹</b> — {e.data.failed?.length || 0} bước chưa bám nguồn
+                  </div>
+                )}
+                {e.type === "early_stop" && (
+                  <div>
+                    <b>Dừng sớm ⚡</b> — {e.data.reason}
+                  </div>
+                )}
+                {e.type === "verify_answer" && (
+                  <div>
+                    <b>Kiểm chứng câu trả lời:</b>{" "}
                     <span className={e.data.grounded ? "ok" : "warn"}>
                       {e.data.grounded ? "Bám nguồn ✓" : "Chưa chắc chắn ⚠"}
                     </span>

@@ -13,6 +13,8 @@ interface Props {
   onOpenCitation: (c: Citation) => void;
   hasDocs: boolean;
   openaiReady: boolean;
+  configLoaded: boolean;
+  messagesLoading: boolean;
 }
 
 export default function ChatPanel({
@@ -23,6 +25,8 @@ export default function ChatPanel({
   onOpenCitation,
   hasDocs,
   openaiReady,
+  configLoaded,
+  messagesLoading,
 }: Props) {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
@@ -100,7 +104,13 @@ export default function ChatPanel({
         </div>
       </aside>
       <div className="messages" ref={scrollRef}>
-        {messages.length === 0 && !streaming && (
+        {messagesLoading && messages.length === 0 && (
+          <div className="empty-state">
+            <h2>Đang tải…</h2>
+          </div>
+        )}
+
+        {messages.length === 0 && !streaming && !messagesLoading && (
           <div className="empty-state">
             <h2>Hỏi đáp dựa trên tài liệu của bạn</h2>
             <p className="muted">
@@ -108,7 +118,7 @@ export default function ChatPanel({
                 ? "Đặt câu hỏi — Agent sẽ trả lời kèm trích dẫn nguồn, hiển thị quá trình suy luận theo thời gian thực."
                 : "Hãy tải lên một tệp PDF hoặc thêm URL ở thanh bên để bắt đầu."}
             </p>
-            {!openaiReady && (
+            {configLoaded && !openaiReady && (
               <div className="error-box">
                 Chưa cấu hình OPENAI_API_KEY trong <code>backend/.env</code>.
               </div>
