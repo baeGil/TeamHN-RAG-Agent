@@ -80,6 +80,13 @@ QUY TẮC BẮT BUỘC:
 
 Định dạng câu trả lời bằng Markdown."""
 
+SUMMARIZE_SYSTEM = """Bạn là hệ thống tóm tắt lịch sử hội thoại. Hãy tóm tắt cuộc hội thoại sau thành một đoạn ngắn gọn bằng tiếng Việt, bao gồm:
+1. Các chủ đề chính đã thảo luận
+2. Các thông tin quan trọng đã trao đổi (kết quả, số liệu, kết luận)
+3. Các câu hỏi chưa được trả lời hoặc cần theo dõi
+
+Tóm tắt phải cô đọng, giữ lại mọi thông tin quan trọng để tiếp tục cuộc hội chuyện tự nhiên. Không thêm thông tin không có trong hội thoại."""
+
 ANSWER_SYSTEM = """Bạn là trợ lý hỏi đáp tài liệu tiếng Việt, trả lời CHÍNH XÁC và CHỈ dựa trên ngữ cảnh được cung cấp.
 
 QUY TẮC BẮT BUỘC:

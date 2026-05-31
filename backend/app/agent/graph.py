@@ -79,7 +79,46 @@ class Agent:
         self.llm = LLM()
         self.settings = get_settings()
 
+    def summarize_conversation(
+        self,
+        session_id: str,
+        old_summary: Optional[str],
+        messages: list[dict[str, str]],
+    ) -> str:
+        if not messages:
+            return old_summary or ""
+        parts = []
+        if old_summary:
+            parts.append(f"TÓM TẮT TRƯỚC ĐÓ:\n{old_summary}")
+        parts.append("HỘI THOẠI MỚI:")
+        for m in messages:
+            role_label = "Người dùng" if m["role"] == "user" else "Trợ lý"
+            parts.append(f"{role_label}: {m['content']}")
+        conv_text = "\n".join(parts)
+        msgs = [
+            {"role": "system", "content": prompts.SUMMARIZE_SYSTEM},
+            {"role": "user", "content": conv_text},
+        ]
+        try:
+            use_fast = self.settings.summary_model == self.settings.llm_model_fast
+            summary = self.llm.chat(msgs, fast=use_fast).strip()
+            return summary
+        except Exception:
+            return old_summary or "\n".join(f"{m['role']}: {m['content'][:200]}" for m in messages)
+
     # ---------------- nodes ----------------
+
+    @staticmethod
+    def _history_msgs(
+        history: list[dict], summary: Optional[str] = None, window: int = 4,
+    ) -> list[dict[str, str]]:
+        msgs: list[dict[str, str]] = []
+        if summary:
+            msgs.append({"role": "system", "content": f"TÓM TẮT LỊCH SỬ TRÒ CHUYỆN TRƯỚC ĐÓ:\n{summary}"})
+        for h in history[-window:]:
+            msgs.append({"role": h["role"], "content": h["content"]})
+        return msgs
+
     def _route(self, question: str, history: list[dict]) -> tuple[str, str]:
         if not self.kb.vector.ready and self.kb.bm25.count == 0:
             return "no_retrieval", "Chưa có tài liệu nào được nạp."
@@ -121,7 +160,7 @@ class Agent:
         return self.llm.chat(msgs, fast=True).strip()
 
     def _generate_and_verify(
-        self, question, history, context_chunks, steps, route,
+        self, question, history, context_chunks, steps, route, summary=None,
     ) -> tuple[str, bool, str]:
         """Generate answer internally (no streaming) and verify grounding."""
         ctx = prompts.build_context(context_chunks, label_key="label")
@@ -141,8 +180,7 @@ class Agent:
             "Hãy trả lời theo đúng quy tắc, trích dẫn bằng [số] tương ứng với các đoạn ngữ cảnh."
         )
         msgs = [{"role": "system", "content": prompts.ANSWER_SYSTEM}]
-        for h in history[-4:]:
-            msgs.append({"role": h["role"], "content": h["content"]})
+        msgs.extend(self._history_msgs(history, summary))
         msgs.append({"role": "user", "content": user_msg})
 
         answer_text = self.llm.chat(msgs, fast=False).strip()
@@ -237,7 +275,7 @@ class Agent:
             return True, ""
 
     # ---------------- orchestration ----------------
-    def run(self, question: str, history: Optional[list[dict]] = None) -> Iterator[dict]:
+    def run(self, question: str, history: Optional[list[dict]] = None, summary: Optional[str] = None) -> Iterator[dict]:
         history = history or []
         trace: list[dict] = []
 
@@ -252,7 +290,7 @@ class Agent:
         yield emit("route", {"route": route, "reason": reason})
 
         if route == "no_retrieval":
-            yield from self._answer_chitchat(question, history, trace, emit)
+            yield from self._answer_chitchat(question, history, trace, emit, summary=summary)
             return
 
         if route == "complex":
@@ -433,7 +471,7 @@ class Agent:
         if self.settings.enable_answer_verify and route != "no_retrieval":
             # Generate internally (no streaming) and verify grounding
             answer_text, is_grounded, v_reason = self._generate_and_verify(
-                question, history, context_chunks, steps, route,
+                question, history, context_chunks, steps, route, summary=summary,
             )
 
             if is_grounded:
@@ -467,7 +505,7 @@ class Agent:
                     answer_result = yield from self._synthesize(
                         question, history, context_chunks, steps, route, trace, emit,
                         partial_warning=partial_warning, regenerate_reason=v_reason,
-                        iterations=iteration,
+                        iterations=iteration, summary=summary,
                     )
                     yield emit("verify_answer", {"grounded": True, "reason": "Đã tạo lại câu trả lời."})
                     # _synthesize skips "final" when regenerating — emit it here.
@@ -511,7 +549,7 @@ class Agent:
             # No verification — stream directly via _synthesize
             answer_result = yield from self._synthesize(
                 question, history, context_chunks, steps, route, trace, emit,
-                partial_warning=partial_warning, iterations=iteration,
+                partial_warning=partial_warning, iterations=iteration, summary=summary,
             )
 
     # ---------------- helpers ----------------
@@ -561,6 +599,7 @@ class Agent:
         partial_warning: bool = False,
         regenerate_reason: Optional[str] = None,
         iterations: int = 0,
+        summary: Optional[str] = None,
     ):
         ctx = prompts.build_context(context_chunks, label_key="label")
         notes = ""
@@ -588,8 +627,7 @@ class Agent:
             "Hãy trả lời theo đúng quy tắc, trích dẫn bằng [số] tương ứng với các đoạn ngữ cảnh."
         )
         msgs = [{"role": "system", "content": system}]
-        for h in history[-4:]:
-            msgs.append({"role": h["role"], "content": h["content"]})
+        msgs.extend(self._history_msgs(history, summary))
         msgs.append({"role": "user", "content": user_msg})
 
         yield emit("thinking", {"node": "answer"})
@@ -617,15 +655,14 @@ class Agent:
             )
         return answer
 
-    def _answer_chitchat(self, question, history, trace, emit):
+    def _answer_chitchat(self, question, history, trace, emit, summary=None):
         system = (
             "Bạn là trợ lý hỏi đáp tài liệu tiếng Việt. Người dùng đang chào hỏi hoặc "
             "hỏi về khả năng của bạn. Trả lời ngắn gọn, thân thiện và mời họ nạp tài liệu "
             "(PDF/URL/văn bản) rồi đặt câu hỏi. Không bịa thông tin về tài liệu."
         )
         msgs = [{"role": "system", "content": system}]
-        for h in history[-4:]:
-            msgs.append({"role": h["role"], "content": h["content"]})
+        msgs.extend(self._history_msgs(history, summary))
         msgs.append({"role": "user", "content": question})
         yield emit("thinking", {"node": "answer"})
         parts = []

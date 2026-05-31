@@ -24,6 +24,7 @@ function Icon({ type }: { type: string }) {
     max_iters: "⏹",
     early_stop: "⚡",
     verify_answer: "🔍",
+    summary: "📝",
   };
   return <span className="trace-icon">{map[type] || "•"}</span>;
 }
@@ -147,6 +148,11 @@ export default function AgentTrace({
                       {e.data.grounded ? "Bám nguồn ✓" : "Chưa chắc chắn ⚠"}
                     </span>
                     {e.data.reason ? <span className="trace-sub"> {e.data.reason}</span> : null}
+                  </div>
+                )}
+                {e.type === "summary" && (
+                  <div>
+                    <b>Tóm tắt lịch sử</b> — Agent sử dụng tóm tắt hội thoại trước đó.
                   </div>
                 )}
                 {e.type === "synthesize" && (

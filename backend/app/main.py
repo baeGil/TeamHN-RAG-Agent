@@ -24,6 +24,36 @@ app.add_middleware(
 kb = KnowledgeBase(settings)
 
 
+def _maybe_summarize(session_id: str, agent: Agent, knowledge_base: KnowledgeBase) -> None:
+    total = knowledge_base.repo.message_count(session_id)
+    window = settings.history_window
+    threshold = settings.summary_threshold
+    if total <= threshold:
+        return
+    summary_row = knowledge_base.repo.get_summary(session_id)
+    summarized_up_to = summary_row["summarized_up_to"] if summary_row else 0
+    new_messages_start = summarized_up_to + 1
+    window_messages = knowledge_base.repo.recent_history(session_id, limit=window)
+    all_messages_raw = knowledge_base.repo.get_messages(session_id)
+    recent_ids = {m["id"] for m in all_messages_raw[-len(window_messages):]} if window_messages else set()
+    min_recent_id = min(recent_ids) if recent_ids else float("inf")
+    messages_to_summarize = [
+        {"role": m["role"], "content": m["content"]}
+        for m in all_messages_raw
+        if m["id"] >= new_messages_start and m["id"] < min_recent_id
+    ]
+    if not messages_to_summarize:
+        return
+    old_summary = summary_row["summary"] if summary_row else ""
+    try:
+        new_summary = agent.summarize_conversation(session_id, old_summary, messages_to_summarize)
+        old_ids = [m["id"] for m in all_messages_raw if m["id"] < min_recent_id]
+        last_summarized_id = max(old_ids) if old_ids else all_messages_raw[-1]["id"]
+        knowledge_base.repo.save_summary(session_id, new_summary, last_summarized_id)
+    except Exception:
+        pass
+
+
 @app.get("/api/health")
 def health():
     return {"status": "ok", "openai_configured": settings.has_openai}
@@ -100,7 +130,12 @@ def create_session(body: SessionIn):
 
 @app.get("/api/sessions/{sid}")
 def get_session(sid: str):
-    return {"id": sid, "messages": kb.repo.get_messages(sid)}
+    summary_row = kb.repo.get_summary(sid) if settings.enable_summarization else None
+    return {
+        "id": sid,
+        "messages": kb.repo.get_messages(sid),
+        "summary": summary_row["summary"] if summary_row else None,
+    }
 
 
 @app.delete("/api/sessions/{sid}")
@@ -125,7 +160,14 @@ async def chat(body: ChatIn):
     else:
         kb.repo.ensure_session(sid)
 
-    history = kb.repo.recent_history(sid, limit=6)
+    history = kb.repo.recent_history(sid, limit=settings.history_window)
+
+    summary = None
+    if settings.enable_summarization:
+        summary_row = kb.repo.get_summary(sid)
+        if summary_row:
+            summary = summary_row["summary"]
+
     kb.repo.add_message(sid, "user", body.message)
     if len(history) == 0:
         kb.repo.touch_session(sid, title=body.message[:60])
@@ -135,8 +177,10 @@ async def chat(body: ChatIn):
 
     async def stream():
         yield _sse_event("session", {"session_id": sid})
+        if summary:
+            yield _sse_event("summary", {"has_summary": True})
 
-        gen = agent.run(body.message, history)
+        gen = agent.run(body.message, history, summary=summary)
         gen_exhausted = False
 
         def _next_event():
@@ -176,6 +220,9 @@ async def chat(body: ChatIn):
                             trace=[e for e in ev["data"].get("trace", []) if e.get("type") != "thinking"],
                         )
                         kb.repo.touch_session(sid)
+
+                        if settings.enable_summarization:
+                            _maybe_summarize(sid, agent, kb)
                 yield _sse_event(ev["type"], ev["data"])
         except Exception as e:
             yield _sse_event("error", {"message": str(e)})
@@ -194,6 +241,9 @@ async def chat(body: ChatIn):
                 trace=[e for e in final_payload.get("trace", []) if e.get("type") != "thinking"],
             )
             kb.repo.touch_session(sid)
+
+            if settings.enable_summarization:
+                _maybe_summarize(sid, agent, kb)
 
     return StreamingResponse(
         stream(),

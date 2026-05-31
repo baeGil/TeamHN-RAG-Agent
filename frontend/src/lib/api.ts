@@ -44,7 +44,7 @@ export const api = {
   listSessions: () => jget<SessionItem[]>("/sessions"),
   createSession: () => jpost<{ id: string }>("/sessions", {}),
   getSession: (id: string) =>
-    jget<{ id: string; messages: Message[] }>(`/sessions/${id}`),
+    jget<{ id: string; messages: Message[]; summary: string | null }>(`/sessions/${id}`),
   deleteSession: (id: string) =>
     fetch(`${BASE}/sessions/${id}`, { method: "DELETE" }).then((r) => r.json()),
 };
