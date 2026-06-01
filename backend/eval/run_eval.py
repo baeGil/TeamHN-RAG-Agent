@@ -35,7 +35,7 @@ def bm25_ranked(kb, q, n):
 def dense_ranked(kb, q, n):
     if not kb.vector.ready:
         return []
-    qv = kb.embedder.embed_query(q)
+    qv = kb.embed_query(q)
     return [cid for cid, _ in kb.vector.search(qv, n)]
 
 
@@ -44,7 +44,7 @@ def _fused(kb, q):
     bm = kb.bm25.search(q, s.bm25_top_k)
     dn = []
     if kb.vector.ready:
-        dn = kb.vector.search(kb.embedder.embed_query(q), s.dense_top_k)
+        dn = kb.vector.search(kb.embed_query(q), s.dense_top_k)
     return reciprocal_rank_fusion(bm, dn, k=s.rrf_k)
 
 
@@ -138,6 +138,14 @@ def main():
         print(f"Ingesting {pdf.name} ...")
         kb.ingest_pdf(pdf.read_bytes(), pdf.name)
 
+    methods = {
+        "BM25": bm25_ranked,
+        "Dense": dense_ranked,
+        "Hybrid (RRF)": hybrid_ranked,
+    }
+    if kb.settings.use_reranker:
+        methods["Hybrid + Rerank"] = hybrid_rerank_ranked
+
     dataset = load_dataset(test_dir)
     print(f"Loaded {len(dataset)} câu hỏi.")
 
@@ -146,7 +154,7 @@ def main():
 
     per_q = []
     for qa in dataset:
-        ranked = {name: fn(kb, qa.question, 20) for name, fn in METHODS.items()}
+        ranked = {name: fn(kb, qa.question, 20) for name, fn in methods.items()}
         pool = []
         for name, ids in ranked.items():
             pool += ids[:POOL_PER_METHOD]
@@ -165,12 +173,12 @@ def main():
             }
         per_q.append(row)
         print(f"  {qa.qid}: rel={len(relevant)} "
-              + " | ".join(f"{n}:{r['hit@5']:.0f}" for n, r in row["methods"].items()))
+               + " | ".join(f"{n}:{r['hit@5']:.0f}" for n, r in row["methods"].items()))
 
     # aggregate
     def agg(rows):
         summary = {}
-        for name in METHODS:
+        for name in methods:
             r = [x["methods"][name]["recall@5"] for x in rows]
             m = [x["methods"][name]["mrr@5"] for x in rows]
             h = [x["methods"][name]["hit@5"] for x in rows]
@@ -187,9 +195,10 @@ def main():
         d: agg([x for x in per_q if x["difficulty"] == d])
         for d in {x["difficulty"] for x in per_q}
     }
+    best_method = "Hybrid + Rerank" if "Hybrid + Rerank" in methods else "Hybrid (RRF)"
     failures = [
         x for x in per_q
-        if x["methods"]["Hybrid + Rerank"]["hit@5"] == 0 and x["n_relevant"] > 0
+        if x["methods"][best_method]["hit@5"] == 0 and x["n_relevant"] > 0
     ]
 
     results = {"overall": overall, "by_difficulty": by_diff, "per_question": per_q,
@@ -273,13 +282,15 @@ def _write_report(path, results, failures, kb):
     md += ["", "## Kết quả tổng thể", "", _table(results["overall"]), ""]
     for diff, summ in results["by_difficulty"].items():
         md += [f"## Theo độ khó: {diff}", "", _table(summ), ""]
-    md += ["## Phân tích lỗi (Hybrid + Rerank trượt @5)", ""]
+    best_method = "Hybrid + Rerank" if any("Hybrid + Rerank" in f["methods"] for f in results["per_question"]) else "Hybrid (RRF)" if results["per_question"] else "Hybrid (RRF)"
+    md += [f"## Phân tích lỗi ({best_method} trượt @5)", ""]
     if not failures:
         md.append("Không có câu hỏi nào trượt ở top-5 với cấu hình tốt nhất. ✅")
     else:
         for f in failures:
             md.append(f"- **{f['qid']}** ({f['difficulty']}): {f['question']}")
-            md.append(f"  - top5 = {f['methods']['Hybrid + Rerank']['top5']}, "
+            curr_best = "Hybrid + Rerank" if "Hybrid + Rerank" in f["methods"] else "Hybrid (RRF)"
+            md.append(f"  - top5 = {f['methods'][curr_best]['top5']}, "
                       f"số đoạn liên quan = {f['n_relevant']}")
     path.write_text("\n".join(md), encoding="utf-8")
 

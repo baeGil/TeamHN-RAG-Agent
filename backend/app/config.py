@@ -42,6 +42,8 @@ class Settings:
         self.use_reranker = _get_bool("USE_RERANKER", True)
         self.reranker_model = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
         self.use_hyde = _get_bool("USE_HYDE", False)
+        self.use_hype = _get_bool("USE_HYPE", False)
+        self.hype_num_questions = _get_int("HYPE_NUM_QUESTIONS", 3)
 
         self.max_replan_iters = _get_int("MAX_REPLAN_ITERS", 3)
         self.max_answer_regenerations = _get_int("MAX_ANSWER_REGENERATIONS", 1)
