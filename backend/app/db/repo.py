@@ -47,10 +47,11 @@ class Repo:
         text: str,
         page: Optional[int],
         section: Optional[str],
+        embed_text: Optional[str] = None,
     ) -> int:
         cur = self.db.conn.execute(
-            "INSERT INTO chunks(document_id, chunk_index, text, page, section) VALUES (?,?,?,?,?)",
-            (document_id, chunk_index, text, page, section),
+            "INSERT INTO chunks(document_id, chunk_index, text, page, section, embed_text) VALUES (?,?,?,?,?,?)",
+            (document_id, chunk_index, text, page, section, embed_text),
         )
         self.db.conn.commit()
         return int(cur.lastrowid)
@@ -64,10 +65,10 @@ class Repo:
         self.db.conn.commit()
 
     def all_chunks_with_embeddings(self) -> list[dict[str, Any]]:
-        """All chunks (in id order) with their stored float32 embedding bytes (or None)."""
+        """All chunks (in id order) with their stored float32 embedding bytes and embed_text."""
         rows = self.db.conn.execute(
             """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding,
-                      d.title AS doc_title
+                      c.embed_text, d.title AS doc_title
                FROM chunks c JOIN documents d ON d.id = c.document_id
                ORDER BY c.id"""
         ).fetchall()

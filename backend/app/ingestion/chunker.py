@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass
 from typing import Optional
 
-from .loaders import Block
+from .block import Block
 
 _SENT_SPLIT = re.compile(
     r"(?<=[\?\!])\s+"
@@ -32,6 +32,7 @@ class Chunk:
     text: str
     page: Optional[int]
     section: Optional[str]
+    embed_text: Optional[str] = None
 
 
 _ABBREV_RE = re.compile(
@@ -175,7 +176,8 @@ def chunk_blocks(
     blocks: list[Block], max_chars: int = 1000, overlap_chars: int = 200
 ) -> list[Chunk]:
     out: list[Chunk] = []
-    for page, section, text in blocks:
-        for piece in _pack(_split_units(text), max_chars, overlap_chars):
-            out.append(Chunk(text=piece, page=page, section=section))
+    for block in blocks:
+        for piece in _pack(_split_units(block.text), max_chars, overlap_chars):
+            out.append(Chunk(text=piece, page=block.page, section=block.section,
+                             embed_text=block.embed_text))
     return out

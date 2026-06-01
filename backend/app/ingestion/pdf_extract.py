@@ -21,9 +21,8 @@ from typing import Optional
 
 import fitz
 
+from .block import Block
 from .vn_text import clean_artifacts
-
-Block = tuple[Optional[int], Optional[str], str]
 
 # Glyphs from cmex10 (LaTeX large operators) commonly mis-decoded to ASCII.
 _CMEX_REMAP = {"X": "∑", "P": "∑", "q": "√", "Y": "∏", "Z": "∫", "R": "∫"}
@@ -289,7 +288,7 @@ def _split_sections(
         if buf:
             body = "\n".join(buf).strip()
             if body:
-                blocks.append((page_no, current["section"], body))
+                blocks.append(Block(page=page_no, section=current["section"], text=body))
             buf.clear()
 
     heading_min = max(median_size * 1.15, 11.0)
