@@ -63,6 +63,21 @@ class Settings:
         self.chunk_max_chars = _get_int("CHUNK_MAX_CHARS", 1000)
         self.chunk_overlap = _get_int("CHUNK_OVERLAP", 200)
 
+        # Reducto parser
+        # REDUCTO_PARSE: "off" (PyMuPDF+VLM, free, local),
+        #   "default" (1 credit/page, good quality),
+        #   "agentic" (2 credits/page, best quality, VLM text+table review).
+        self.reducto_api_key = os.getenv("REDUCTO_API_KEY", "")
+        self.reducto_parse = (os.getenv("REDUCTO_PARSE", "off") or "off").strip().lower()
+        self.reducto_chunk_mode = os.getenv("REDUCTO_CHUNK_MODE", "page_sections")
+        self.reducto_chunk_size = _get_int("REDUCTO_CHUNK_SIZE", 1200)
+        self.reducto_filter_blocks = [
+            b.strip()
+            for b in os.getenv("REDUCTO_FILTER_BLOCKS", "Header,Footer,Page Number").split(",")
+            if b.strip()
+        ]
+        self.reducto_table_format = os.getenv("REDUCTO_TABLE_FORMAT", "dynamic")
+
         storage = os.getenv("STORAGE_DIR", "storage")
         self.storage_dir = (BASE_DIR / storage) if not os.path.isabs(storage) else Path(storage)
         self.storage_dir.mkdir(parents=True, exist_ok=True)

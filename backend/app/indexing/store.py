@@ -10,7 +10,7 @@ from ..config import Settings, get_settings
 from ..db.database import Database
 from ..db.repo import Repo
 from ..ingestion import loaders
-from ..ingestion.chunker import chunk_blocks
+from ..ingestion.chunker import Chunk, chunk_blocks
 from ..retrieval.hybrid import FusedHit, reciprocal_rank_fusion
 from ..retrieval.reranker import Reranker
 from .bm25_index import BM25Index
@@ -20,7 +20,7 @@ from .vector_index import VectorIndex
 
 # Bump when tokenization or index_text formatting changes, to force a rebuild of
 # persisted indexes on next load (otherwise stale tokens silently degrade recall).
-_INDEX_VERSION = 3
+_INDEX_VERSION = 4
 
 
 def _index_text(title: Optional[str], section: Optional[str], text: str) -> str:
@@ -104,7 +104,8 @@ class KnowledgeBase:
 
     def rebuild_indexes(self) -> None:
         """Rebuild BM25 + dense index from the DB so they always match stored chunks.
-        Embeddings are read from the DB; any missing ones are (re)computed and saved."""
+        Embeddings are read from the DB; any missing ones are (re)computed and saved.
+        Uses embed_text for dense embedding when available (Reducto-optimized text)."""
         rows = self.repo.all_chunks_with_embeddings()
         if not rows:
             self.bm25 = BM25Index()
@@ -115,6 +116,12 @@ class KnowledgeBase:
         ids = [int(r["id"]) for r in rows]
         index_texts = [
             _index_text(r.get("doc_title"), r.get("section"), r["text"]) for r in rows
+        ]
+        dense_texts = [
+            _index_text(r.get("doc_title"), r.get("section"), r["embed_text"])
+            if r.get("embed_text")
+            else _index_text(r.get("doc_title"), r.get("section"), r["text"])
+            for r in rows
         ]
 
         dim = self.embedder.dim
@@ -133,7 +140,7 @@ class KnowledgeBase:
             vecs.append(v)
 
         if missing:
-            fresh = self.embedder.embed_documents([index_texts[i] for i in missing])
+            fresh = self.embedder.embed_documents([dense_texts[i] for i in missing])
             for j, i in enumerate(missing):
                 vecs[i] = fresh[j]
             self.repo.set_embeddings([ids[i] for i in missing], fresh)
@@ -174,25 +181,45 @@ class KnowledgeBase:
         return self._ingest(title, title, "text", blocks)
 
     def _ingest(self, title, source, source_type, blocks) -> dict[str, Any]:
-        chunks = chunk_blocks(
-            blocks,
-            max_chars=self.settings.chunk_max_chars,
-            overlap_chars=self.settings.chunk_overlap,
-        )
+        has_embed_text = any(getattr(b, "embed_text", None) for b in blocks)
+
+        if has_embed_text:
+            chunks = [
+                Chunk(text=b.text, page=b.page, section=b.section, embed_text=b.embed_text)
+                for b in blocks if b.text.strip()
+            ]
+        else:
+            chunks = chunk_blocks(
+                blocks,
+                max_chars=self.settings.chunk_max_chars,
+                overlap_chars=self.settings.chunk_overlap,
+            )
+
         if not chunks:
             raise ValueError("Không tách được đoạn văn bản nào từ nguồn này.")
+
         with self._lock:
             doc_id = self.repo.add_document(title, source, source_type)
             chunk_ids: list[int] = []
             index_texts: list[str] = []
+            embed_texts: list[Optional[str]] = []
             for i, ch in enumerate(chunks):
-                cid = self.repo.add_chunk(doc_id, i, ch.text, ch.page, ch.section)
+                cid = self.repo.add_chunk(
+                    doc_id, i, ch.text, ch.page, ch.section,
+                    embed_text=ch.embed_text,
+                )
                 chunk_ids.append(cid)
                 itext = _index_text(title, ch.section, ch.text)
                 index_texts.append(itext)
+                embed_texts.append(ch.embed_text)
                 self.bm25.add(cid, itext)
             self.repo.set_document_chunk_count(doc_id, len(chunks))
-            vectors = self.embedder.embed_documents(index_texts)
+
+            dense_texts = [
+                _index_text(title, ch.section, et) if et else index_texts[i]
+                for i, (ch, et) in enumerate(zip(chunks, embed_texts))
+            ]
+            vectors = self.embedder.embed_documents(dense_texts)
             self.repo.set_embeddings(chunk_ids, vectors)
             self.vector.add(vectors, chunk_ids)
             self._persist()
