@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Agent Tiếng Việt — Project Deep Dive</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #0b0f19;
+  --bg-2: #111827;
+  --bg-3: #1f2937;
+  --text: #e5e7eb;
+  --text-dim: #9ca3af;
+  --accent: #22d3ee;
+  --accent-2: #a78bfa;
+  --accent-3: #34d399;
+  --danger: #f87171;
+  --warning: #fbbf24;
+  --border: #374151;
+  --code-bg: #0d1117;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.slide-deck {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding: 44px 56px;
+  overflow-y: auto;
+  animation: fadeIn .35s ease;
+}
+.slide.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+
+.slide h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 16px; line-height: 1.2; }
+.slide h2 { font-size: 1.5rem; font-weight: 600; margin: 0 0 12px; color: var(--accent); }
+.slide h3 { font-size: 1.1rem; font-weight: 600; margin: 16px 0 8px; color: var(--accent-2); }
+.slide p, .slide li { font-size: 0.92rem; line-height: 1.6; color: var(--text); }
+.slide ul { margin: 6px 0; padding-left: 20px; }
+.slide li { margin-bottom: 5px; }
+
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 600;
+  background: rgba(34,211,238,.12); color: var(--accent); border: 1px solid rgba(34,211,238,.25);
+  margin-right: 5px; margin-bottom: 5px;
+}
+.badge-ok { background: rgba(52,211,153,.12); color: var(--accent-3); border-color: rgba(52,211,153,.25); }
+.badge-warn { background: rgba(251,191,36,.12); color: var(--warning); border-color: rgba(251,191,36,.25); }
+.badge-info { background: rgba(167,139,250,.12); color: var(--accent-2); border-color: rgba(167,139,250,.25); }
+
+pre {
+  background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 16px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.45;
+  margin: 8px 0;
+}
+code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; }
+
+.table-wrap { overflow-x: auto; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+th { background: var(--bg-2); color: var(--accent); font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+.columns { display: grid; gap: 20px; }
+.columns-2 { grid-template-columns: 1fr 1fr; }
+.columns-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 980px) { .columns-2, .columns-3 { grid-template-columns: 1fr; } }
+
+.box {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 16px; margin: 8px 0;
+}
+.box h4 { margin: 0 0 8px; font-size: 0.95rem; color: var(--accent-2); }
+
+.nav {
+  position: fixed; bottom: 22px; right: 22px; display: flex; gap: 10px; z-index: 100;
+}
+.nav button {
+  background: var(--bg-3); color: var(--text); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 16px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+}
+.nav button:hover { border-color: var(--accent); }
+
+.fullscreen-btn {
+  position: fixed; bottom: 22px; left: 22px; z-index: 100;
+  background: var(--bg-3); color: var(--text); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 14px; cursor: pointer; font-size: 1rem; font-weight: 600;
+}
+.fullscreen-btn:hover { border-color: var(--accent); }
+
+.progress {
+  position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent);
+  transition: width .3s ease;
+}
+
+.subtitle { color: var(--text-dim); font-size: 1.05rem; margin-top: -10px; margin-bottom: 16px; }
+
+.cover { justify-content: center; text-align: center; }
+.cover h1 { font-size: 3rem; }
+.cover .subtitle { font-size: 1.25rem; }
+
+.small { font-size: 0.82rem; color: var(--text-dim); }
+
+/* Architecture Diagram */
+.arch-diagram {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin: 10px 0; width: 100%;
+}
+.arch-layer {
+  display: flex; gap: 12px; justify-content: center; width: 100%; flex-wrap: wrap;
+}
+.arch-box {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 16px; text-align: center; font-size: 0.85rem; min-width: 120px;
+  position: relative;
+}
+.arch-box.accent { border-color: var(--accent); }
+.arch-box.accent2 { border-color: var(--accent-2); }
+.arch-title { font-weight: 700; color: var(--text); font-size: 0.9rem; margin-bottom: 4px; }
+.arch-sub { font-size: 0.78rem; color: var(--text-dim); }
+.arch-arrow {
+  font-size: 1.4rem; color: var(--accent); line-height: 1;
+}
+.arch-arrow-row {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  font-size: 0.8rem; color: var(--text-dim);
+}
+
+/* Agent flow diagram */
+.flow-wrap {
+  display: flex; flex-direction: column; gap: 8px; align-items: center; margin: 10px 0;
+}
+.flow-row {
+  display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap;
+}
+.flow-node {
+  background: var(--bg-2); border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 8px 14px; font-size: 0.82rem; font-weight: 600; min-width: 90px; text-align: center;
+}
+.flow-node.start { border-color: var(--accent); }
+.flow-node.end { border-color: var(--accent-3); }
+.flow-node.skip { border-style: dashed; opacity: .6; }
+.flow-arrow { color: var(--text-dim); font-size: 1rem; }
+.flow-label { font-size: 0.72rem; color: var(--text-dim); background: var(--bg); padding: 1px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="slide-deck" id="deck">
+
+<!-- ==================== SLIDE 1: COVER ==================== -->
+<div class="slide active cover">
+  <h1>RAG Agent Tiếng Việt</h1>
+  <div class="subtitle">Production-grade Hybrid RAG — NotebookLM-style Q&A cho tài liệu tiếng Việt</div>
+  <div style="margin-top: 22px;">
+    <span class="badge">FastAPI</span>
+    <span class="badge">React 18 + Vite</span>
+    <span class="badge">BM25 + turbovec</span>
+    <span class="badge">RRF Fusion</span>
+    <span class="badge">Cross-encoder Rerank</span>
+    <span class="badge">Controllable Agent</span>
+    <span class="badge">SSE Streaming</span>
+    <span class="badge">LaTeX + Citations</span>
+  </div>
+  <p class="small" style="margin-top: 36px;">Sprint 1 — Week 2 | Nhóm thực tập AIOP AICKH A20</p>
+</div>
+
+<!-- ==================== SLIDE 2: NHIỆM VỤ TASK ==================== -->
+<div class="slide">
+  <h2>Nhiệm vụ Task (theo task.md)</h2>
+  <p class="subtitle">Xây dựng và demo ứng dụng RAG Agent hoàn chỉnh (tham chiếu Google NotebookLM)</p>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>Yêu cầu bắt buộc</h4>
+      <ul>
+        <li><b>Ingestion Pipeline</b>: Hỗ trợ ít nhất 2 nguồn (PDF + URL / plain text). Parse → chunk có metadata.</li>
+        <li><b>2 loại index</b>: BM25 (keyword) + Vector index (embedding).</li>
+        <li><b>Hybrid Search</b>: BM25 retrieval + Dense retrieval → Fusion (RRF).</li>
+        <li><b>Generation</b>: LLM trả lời dựa trên retrieved chunks, <b>không tự suy diễn</b>, kèm citation.</li>
+        <li><b>App & UI</b>: Ứng dụng demo có giao diện chat, user upload / nhập URL, agent trả lời thực sự.</li>
+        <li><b>Evaluation</b>: Tối thiểu 10 câu hỏi test, đo Recall@5 và MRR@5, phân tích case tốt / chưa tốt.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Deliverables (bắt buộc)</h4>
+      <ul>
+        <li>App demo chạy được — UI + Agent trả lời thực sự</li>
+        <li>Hybrid search hoạt động (BM25 + Dense + Fusion)</li>
+        <li>Evaluation report (10+ câu, Recall@5, MRR@5)</li>
+        <li>Citations (nguồn, trang, đoạn)</li>
+        <li>README hướng dẫn cài đặt & chạy lại</li>
+        <li>Slides trình bày (5–10 slides)</li>
+      </ul>
+      <h4 style="margin-top:12px;">Bonus</h4>
+      <ul>
+        <li>Hỗ trợ tiếng Việt tốt ⭐</li>
+        <li>Advanced method (cross-encoder reranker, HyDE tuỳ chọn) ⭐</li>
+        <li>Failure analysis ⭐</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 3: TIẾN ĐỘ ==================== -->
+<div class="slide">
+  <h2>Tiến độ hiện tại — Mapping Deliverables</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Deliverable</th><th>Trạng thái</th><th>Ghi chú thực tế</th></tr>
+      <tr><td>1</td><td>App demo có UI, agent trả lời thật</td><td><span class="badge badge-warn">🔄 Đã chạy, còn UI bugs cần fix</span></td><td>React + FastAPI, SSE realtime. Còn lỗi label render, graph layout, verify race condition.</td></tr>
+      <tr><td>2</td><td>Hybrid search BM25 + Dense + Fusion</td><td><span class="badge badge-ok">✅ Đã có</span></td><td>BM25 (underthesea) + turbovec + RRF + reranker local.</td></tr>
+      <tr><td>3</td><td>Evaluation report (10+ câu, Recall@5, MRR@5)</td><td><span class="badge badge-ok">✅ Đã có</span></td><td>20 câu, LLM-as-judge, pooling, báo cáo markdown + JSON.</td></tr>
+      <tr><td>4</td><td>Citations</td><td><span class="badge badge-warn">🔄 Đã có, cần cải thiện</span></td><td>Hover preview + click drawer. Chưa highlight đoạn cụ thể trong chunk.</td></tr>
+      <tr><td>5</td><td>README cài đặt & chạy lại</td><td><span class="badge badge-ok">✅ Đã có</span></td><td>Hướng dẫn backend/frontend, run.sh, .env.example.</td></tr>
+      <tr><td>6</td><td>Slides trình bày</td><td><span class="badge badge-ok">✅ Đã có</span></td><td>slides/outline.md + slide deck HTML.</td></tr>
+      <tr><td>7</td><td>Hỗ trợ tiếng Việt tốt</td><td><span class="badge badge-warn">🚀 Cơ bản đã có, cần tinh chỉnh</span></td><td>underthesea tokenize, sentence split tiếng Việt, prompt tiếng Việt.</td></tr>
+      <tr><td>8</td><td>Advanced method</td><td><span class="badge badge-warn">🔄 Một nửa</span></td><td>Cross-encoder reranker đã chạy. <b>HyDE chưa implement</b> (USE_HYDE=false).</td></tr>
+      <tr><td>9</td><td>Failure analysis</td><td><span class="badge badge-ok">✅ Đã có</span></td><td>Phân tích lỗi trong eval_report.md + so sánh trước/sau eval_comparison.md.</td></tr>
+    </table>
+  </div>
+  <p class="small">→ Nhiều phần đã có core nhưng chưa ổn định / chưa polish; cần cả team bổ sung thêm sprint sau.</p>
+</div>
+
+<!-- ==================== SLIDE 4: KIẾN TRÚC TỔNG THỂ ==================== -->
+<div class="slide">
+  <h2>Kiến trúc tổng thể</h2>
+
+  <div class="arch-diagram">
+    <div class="arch-box accent" style="min-width: 380px;">
+      <div class="arch-title">Frontend (Vite + React + TS)</div>
+      <div class="arch-sub">Chat · Upload PDF/URL/Text · Agent Trace · LaTeX · Citations · localStorage Session</div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-arrow-row">
+      <span>REST API</span> &nbsp;|&nbsp; <span>SSE Streaming (text/event-stream)</span>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-layer">
+      <div class="arch-box accent2">
+        <div class="arch-title">Ingestion</div>
+        <div class="arch-sub">PDF math-aware<br>PyMuPDF + VLM fallback<br>URL (trafilatura)<br>Text</div>
+      </div>
+      <div class="arch-box accent2">
+        <div class="arch-title">Indexing</div>
+        <div class="arch-sub">BM25Okapi<br>underthesea tokenize<br>turbovec (TurboQuant)<br>OpenAI embed + cache</div>
+      </div>
+      <div class="arch-box accent2">
+        <div class="arch-title">Retrieval</div>
+        <div class="arch-sub">BM25 top-30<br>Dense top-30<br>RRF fusion k=60<br>Rerank top-20 → final top-5</div>
+      </div>
+      <div class="arch-box accent2">
+        <div class="arch-title">Agent Graph</div>
+        <div class="arch-sub">Router → Plan<br>Retrieve → Distill<br>Verify → Replan loop<br>Synthesize → Verify Answer</div>
+      </div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-box" style="min-width: 380px;">
+      <div class="arch-title">Persistence (SQLite)</div>
+      <div class="arch-sub">documents · chunks (embedding BLOB) · sessions · messages (citations + trace JSON) · conversation_summaries</div>
+    </div>
+  </div>
+
+  <p class="small" style="text-align:center; margin-top:10px;">Mỗi node Agent phát SSE event để UI theo dõi realtime; câu trả lời cuối stream token-by-token.</p>
+</div>
+
+<!-- ==================== SLIDE 5: LUỒNG AGENT ==================== -->
+<div class="slide">
+  <h2>Luồng Agent (Đồ thị tất định)</h2>
+
+  <div class="flow-wrap">
+    <div class="flow-row">
+      <div class="flow-node start">Router</div>
+    </div>
+    <div class="flow-row" style="gap: 40px;">
+      <div style="text-align:center;">
+        <div class="flow-arrow">↓ no_retrieval</div>
+        <div class="flow-node end">Answer</div>
+        <div class="small">Chitchat (1 LLM call)</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-arrow">↓ simple</div>
+        <div class="flow-node">Retrieve</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Synthesize</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Verify Answer</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node end">Answer</div>
+        <div class="small">Single-hop</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-arrow">↓ complex</div>
+        <div class="flow-node">Planner</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Retrieve<br><span class="small">(song song)</span></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Distill + Verify<br><span class="small">(song song)</span></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Sufficiency?</div>
+        <div style="display:flex; gap:8px; justify-content:center; margin:4px 0;">
+          <span class="flow-label">đủ → Synthesize</span>
+          <span class="flow-label">chưa đủ → Replan</span>
+        </div>
+        <div class="flow-node">Replan loop<br><span class="small">(max 3 lần)</span></div>
+        <div class="flow-arrow">↑ lặp lại</div>
+        <div class="flow-node">Synthesize</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Verify Answer</div>
+        <div style="display:flex; gap:8px; justify-content:center; margin:4px 0;">
+          <span class="flow-label">bám nguồn → Answer</span>
+          <span class="flow-label">hallucinate → Regenerate</span>
+        </div>
+        <div class="flow-node end">Answer</div>
+        <div class="small">Multi-hop</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 6: INGESTION PIPELINE ==================== -->
+<div class="slide">
+  <h2>Backend — Ingestion Pipeline</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>1. PDF — Math-aware Extraction (PyMuPDF)</h3>
+      <ul>
+        <li><b>Font-aware operator remap</b>: ∑, √, ∏, ∫ từ font CMEX10 được ánh xạ lại đúng, không đụng chữ thường.</li>
+        <li><b>Geometric space reconstruction</b>: Khôi phục dấu cách bị mất từ khoảng cách giữa char boxes.</li>
+        <li><b>Fraction reconstruction</b>: Dựng lại phân số a/b từ nét vẽ vinculum (đường kẻ ngang).</li>
+        <li><b>Heading detection</b>: Nhận diện mục numbered (1.2), Roman (I.), step (Bước N:), keyword (Mục lục, Phụ lục...).</li>
+        <li><b>Boilerplate removal</b>: Lọc header/footer lặp lại trên nhiều trang (threshold ≥ 50% số trang).</li>
+        <li><b>Clean artifacts</b>: Loại bỏ (cid:NN), watermark tokens, sửa glyph lỗi (vn_text.py).</li>
+      </ul>
+      <h3>2. VLM Fallback (gpt-4o-mini)</h3>
+      <ul>
+        <li><code>VLM_PARSE=auto</code> (mặc định): chỉ transcribe trang scan/ảnh (empty text) qua vision API.</li>
+        <li><code>VLM_PARSE=on</code>: luôn dùng VLM (tốn token, chính xác cao nhất).</li>
+        <li><b>Cache đĩa</b>: SQLite <code>parse_cache.db</code> theo SHA256 ảnh PNG → re-ingest không tốn token lại.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>3. URL & Text</h3>
+      <ul>
+        <li><b>URL</b>: <code>trafilatura</code> fetch + extract Markdown (giữ bảng, bỏ comment, favor_recall).</li>
+        <li><b>Plain text</b>: <code>normalize_structure</code> — NFC unicode, collapse spaces, giữ newline cho heading/paragraph.</li>
+      </ul>
+      <h3>4. Chunker</h3>
+      <ul>
+        <li><b>Section-aware</b>: Không cắt ngang ranh giới mục (mỗi block từ ingestion đã mang section).</li>
+        <li><b>Atomic formulas/tables</b>: Dòng chứa ký hiệu toán học hoặc bảng ( <code>|</code> ) được giữ nguyên, không cắt giữa chừng.</li>
+        <li><b>Sentence packing</b>: Tách câu theo dấu câu tiếng Việt (A-Z À-Ỹ), overlap giữa chunk (default 200 ký tự).</li>
+        <li><b>Smart split</b>: Câu quá dài cắt tại ranh giới logic (dấu phẩy, chấm phẩy, ngoặc).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 7: INDEXING & STORAGE ==================== -->
+<div class="slide">
+  <h2>Backend — Indexing & Storage</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>BM25 Index</h3>
+      <ul>
+        <li>Thư viện <code>rank-bm25</code> (BM25Okapi).</li>
+        <li>Tokenize tiếng Việt bằng <code>underthesea</code>.</li>
+        <li>Index text được <b>prepend doc_title + section path</b> qua <code>_index_text()</code> để tăng match cho context-poor chunks; text hiển thị/citation vẫn giữ nguyên.</li>
+        <li>Lưu <code>bm25.pkl</code> (pickle chunk_ids + corpus_tokens).</li>
+        <li>Lazy rebuild: <code>_dirty</code> flag; rebuild khi search nếu có add/remove.</li>
+      </ul>
+
+      <h3>Vector Index (turbovec)</h3>
+      <ul>
+        <li>Thuật toán <b>TurboQuant</b> — nén 4-bit (so với float32 là 8×), SIMD.</li>
+        <li>Lưu <code>vector.tvim</code> (IdMapIndex với uint64 chunk_id).</li>
+        <li>Lazy dim: tự suy ra <code>embed_dim</code> từ lần embed đầu tiên.</li>
+        <li>Bit-width tuỳ chỉnh (mặc định 4-bit qua <code>TURBOVEC_BIT_WIDTH</code>).</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Embeddings (OpenAI)</h3>
+      <ul>
+        <li>Model: <code>text-embedding-3-small</code> (default).</li>
+        <li><b>L2-normalization</b> để cosine similarity = inner product.</li>
+        <li><b>Cache đĩa</b>: SQLite <code>emb_cache.db</code> lưu vector float32 theo SHA256 key (model + text).</li>
+        <li><b>Batch</b>: <code>embed_documents</code> batch_size=128; chỉ gọi API cho text chưa có trong cache.</li>
+      </ul>
+
+      <h3>Đồng bộ Index & DB</h3>
+      <ul>
+        <li>Mỗi lần load, <code>_load_indexes()</code> so sánh <code>chunk_ids</code> trong <code>index_meta.json</code> (version = 3) với DB.</li>
+        <li>Nếu drift (stale files, partial ingest, schema change) → tự <code>rebuild_indexes()</code> từ DB, không cần gọi API vì embedding đã lưu BLOB trong SQLite.</li>
+        <li><code>delete_document</code> → xoá DB row → rebuild indexes để đảm bảo sync.</li>
+      </ul>
+
+      <h3>SQLite Schema</h3>
+      <ul>
+        <li><code>documents</code>: id, title, source, source_type, n_chunks.</li>
+        <li><code>chunks</code>: id, document_id, chunk_index, text, page, section, embedding (BLOB float32).</li>
+        <li><code>sessions</code>: id (UUID hex), title, created_at, updated_at.</li>
+        <li><code>messages</code>: id, session_id, role, content, citations (JSON), trace (JSON).</li>
+        <li><code>conversation_summaries</code>: id, session_id, summary, summarized_up_to.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 8: LÝ DO CHỌN KỸ THUẬT & CONFIG ==================== -->
+<div class="slide">
+  <h2>Lý do chọn kỹ thuật & Cấu hình hệ thống</h2>
+  <p class="subtitle">Các lựa chọn dựa trên codebase, eval thực tế và tradeoff lý thuyết — không bịa số liệu</p>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>🔍 Retrieval — Tại sao BM25Okapi + TurboQuant?</h4>
+      <ul>
+        <li><b>BM25Okapi</b> (thay vì BM25L/Plus): Đơn giản, ổn định, phù hợp với corpus nhỏ–vừa (tài liệu thực tập). BM25L chỉ cải thiện khi document dài hơn trung bình đáng kể — không phải trường hợp của chúng ta.</li>
+        <li><b>Tokenize: underthesea</b> thay vì split từ đơn giản: Tiếng Việt không có dấu cách tự nhiên giữa từ, underthesea phân tách chính xác từ ghép (vd "quy hoạch", "đường đi an toàn") giúp BM25 không miss keyword quan trọng.</li>
+        <li><b>turbovec (TurboQuant)</b> thay vì FAISS/Annoy: Dung lượng nhỏ (nén 4-bit so với float32 = 8×, file <code>.tvim</code> vài MB), load nhanh, không cần GPU. FAISS tốt cho hàng triệu vectors nhưng overkill cho 1–2 tài liệu và phụ thuộc nvidia-driver khó setup trên máy dev.</li>
+        <li><b>Embedding: OpenAI text-embedding-3-small</b>: 1536-dim, chất lượng cao cho tiếng Việt, giá rẻ ($0.02/1M tokens), hỗ trợ <code>dimensions</code> nếu cần giảm dim sau này. <i>(Chưa thử local model tiếng Việt — cần A/B test sau.)</i></li>
+        <li><b>L2-normalization</b>: Cosine similarity trở thành inner product → turbovec dùng dot-product nhanh, không cần cosine lookup riêng.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>🧩 Fusion & Rerank — Tại sao RRF k=60 + bge-reranker-v2-m3?</h4>
+      <ul>
+        <li><b>RRF k=60</b>: Theo lý thuyết, k nhỏ phạt mạnh rank thấp, k lớn làm phẳng ranking. k=60 là giá trị phổ biến trong nghiên cứu RRF cho corpus vừa. <i>(Chưa tune k trên dataset riêng — cần thử k=20, 40, 100 trong sprint sau.)</i></li>
+        <li><b>Reranker: BAAI/bge-reranker-v2-m3</b>: Cross-encoder đa ngôn ngữ, kích thước model vài GB, chạy local không tốn API token. Eval thực tế cho thấy Hybrid+RRF đã đạt Hit@5=1.000, reranker chỉ cải thiện MRR@5 (0.852 → 0.863) chứ không tăng recall thêm.</li>
+        <li><b>Top_k tiered</b>: BM25_TOP_K=30, DENSE_TOP_K=30 → RERANK_TOP_N=20 → FINAL_TOP_K=5. Để reranker có đủ candidates (20), nhưng chỉ đưa 5 chunk vào context LLM để tránh noise + tiết kiệm token.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>🧠 Memory & Agent — Tại sao summary + window?</h4>
+      <ul>
+        <li><b>SUMMARY_THRESHOLD=12</b>: Khi hội thoại > 12 turns, lịch sử dài làm prompt quá lớn, tăng cost và có thể làm LLM "quên" system prompt. Tóm tắt giúp giảm prompt đáng kể so với full history. <i>(Chưa đo chính xác số tokens của summary — cần benchmark.)</i></li>
+        <li><b>HISTORY_WINDOW=6</b>: Giữ nguyên 6 tin nhắn gần nhất (3 vòng hỏi-đáp) để agent nhớ ngữ cảnh immediate. <i>(Chưa thử window khác — cần A/B test window=2, 4, 8.)</i></li>
+        <li><b>gpt-4o-mini cho sub-tasks</b>: Router, Planner, Distill, Verify, Sufficiency, Replan đều dùng model rẻ. Chỉ Synthesize + Verify Answer dùng model mạnh hơn. <i>(Chưa đo cost chính xác giữa 2 cấu hình — cần benchmark sau.)</i></li>
+        <li><b>Replan max 3</b>: Đủ để khắc phục thiếu info (thường 1–2 lần), tránh loop vô hạn. Early stop nếu số bước thất bại không giảm.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>📦 Storage & Ingestion — Tại sao SQLite + PyMuPDF?</h4>
+      <ul>
+        <li><b>SQLite thay vì PostgreSQL/Chroma</b>: Zero-config, file-based, dễ backup, không cần chạy service riêng. Phù hợp scale hiện tại (tài liệu thực tập, không phải enterprise). Chroma tốt hơn cho metadata filtering phức tạp nhưng thêm dependency nặng.</li>
+        <li><b>PyMuPDF (fitz)</b>: Trích xuất text nhanh, hỗ trợ geometric reconstruction (phục hồi dấu cách, phân số), font-aware remap (∑√∏). pdfplumber không hỗ trợ font remap nên miss công thức toán.</li>
+        <li><b>Chunk overlap 200 ký tự</b>: Đủ để giữ ngữ cảnh câu bị cắt ngang, không quá lớn gây duplicate. <i>(Ước tính: tiếng Việt trung bình ~40 ký tự/câu → ~5 câu overlap — chưa đo chính xác trên corpus.)</i></li>
+        <li><b>VLM fallback (gpt-4o-mini vision)</b>: Chỉ dùng khi trang scan/empty text. <code>VLM_PARSE=auto</code> chỉ gọi VLM cho trang cần thiết, tiết kiệm hơn <code>on</code> (luôn gọi). Cache đĩa tránh re-ingest tốn token.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 9: KẾT QUẢ TESTING & TRADEOFF ==================== -->
+<div class="slide">
+  <h2>Kết quả Testing & Tradeoff — Chỉ dùng số liệu thật</h2>
+  <p class="subtitle">Retrieval: eval_report.md (20 câu). End-to-End: agent_endtoend_results.json (6 câu thật). Không bịa.</p>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>📊 Retrieval Metrics — eval_report.md (20 câu, LLM-as-judge)</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Phương pháp</th><th>Recall@5</th><th>MRR@5</th><th>Hit@5</th></tr>
+          <tr><td>BM25 (underthesea)</td><td>0.797</td><td>0.754</td><td>0.900</td></tr>
+          <tr><td>Dense (turbovec)</td><td>0.880</td><td>0.850</td><td>1.000</td></tr>
+          <tr><td>Hybrid RRF (k=60)</td><td>0.845</td><td>0.852</td><td>1.000</td></tr>
+          <tr style="background:var(--bg-3)"><td><b>Hybrid + Rerank (bge-m3)</b></td><td><b>0.845</b></td><td><b>0.863</b></td><td><b>1.000</b></td></tr>
+        </table>
+      </div>
+      <p class="small"><b>Nhận xét thật</b>: Hit@5 đã đạt 1.000 ngay từ Dense và Hybrid RRF; reranker chỉ cải thiện MRR@5 (0.852 → 0.863) chứ không tăng recall thêm. BM25 đơn độc recall thấp nhất (0.797) nhưng vẫn cần cho keyword matching chính xác.</p>
+    </div>
+    <div class="box">
+      <h4>🧪 End-to-End Agent — 6 câu chạy thật (testQA_easy 3 + testQA_hard 3)</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Metric</th><th>Easy (3 câu)</th><th>Hard (3 câu)</th><th>Tradeoff / Lý do</th></tr>
+          <tr><td>Accuracy</td><td>3/3 (100%)</td><td>3/3 (100%)</td><td>—</td></tr>
+          <tr><td>Latency trung bình</td><td>~14s</td><td>~38s</td><td>Hard = multi-hop nhiều LLM calls</td></tr>
+          <tr><td>LLM Calls / câu</td><td>3.3</td><td>17.3</td><td>Planner + Distill + Verify + Replan loop</td></tr>
+          <tr><td>Tokens / câu</td><td>~7.8K</td><td>~45K</td><td>Hard: nhiều subquestion, retrieve lặp lại</td></tr>
+          <tr><td>Regenerate</td><td>1 lần</td><td>0 lần</td><td>Easy 1: verify fail → regenerate bổ sung info</td></tr>
+          <tr><td>Partial Answer</td><td>1/3</td><td>1/3</td><td>Agent tự nhận thiếu info nhưng vẫn trả lời phần có</td></tr>
+        </table>
+      </div>
+      <p class="small"><b>Tradeoff</b>: Hard question chính xác nhưng đắt gấp ~6× token so với easy (7.8K vs 45K tokens/câu). Có thể tối ưu bằng adaptive top_k hoặc early-stop replan nhanh hơn.</p>
+    </div>
+  </div>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>📈 Chi tiết Token Cost — 6 câu chạy thật</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Câu hỏi</th><th>Route</th><th>Prompt ↑</th><th>Comp ↓</th><th>Tổng</th></tr>
+          <tr><td>Đầu vào chính gồm những gì?</td><td>simple</td><td>8.5K</td><td>423</td><td>8.9K</td></tr>
+          <tr><td>Đầu ra của bài toán?</td><td>simple</td><td>6.6K</td><td>228</td><td>6.8K</td></tr>
+          <tr><td>Ràng buộc robot?</td><td>simple</td><td>7.4K</td><td>303</td><td>7.7K</td></tr>
+          <tr><td>P1 vs P2, w3&gt;0?</td><td>complex</td><td>52.7K</td><td>2.7K</td><td>55.4K</td></tr>
+          <tr><td>C1 → 1, ưu tiên yếu tố nào?</td><td>complex</td><td>31.8K</td><td>1.2K</td><td>33.0K</td></tr>
+          <tr><td>S(c) khi không vật cản?</td><td>complex</td><td>45.0K</td><td>1.6K</td><td>46.6K</td></tr>
+          <tr style="background:var(--bg-3)"><td><b>Tổng Easy (3)</b></td><td>—</td><td><b>22.5K</b></td><td><b>954</b></td><td><b>23.5K</b></td></tr>
+          <tr style="background:var(--bg-3)"><td><b>Tổng Hard (3)</b></td><td>—</td><td><b>129.5K</b></td><td><b>5.5K</b></td><td><b>135.0K</b></td></tr>
+          <tr style="background:var(--bg-3)"><td><b>Tổng 6 câu</b></td><td>—</td><td><b>152.0K</b></td><td><b>6.4K</b></td><td><b>158.5K</b></td></tr>
+        </table>
+      </div>
+      <p class="small"><b>Nguồn</b>: <code>test/run_agent_e2e_test.py</code> với OpenAI API thật. Easy ~23.5K tokens, Hard ~135K tokens. P1 vs P2 đắt nhất (55.4K) do 21 LLM calls.</p>
+    </div>
+    <div class="box">
+      <h4>🔮 Các cấu hình cần A/B test trong sprint sau</h4>
+      <ul>
+        <li><b>Chunking</b>: Hiện CHUNK_MAX_CHARS=1000, OVERLAP=200. Chưa thử 500/100/150. Cần test xem recall có đổi không.</li>
+        <li><b>Top-k</b>: Hiện FINAL_TOP_K=5. Cần thử 3, 7, 10 để tìm sweet spot giữa noise và coverage.</li>
+        <li><b>RRF k</b>: Hiện k=60. Cần thử k=20, 40, 100 trên dataset riêng.</li>
+        <li><b>Memory window</b>: Hiện HISTORY_WINDOW=6, SUMMARY_THRESHOLD=12. Cần thử window=2, 4, 8 để đo impact.</li>
+        <li><b>Model cho sub-tasks</b>: Hiện gpt-4o-mini. Cần thử local model (Qwen, Llama tiếng Việt) nếu có.</li>
+        <li><b>HyDE</b>: Hiện USE_HYDE=false. Cần bật và test trên câu hỏi mơ hồ.</li>
+      </ul>
+      <p class="small">→ Tất cả các cấu hình trên <b>chưa có số liệu A/B</b>; chỉ có lý thuyết và hy vọng. Cần dataset chuẩn + script benchmark để đo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 10: RETRIEVAL PIPELINE ==================== -->
+<div class="slide">
+  <h2>Backend — Retrieval Pipeline (Chi tiết)</h2>
+  <p>Quy trình chính xác trong <code>KnowledgeBase.retrieve()</code>:</p>
+  <pre>
+1. bm25_hits   = self.bm25.search(query, top_k=BM25_TOP_K)          # default 30
+2. dense_hits  = self.vector.search(query_vector, top_k=DENSE_TOP_K) # default 30 (nếu ready)
+3. fused      = reciprocal_rank_fusion(bm25_hits, dense_hits, k=RRF_K)  # default k=60
+4. candidates = fused[:RERANK_TOP_N]                                 # default 20
+5. meta       = self.repo.get_chunks([h.chunk_id for h in candidates])
+6. IF use_reranker:
+      pairs     = [(cid, meta[cid]["text"]) for cid in candidates]
+      reranked  = self.reranker.rerank(query, pairs, top_k=len(pairs))
+      rerank_map = {cid: sc for cid, sc in reranked}
+   ELSE:
+      rerank_map = {}
+7. final_score = rerank_map.get(cid, h.rrf_score)
+8. ordered     = sorted(candidates, key=final_score, reverse=True)[:FINAL_TOP_K] # default 5
+9. Trả về list[RetrievedChunk] kèm metadata đầy đủ (doc_title, page, section, text, bm25_score, dense_score, rerank_score)
+  </pre>
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>Reciprocal Rank Fusion</h4>
+      <pre style="font-size:.78rem">
+def reciprocal_rank_fusion(bm25, dense, k=60):
+    hits = {}
+    for rank, (cid, score) in enumerate(bm25, 1):
+        hits[cid].rrf_score += 1/(k+rank)
+        hits[cid].bm25_score = score
+    for rank, (cid, score) in enumerate(dense, 1):
+        hits[cid].rrf_score += 1/(k+rank)
+        hits[cid].dense_score = score
+    return sorted(hits.values(), key=lambda h: h.rrf_score, reverse=True)
+      </pre>
+      <p class="small">Kết hợp xếp hạng từ 2 nguồn độc lập. BM25 bắt keyword chính xác; Dense bắt ngữ nghĩa. RRF không cần normalize score.</p>
+    </div>
+    <div class="box">
+      <h4>Cross-encoder Reranker</h4>
+      <ul>
+        <li>Model: <code>BAAI/bge-reranker-v2-m3</code> (kích thước vài GB, lần đầu tải tự động).</li>
+        <li>Chạy <b>local</b>, không tốn token LLM.</li>
+        <li>Lazy load + graceful degrade nếu thiếu weight (return None, fallback rrf_score).</li>
+        <li>Thread-safe: dùng <code>_infer_lock</code> vì HF forward không thread-safe.</li>
+        <li>Tắt được qua <code>USE_RERANKER=false</code> trong .env.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 11: AGENT GRAPH ==================== -->
+<div class="slide">
+  <h2>Backend — Controllable Agent Graph</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>Các node chính</h3>
+      <ul>
+        <li><b>Router</b>: Phân loại <code>no_retrieval</code> / <code>simple</code> / <code>complex</code> bằng LLM fast. Nếu chưa có tài liệu → buộc tra cứu.</li>
+        <li><b>Planner</b> (complex): Tách câu hỏi thành tối đa 4 câu hỏi con độc lập.</li>
+        <li><b>Retrieve</b>: Gọi <code>kb.retrieve(subq)</code> cho từng câu hỏi con.</li>
+        <li><b>Distill</b>: Chắt lọc thông tin liên quan từ retrieved chunks cho từng subquestion. Trả <code>KHÔNG_LIÊN_QUAN</code> nếu không liên quan.</li>
+        <li><b>Verify</b> (Self-RAG): Kiểm tra ghi chú distill có bám nguồn hoàn toàn vào ngữ cảnh không.</li>
+        <li><b>Sufficiency check</b>: Kiểm tra ghi chú đã kiểm chứng có đủ trả lời câu hỏi gốc không.</li>
+        <li><b>Replan</b>: Nếu thiếu thông tin và chưa đạt giới hạn lặp, đặt lại câu hỏi con cụ thể hơn.</li>
+        <li><b>Synthesize</b>: Tổng hợp câu trả lời từ ngữ cảnh đã chắt lọc + ghi chú đã kiểm chứng.</li>
+        <li><b>Verify Answer</b>: Kiểm tra câu trả lời cuối có hallucinate không. Nếu có → <b>regenerate</b> (max 1 lần).</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Xử lý song song</h3>
+      <ul>
+        <li><b>Retrieve song song</b>: <code>ThreadPoolExecutor(max_workers=min(4, len(subqs)))</code> chạy <code>kb.retrieve()</code> cho nhiều subquestions cùng lúc.</li>
+        <li><b>Distill + Verify song song</b>: <code>ThreadPoolExecutor</code> chạy <code>_distill_and_verify</code> cho từng subquestion song song.</li>
+        <li>Giảm latency đáng kể khi câu hỏi phức tạp có nhiều bước.</li>
+      </ul>
+      <h3>Replanning Loop</h3>
+      <ul>
+        <li><code>MAX_REPLAN_ITERS=3</code> (configurable).</li>
+        <li>Early stop: nếu số bước thất bại không giảm so với vòng trước → dừng sớm.</li>
+        <li>Không lặp lại nguyên câu hỏi con đã thất bại; phải diễn đạt cách khác.</li>
+        <li>Giữ nguyên các bước đã thành công, chỉ thay thế bước thất bại.</li>
+      </ul>
+      <h3>Memory / Conversation Summarization</h3>
+      <ul>
+        <li>Khi session vượt <code>SUMMARY_THRESHOLD=12</code> tin nhắn → tóm tắt hội thoại cũ.</li>
+        <li>Giữ lại <code>HISTORY_WINDOW=6</code> tin nhắn gần nhất nguyên văn.</li>
+        <li>Tóm tắt lưu vào <code>conversation_summaries</code> (SQLite).</li>
+        <li>Agent nhận summary qua system message khi generate answer.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 12: PROMPTS & ANTI-HALLUCINATION ==================== -->
+<div class="slide">
+  <h2>Backend — Prompts & Anti-Hallucination</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>Prompts trong prompts.py</h3>
+      <ul>
+        <li><code>ROUTER_SYSTEM</code>: Phân loại simple/complex/no_retrieval.</li>
+        <li><code>PLANNER_SYSTEM</code>: Tách câu hỏi phức tạp thành subquestions (tối đa 4).</li>
+        <li><code>DISTILL_SYSTEM</code>: Chắt lọc thông tin liên quan, giữ số liệu/công thức.</li>
+        <li><code>VERIFY_SYSTEM</code>: Kiểm tra groundedness (true/false + reason).</li>
+        <li><code>SUFFICIENCY_SYSTEM</code>: Kiểm tra độ đủ thông tin (sufficient + missing_aspects).</li>
+        <li><code>REPLANNER_SYSTEM</code>: Đặt lại câu hỏi cho bước thất bại.</li>
+        <li><code>ANSWER_SYSTEM</code>: Quy tắc trả lời — chỉ dùng ngữ cảnh, trích dẫn [số], LaTeX, chain-of-thought.</li>
+        <li><code>ANSWER_VERIFY_SYSTEM</code>: Kiểm tra từng khẳng định trong câu trả lời cuối.</li>
+        <li><code>REGENERATE_SYSTEM</code>: Tái sinh câu trả lời sau khi phát hiện hallucination.</li>
+        <li><code>SUMMARIZE_SYSTEM</code>: Tóm tắt lịch sử hội thoại.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Lớp chống bịa đặt</h3>
+      <ul>
+        <li><b>Prompt ràng buộc</b>: "Chỉ dùng thông tin trong NGỮ CẢNH. Tuyệt đối không dùng kiến thức ngoài tài liệu."</li>
+        <li><b>Không tìm thấy</b>: Nếu ngữ cảnh thực sự không chứa thông tin → trả đúng nguyên văn <code>"Không tìm thấy thông tin trong tài liệu."</code></li>
+        <li><b>Verify groundedness</b> (node verify): Kiểm tra ghi chú chắt lọc trước khi tổng hợp.</li>
+        <li><b>Verify answer</b> (node verify_answer): Kiểm tra câu trả lời cuối; nếu phát hiện khẳng định không bám nguồn → regenerate (max 1 lần, configurable).</li>
+        <li><b>Citations</b>: Mỗi ý kèm [số] ánh xạ tới đoạn nguồn. UI hiển thị hover + click drawer.</li>
+      </ul>
+      <h3>build_context</h3>
+      <pre style="font-size:.78rem">
+def build_context(chunks, label_key="label"):
+    parts = []
+    for c in chunks:
+        loc = []
+        if c.get("doc_title"): loc.append(c["doc_title"])
+        if c.get("page"): loc.append(f"trang {c['page']}")
+        head = f"[{c[label_key]}]" + (f" ({', '.join(loc)})" if loc else "")
+        parts.append(f"{head}\n{c['text']}")
+    return "\n\n".join(parts)
+      </pre>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 13: FASTAPI & SSE ==================== -->
+<div class="slide">
+  <h2>Backend — FastAPI & SSE Streaming</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>API Endpoints</h3>
+      <ul>
+        <li><code>GET /api/health</code> — Kiểm tra kết nối + OpenAI config.</li>
+        <li><code>GET /api/config</code> — Trả về model config (llm_model, embed_model, use_reranker...).</li>
+        <li><code>GET /api/stats</code> — Số documents, chunks, vector_ready, reranker status.</li>
+        <li><code>GET /api/documents</code> — Danh sách tài liệu.</li>
+        <li><code>POST /api/documents/upload</code> — Upload PDF (UploadFile).</li>
+        <li><code>POST /api/documents/url</code> — Ingest URL.</li>
+        <li><code>POST /api/documents/text</code> — Ingest plain text.</li>
+        <li><code>DELETE /api/documents/{id}</code> — Xoá tài liệu + rebuild indexes.</li>
+        <li><code>GET /api/sessions</code> — Danh sách sessions.</li>
+        <li><code>POST /api/sessions</code> — Tạo session mới.</li>
+        <li><code>GET /api/sessions/{sid}</code> — Lấy messages + summary của session.</li>
+        <li><code>DELETE /api/sessions/{sid}</code> — Xoá session.</li>
+        <li><code>POST /api/chat</code> — Chat streaming (SSE).</li>
+      </ul>
+    </div>
+    <div>
+      <h3>SSE Streaming</h3>
+      <ul>
+        <li>Agent.run() trả về Iterator[dict]; FastAPI bọc trong <code>StreamingResponse</code> (media_type=text/event-stream).</li>
+        <li>Event types: <code>session</code>, <code>summary</code>, <code>thinking</code>, <code>route</code>, <code>plan</code>, <code>subquestion</code>, <code>retrieved</code>, <code>distill</code>, <code>verify</code>, <code>sufficiency</code>, <code>replan</code>, <code>converged</code>, <code>early_stop</code>, <code>max_iters</code>, <code>synthesize</code>, <code>verify_answer</code>, <code>token</code>, <code>final</code>, <code>error</code>.</li>
+        <li>Timeout 25s giữa các event; nếu quá thì gửi <code>: keepalive</code>.</li>
+        <li>Lưu assistant message ngay khi nhận event <code>final</code> (survive client disconnect).</li>
+        <li>Fallback persist: nếu disconnect trước khi nhận final, vẫn lưu message ở cuối stream.</li>
+      </ul>
+      <h3>Session Persistence</h3>
+      <ul>
+        <li>Session ID lưu trong <code>localStorage</code> (key <code>vnrag.session</code>).</li>
+        <li>Reload trang → tự động fetch lại messages từ <code>/api/sessions/{sid}</code>.</li>
+        <li>Tin nhắn đầu tiên của user được dùng làm title session (cắt 60 ký tự).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 14: FRONTEND STACK ==================== -->
+<div class="slide">
+  <h2>Frontend — React + Vite Stack</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>Dependencies</h3>
+      <ul>
+        <li><b>React 18</b> + <b>Vite 5</b> + <b>TypeScript 5</b></li>
+        <li><b>react-markdown</b> + <b>remark-gfm</b> + <b>remark-math</b> — render Markdown + bảng + công thức.</li>
+        <li><b>rehype-katex</b> + <b>rehype-raw</b> — render LaTeX (KaTeX CSS).</li>
+        <li>Không dùng UI framework (Tailwind/MUI) — CSS thuần trong <code>styles.css</code>.</li>
+      </ul>
+      <h3>State Management</h3>
+      <ul>
+        <li>Chỉ dùng React hooks (<code>useState</code>, <code>useEffect</code>, <code>useCallback</code>, <code>useMemo</code>).</li>
+        <li>State chính trong <code>App.tsx</code>: <code>config</code>, <code>documents</code>, <code>sessions</code>, <code>sessionId</code>, <code>messages</code>, <code>citation</code>.</li>
+        <li>ChatPanel quản lý <code>input</code>, <code>streaming</code>, <code>liveTrace</code>, <code>liveAnswer</code>.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Vite Config</h3>
+      <ul>
+        <li>Port 5173, proxy <code>/api</code> → <code>http://localhost:8000</code>.</li>
+        <li>SSE proxy: tắt buffering (<code>x-accel-buffering: no</code>), <code>Accept-Encoding: identity</code>, xoá <code>content-encoding</code> và <code>content-length</code> để streaming không bị ngắt.</li>
+      </ul>
+      <h3>Styles</h3>
+      <ul>
+        <li>Dark theme với CSS variables (<code>--bg</code>, <code>--bg2</code>, <code>--bg3</code>, <code>--accent</code>, ...).</li>
+        <li>Layout: sidebar 300px + main fluid. Chat: grid 1fr 360px (agent panel), responsive ẩn panel khi <1100px.</li>
+        <li>Animation: pulse glow cho node active, blink typing indicator, smooth scroll.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 15: FRONTEND COMPONENTS ==================== -->
+<div class="slide">
+  <h2>Frontend — Components Deep Dive</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>Sidebar</h3>
+      <ul>
+        <li>Nút "+ Cuộc trò chuyện mới".</li>
+        <li>Uploader PDF (file input hidden, trigger bằng button).</li>
+        <li>Nhập URL + nút + để ingest.</li>
+        <li>Danh sách tài liệu (icon 📄/🌐/📝, số chunks, nút xoá).</li>
+        <li>Danh sách sessions (click chọn, active highlight, nút xoá 🗑).</li>
+        <li>Loading state <code>busy</code> + error box.</li>
+      </ul>
+      <h3>ChatPanel</h3>
+      <ul>
+        <li>Messages list: user (🧑) + assistant (🤖) bubbles.</li>
+        <li>Assistant message hiển thị <code>AgentTrace</code> (nếu có trace) + <code>Markdown</code> + sources chips.</li>
+        <li>Streaming state: hiển thị live trace + live answer (Markdown) hoặc typing dots.</li>
+        <li>Auto-scroll xuống cuối khi có tin nhắn / live answer / live trace.</li>
+        <li>Composer: textarea (Enter gửi, Shift+Enter xuống dòng) + nút Gửi.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Markdown + Citations</h3>
+      <ul>
+        <li><code>injectCitations</code>: regex <code>\[(\d{1,3})\]</code> → thẻ <code>&lt;cite&gt;</code> tùy chỉnh.</li>
+        <li><code>CitationBadge</code>: hover hiển thị popup fixed-position (xem vị trí màn hình để chọn above/below, tránh tràn viewport).</li>
+        <li>Click citation → mở drawer overlay bên phải hiển thị đầy đủ nguồn (doc_title, page, section, text, score, chunk_id).</li>
+        <li>Source chips ở cuối message: click mở drawer, <code>.used</code> highlight nếu citation được trích dẫn trong câu trả lời.</li>
+      </ul>
+      <h3>API Layer & SSE Parser</h3>
+      <ul>
+        <li><code>api.ts</code>: helper <code>jget</code>, <code>jpost</code>, upload <code>FormData</code>, delete <code>fetch</code>.</li>
+        <li><code>streamChat</code>: dùng <code>fetch</code> + <code>ReadableStream</code> reader, parse SSE events theo chuẩn <code>event:</code> và <code>data:</code>, tách bằng <code>\n\n</code>.</li>
+        <li>Xử lý keepalive comments (dòng bắt đầu bằng <code>:</code>).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 16: AGENT TRACE & GRAPH ==================== -->
+<div class="slide">
+  <h2>Frontend — Agent Trace & Graph UI</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>AgentTrace</h3>
+      <ul>
+        <li>Collapsible panel: click header để mở/rút.</li>
+        <li>Filter bỏ qua event type <code>thinking</code> (chỉ dùng để highlight node trong graph).</li>
+        <li>Mỗi event có icon emoji riêng (route→🧭, plan→🗺️, retrieved→🔎, distill→⚗️, verify→✓, replan→🔄...).</li>
+        <li>Hiển thị chi tiết theo type:
+          <ul>
+            <li><code>route</code>: tên route + lý do.</li>
+            <li><code>plan/replan</code>: danh sách subquestions (ol).</li>
+            <li><code>retrieved</code>: số đoạn, preview, score, chunk_id, page.</li>
+            <li><code>distill</code>: note hoặc "Không liên quan".</li>
+            <li><code>verify/sufficiency/verify_answer</code>: trạng thái bám nguồn / đủ thông tin + lý do.</li>
+            <li><code>converged/max_iters/early_stop</code>: thông báo trạng thái vòng lặp.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>AgentGraph (SVG)</h3>
+      <ul>
+        <li>Pure SVG, không dùng thư viện graph bên ngoài.</li>
+        <li>12 node cố định: router, simple, complex, planner, retrieve, distill, verify, sufficiency, replan, synthesize, verify_answer, answer.</li>
+        <li>Edge có label tiếng Việt ngang (không xoay) để dễ đọc: "simple", "complex", "multi-hop", "single-hop", "đủ", "chưa đủ", "lặp lại", "bám nguồn", "tái tạo"...</li>
+        <li><code>deriveStates</code>: phân tích trace events để xác định trạng thái mỗi node:
+          <ul>
+            <li><b>idle</b> (xám) — chưa chạm.</li>
+            <li><b>active</b> (xanh + pulse glow) — đang xử lý.</li>
+            <li><b>done</b> (xanh dương) — đã hoàn thành.</li>
+            <li><b>skipped</b> (dash) — không dùng (vd simple route bỏ qua complex nodes).</li>
+            <li><b>error</b> (đỏ) — lỗi.</li>
+          </ul>
+        </li>
+        <li>Edge traversed được tô màu accent + arrow done; edge skipped dash xám.</li>
+        <li>Legend ở dưới graph giải thích màu.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 17: DATA & EVALUATION ==================== -->
+<div class="slide">
+  <h2>Data & Evaluation</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>Bộ test</h3>
+      <ul>
+        <li><b>testQA.md</b>: 10 câu single-hop (easy) từ <code>mô_hình_hóa_ĐATN.pdf</code>.</li>
+        <li><b>testQA_hard.md</b>: 10 câu suy luận (hard) từ cùng tài liệu — đòi hỏi multi-hop / công thức.</li>
+        <li><b>testQA_softmax.md</b>: 20 câu từ <code>[Description_v2]-Exercise-Softmax-Regression.pdf</code> (dùng cho tuning).</li>
+        <li><b>testQA_workflow.md</b>: 17 câu thiết kế để trigger từng kịch bản agent.</li>
+      </ul>
+      <h3>Phương pháp đánh giá</h3>
+      <ul>
+        <li>Chạy 4 cấu hình: BM25-only, Dense-only, Hybrid RRF, Hybrid + Rerank.</li>
+        <li>Pooling: gộp top-10 ứng viên từ mỗi phương pháp (dedupe), dùng <b>LLM-as-judge</b> để xác định đoạn liên quan (TREC-style).</li>
+        <li>Metrics: <b>Recall@5</b>, <b>MRR@5</b>, <b>Hit@5</b>.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Kết quả tổng thể (k=5)</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Phương pháp</th><th>Recall@5</th><th>MRR@5</th><th>Hit@5</th></tr>
+          <tr><td>BM25</td><td>0.797</td><td>0.754</td><td>0.900</td></tr>
+          <tr><td>Dense</td><td>0.880</td><td>0.850</td><td>1.000</td></tr>
+          <tr><td>Hybrid (RRF)</td><td>0.845</td><td>0.852</td><td>1.000</td></tr>
+          <tr><td><b>Hybrid + Rerank</b></td><td><b>0.845</b></td><td><b>0.863</b></td><td><b>1.000</b></td></tr>
+        </table>
+      </div>
+      <p class="small"><b>Hard</b>: Recall@5=0.773, MRR@5=0.775, Hit@5=1.000.<br><b>Easy</b>: Recall@5=0.917, MRR@5=0.950, Hit@5=1.000.</p>
+      <h3>So sánh trước/sau</h3>
+      <ul>
+        <li>Trước = parsing cũ (pdfplumber, không section/header). Sau = math-aware (PyMuPDF) + chunk theo mục + contextual headers.</li>
+        <li>Số chunk: 14 → 20 (nhỏ và tập trung hơn).</li>
+        <li><b>MRR@5 tăng</b> ở mọi cấu hình: BM25 +0.062, Dense +0.058, Hybrid RRF +0.027, Hybrid+Rerank +0.013.</li>
+        <li><b>Hit@5</b>: Dense và Hybrid+Rerank tăng từ 0.950 lên 1.000; BM25 giữ 0.900; Hybrid RRF giữ 1.000.</li>
+        <li>Recall@5 Hybrid giảm nhẹ do nội dung phân mảnh nhiều đoạn hơn, nhưng Hybrid+Rerank gần như không đổi (−0.012).</li>
+        <li><b>Lợi ích định tính</b>: Công thức toán trích đúng (vd <code>S(c)=C1·(24−Nobs(c))/24+(1−C1)·dmin(c,Oc)/3</code>) thay vì bị vỡ thành <code>(cid:88)</code>, <code>(cid:113)</code>...</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 18: KỊCH BẢN CHẠY THẬT ==================== -->
+<div class="slide">
+  <h2>Kịch bản chạy thật (Agent End-to-End Test)</h2>
+  <p class="subtitle">Kết quả thực tế từ <code>test/run_agent_e2e_test.py</code> vừa chạy (6 câu: 3 easy + 3 hard, agent thật, OpenAI API)</p>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>Easy 1 — "Đầu vào chính của bài toán quy hoạch đường đi an toàn đa đích gồm những gì?"</h4>
+      <ul>
+        <li><b>Route</b>: <code>simple</code> | <b>Elapsed</b>: 26.7s | <b>Calls</b>: 4</li>
+        <li><b>Answer</b>: Liệt kê đúng 4 đầu vào (grid map E, radiation map, tập vật cản O, tập mục tiêu S) kèm trích dẫn [1].</li>
+        <li><b>Verify</b>: <span class="badge badge-warn">grounded=False lần 1</span> → <span class="badge badge-ok">regenerate → grounded=True lần 2</span></li>
+        <li><b>Kết luận</b>: ✅ Verify answer phát hiện answer đầu thiếu thông tin → regenerate bổ sung đầy đủ.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Easy 2 — "Đầu ra của bài toán là gì?"</h4>
+      <ul>
+        <li><b>Route</b>: <code>simple</code> | <b>Elapsed</b>: 7.24s | <b>Calls</b>: 3</li>
+        <li><b>Answer</b>: "Một dãy chứa thứ tự thăm tất cả các mục tiêu. Một đường đi không va chạm, có chi phí nhỏ nhất và an toàn nhất, đi qua tất cả các mục tiêu..." kèm [1]</li>
+        <li><b>Verify</b>: <span class="badge badge-ok">grounded=True</span></li>
+        <li><b>Kết luận</b>: ✅ Single-hop hoàn hảo, citation chính xác, verify pass ngay.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>Easy 3 — "Robot phải thỏa mãn những ràng buộc nào khi thăm các mục tiêu?"</h4>
+      <ul>
+        <li><b>Route</b>: <code>simple</code> | <b>Elapsed</b>: 7.28s | <b>Calls</b>: 3</li>
+        <li><b>Answer</b>: Liệt kê 4 ràng buộc đầy đủ (bắt đầu tại bất kỳ mục tiêu, thăm tất cả, quay về, mỗi mục tiêu ít nhất 1 lần, không đi qua vật cản) kèm [1][2].</li>
+        <li><b>Verify</b>: <span class="badge badge-ok">grounded=True</span></li>
+        <li><b>Kết luận</b>: ✅ Trả lời đủ ràng buộc hơn cả expected (thêm ràng buộc TSP giai đoạn 2).</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Hard 1 — "Nếu P1 và P2 cùng chiều dài nhưng P1 đi qua nhiều ô an toàn thấp hơn, đường nào được chọn khi w3 > 0?"</h4>
+      <ul>
+        <li><b>Route</b>: <code>complex</code> | <b>Elapsed</b>: 42.15s | <b>Calls</b>: 21 | <b>Iterations</b>: 1</li>
+        <li><b>Answer</b>: Trình bày đầy đủ hàm mục tiêu tổng quát bằng LaTeX, so sánh <code>J(P1)</code> vs <code>J(P2)</code>, giải thích <code>Risk(P1) > Risk(P2)</code> → <code>P2</code> được chọn, kèm citations [5][6][8].</li>
+        <li><b>Verify</b>: <span class="badge badge-ok">grounded=True</span></li>
+        <li><b>Kết luận</b>: ✅ Multi-hop xuất sắc: planner phân rã, suy luận toán học đúng, regenerate công thức LaTeX chuẩn.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>Hard 2 — "Điều gì xảy ra với S(c) khi C1 → 1? Thuật toán ưu tiên yếu tố nào?"</h4>
+      <ul>
+        <li><b>Route</b>: <code>complex</code> | <b>Elapsed</b>: 24.88s | <b>Calls</b>: 12</li>
+        <li><b>Answer</b>: "Khi C1 → 1, hạng tử C1·(24−Nobs)/24 chiếm ưu thế, hạng tử (1−C1)·dmin/3 giảm về gần 0, nên S(c) tăng lên theo phần phụ thuộc vào Nobs(c)... Khi đó thuật toán ưu tiên yếu tố Nobs(c) hơn dmin(c,Oc)." kèm [1][2].</li>
+        <li><b>Verify</b>: <span class="badge badge-ok">grounded=True</span></li>
+        <li><b>Kết luận</b>: ✅ Suy luận chính xác theo công thức, không bịa đặt, citation đúng.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Hard 3 — "Nếu ô c không có vật cản nào trong vùng lân cận 5×5, suy luận S(c)?"</h4>
+      <ul>
+        <li><b>Route</b>: <code>complex</code> | <b>Elapsed</b>: 46.37s | <b>Calls</b>: 19 | <b>Iterations</b>: 1 | <b>Partial</b>: True</li>
+        <li><b>Answer</b>: "Nobs(c)=0, dmin(c,Oc)=3 → S(c)=C1·1+(1−C1)·1=1. Vì vậy S(c)=1." kèm [1]</li>
+        <li><b>Verify</b>: <span class="badge badge-ok">grounded=True</span></li>
+        <li><b>Kết luận</b>: ✅ Suy luận toán học đúng, nhưng <b>Partial=True</b> (có thể do 1 subquestion không tìm được đủ info, agent vẫn trả lời phần có).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box" style="margin-top:10px;">
+    <h4>Tổng kết 6 câu chạy thật (testQA_easy + testQA_hard)</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Câu hỏi</th><th>Route</th><th>Latency</th><th>Calls</th><th>Prompt ↑</th><th>Comp ↓</th><th>Regen</th><th>Partial</th><th>Kết quả</th></tr>
+        <tr><td>Đầu vào chính gồm những gì?</td><td>simple</td><td>26.7s</td><td>4</td><td>8.5K</td><td>423</td><td>✅</td><td>✓</td><td>Verify fail → regenerate → đúng</td></tr>
+        <tr><td>Đầu ra của bài toán?</td><td>simple</td><td>7.2s</td><td>3</td><td>6.6K</td><td>228</td><td>❌</td><td>❌</td><td>Chính xác ngay</td></tr>
+        <tr><td>Ràng buộc robot?</td><td>simple</td><td>7.3s</td><td>3</td><td>7.4K</td><td>303</td><td>❌</td><td>❌</td><td>Chính xác, đủ hơn expected</td></tr>
+        <tr><td>P1 vs P2, w3>0?</td><td>complex</td><td>42.2s</td><td>21</td><td>52.7K</td><td>2.7K</td><td>❌</td><td>❌</td><td>Suy luận LaTeX xuất sắc</td></tr>
+        <tr><td>C1 → 1, ưu tiên yếu tố nào?</td><td>complex</td><td>24.9s</td><td>12</td><td>31.8K</td><td>1.2K</td><td>❌</td><td>❌</td><td>Suy luận chính xác theo công thức</td></tr>
+        <tr><td>S(c) khi không vật cản?</td><td>complex</td><td>46.4s</td><td>19</td><td>45.0K</td><td>1.6K</td><td>❌</td><td>✓</td><td>Suy luận đúng, partial (thiếu 1 khía cạnh)</td></tr>
+        <tr style="background:var(--bg-3)"><td><b>Tổng Easy (3 câu)</b></td><td>—</td><td>~41s</td><td>10</td><td><b>22.5K</b></td><td><b>954</b></td><td>1</td><td>1</td><td>—</td></tr>
+        <tr style="background:var(--bg-3)"><td><b>Tổng Hard (3 câu)</b></td><td>—</td><td>~113s</td><td>52</td><td><b>129.5K</b></td><td><b>5.5K</b></td><td>0</td><td>1</td><td>—</td></tr>
+        <tr style="background:var(--bg-3)"><td><b>Tổng 6 câu</b></td><td>—</td><td>~154s</td><td>62</td><td><b>152.0K</b></td><td><b>6.4K</b></td><td>1</td><td>2</td><td>—</td></tr>
+      </table>
+    </div>
+    <p class="small">→ <b>Tất cả 6 câu đều trả lời được</b>, không có câu nào bị lỗi kỹ thuật. <b>Easy</b>: 3/3 đúng (1 câu cần regenerate do verify phát hiện thiếu info). <b>Hard</b>: 3/3 đúng, tất cả route=complex, planner hoạt động, suy luận toán học chính xác với LaTeX. <b>Latency</b>: easy ~7–27s, hard ~25–46s. <b>Token cost</b>: easy ~23.5K tokens (22.5K prompt + 954 completion), hard ~135K tokens (129.5K prompt + 5.5K completion); tổng 6 câu ~158K tokens. <b>Anti-hallucination</b>: verify_answer hoạt động hiệu quả (catch + regenerate). <b>Partial</b>: 2/6 câu partial (agent tự nhận thiếu info nhưng vẫn trả lời phần có).</p>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 19: CONCLUSION ==================== -->
+<div class="slide">
+  <h2>Conclusion</h2>
+  <div class="columns columns-2">
+    <div>
+      <h3>Đã đạt được</h3>
+      <ul>
+        <li>Hệ thống RAG Agent tiếng Việt chạy end-to-end: ingestion → indexing → hybrid retrieval → controllable agent → streaming UI.</li>
+        <li>Math-aware PDF parsing (PyMuPDF) + VLM fallback + section-aware chunking.</li>
+        <li>Hybrid search (BM25 + turbovec + RRF + cross-encoder reranker) đạt Hit@5 = 1.000, MRR@5 = 0.863.</li>
+        <li>Agent graph tất định với replan loop, verify, sufficiency, answer regeneration — chống hallucination đa lớp.</li>
+        <li>UI React hiển thị realtime Agent Graph + Trace, LaTeX, citations hover/click, session persistence.</li>
+        <li>Tối ưu chi phí: adaptive router, model rẻ cho sub-tasks, embedding cache, local reranker.</li>
+        <li>Memory system: conversation summarization khi session dài, giữ nguyên recent window.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Các phần cần làm / cải tiến</h3>
+      <ul>
+        <li><b>HyDE</b>: Hiện tại <code>USE_HYDE=false</code> (placeholder trong config). Cần implement HyDE query expansion để cải thiện recall cho câu hỏi mơ hồ.</li>
+        <li><b>Tinh chỉnh trọng số RRF</b>: Hiện tại RRF dùng k=60 cố định; có thể tune k và trọng số BM25/dense theo loại query.</li>
+        <li><b>Agent Graph Interactive</b>: Cho phép user click node để xem chi tiết internal state (subquestions, retrieved chunks, distill notes).</li>
+        <li><b>Citation Highlight trong Drawer</b>: Highlight đoạn text cụ thể được trích dẫn thay vì hiển thị toàn bộ chunk.</li>
+        <li><b>Multi-document QA nâng cao</b>: Hiện tại retrieve trên toàn bộ KB; cần thêm routing chọn document liên quan trước khi retrieve.</li>
+        <li><b>Tuning Reranker threshold</b>: Thêm ngưỡng score để loại bỏ candidates yếu, tránh đưa noise vào context.</li>
+        <li><b>Unit tests</b>: Chưa có test tự động cho agent graph (chỉ có eval retrieval + manual workflow test).</li>
+        <li><b>Router tuning</b>: Cải thiện regex greeting để tránh false negative (vd "Cảm ơn bạn nhiều" bị ép tra cứu).</li>
+        <li><b>Deploy</b>: Dockerfile + docker-compose để deploy dễ dàng hơn.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 20: NHIỆM VỤ TOÀN ĐỘI ==================== -->
+<div class="slide">
+  <h2>Nhiệm vụ toàn đội tiếp theo — Workflow nghiên cứu & cải tiến</h2>
+  <p class="subtitle">Quy trình chuẩn mà toàn đội sẽ áp dụng cho mọi kỹ thuật RAG mới</p>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>🔬 Bước 1 — Nghiên cứu kỹ thuật</h4>
+      <ul>
+        <li>Đọc kỹ repo <b><a href="https://github.com/NirDiamant/RAG_Techniques">RAG_Techniques</a></b> của Nir Diamant (và các paper/blog liên quan).</li>
+        <li>Tập trung vào các kỹ thuật phù hợp tiếng Việt: HyDE, Query Rewriting, RAP-Fusion, Contextual Compression, Metadata Filtering,...</li>
+        <li>Phân loại: <b>pre-retrieval</b> (query expansion, reformulation) vs <b>retrieval</b> (hybrid, reranking) vs <b>post-retrieval</b> (compression, RAG-Fusion).</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>📚 Bước 2 — Hiểu sâu lý thuyết</h4>
+      <ul>
+        <li>Nắm vững <b>mechanism</b> của từng kỹ thuật: input/output, hyperparameters.</li>
+        <li>Phân tích <b>tradeoff</b>: latency vs recall, token cost vs accuracy, compute vs precision.</li>
+        <li>Xác định <b>điểm mạnh / điểm yếu</b> và điều kiện áp dụng (vd HyDE tốt cho query ngắn/mơ hồ nhưng tốn token; reranker tốt cho precision nhưng tăng latency).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>🗂️ Bước 3 — Tạo bộ dataset chuẩn</h4>
+      <ul>
+        <li>Chọn <b>1–2 file PDF ngắn</b> có cấu trúc rõ ràng (có mục lục, công thức, bảng, câu hỏi cuối chương).</li>
+        <li>Xây dựng <b>ít nhất 3 bộ</b> theo nhãn:</li>
+        <ul>
+          <li><b>Easy</b>: Single-hop, câu hỏi tường minh (vd "Chương 1 đề cập chủ đề gì?", "Trang 3 nói về công thức nào?").</li>
+          <li><b>Medium</b>: Multi-hop nhưng câu hỏi rõ ràng (vd "So sánh công thức X ở trang 2 và Y ở trang 5").</li>
+          <li><b>Hard</b>: Multi-hop ngắn gọn, yêu cầu suy luận + expected câu trả lời chất lượng cao; <b>metadata questions</b> (vd "Có bao nhiêu ràng buộc trong hàm mục tiêu ở trang cuối?", "Có bao nhiêu câu hỏi trắc nghiệm ở đầu file?", "Tóm tắt chương 2 trong 3 câu").</li>
+        </ul>
+        <li>Mỗi bộ ghi rõ <code>question</code>, <code>expected</code>, <code>difficulty</code>, <code>type</code> (single-hop / multi-hop / metadata).</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>🧪 Bước 4 — Test toàn diện trên hệ thống hiện tại</h4>
+      <ul>
+        <li>Chạy toàn bộ dataset qua agent hiện tại (không đổi code) để lấy <b>baseline</b>.</li>
+        <li>Note lại đầy đủ: <code>route</code>, <code>latency</code>, <code>tokens</code>, <code>citations</code>, <code>verify_answer events</code>, <code>regenerated</code>, <code>partial</code>, <code>answer</code> đầy đủ.</li>
+        <li>So sánh answer với expected để đánh giá: <b>đúng/sai/thiếu/bịa</b>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="columns columns-2">
+    <div class="box">
+      <h4>📊 Bước 5 — Phân tích & Đề xuất cải tiến</h4>
+      <ul>
+        <li><b>Thành công ở đâu?</b> Case nào hệ thống xử lý tốt (single-hop, câu có keyword rõ).</li>
+        <li><b>Fail ở đâu?</b> Case nào trả lời sai/thiếu/hallucinate (multi-hop, metadata, câu mơ hồ).</li>
+        <li><b>Root cause</b>: Do retrieval (không tìm được chunk)? Do agent (planner/reasoner)? Do prompt?</li>
+        <li><b>Đề xuất</b>: Chọn 1–2 kỹ thuật từ bước 1 phù hợp nhất để khắc phục root cause.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>💻 Bước 6 — Code triển khai + A/B Testing</h4>
+      <ul>
+        <li>Viết code triển khai kỹ thuật đã chọn (configurable qua .env, không break backward compat).</li>
+        <li><b>A/B Testing</b>: Chạy lại dataset với cấu hình mới (A) vs baseline cũ (B).</li>
+        <li>So sánh metrics: <b>Recall@5, MRR@5, Hit@5</b> (retrieval) + <b>accuracy, latency, token cost</b> (end-to-end).</li>
+        <li>Chỉ merge khi có cải thiện đo được (statistically significant hoặc ít nhất trend rõ ràng).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box" style="margin-top:10px;">
+    <h4>🔒 Bước 7 — Unit Test + Docs + Pull Request</h4>
+    <ul>
+      <li><b>Unit test</b>: Mock LLM + assert event sequence cho agent graph; test retrieval pipeline với mock embeddings.</li>
+      <li><b>Docs</b>: Cập nhật README với hướng dẫn chạy, slide trình bày kỹ thuật mới, failure analysis nếu có.</li>
+      <li><b>Branch</b>: Code trên branch riêng (<code>feature/&lt;kỹ-thuật&gt;</code>), không push trực tiếp lên <code>main</code>.</li>
+      <li><b>Pull Request</b>: Mô tả rõ: kỹ thuật gì, problem giải quyết, A/B results, breaking changes (nếu có).</li>
+      <li><b>Code Review</b>: Ít nhất 1 thành viên khác review trước khi merge.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button onclick="prevSlide()">← Trước</button>
+  <button onclick="nextSlide()">Tiếp →</button>
+</div>
+<button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toàn màn hình">⛶</button>
+<div class="progress" id="progress"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function show(i) {
+  slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+  document.getElementById('progress').style.width = ((i + 1) / slides.length * 100) + '%';
+}
+function nextSlide() { if (current < slides.length - 1) show(++current); }
+function prevSlide() { if (current > 0) show(--current); }
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+function updateFullscreenBtn() {
+  const btn = document.querySelector('.fullscreen-btn');
+  if (document.fullscreenElement) {
+    btn.textContent = '✕';
+    btn.title = 'Thoát toàn màn hình';
+  } else {
+    btn.textContent = '⛶';
+    btn.title = 'Toàn màn hình';
+  }
+}
+document.addEventListener('fullscreenchange', updateFullscreenBtn);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') nextSlide();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+  if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+});
+show(0);
+</script>
+</body>
+</html>

@@ -23,7 +23,6 @@ frontend/dist/
 .DS_Store
 
 /test
-/slides
 /bugs
 .codegraph/
 .cursor/
