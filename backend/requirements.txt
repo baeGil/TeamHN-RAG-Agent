@@ -24,6 +24,7 @@ pypdf>=4.0
 pdfplumber>=0.11
 trafilatura>=1.8
 beautifulsoup4>=4.12
+reductoai >= 0.22.0
 
 # API
 fastapi>=0.110
