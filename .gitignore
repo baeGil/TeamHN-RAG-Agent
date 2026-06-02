@@ -31,3 +31,4 @@ frontend/dist/
 opencode.jsonc
 .venv_parser/
 SKILL.md
+data/eval_ab/
