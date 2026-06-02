@@ -15,10 +15,32 @@ from .indexing.store import KnowledgeBase
 from .schemas import ChatIn, SessionIn, TextIn, UrlIn
 
 settings = get_settings()
-logging.basicConfig(
-    level=os.getenv("LOG_LEVEL", "INFO").upper(),
-    format="%(asctime)s %(levelname)s %(name)s %(message)s",
-)
+
+
+def _configure_logging() -> None:
+    log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+    log_format = "%(asctime)s %(levelname)s %(name)s %(message)s"
+
+    settings.log_file.parent.mkdir(parents=True, exist_ok=True)
+    root_logger = logging.getLogger()
+    root_logger.setLevel(log_level)
+    root_logger.handlers = [
+        handler
+        for handler in root_logger.handlers
+        if getattr(handler, "baseFilename", None) == str(settings.log_file)
+    ]
+
+    if not any(
+        getattr(handler, "baseFilename", None) == str(settings.log_file)
+        for handler in root_logger.handlers
+    ):
+        file_handler = logging.FileHandler(settings.log_file, encoding="utf-8")
+        file_handler.setLevel(log_level)
+        file_handler.setFormatter(logging.Formatter(log_format))
+        root_logger.addHandler(file_handler)
+
+
+_configure_logging()
 app = FastAPI(title="Vietnamese RAG Agent", version="1.0.0")
 
 app.add_middleware(

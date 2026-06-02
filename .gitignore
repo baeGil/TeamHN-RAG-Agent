@@ -8,6 +8,8 @@ venv/
 backend/.env
 
 # Storage / indexes / caches
+*.log
+backend/logs/
 backend/storage/
 backend/storage_eval/
 backend/storage_eval_before/
