@@ -1,8 +1,15 @@
 """Document loaders: PDF, URL, plain text. Each returns (title, [Block, ...])."""
+import gzip
 import logging
 import re
+import zlib
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+from urllib.parse import unquote, urlparse
+from urllib.request import Request, urlopen
+
+from bs4 import BeautifulSoup
 
 from ..config import get_settings
 from . import pdf_extract
@@ -10,6 +17,22 @@ from .block import Block
 from .vn_text import normalize_structure
 
 logger = logging.getLogger(__name__)
+
+_URL_TIMEOUT_SECONDS = 20
+_MAX_URL_DOWNLOAD_BYTES = 80 * 1024 * 1024
+_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/125.0 Safari/537.36"
+)
+
+
+@dataclass
+class _FetchedUrl:
+    data: bytes
+    text: str
+    final_url: str
+    content_type: str
 
 
 def load_pdf(
@@ -118,22 +141,159 @@ def _load_pdf_reducto(
 def load_url(url: str) -> tuple[str, list[Block]]:
     import trafilatura
 
-    downloaded = trafilatura.fetch_url(url)
-    if not downloaded:
+    clean_url = _validate_url(url)
+    fetched = _fetch_url(clean_url)
+
+    if fetched.data and _looks_like_pdf(fetched):
+        filename = _url_filename(fetched.final_url, default="document.pdf")
+        return load_pdf(fetched.data, filename)
+
+    html = fetched.text
+    if not html:
+        html = trafilatura.fetch_url(clean_url) or ""
+    if not html:
         raise ValueError(f"Không tải được nội dung từ URL: {url}")
+
     extracted = trafilatura.extract(
-        downloaded,
+        html,
         include_comments=False,
         include_tables=True,
         favor_recall=True,
         output_format="markdown",
     )
     if not extracted:
+        extracted = _visible_text(html)
+    if not extracted:
         raise ValueError(f"Không trích xuất được văn bản từ URL: {url}")
-    meta = trafilatura.extract_metadata(downloaded)
-    title = (meta.title if meta and meta.title else url)
+
+    meta = trafilatura.extract_metadata(html)
+    title = meta.title if meta and meta.title else _html_title(html, fetched.final_url)
     blocks: list[Block] = [Block(text=normalize_structure(extracted))]
     return title, blocks
+
+
+def _validate_url(url: str) -> str:
+    url = url.strip()
+    parsed = urlparse(url)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError("URL phải bắt đầu bằng http:// hoặc https://.")
+    return url
+
+
+def _fetch_url(url: str) -> _FetchedUrl:
+    req = Request(
+        url,
+        headers={
+            "User-Agent": _USER_AGENT,
+            "Accept": (
+                "text/html,application/xhtml+xml,application/pdf,"
+                "application/xml;q=0.9,*/*;q=0.8"
+            ),
+            "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Encoding": "gzip, deflate",
+        },
+    )
+    try:
+        with urlopen(req, timeout=_URL_TIMEOUT_SECONDS) as resp:
+            content_length = resp.headers.get("Content-Length")
+            if content_length and int(content_length) > _MAX_URL_DOWNLOAD_BYTES:
+                raise ValueError("URL content is too large to ingest.")
+
+            raw = resp.read(_MAX_URL_DOWNLOAD_BYTES + 1)
+            if len(raw) > _MAX_URL_DOWNLOAD_BYTES:
+                raise ValueError("URL content is too large to ingest.")
+
+            data = _decompress_response(raw, resp.headers.get("Content-Encoding"))
+            content_type = resp.headers.get("Content-Type", "")
+            text = (
+                _decode_response(data, content_type)
+                if _is_text_response(content_type, data)
+                else ""
+            )
+            return _FetchedUrl(
+                data=data,
+                text=text,
+                final_url=resp.geturl(),
+                content_type=content_type,
+            )
+    except Exception:
+        return _FetchedUrl(data=b"", text="", final_url=url, content_type="")
+
+
+def _decompress_response(data: bytes, encoding: Optional[str]) -> bytes:
+    encoding = (encoding or "").lower()
+    if "gzip" in encoding:
+        return gzip.decompress(data)
+    if "deflate" in encoding:
+        try:
+            return zlib.decompress(data)
+        except zlib.error:
+            return zlib.decompress(data, -zlib.MAX_WBITS)
+    return data
+
+
+def _is_text_response(content_type: str, data: bytes) -> bool:
+    ctype = content_type.split(";", 1)[0].strip().lower()
+    if ctype.startswith("text/"):
+        return True
+    if ctype in {"application/xhtml+xml", "application/xml", "application/json"}:
+        return True
+    sample = data[:256].lstrip().lower()
+    return sample.startswith((b"<!doctype html", b"<html", b"{", b"["))
+
+
+def _decode_response(data: bytes, content_type: str) -> str:
+    charset = "utf-8"
+    match = re.search(r"charset=([\w.-]+)", content_type, re.IGNORECASE)
+    if match:
+        charset = match.group(1)
+    return data.decode(charset, errors="replace")
+
+
+def _looks_like_pdf(fetched: _FetchedUrl) -> bool:
+    ctype = fetched.content_type.split(";", 1)[0].strip().lower()
+    path = urlparse(fetched.final_url).path.lower()
+    return (
+        ctype == "application/pdf"
+        or fetched.data.startswith(b"%PDF")
+        or path.endswith(".pdf")
+    )
+
+
+def _url_filename(url: str, default: str = "document") -> str:
+    name = Path(unquote(urlparse(url).path)).name.strip()
+    return name or default
+
+
+def _html_title(html: str, fallback: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    if soup.title and soup.title.get_text(strip=True):
+        return normalize_structure(soup.title.get_text(" ", strip=True))
+    h1 = soup.find("h1")
+    if h1 and h1.get_text(strip=True):
+        return normalize_structure(h1.get_text(" ", strip=True))
+    return fallback
+
+
+def _visible_text(html: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup.find_all(
+        ("script", "style", "noscript", "nav", "aside", "footer", "header")
+    ):
+        tag.decompose()
+
+    root = soup.find("article") or soup.find("main") or soup.body or soup
+    parts: list[str] = []
+    for tag in root.find_all(
+        ("h1", "h2", "h3", "p", "li", "blockquote", "td", "th", "pre")
+    ):
+        text = tag.get_text("\n" if tag.name == "pre" else " ", strip=True)
+        text = re.sub(r"\s+", " ", text)
+        if text:
+            parts.append(text)
+    if not parts:
+        parts.append(root.get_text("\n", strip=True))
+    return normalize_structure("\n\n".join(parts))
 
 
 def load_text(text: str, title: str = "Văn bản") -> tuple[str, list[Block]]:
