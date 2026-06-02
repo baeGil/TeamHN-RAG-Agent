@@ -16,6 +16,8 @@ export default function App() {
   const [config, setConfig] = useState<AppConfig | null>(null);
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
+  const [sidebarWidth, setSidebarWidth] = useState(300);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(
     localStorage.getItem(LS_KEY)
   );
@@ -76,17 +78,48 @@ export default function App() {
 
   const selectSession = (id: string) => setSessionId(id);
 
+  const startSidebarResize = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setSidebarCollapsed(false);
+    document.body.classList.add("is-resizing");
+
+    const onMove = (event: MouseEvent) => {
+      const next = Math.min(460, Math.max(220, event.clientX));
+      setSidebarWidth(next);
+    };
+    const onUp = () => {
+      document.body.classList.remove("is-resizing");
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  }, []);
+
   return (
-    <div className="layout">
+    <div
+      className={`layout ${sidebarCollapsed ? "sidebar-is-collapsed" : ""}`}
+      style={{ gridTemplateColumns: `${sidebarCollapsed ? 56 : sidebarWidth}px 1fr` }}
+    >
       <Sidebar
         documents={documents}
         sessions={sessions}
         activeSession={sessionId}
+        collapsed={sidebarCollapsed}
+        onToggleCollapsed={() => setSidebarCollapsed((v) => !v)}
         onRefreshDocs={refreshDocs}
         onRefreshSessions={refreshSessions}
         onSelectSession={selectSession}
         onNewSession={newSession}
       />
+      {!sidebarCollapsed && (
+        <button
+          className="pane-resizer sidebar-resizer"
+          aria-label="Kéo để đổi độ rộng thanh bên"
+          onMouseDown={startSidebarResize}
+        />
+      )}
       <main className="main">
         <header className="topbar">
           <div>

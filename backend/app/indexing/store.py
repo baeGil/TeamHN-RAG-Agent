@@ -4,6 +4,7 @@ import logging
 import threading
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
@@ -61,6 +62,9 @@ class KnowledgeBase:
         self.vector = VectorIndex(bit_width=self.settings.turbovec_bit_width)
         self.bm25 = BM25Index()
         self._load_indexes()
+
+    def pdf_path(self, doc_id: int) -> Path:
+        return self.settings.storage_dir / "pdfs" / f"{doc_id}.pdf"
 
     # ---------------- persistence ----------------
     def _load_indexes(self) -> None:
@@ -173,7 +177,11 @@ class KnowledgeBase:
     # ---------------- ingestion ----------------
     def ingest_pdf(self, data: bytes, filename: str) -> dict[str, Any]:
         title, blocks = loaders.load_pdf(data, filename, cache_dir=self.settings.storage_dir)
-        return self._ingest(title, filename, "pdf", blocks)
+        result = self._ingest(title, filename, "pdf", blocks)
+        pdf_path = self.pdf_path(int(result["document_id"]))
+        pdf_path.parent.mkdir(parents=True, exist_ok=True)
+        pdf_path.write_bytes(data)
+        return result
 
     def ingest_url(self, url: str) -> dict[str, Any]:
         title, blocks = loaders.load_url(url)
@@ -237,6 +245,7 @@ class KnowledgeBase:
     def delete_document(self, doc_id: int) -> None:
         with self._lock:
             self.repo.delete_document(doc_id)
+            self.pdf_path(doc_id).unlink(missing_ok=True)
             # Rebuild from the remaining DB chunks (embeddings are stored, so this
             # needs no API calls) to keep both indexes exactly in sync with the DB.
             self.rebuild_indexes()

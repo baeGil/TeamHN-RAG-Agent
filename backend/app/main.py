@@ -2,9 +2,11 @@ import asyncio
 import json
 import logging
 import os
+from urllib.parse import quote
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse
 from starlette.responses import StreamingResponse
 
 from .agent.graph import Agent
@@ -86,6 +88,34 @@ def stats():
 @app.get("/api/documents")
 def list_documents():
     return kb.repo.list_documents()
+
+
+@app.get("/api/documents/{doc_id}/pdf")
+def view_document_pdf(doc_id: int):
+    doc = kb.repo.get_document(doc_id)
+    if not doc:
+        raise HTTPException(404, "Không tìm thấy tài liệu.")
+    if doc["source_type"] != "pdf":
+        raise HTTPException(404, "Tài liệu này không phải PDF.")
+
+    path = kb.pdf_path(doc_id)
+    if not path.exists():
+        raise HTTPException(
+            404,
+            "PDF gốc chưa được lưu. Hãy tải lại file PDF để có thể xem trực tiếp.",
+        )
+
+    filename = doc["source"] or f"{doc['title']}.pdf"
+    encoded_filename = quote(filename, safe="")
+    return FileResponse(
+        path,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": (
+                f'inline; filename="document.pdf"; filename*=UTF-8\'\'{encoded_filename}'
+            ),
+        },
+    )
 
 
 @app.post("/api/documents/upload")
