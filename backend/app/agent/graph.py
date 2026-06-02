@@ -52,7 +52,7 @@ from .llm import LLM
 
 _CITE_RE = re.compile(r"\[(\d+)\]")
 _GREETING_RE = re.compile(
-    r"^[\s]*(xin\s*chào|hello|hi+|hey+|chào\s+bạn|cảm\s*ơn|thanks|thank\s*you|"
+    r"^[\s]*(xin\s*chào|hello|hi+|hey+|chào\s+bạn|cảm\s*ơn(\s+bạn)?(\s+nhiều)?|thanks|thank\s*you|"
     r"tạm\s*biệt|goodbye|bye|bạn\s+là\s+ai[\?\!]*|bạn\s+có\s+thể\s+làm\s+gì[\?\!]*|"
     r"trợ\s+lý|đang\s+sẵn\s*sàng|"
     r"ok[\?\!\.]*|okay[\?\!\.]*)[\s\.\!\?]*$",
