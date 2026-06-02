@@ -124,21 +124,22 @@ export default function Sidebar({
         {documents.map((d) => (
           <div key={d.id} className="doc-item">
             <div className="doc-meta">
-              <div className="doc-title" title={d.source}>
-                {d.source_type === "pdf" ? "📄" : d.source_type === "url" ? "🌐" : "📝"} {d.title}
-              </div>
-              <div className="muted small">{d.n_chunks} đoạn</div>
-            </div>
-            <div className="doc-actions">
-              {d.source_type === "pdf" && (
+              {d.source_type === "pdf" ? (
                 <button
-                  className="icon-btn"
+                  className="doc-title doc-title-link"
                   title="Xem PDF"
                   onClick={() => window.open(api.documentPdfUrl(d.id), "_blank", "noopener,noreferrer")}
                 >
-                  👁
+                  📄 {d.title}
                 </button>
+              ) : (
+                <div className="doc-title" title={d.source}>
+                  {d.source_type === "url" ? "🌐" : "📝"} {d.title}
+                </div>
               )}
+              <div className="muted small">{d.n_chunks} đoạn</div>
+            </div>
+            <div className="doc-actions">
               <button
                 className="icon-btn"
                 title="Xoá tài liệu"
