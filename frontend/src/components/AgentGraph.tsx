@@ -20,7 +20,7 @@ interface EdgeDef {
   label: string;       // every edge has a label
   lx: number;          // label x (absolute coords)
   ly: number;          // label y
-  anchor?: string;     // text-anchor: "start" | "middle" | "end"
+  anchor?: "start" | "middle" | "end";     // text-anchor
 }
 
 const NODES: NodeDef[] = [
@@ -293,10 +293,10 @@ export default function AgentGraph({ events, liveAnswer, done }: Props) {
       <svg viewBox="0 0 520 890" preserveAspectRatio="xMidYMin meet">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#5a6378" />
+            <path d="M0,0 L10,5 L0,10 z" fill="#8b9bc3" />
           </marker>
           <marker id="arrow-done" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="var(--accent2)" />
+            <path d="M0,0 L10,5 L0,10 z" fill="#7fa0ff" />
           </marker>
         </defs>
 
@@ -338,8 +338,8 @@ export default function AgentGraph({ events, liveAnswer, done }: Props) {
               <path
                 d={path}
                 fill="none"
-                stroke={isTraversed ? "var(--accent2)" : isSkipped ? "#2a2f3d" : "#5a6378"}
-                strokeWidth={isTraversed ? 2 : 1.5}
+                stroke={isTraversed ? "#7fa0ff" : isSkipped ? "#49536a" : "#8b9bc3"}
+                strokeWidth={isTraversed ? 2.4 : 1.8}
                 strokeDasharray={isSkipped ? "4 4" : undefined}
                 markerEnd={isTraversed ? "url(#arrow-done)" : "url(#arrow)"}
               />

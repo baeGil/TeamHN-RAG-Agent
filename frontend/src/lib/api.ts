@@ -28,6 +28,7 @@ export const api = {
   stats: () => jget<any>("/stats"),
 
   listDocuments: () => jget<DocumentItem[]>("/documents"),
+  documentPdfUrl: (id: number) => `${BASE}/documents/${id}/pdf`,
   ingestUrl: (url: string) => jpost("/documents/url", { url }),
   ingestText: (text: string, title?: string) =>
     jpost("/documents/text", { text, title }),

@@ -6,6 +6,8 @@ interface Props {
   documents: DocumentItem[];
   sessions: SessionItem[];
   activeSession: string | null;
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
   onRefreshDocs: () => void;
   onRefreshSessions: () => void;
   onSelectSession: (id: string) => void;
@@ -16,6 +18,8 @@ export default function Sidebar({
   documents,
   sessions,
   activeSession,
+  collapsed,
+  onToggleCollapsed,
   onRefreshDocs,
   onRefreshSessions,
   onSelectSession,
@@ -39,9 +43,42 @@ export default function Sidebar({
     }
   };
 
+  if (collapsed) {
+    return (
+      <aside className="sidebar sidebar-collapsed">
+        <button
+          className="collapse-rail-btn"
+          title="Mở thanh bên"
+          onClick={onToggleCollapsed}
+          aria-label="Mở thanh bên"
+        >
+          📚
+        </button>
+        <button
+          className="collapse-rail-btn"
+          title="Cuộc trò chuyện mới"
+          onClick={onNewSession}
+          aria-label="Cuộc trò chuyện mới"
+        >
+          +
+        </button>
+      </aside>
+    );
+  }
+
   return (
     <aside className="sidebar">
-      <div className="brand">📚 RAG Agent <span>Tiếng Việt</span></div>
+      <div className="sidebar-head">
+        <div className="brand">📚 RAG Agent <span>Tiếng Việt</span></div>
+        <button
+          className="panel-toggle"
+          title="Thu gọn thanh bên"
+          onClick={onToggleCollapsed}
+          aria-label="Thu gọn thanh bên"
+        >
+          ◀
+        </button>
+      </div>
 
       <button className="btn primary block" onClick={onNewSession}>
         + Cuộc trò chuyện mới
@@ -92,13 +129,24 @@ export default function Sidebar({
               </div>
               <div className="muted small">{d.n_chunks} đoạn</div>
             </div>
-            <button
-              className="icon-btn"
-              title="Xoá tài liệu"
-              onClick={() => wrap(() => api.deleteDocument(d.id))}
-            >
-              ✕
-            </button>
+            <div className="doc-actions">
+              {d.source_type === "pdf" && (
+                <button
+                  className="icon-btn"
+                  title="Xem PDF"
+                  onClick={() => window.open(api.documentPdfUrl(d.id), "_blank", "noopener,noreferrer")}
+                >
+                  👁
+                </button>
+              )}
+              <button
+                className="icon-btn"
+                title="Xoá tài liệu"
+                onClick={() => wrap(() => api.deleteDocument(d.id))}
+              >
+                ✕
+              </button>
+            </div>
           </div>
         ))}
       </div>

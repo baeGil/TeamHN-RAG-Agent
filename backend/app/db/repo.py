@@ -28,6 +28,12 @@ class Repo:
         ).fetchall()
         return [dict(r) for r in rows]
 
+    def get_document(self, doc_id: int) -> Optional[dict[str, Any]]:
+        row = self.db.conn.execute(
+            "SELECT * FROM documents WHERE id=?", (doc_id,)
+        ).fetchone()
+        return dict(row) if row else None
+
     def delete_document(self, doc_id: int) -> list[int]:
         chunk_ids = [
             int(r["id"])
