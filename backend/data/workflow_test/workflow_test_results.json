@@ -14,7 +14,7 @@
       {
         "type": "final",
         "data": {
-          "answer": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp không? (PDF/URL/văn bản) Hoặc có câu hỏi gì tôi có thể giúp bạn không?",
+          "answer": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp (PDF/URL/văn bản) để tôi giúp bạn không?",
           "citations": [],
           "trace": [
             {
@@ -39,7 +39,7 @@
           ],
           "usage": {
             "prompt_tokens": 79,
-            "completion_tokens": 42,
+            "completion_tokens": 33,
             "calls": 1
           },
           "route": "no_retrieval",
@@ -53,7 +53,7 @@
       "final"
     ],
     "final": {
-      "answer": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp không? (PDF/URL/văn bản) Hoặc có câu hỏi gì tôi có thể giúp bạn không?",
+      "answer": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp (PDF/URL/văn bản) để tôi giúp bạn không?",
       "citations": [],
       "trace": [
         {
@@ -78,18 +78,18 @@
       ],
       "usage": {
         "prompt_tokens": 79,
-        "completion_tokens": 42,
+        "completion_tokens": 33,
         "calls": 1
       },
       "route": "no_retrieval",
       "partial": false,
       "iterations": 0
     },
-    "elapsed": 3.08,
+    "elapsed": 1.9,
     "route": "no_retrieval",
     "iterations": 0,
     "partial": false,
-    "answer_preview": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp không? (PDF/URL/văn bản) Hoặc có câu hỏi gì tôi có thể giúp bạn không?",
+    "answer_preview": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp (PDF/URL/văn bản) để tôi giúp bạn không?",
     "checks": [
       [
         "route",
@@ -148,7 +148,7 @@
       {
         "type": "final",
         "data": {
-          "answer": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn với các tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
+          "answer": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn tìm hiểu thông tin từ tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
           "citations": [],
           "trace": [
             {
@@ -173,7 +173,7 @@
           ],
           "usage": {
             "prompt_tokens": 80,
-            "completion_tokens": 52,
+            "completion_tokens": 55,
             "calls": 1
           },
           "route": "no_retrieval",
@@ -187,7 +187,7 @@
       "final"
     ],
     "final": {
-      "answer": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn với các tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
+      "answer": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn tìm hiểu thông tin từ tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
       "citations": [],
       "trace": [
         {
@@ -212,18 +212,18 @@
       ],
       "usage": {
         "prompt_tokens": 80,
-        "completion_tokens": 52,
+        "completion_tokens": 55,
         "calls": 1
       },
       "route": "no_retrieval",
       "partial": false,
       "iterations": 0
     },
-    "elapsed": 2.07,
+    "elapsed": 2.15,
     "route": "no_retrieval",
     "iterations": 0,
     "partial": false,
-    "answer_preview": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn với các tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
+    "answer_preview": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn tìm hiểu thông tin từ tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
     "checks": [
       [
         "route",
@@ -353,7 +353,7 @@
       "partial": false,
       "iterations": 0
     },
-    "elapsed": 1.32,
+    "elapsed": 1.49,
     "route": "no_retrieval",
     "iterations": 0,
     "partial": false,
@@ -410,7 +410,7 @@
         "type": "route",
         "data": {
           "route": "simple",
-          "reason": "Câu hỏi yêu cầu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), cần tra cứu tài liệu để trả lời."
+          "reason": "Câu hỏi yêu cầu tra cứu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), có thể trả lời từ tài liệu."
         }
       },
       {
@@ -460,6 +460,14 @@
         }
       },
       {
+        "type": "compression",
+        "data": {
+          "chars_before": 1770,
+          "chars_after": 1505,
+          "compression_ratio": 0.15
+        }
+      },
+      {
         "type": "synthesize",
         "data": {
           "n_context": 3,
@@ -480,7 +488,7 @@
       {
         "type": "final",
         "data": {
-          "answer": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố: số lượng ô vật cản trong vùng xét $Nobs(c)$ và khoảng cách từ ô $c$ tới vật cản gần nhất trong vùng lân cận $d_{min}(c, O_c)$, với $C_1 \\in [0,1]$ là hệ số điều chỉnh trong công thức. Cụ thể:  \n$$S(c)=C_1\\cdot \\frac{24-Nobs(c)}{24}+(1-C_1)\\cdot \\frac{d_{min}(c,O_c)}{3}$$ [1][2]\n\nTrong đó, $O_c$ là tập các ô vật cản trong vùng lân cận $5\\times 5$ xung quanh ô $c$; nếu $O_c=\\varnothing$ thì $d_{min}(c,O_c)=3$. [1]",
+          "answer": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố: số lượng ô vật cản trong vùng lân cận $5 \\times 5$ quanh ô $c$ là $N_{obs}(c)$, và khoảng cách từ ô $c$ tới vật cản gần nhất trong tập các ô vật cản lân cận đó là $d_{min}(c, O_c)$ [1].  \n\nCụ thể, công thức là:\n$$\nS(c)=C_1 \\cdot \\frac{24-N_{obs}(c)}{24} + (1-C_1)\\cdot \\frac{d_{min}(c,O_c)}{3}\n$$\ntrong đó $O_c$ là tập các ô vật cản trong vùng lân cận $5 \\times 5$ xung quanh ô $c$ [1].",
           "citations": [
             {
               "label": 1,
@@ -502,9 +510,9 @@
               "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
               "page": 3,
               "section": "1.1 Chỉ số an toàn, độ rủi ro va chạm",
-              "text": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , pK), pi = (xi, yi).\n=⇒ 0 ≤ risk(∑) ≤ |∑| và risk càng nhỏ càng tốt",
+              "text": ".",
               "score": 0.0161,
-              "cited": true
+              "cited": false
             },
             {
               "label": 3,
@@ -530,7 +538,7 @@
               "type": "route",
               "data": {
                 "route": "simple",
-                "reason": "Câu hỏi yêu cầu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), cần tra cứu tài liệu để trả lời."
+                "reason": "Câu hỏi yêu cầu tra cứu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), có thể trả lời từ tài liệu."
               }
             },
             {
@@ -588,6 +596,20 @@
             {
               "type": "thinking",
               "data": {
+                "node": "compress"
+              }
+            },
+            {
+              "type": "compression",
+              "data": {
+                "chars_before": 1770,
+                "chars_after": 1505,
+                "compression_ratio": 0.15
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
                 "node": "synthesize"
               }
             },
@@ -617,9 +639,9 @@
             }
           ],
           "usage": {
-            "prompt_tokens": 2698,
-            "completion_tokens": 313,
-            "calls": 3
+            "prompt_tokens": 3426,
+            "completion_tokens": 480,
+            "calls": 4
           },
           "route": "simple",
           "partial": false,
@@ -632,12 +654,13 @@
       "route",
       "subquestion",
       "retrieved",
+      "compression",
       "synthesize",
       "verify_answer",
       "final"
     ],
     "final": {
-      "answer": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố: số lượng ô vật cản trong vùng xét $Nobs(c)$ và khoảng cách từ ô $c$ tới vật cản gần nhất trong vùng lân cận $d_{min}(c, O_c)$, với $C_1 \\in [0,1]$ là hệ số điều chỉnh trong công thức. Cụ thể:  \n$$S(c)=C_1\\cdot \\frac{24-Nobs(c)}{24}+(1-C_1)\\cdot \\frac{d_{min}(c,O_c)}{3}$$ [1][2]\n\nTrong đó, $O_c$ là tập các ô vật cản trong vùng lân cận $5\\times 5$ xung quanh ô $c$; nếu $O_c=\\varnothing$ thì $d_{min}(c,O_c)=3$. [1]",
+      "answer": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố: số lượng ô vật cản trong vùng lân cận $5 \\times 5$ quanh ô $c$ là $N_{obs}(c)$, và khoảng cách từ ô $c$ tới vật cản gần nhất trong tập các ô vật cản lân cận đó là $d_{min}(c, O_c)$ [1].  \n\nCụ thể, công thức là:\n$$\nS(c)=C_1 \\cdot \\frac{24-N_{obs}(c)}{24} + (1-C_1)\\cdot \\frac{d_{min}(c,O_c)}{3}\n$$\ntrong đó $O_c$ là tập các ô vật cản trong vùng lân cận $5 \\times 5$ xung quanh ô $c$ [1].",
       "citations": [
         {
           "label": 1,
@@ -659,9 +682,9 @@
           "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
           "page": 3,
           "section": "1.1 Chỉ số an toàn, độ rủi ro va chạm",
-          "text": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , pK), pi = (xi, yi).\n=⇒ 0 ≤ risk(∑) ≤ |∑| và risk càng nhỏ càng tốt",
+          "text": ".",
           "score": 0.0161,
-          "cited": true
+          "cited": false
         },
         {
           "label": 3,
@@ -687,7 +710,7 @@
           "type": "route",
           "data": {
             "route": "simple",
-            "reason": "Câu hỏi yêu cầu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), cần tra cứu tài liệu để trả lời."
+            "reason": "Câu hỏi yêu cầu tra cứu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), có thể trả lời từ tài liệu."
           }
         },
         {
@@ -745,6 +768,20 @@
         {
           "type": "thinking",
           "data": {
+            "node": "compress"
+          }
+        },
+        {
+          "type": "compression",
+          "data": {
+            "chars_before": 1770,
+            "chars_after": 1505,
+            "compression_ratio": 0.15
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
             "node": "synthesize"
           }
         },
@@ -774,20 +811,20 @@
         }
       ],
       "usage": {
-        "prompt_tokens": 2698,
-        "completion_tokens": 313,
-        "calls": 3
+        "prompt_tokens": 3426,
+        "completion_tokens": 480,
+        "calls": 4
       },
       "route": "simple",
       "partial": false,
       "iterations": 0,
       "regenerated": false
     },
-    "elapsed": 12.07,
+    "elapsed": 27.05,
     "route": "simple",
     "iterations": 0,
     "partial": false,
-    "answer_preview": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố: số lượng ô vật cản trong vùng xét $Nobs(c)$ và khoảng cách từ ô $c$ tới vật cản gần nhất trong vùng lân cận $d_{min}(c, O_c)$, với $C_1 \\in [0,1]$ là hệ",
+    "answer_preview": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố: số lượng ô vật cản trong vùng lân cận $5 \\times 5$ quanh ô $c$ là $N_{obs}(c)$, và khoảng cách từ ô $c$ tới vật cản gần nhất trong tập các ô vật cản lân",
     "checks": [
       [
         "route",
@@ -905,6 +942,14 @@
         }
       },
       {
+        "type": "compression",
+        "data": {
+          "chars_before": 1509,
+          "chars_after": 507,
+          "compression_ratio": 0.664
+        }
+      },
+      {
         "type": "synthesize",
         "data": {
           "n_context": 3,
@@ -925,7 +970,7 @@
       {
         "type": "final",
         "data": {
-          "answer": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- **Một dãy** chứa thứ tự thăm tất cả các mục tiêu [3]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất** đi qua tất cả các mục tiêu trong tập mục tiêu [3]",
+          "answer": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- Một dãy $\\int$ chứa thứ tự thăm tất cả các mục tiêu.\n- Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\sum$ đi qua tất cả các mục tiêu trong $\\int$. [3]",
           "citations": [
             {
               "label": 1,
@@ -959,7 +1004,7 @@
               "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
               "page": 2,
               "section": "1 Problem formulation",
-              "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
+              "text": "(mô_hình_hóa_ĐATN (2), trang 2)  \nĐầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫.",
               "score": 0.0159,
               "cited": true
             }
@@ -1033,6 +1078,20 @@
             {
               "type": "thinking",
               "data": {
+                "node": "compress"
+              }
+            },
+            {
+              "type": "compression",
+              "data": {
+                "chars_before": 1509,
+                "chars_after": 507,
+                "compression_ratio": 0.664
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
                 "node": "synthesize"
               }
             },
@@ -1062,9 +1121,9 @@
             }
           ],
           "usage": {
-            "prompt_tokens": 2261,
-            "completion_tokens": 180,
-            "calls": 3
+            "prompt_tokens": 2379,
+            "completion_tokens": 237,
+            "calls": 4
           },
           "route": "simple",
           "partial": false,
@@ -1077,12 +1136,13 @@
       "route",
       "subquestion",
       "retrieved",
+      "compression",
       "synthesize",
       "verify_answer",
       "final"
     ],
     "final": {
-      "answer": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- **Một dãy** chứa thứ tự thăm tất cả các mục tiêu [3]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất** đi qua tất cả các mục tiêu trong tập mục tiêu [3]",
+      "answer": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- Một dãy $\\int$ chứa thứ tự thăm tất cả các mục tiêu.\n- Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\sum$ đi qua tất cả các mục tiêu trong $\\int$. [3]",
       "citations": [
         {
           "label": 1,
@@ -1116,7 +1176,7 @@
           "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
           "page": 2,
           "section": "1 Problem formulation",
-          "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
+          "text": "(mô_hình_hóa_ĐATN (2), trang 2)  \nĐầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫.",
           "score": 0.0159,
           "cited": true
         }
@@ -1190,6 +1250,20 @@
         {
           "type": "thinking",
           "data": {
+            "node": "compress"
+          }
+        },
+        {
+          "type": "compression",
+          "data": {
+            "chars_before": 1509,
+            "chars_after": 507,
+            "compression_ratio": 0.664
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
             "node": "synthesize"
           }
         },
@@ -1219,20 +1293,20 @@
         }
       ],
       "usage": {
-        "prompt_tokens": 2261,
-        "completion_tokens": 180,
-        "calls": 3
+        "prompt_tokens": 2379,
+        "completion_tokens": 237,
+        "calls": 4
       },
       "route": "simple",
       "partial": false,
       "iterations": 0,
       "regenerated": false
     },
-    "elapsed": 6.17,
+    "elapsed": 11.09,
     "route": "simple",
     "iterations": 0,
     "partial": false,
-    "answer_preview": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- **Một dãy** chứa thứ tự thăm tất cả các mục tiêu [3]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất** đi qua tất cả các mục tiêu trong",
+    "answer_preview": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- Một dãy $\\int$ chứa thứ tự thăm tất cả các mục tiêu.\n- Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\sum$ đi qua tất cả các mục tiêu tr",
     "checks": [
       [
         "route",
@@ -1350,6 +1424,14 @@
         }
       },
       {
+        "type": "compression",
+        "data": {
+          "chars_before": 2748,
+          "chars_after": 2748,
+          "compression_ratio": 0.0
+        }
+      },
+      {
         "type": "synthesize",
         "data": {
           "n_context": 3,
@@ -1370,7 +1452,7 @@
       {
         "type": "final",
         "data": {
-          "answer": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó cũng đại diện cho **chi phí đơn vị để đi qua ô lưới $x$**; tại các vùng gần vật cản, nơi $S(x)$ thấp, $f(x)$ sẽ lớn hơn, tạo lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]",
+          "answer": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó được dùng để kết hợp hai mục tiêu: **tối thiểu hóa chiều dài đường đi** và **tối đa hóa độ an toàn**; đồng thời, tại các vùng gần vật cản (nơi $S(x)$ thấp), $f(x)$ sẽ lớn hơn, tạo lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]",
           "citations": [
             {
               "label": 1,
@@ -1478,6 +1560,20 @@
             {
               "type": "thinking",
               "data": {
+                "node": "compress"
+              }
+            },
+            {
+              "type": "compression",
+              "data": {
+                "chars_before": 2748,
+                "chars_after": 2748,
+                "compression_ratio": 0.0
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
                 "node": "synthesize"
               }
             },
@@ -1507,9 +1603,9 @@
             }
           ],
           "usage": {
-            "prompt_tokens": 3188,
-            "completion_tokens": 215,
-            "calls": 3
+            "prompt_tokens": 4510,
+            "completion_tokens": 550,
+            "calls": 4
           },
           "route": "simple",
           "partial": false,
@@ -1522,12 +1618,13 @@
       "route",
       "subquestion",
       "retrieved",
+      "compression",
       "synthesize",
       "verify_answer",
       "final"
     ],
     "final": {
-      "answer": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó cũng đại diện cho **chi phí đơn vị để đi qua ô lưới $x$**; tại các vùng gần vật cản, nơi $S(x)$ thấp, $f(x)$ sẽ lớn hơn, tạo lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]",
+      "answer": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó được dùng để kết hợp hai mục tiêu: **tối thiểu hóa chiều dài đường đi** và **tối đa hóa độ an toàn**; đồng thời, tại các vùng gần vật cản (nơi $S(x)$ thấp), $f(x)$ sẽ lớn hơn, tạo lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]",
       "citations": [
         {
           "label": 1,
@@ -1635,6 +1732,20 @@
         {
           "type": "thinking",
           "data": {
+            "node": "compress"
+          }
+        },
+        {
+          "type": "compression",
+          "data": {
+            "chars_before": 2748,
+            "chars_after": 2748,
+            "compression_ratio": 0.0
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
             "node": "synthesize"
           }
         },
@@ -1664,20 +1775,20 @@
         }
       ],
       "usage": {
-        "prompt_tokens": 3188,
-        "completion_tokens": 215,
-        "calls": 3
+        "prompt_tokens": 4510,
+        "completion_tokens": 550,
+        "calls": 4
       },
       "route": "simple",
       "partial": false,
       "iterations": 0,
       "regenerated": false
     },
-    "elapsed": 8.33,
+    "elapsed": 50.16,
     "route": "simple",
     "iterations": 0,
     "partial": false,
-    "answer_preview": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó cũng đại diện cho **chi phí đơn vị để đi qua ô lưới $x$**; tại các vùng gần vật cản, nơi $S",
+    "answer_preview": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó được dùng để kết hợp hai mục tiêu: **tối thiểu hóa chiều dài đường đi** và **tối đa hóa độ ",
     "checks": [
       [
         "route",

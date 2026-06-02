@@ -1,0 +1,112 @@
+[
+  {
+    "question": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?",
+    "route": "simple",
+    "elapsed_s": 11.07,
+    "compression_enabled": false,
+    "compression": null,
+    "grounded": true,
+    "answer_chars": 490
+  },
+  {
+    "question": "Đầu ra của bài toán quy hoạch đường đi là gì?",
+    "route": "simple",
+    "elapsed_s": 7.11,
+    "compression_enabled": false,
+    "compression": null,
+    "grounded": true,
+    "answer_chars": 215
+  },
+  {
+    "question": "Hàm chi phí cục bộ f(x) đóng vai trò gì trong thuật toán?",
+    "route": "simple",
+    "elapsed_s": 8.09,
+    "compression_enabled": false,
+    "compression": null,
+    "grounded": true,
+    "answer_chars": 463
+  },
+  {
+    "question": "Phương pháp giao thoa Dij được xác định như thế nào?",
+    "route": "simple",
+    "elapsed_s": 8.92,
+    "compression_enabled": false,
+    "compression": null,
+    "grounded": true,
+    "answer_chars": 457
+  },
+  {
+    "question": "Độ rủi ro va chạm risk(P) được tính như thế nào?",
+    "route": "simple",
+    "elapsed_s": 6.04,
+    "compression_enabled": false,
+    "compression": null,
+    "grounded": true,
+    "answer_chars": 310
+  },
+  {
+    "question": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?",
+    "route": "simple",
+    "elapsed_s": 11.67,
+    "compression_enabled": true,
+    "compression": {
+      "chars_before": 1770,
+      "chars_after": 1770,
+      "compression_ratio": 0.0
+    },
+    "grounded": true,
+    "answer_chars": 462
+  },
+  {
+    "question": "Đầu ra của bài toán quy hoạch đường đi là gì?",
+    "route": "simple",
+    "elapsed_s": 15.02,
+    "compression_enabled": true,
+    "compression": {
+      "chars_before": 1509,
+      "chars_after": 506,
+      "compression_ratio": 0.665
+    },
+    "grounded": true,
+    "answer_chars": 220
+  },
+  {
+    "question": "Hàm chi phí cục bộ f(x) đóng vai trò gì trong thuật toán?",
+    "route": "simple",
+    "elapsed_s": 16.81,
+    "compression_enabled": true,
+    "compression": {
+      "chars_before": 2748,
+      "chars_after": 2748,
+      "compression_ratio": 0.0
+    },
+    "grounded": true,
+    "answer_chars": 482
+  },
+  {
+    "question": "Phương pháp giao thoa Dij được xác định như thế nào?",
+    "route": "simple",
+    "elapsed_s": 14.35,
+    "compression_enabled": true,
+    "compression": {
+      "chars_before": 1188,
+      "chars_after": 811,
+      "compression_ratio": 0.317
+    },
+    "grounded": true,
+    "answer_chars": 468
+  },
+  {
+    "question": "Độ rủi ro va chạm risk(P) được tính như thế nào?",
+    "route": "simple",
+    "elapsed_s": 11.1,
+    "compression_enabled": true,
+    "compression": {
+      "chars_before": 1096,
+      "chars_after": 831,
+      "compression_ratio": 0.242
+    },
+    "grounded": false,
+    "answer_chars": 40
+  }
+]

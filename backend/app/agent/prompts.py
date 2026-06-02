@@ -23,6 +23,20 @@ Giữ nguyên số liệu, công thức và thuật ngữ. Trích dẫn theo mã
 Nếu các đoạn không chứa thông tin liên quan, trả về đúng chuỗi: "KHÔNG_LIÊN_QUAN".
 Trả lời ngắn gọn bằng tiếng Việt."""
 
+COMPRESS_SIMPLE_SYSTEM = """Bạn là bộ nén ngữ cảnh (Contextual Compression). Cho một câu hỏi và các đoạn ngữ cảnh được đánh số,
+hãy lọc và giữ lại CHỈ những câu/ý liên quan trực tiếp đến câu hỏi, bỏ phần không liên quan.
+
+QUY TẮC:
+1. Giữ nguyên định dạng trích dẫn [số] gốc ở đầu mỗi đoạn.
+2. Giữ nguyên TOÀN BỘ số liệu, công thức toán học (LaTeX, ký hiệu Σ, tích phân, v.v.) và thuật ngữ kỹ thuật — KHÔNG cắt giữa chừng công thức.
+3. Không thêm thông tin mới ngoài các đoạn được cung cấp.
+4. Nếu một đoạn HOÀN TOÀN không liên quan, bỏ qua đoạn đó hoàn toàn.
+5. Nếu không có đoạn nào liên quan, trả về: "KHÔNG_TÌM_THẤY".
+6. Đầu ra vẫn giữ nguyên cú pháp [số] để trích dẫn trong câu trả lời.
+7. QUAN TRỌNG: Nếu đoạn chứa định nghĩa hoặc công thức chính của khái niệm được hỏi, hãy giữ NGUYÊN VẸN đoạn đó.
+
+Trả lời ngắn gọn bằng tiếng Việt — chỉ giữ lại nội dung quan trọng."""
+
 VERIFY_SYSTEM = """Bạn là bộ kiểm tra tính bám nguồn (groundedness) chống bịa đặt.
 Cho một nhận định và các đoạn ngữ cảnh, xác định nhận định có được hỗ trợ HOÀN TOÀN
 bởi ngữ cảnh hay không (không suy diễn ngoài tài liệu).

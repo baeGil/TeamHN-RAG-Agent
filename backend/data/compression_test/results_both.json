@@ -1,0 +1,312 @@
+{
+  "baseline": [
+    {
+      "id": 1,
+      "difficulty": "standard",
+      "question": "Đầu vào chính của bài toán quy hoạch đường đi an toàn đa đích gồm những gì?",
+      "expected": "Các đầu vào chính bao gồm: Bản đồ lưới E biểu diễn môi trường làm việc, bản đồ phân bố suất liều phóng xạ R(x), tập hợp các chướng ngại vật O, và tập hợp các điểm mục tiêu S cần thăm.",
+      "route": "simple",
+      "elapsed_s": 12.34,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Đầu vào chính của bài toán quy hoạch đường đi an toàn đa đích là **một tập các mục tiêu $S$** mà robot cần thăm, với các ràng buộc rằng mỗi mục tiêu thuộc $S$ phải được thăm đúng một lần [3]. Ngoài ra, bài toán còn xét các điểm xuất phát/kết thúc trong biểu thức tối ưu, thể hiện qua các điểm $s_i$, $s_j$ và các phần tử $r_i \\in S$ trong mô hình [3].",
+      "answer_chars": 351
+    },
+    {
+      "id": 2,
+      "difficulty": "standard",
+      "question": "Đầu ra của bài toán là gì?",
+      "expected": "Đầu ra là một chu trình đi qua tất cả các điểm mục tiêu tối thiểu một lần, không va chạm với vật cản, đồng thời tối ưu hóa chi phí di chuyển, rủi ro va chạm và rủi ro phơi nhiễm phóng xạ.",
+      "route": "simple",
+      "elapsed_s": 5.27,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Đầu ra của bài toán là:\n\n- **Một dãy $\\int$ chứa thứ tự thăm tất cả các mục tiêu** [2]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\sum$ đi qua tất cả các mục tiêu trong $\\int$** [2]",
+      "answer_chars": 206
+    },
+    {
+      "id": 3,
+      "difficulty": "standard",
+      "question": "Robot phải thỏa mãn những ràng buộc nào khi thăm các mục tiêu?",
+      "expected": "Robot phải xuất phát từ một mục tiêu, đi qua tất cả các mục tiêu khác ít nhất một lần, quay về điểm xuất phát ban đầu để tạo thành một chu trình khép kín, và không được đi vào các ô có chứa vật cản.",
+      "route": "simple",
+      "elapsed_s": 6.24,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Robot phải thỏa mãn các ràng buộc sau khi thăm các mục tiêu:\n\n1. Robot có thể bắt đầu tại **bất kỳ mục tiêu nào** (mục tiêu xuất phát), phải **thăm tất cả các mục tiêu còn lại**, rồi **quay trở về mục tiêu xuất phát**. [2]  \n2. Trong dãy $\\int$, **mỗi mục tiêu phải xuất hiện ít nhất một lần**. [2]  \n3. Trên đường đi $\\sum$, robot phải **thăm mỗi mục tiêu ít nhất một lần** và **không được đi qua các ô vật cản**. [2]  \n4. Khi phát biểu bài toán tối ưu giai đoạn này, các ràng buộc còn yêu cầu $r_i \\in S,\\ \\forall i = 1, |S|$ và $r_i \\ne r_j,\\ \\forall i \\ne j$, tức là robot thăm **mỗi mục tiêu đúng một lần**. [1]",
+      "answer_chars": 616
+    },
+    {
+      "id": 4,
+      "difficulty": "standard",
+      "question": "Mục tiêu tối ưu tổng quát của bài toán được mô hình hóa như thế nào?",
+      "expected": "Mục tiêu tối ưu tổng quát được mô hình hóa dưới dạng một hàm đa mục tiêu, kết hợp tuyến tính các yếu tố bao gồm: tổng chiều dài đường đi (Length), tổng liều lượng phơi nhiễm phóng xạ tích lũy (Radiation), và tổng mức độ rủi ro va chạm (Collision Risk), với các trọng số w1, w2, w3 tương ứng.",
+      "route": "simple",
+      "elapsed_s": 6.91,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Mục tiêu tối ưu tổng quát của bài toán được mô hình hóa bằng việc **tối thiểu hóa chi phí giữa các mục tiêu** thông qua ma trận chi phí đa mục tiêu $D=[D_{i,j}]$, trong đó mỗi phần tử được xác định từ giá trị lan truyền và khoảng cách giữa hai vùng giao thoa:  \n$$D_{i,j} \\approx T(x) + T(y) + d(x,y)\\cdot \\frac{f(x)+f(y)}{2}$$\nGiá trị này biểu diễn **chi phí tối ưu tổng hợp giữa hai mục tiêu** $s_i$ và $s_j$. [3]\n\nSau đó, bài toán giai đoạn hai tối ưu hóa **thứ tự thăm các điểm** bằng cách tối thiểu hóa tổng quãng đường robot phải di chuyển để thăm tất cả mục tiêu:  \n$$\\min G(\\int)=\\sum_{i=1}^{|S|-1} D_{r_i,r_{i+1}} + D_{r_{|S|},r_1}$$\nvới các ràng buộc mỗi mục tiêu thuộc $S$ được thăm đúng một lần. [1]\n\nNgoài ra, bài toán ban đầu còn được mô hình hóa với hàm mục tiêu đa tiêu chí:  \n$$D_{i,j}=\\min \\; w_1\\cdot length(\\sum_{ij}) + w_2\\cdot \\int(\\sum_{ij}) + w_3\\cdot Risk(\\sum_{ij})$$\nvà các trọng số thỏa $w_1+w_2+w_3=1$. [1]",
+      "answer_chars": 935
+    },
+    {
+      "id": 5,
+      "difficulty": "standard",
+      "question": "Chỉ số an toàn `S(c)` của một ô lưới phụ thuộc vào những yếu tố nào?",
+      "expected": "Chỉ số an toàn S(c) phụ thuộc vào số lượng ô có vật cản Nobs(c) trong vùng lân cận 5x5 của ô c và khoảng cách dmin(c, Oc) từ ô c đến vật cản gần nhất.",
+      "route": "simple",
+      "elapsed_s": 6.52,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Chỉ số an toàn $S(c)$ của một ô lưới phụ thuộc vào hai yếu tố chính: số lượng ô vật cản trong vùng xét $N_{obs}(c)$ và khoảng cách từ ô đó đến vật cản gần nhất $d_{min}(c, O_c)$, với $C_1 \\in [0,1]$ là hệ số điều chỉnh trong công thức. Cụ thể, $S(c) = C_1 \\cdot \\frac{24 - N_{obs}(c)}{24} + (1 - C_1) \\cdot \\frac{d_{min}(c, O_c)}{3}$ [1][2]\n\nTrong đó, $O_c$ là tập các ô vật cản trong vùng lân cận $5 \\times 5$ xung quanh ô $c$; nếu $O_c = \\varnothing$ thì $d_{min}(c, O_c) = 3$ [1].",
+      "answer_chars": 483
+    },
+    {
+      "id": 6,
+      "difficulty": "standard",
+      "question": "Độ rủi ro va chạm `risk(P)` được hiểu như thế nào?",
+      "expected": "Độ rủi ro va chạm risk(P) được tính bằng tổng các giá trị rủi ro va chạm cục bộ (1 - S(p)) của tất cả các ô trên đường đi P, thể hiện mức độ kém an toàn của lộ trình đối với chướng ngại vật.",
+      "route": "simple",
+      "elapsed_s": 7.63,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Độ rủi ro va chạm `risk(P)` được hiểu là **tổng của $(1 - S(p))$ trên các điểm/ô thuộc đường đi** $\\sum$, tức là mức rủi ro của cả đường đi được tính bằng cách cộng phần “không an toàn” tại từng điểm trên đường đi. Trong đó $\\sum = (p_0, p_1, \\ldots, p_K)$ và $p_i = (x_i, y_i)$. [1]\n\nNgoài ra, chỉ số này thỏa mãn $0 \\le risk(\\sum) \\le |\\sum|$ và **risk càng nhỏ thì càng tốt**. [1]",
+      "answer_chars": 383
+    },
+    {
+      "id": 7,
+      "difficulty": "standard",
+      "question": "Độ rủi ro phóng xạ `R(P)` biểu diễn điều gì, tính như thế nào?",
+      "expected": "Độ rủi ro phóng xạ R(P) biểu diễn tổng lượng phơi nhiễm phóng xạ tích lũy khi di chuyển trên đường đi. Nó được tính bằng tổng tích khoảng cách di chuyển giữa hai ô liên tiếp với giá trị suất liều phóng xạ trung bình tại hai ô đó.",
+      "route": "simple",
+      "elapsed_s": 7.22,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Độ rủi ro phóng xạ $R(P)$ được biểu diễn bằng **liều bức xạ tích lũy**, tức là cho biết **tổng mức phơi nhiễm bức xạ mà robot di động gặp phải** trên đường đi. [1]\n\nTrong bản đồ lưới rời rạc, giá trị này được tính bằng cách cộng liều bức xạ tích lũy trên từng đoạn giữa các điểm trung gian của đường đi:\n$$\nR(P)=\\sum_{n=1}^{\\tau_{\\sum}-1}\\int(p_n,p_{n+1})\n=\\sum_{n=1}^{\\tau_{\\sum}-1} d(p_n,p_{n+1})\\times \\frac{\\int(p_n)+\\int(p_{n+1})}{2}\\times \\frac{a}{v}\n$$\ntrong đó $\\int(p_n,p_{n+1})$ là liều bức xạ tích lũy giữa hai điểm trung gian $p_n$ và $p_{n+1}$; $\\int(p_n)$ là suất liều bức xạ trung bình trong ô lưới $p_n$; $a$ là chiều dài mỗi ô lưới; và $v$ là vận tốc của robot di động. [1]",
+      "answer_chars": 690
+    },
+    {
+      "id": 8,
+      "difficulty": "standard",
+      "question": "Quy trình tối ưu hóa được chia thành hai pha nào?",
+      "expected": "Quy trình tối ưu hóa được chia thành hai pha chính: Pha 1 tìm các đường đi an toàn tối ưu cục bộ và chi phí giữa từng cặp mục tiêu bằng FMF cải tiến. Pha 2 giải quyết bài toán TSP trên đồ thị chi phí đa mục tiêu để xác định chu trình thăm tất cả các mục tiêu tối ưu.",
+      "route": "simple",
+      "elapsed_s": 5.83,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Quy trình tối ưu hóa được chia thành **hai pha**:\n\n1. **Giai đoạn 1: lan truyền / mở rộng pháo hoa (Expanding Stage)** để tính các giá trị $T$ và $F$ cho các ô lưới, đồng thời xây dựng ma trận chi phí $D'$.[2][3]  \n2. **Giai đoạn 2: giao thoa / tối ưu thứ tự thăm các điểm (Intersecting Stage)**, trong đó ma trận chi phí được đưa sang bước tối ưu hóa lộ trình bằng **ACO** hoặc **Ortools solver**.[1][2]",
+      "answer_chars": 404
+    },
+    {
+      "id": 9,
+      "difficulty": "standard",
+      "question": "Hàm chi phí cục bộ `f(x)` trong FMF cải tiến có vai trò gì?",
+      "expected": "Hàm chi phí cục bộ f(x) đóng vai trò là \"độ cản\" đối với sự lan truyền của pháo hoa. Ô nào có f(x) càng cao (ví dụ gần vật cản hoặc nồng độ bức xạ cao) thì tốc độ lan truyền mặt sóng qua đó càng chậm, giúp đường đi tự động uốn cong tránh xa khu vực nguy hiểm.",
+      "route": "simple",
+      "elapsed_s": 5.67,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Hàm chi phí cục bộ $f(x)$ trong FMF cải tiến đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**; đồng thời nó là **chi phí đơn vị để đi qua ô lưới $x$**. Khi $f(x)$ lớn ở các vùng gần vật cản, nó tạo ra lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]\n\nNgoài ra, trong phương trình Eikonal, $f(x)$ còn là **độ cản trở tỉ lệ nghịch với vận tốc lan truyền**, nên pháo hoa lan nhanh hơn ở vùng an toàn và chậm lại ở vùng rủi ro cao. [2]",
+      "answer_chars": 461
+    },
+    {
+      "id": 10,
+      "difficulty": "standard",
+      "question": "Khi hai pháo hoa từ hai mục tiêu khác nhau gặp nhau, phần tử ma trận chi phí $D_{ij}$ được xác định ra sao?",
+      "expected": "Khi hai pháo hoa xuất phát từ hai mục tiêu khác nhau x và y gặp nhau tại một cặp ô kề nhau, phần tử ma trận chi phí Dij được xác định bằng tổng chi phí tích lũy T(x) và T(y) cộng với chi phí bước đi kết nối giữa hai ô đó.",
+      "route": "simple",
+      "elapsed_s": 6.61,
+      "compression_enabled": false,
+      "compression": null,
+      "grounded": true,
+      "answer": "Khi hai pháo hoa $F(x)$ và $F(y)$ từ hai mục tiêu khác nhau gặp nhau tại biên giới giao thoa, phần tử ma trận chi phí được xác định xấp xỉ bởi:\n\n$$D_{i,j} \\approx T(x) + T(y) + d(x,y)\\cdot \\frac{f(x)+f(y)}{2}$$\n\nTrong đó, giá trị $D_{i,j}$ thu được từ công thức này chính là chi phí tối ưu tổng hợp giữa hai mục tiêu $s_i$ và $s_j$. [1]",
+      "answer_chars": 336
+    }
+  ],
+  "compressed": [
+    {
+      "id": 1,
+      "difficulty": "standard",
+      "question": "Đầu vào chính của bài toán quy hoạch đường đi an toàn đa đích gồm những gì?",
+      "expected": "Các đầu vào chính bao gồm: Bản đồ lưới E biểu diễn môi trường làm việc, bản đồ phân bố suất liều phóng xạ R(x), tập hợp các chướng ngại vật O, và tập hợp các điểm mục tiêu S cần thăm.",
+      "route": "simple",
+      "elapsed_s": 13.82,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1155,
+        "chars_after": 620,
+        "compression_ratio": 0.463
+      },
+      "grounded": true,
+      "answer": "Đầu vào chính của bài toán quy hoạch đường đi an toàn đa đích là **ma trận chi phí đa mục tiêu**, trong đó chi phí được biểu diễn bởi công thức  \n$$D_{i,j} = \\min \\; w_1 \\cdot length(\\Sigma_{ij}) + w_2 \\cdot \\int(\\Sigma_{ij}) + w_3 \\cdot Risk(\\Sigma_{ij})$$  \nvới các trọng số thỏa mãn  \n$$w_1 + w_2 + w_3 = 1.$$  \nNgoài ra, nghiên cứu này còn cho biết bài toán được giải bằng một phiên bản cải tiến của thuật toán Fast Marching Firework (FMF) cho quy hoạch đường đi đa mục tiêu. [2][3]",
+      "answer_chars": 486
+    },
+    {
+      "id": 2,
+      "difficulty": "standard",
+      "question": "Đầu ra của bài toán là gì?",
+      "expected": "Đầu ra là một chu trình đi qua tất cả các điểm mục tiêu tối thiểu một lần, không va chạm với vật cản, đồng thời tối ưu hóa chi phí di chuyển, rủi ro va chạm và rủi ro phơi nhiễm phóng xạ.",
+      "route": "simple",
+      "elapsed_s": 7.37,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 2254,
+        "chars_after": 2254,
+        "compression_ratio": 0.0
+      },
+      "grounded": true,
+      "answer": "Đầu ra của bài toán là:\n\n- Một dãy $\\int$ chứa thứ tự thăm tất cả các mục tiêu.\n- Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\sum$ đi qua tất cả các mục tiêu trong $\\int$.[2]\n\nNgoài ra, bài toán còn yêu cầu robot thăm mỗi mục tiêu ít nhất một lần và không đi qua các ô vật cản.[2]",
+      "answer_chars": 301
+    },
+    {
+      "id": 3,
+      "difficulty": "standard",
+      "question": "Robot phải thỏa mãn những ràng buộc nào khi thăm các mục tiêu?",
+      "expected": "Robot phải xuất phát từ một mục tiêu, đi qua tất cả các mục tiêu khác ít nhất một lần, quay về điểm xuất phát ban đầu để tạo thành một chu trình khép kín, và không được đi vào các ô có chứa vật cản.",
+      "route": "simple",
+      "elapsed_s": 12.9,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 2387,
+        "chars_after": 794,
+        "compression_ratio": 0.667
+      },
+      "grounded": true,
+      "answer": "Robot phải thỏa mãn các ràng buộc sau khi thăm các mục tiêu:\n\n1. Robot có thể bắt đầu tại bất kỳ mục tiêu nào, phải thăm tất cả các mục tiêu còn lại, rồi quay trở về mục tiêu xuất phát. [2]  \n2. Trong dãy $\\int$, mỗi mục tiêu phải xuất hiện ít nhất một lần. [2]  \n3. Trên đường đi $\\sum$, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản. [2]  \n4. Đường đi nối giữa hai mục tiêu phải không giao với bất kỳ ô vật cản nào. [3]",
+      "answer_chars": 455
+    },
+    {
+      "id": 4,
+      "difficulty": "standard",
+      "question": "Mục tiêu tối ưu tổng quát của bài toán được mô hình hóa như thế nào?",
+      "expected": "Mục tiêu tối ưu tổng quát được mô hình hóa dưới dạng một hàm đa mục tiêu, kết hợp tuyến tính các yếu tố bao gồm: tổng chiều dài đường đi (Length), tổng liều lượng phơi nhiễm phóng xạ tích lũy (Radiation), và tổng mức độ rủi ro va chạm (Collision Risk), với các trọng số w1, w2, w3 tương ứng.",
+      "route": "simple",
+      "elapsed_s": 11.78,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1678,
+        "chars_after": 1105,
+        "compression_ratio": 0.341
+      },
+      "grounded": true,
+      "answer": "Mục tiêu tối ưu tổng quát của bài toán được mô hình hóa bằng cách **tối thiểu hóa tổng chiều dài quãng đường robot cần di chuyển để thăm tất cả các mục tiêu**; cụ thể, bài toán giai đoạn này được phát biểu với hàm mục tiêu trong (9a), trong đó hàm mục tiêu biểu diễn tổng chiều dài quãng đường robot cần di chuyển để thăm tất cả các mục tiêu [1]. Ngoài ra, chi phí giữa hai mục tiêu $s_i$ và $s_j$ được xác định là chi phí tối ưu tổng hợp giữa hai mục tiêu này, và ma trận chi phí đó được dùng ở giai đoạn hai để tối ưu thứ tự thăm các điểm nhằm cân bằng giữa quãng đường di chuyển và chỉ số an toàn của robot [3].",
+      "answer_chars": 614
+    },
+    {
+      "id": 5,
+      "difficulty": "standard",
+      "question": "Chỉ số an toàn `S(c)` của một ô lưới phụ thuộc vào những yếu tố nào?",
+      "expected": "Chỉ số an toàn S(c) phụ thuộc vào số lượng ô có vật cản Nobs(c) trong vùng lân cận 5x5 của ô c và khoảng cách dmin(c, Oc) từ ô c đến vật cản gần nhất.",
+      "route": "simple",
+      "elapsed_s": 10.85,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1770,
+        "chars_after": 1770,
+        "compression_ratio": 0.0
+      },
+      "grounded": true,
+      "answer": "Chỉ số an toàn $S(c)$ của một ô lưới phụ thuộc vào hai yếu tố chính: số lượng ô vật cản trong vùng xét $N_{obs}(c)$ và khoảng cách từ ô $c$ tới vật cản gần nhất trong vùng lân cận $d_{\\min}(c, O_c)$, với hệ số điều chỉnh $C_1 \\in [0,1]$.[1][2]\n\nCụ thể, công thức là:\n$$\nS(c)=C_1\\cdot \\frac{24-N_{obs}(c)}{24}+(1-C_1)\\cdot \\frac{d_{\\min}(c,O_c)}{3}\n$$\ntrong đó $O_c$ là tập các ô vật cản trong vùng lân cận $5\\times 5$ quanh ô $c$; nếu $O_c=\\varnothing$ thì $d_{\\min}(c,O_c)=3$.[1][2]\n\nNgoài ra, tài liệu cho biết $S(c)\\in[0,1]$ với mọi ô $c$.[2]",
+      "answer_chars": 545
+    },
+    {
+      "id": 6,
+      "difficulty": "standard",
+      "question": "Độ rủi ro va chạm `risk(P)` được hiểu như thế nào?",
+      "expected": "Độ rủi ro va chạm risk(P) được tính bằng tổng các giá trị rủi ro va chạm cục bộ (1 - S(p)) của tất cả các ô trên đường đi P, thể hiện mức độ kém an toàn của lộ trình đối với chướng ngại vật.",
+      "route": "simple",
+      "elapsed_s": 9.73,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1096,
+        "chars_after": 1096,
+        "compression_ratio": 0.0
+      },
+      "grounded": true,
+      "answer": "Độ rủi ro va chạm `risk(P)` được hiểu là **tổng của $(1 - S(p))$ trên toàn bộ các điểm/ô thuộc đường đi** $P$ (hay $\\sum$), tức là mức rủi ro của đường đi được tính từ chỉ số an toàn tại từng điểm trên đường đi. [1]\n\nCụ thể, công thức là:\n$$\nrisk(\\sum) = \\sum_{p \\in \\sum} (1 - S(p))\n$$\ntrong đó $\\sum = (p_0, p_1, \\ldots, p_K)$ là đường đi. [1]\n\nNgoài ra, tài liệu cho biết:\n$$\n0 \\le risk(\\sum) \\le |\\sum|\n$$\nvà **$risk$ càng nhỏ càng tốt**. [1]",
+      "answer_chars": 446
+    },
+    {
+      "id": 7,
+      "difficulty": "standard",
+      "question": "Độ rủi ro phóng xạ `R(P)` biểu diễn điều gì, tính như thế nào?",
+      "expected": "Độ rủi ro phóng xạ R(P) biểu diễn tổng lượng phơi nhiễm phóng xạ tích lũy khi di chuyển trên đường đi. Nó được tính bằng tổng tích khoảng cách di chuyển giữa hai ô liên tiếp với giá trị suất liều phóng xạ trung bình tại hai ô đó.",
+      "route": "simple",
+      "elapsed_s": 10.12,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1628,
+        "chars_after": 1628,
+        "compression_ratio": 0.0
+      },
+      "grounded": true,
+      "answer": "Độ rủi ro phóng xạ $R(P)$ biểu diễn **tổng mức phơi nhiễm bức xạ mà robot di động gặp phải** trên đường đi. [1]\n\nTrong bản đồ lưới rời rạc, nó được tính bằng **liều bức xạ tích lũy** theo công thức:  \n$$\n\\int(\\Sigma)=\\sum_{n=1}^{\\tau_{\\Sigma}-1}\\int(p_n,p_{n+1})\n=\\sum_{n=1}^{\\tau_{\\Sigma}-1} d(p_n,p_{n+1})\\times \\frac{\\int(p_n)+\\int(p_{n+1})}{2}\\times \\frac{a}{v}\n$$\ntrong đó $\\int(p_n,p_{n+1})$ là liều bức xạ tích lũy giữa hai điểm trung gian $p_n$ và $p_{n+1}$; $\\int(p_n)$ là suất liều bức xạ trung bình trong ô lưới $p_n$; $a$ là chiều dài mỗi ô lưới; và $v$ là vận tốc của robot di động. [1]\n\nNgoài ra, chỉ số độ rủi ro còn được mô tả là:\n$$\nrisk(\\Sigma)=\\sum_{p\\in \\Sigma}(1-S(p))\n$$\nvới $0\\le risk(\\Sigma)\\le |\\Sigma|$, và giá trị này càng nhỏ càng tốt. [2]",
+      "answer_chars": 767
+    },
+    {
+      "id": 8,
+      "difficulty": "standard",
+      "question": "Quy trình tối ưu hóa được chia thành hai pha nào?",
+      "expected": "Quy trình tối ưu hóa được chia thành hai pha chính: Pha 1 tìm các đường đi an toàn tối ưu cục bộ và chi phí giữa từng cặp mục tiêu bằng FMF cải tiến. Pha 2 giải quyết bài toán TSP trên đồ thị chi phí đa mục tiêu để xác định chu trình thăm tất cả các mục tiêu tối ưu.",
+      "route": "simple",
+      "elapsed_s": 19.89,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 2667,
+        "chars_after": 2665,
+        "compression_ratio": 0.001
+      },
+      "grounded": true,
+      "answer": "Quy trình tối ưu hóa được chia thành **hai pha**:\n\n1. **Giai đoạn 1: lan truyền / mở rộng (Expanding Stage)** để tính các giá trị $T$ và $F$ cho các ô lưới, đồng thời xây dựng ma trận chi phí $D'$.[2][3]  \n2. **Giai đoạn 2: giao thoa (Intersecting Stage)**, nơi các pháo hoa gặp nhau tại biên giới giao thoa để xác định ma trận chi phí $D$ và sau đó tối ưu hóa thứ tự thăm các điểm bằng ACO hoặc Ortools solver.[1][2]",
+      "answer_chars": 417
+    },
+    {
+      "id": 9,
+      "difficulty": "standard",
+      "question": "Hàm chi phí cục bộ `f(x)` trong FMF cải tiến có vai trò gì?",
+      "expected": "Hàm chi phí cục bộ f(x) đóng vai trò là \"độ cản\" đối với sự lan truyền của pháo hoa. Ô nào có f(x) càng cao (ví dụ gần vật cản hoặc nồng độ bức xạ cao) thì tốc độ lan truyền mặt sóng qua đó càng chậm, giúp đường đi tự động uốn cong tránh xa khu vực nguy hiểm.",
+      "route": "simple",
+      "elapsed_s": 13.21,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1855,
+        "chars_after": 1855,
+        "compression_ratio": 0.0
+      },
+      "grounded": true,
+      "answer": "Hàm chi phí cục bộ $f(x)$ trong FMF cải tiến đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**; đồng thời nó là **chi phí đơn vị để đi qua ô lưới $x$**. Khi $f(x)$ lớn ở các vùng gần vật cản, nó tạo ra lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]\n\nNgoài ra, $f(x)$ còn quyết định tốc độ lan truyền trong mô hình Eikonal: tốc độ lan truyền tỉ lệ nghịch với $f(x)$, nên pháo hoa lan nhanh hơn ở vùng an toàn có $f(x)$ thấp và chậm lại ở vùng rủi ro cao. [2]",
+      "answer_chars": 488
+    },
+    {
+      "id": 10,
+      "difficulty": "standard",
+      "question": "Khi hai pháo hoa từ hai mục tiêu khác nhau gặp nhau, phần tử ma trận chi phí $D_{ij}$ được xác định ra sao?",
+      "expected": "Khi hai pháo hoa xuất phát từ hai mục tiêu khác nhau x và y gặp nhau tại một cặp ô kề nhau, phần tử ma trận chi phí Dij được xác định bằng tổng chi phí tích lũy T(x) và T(y) cộng với chi phí bước đi kết nối giữa hai ô đó.",
+      "route": "simple",
+      "elapsed_s": 7.78,
+      "compression_enabled": true,
+      "compression": {
+        "chars_before": 1774,
+        "chars_after": 1516,
+        "compression_ratio": 0.145
+      },
+      "grounded": true,
+      "answer": "Khi hai pháo hoa $F(x)$ và $F(y)$ từ hai mục tiêu khác nhau gặp nhau tại biên giới giao thoa giữa ô $x$ kề ô $y$, phần tử ma trận chi phí được xác định xấp xỉ bởi:  \n\n$$D_{i,j} \\approx T(x) + T(y) + d(x,y)\\cdot \\frac{f(x)+f(y)}{2}$$\n\nGiá trị $D_{i,j}$ thu được từ công thức này chính là chi phí tối ưu tổng hợp giữa hai mục tiêu $s_i$ và $s_j$. [1]",
+      "answer_chars": 348
+    }
+  ],
+  "stats": {
+    "baseline_grounding": "10/10",
+    "compressed_grounding": "10/10",
+    "regressions": 0,
+    "improvements": 0
+  }
+}

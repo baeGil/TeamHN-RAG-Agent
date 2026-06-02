@@ -51,6 +51,11 @@ class Settings:
         self.enable_sufficiency = _get_bool("ENABLE_SUFFICIENCY", True)
         self.enable_answer_verify = _get_bool("ENABLE_ANSWER_VERIFY", True)
 
+        # Contextual Compression for simple route
+        # When enabled, retrieved chunks are compressed before synthesis to filter
+        # out irrelevant sentences, reducing token usage and improving answer quality.
+        self.enable_simple_compression = _get_bool("ENABLE_SIMPLE_COMPRESSION", True)
+
         self.enable_summarization = _get_bool("ENABLE_SUMMARIZATION", True)
         self.summary_threshold = _get_int("SUMMARY_THRESHOLD", 12)
         self.history_window = _get_int("HISTORY_WINDOW", 6)
