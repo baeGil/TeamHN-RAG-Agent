@@ -34,15 +34,13 @@ def _load():
 
 
 _CID_RE = re.compile(r"\(cid:\d+\)")
-_WATERMARK_RE = re.compile(r"\b[A-Z]{2,}[-\u2010]?[A-Z]{2,}\b")
 # Large-operator glyphs from LaTeX math fonts that some extractors mis-map to ASCII.
 _GLYPH_FIX = {"\uf8e6": "√"}
 
 
 def clean_artifacts(text: str) -> str:
-    """Remove extraction artifacts: (cid:NN) glyphs, page watermark tokens."""
+    """Remove extraction artifacts: (cid:NN) glyphs and known broken glyphs."""
     text = _CID_RE.sub(" ", text)
-    text = _WATERMARK_RE.sub(" ", text)
     for bad, good in _GLYPH_FIX.items():
         text = text.replace(bad, good)
     return text

@@ -68,12 +68,6 @@ def _remap_char(c: str, font: str) -> str:
     return c
 
 
-# Glyphs far larger than body text are page watermarks (e.g. a big diagonal
-# "WP-FMF"); they collide with real one-letter variables (P, M, W) so we drop
-# them by size rather than by letter.
-_WATERMARK_MIN_SIZE = 30.0
-
-
 def _collect_chars(page: "fitz.Page") -> list[dict]:
     chars: list[dict] = []
     raw = page.get_text("rawdict")
@@ -84,8 +78,6 @@ def _collect_chars(page: "fitz.Page") -> list[dict]:
             for span in line.get("spans", []):
                 font = span.get("font", "")
                 size = span.get("size", 0.0) or 0.0
-                if size >= _WATERMARK_MIN_SIZE:
-                    continue
                 for ch in span.get("chars", []):
                     x0, y0, x1, y1 = ch["bbox"]
                     chars.append(
