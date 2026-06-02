@@ -97,6 +97,38 @@ Mở **http://localhost:5173**. Tải lên PDF rồi đặt câu hỏi.
 > Lần đầu dùng reranker, model `bge-reranker-v2-m3` (~2GB) sẽ được tải tự động. Có thể tắt bằng
 > `USE_RERANKER=false` trong `.env` (vẫn còn BM25 + Dense + RRF).
 
+### Chạy backend bằng Docker
+
+Nếu muốn chạy backend trong Docker mà vẫn giữ model reranker sau khi stop/rebuild container:
+
+```bash
+cp backend/.env.example backend/.env
+# Mở backend/.env và điền OPENAI_API_KEY
+
+docker compose up --build backend
+```
+
+Compose sẽ mount:
+- `./hf-cache` → cache Hugging Face, giữ model `BAAI/bge-reranker-v2-m3` sau lần tải đầu.
+- `./backend/storage` → SQLite, embedding cache, BM25/vector index.
+
+Dừng container:
+
+```bash
+docker compose down
+```
+
+Không xoá `hf-cache/` nếu không muốn tải lại model local reranker.
+
+Xem log luồng RAG theo node:
+
+```bash
+docker compose logs -f backend | grep RAG_FLOW
+```
+
+Các dòng `RAG_FLOW` có `node=router|retrieve|planner|distill|verify|sufficiency|replan|synthesize|answer`,
+`duration_ms`, và riêng LLM/inference có thêm `model`, token hoặc `pairs`.
+
 ---
 
 ## 4. Đánh giá (Recall@5, MRR@5)

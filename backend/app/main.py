@@ -1,5 +1,7 @@
 import asyncio
 import json
+import logging
+import os
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +13,10 @@ from .indexing.store import KnowledgeBase
 from .schemas import ChatIn, SessionIn, TextIn, UrlIn
 
 settings = get_settings()
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO").upper(),
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
 app = FastAPI(title="Vietnamese RAG Agent", version="1.0.0")
 
 app.add_middleware(
@@ -192,10 +198,12 @@ async def chat(body: ChatIn):
         loop = asyncio.get_running_loop()
 
         try:
+            pending_next = loop.run_in_executor(None, _next_event)
+
             while not gen_exhausted:
                 try:
                     ev = await asyncio.wait_for(
-                        loop.run_in_executor(None, _next_event),
+                        asyncio.shield(pending_next),
                         timeout=25,
                     )
                 except asyncio.TimeoutError:
@@ -205,6 +213,8 @@ async def chat(body: ChatIn):
                 if ev is None:
                     gen_exhausted = True
                     break
+
+                pending_next = loop.run_in_executor(None, _next_event)
 
                 if ev["type"] == "final":
                     final_payload.update(ev["data"])
