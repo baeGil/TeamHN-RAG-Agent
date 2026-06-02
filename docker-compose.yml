@@ -1,0 +1,17 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - backend/.env
+    environment:
+      HF_HOME: /cache/huggingface
+      HF_HUB_CACHE: /cache/huggingface/hub
+      TRANSFORMERS_CACHE: /cache/huggingface/transformers
+      STORAGE_DIR: storage
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./hf-cache:/cache/huggingface
+      - ./backend/storage:/app/storage

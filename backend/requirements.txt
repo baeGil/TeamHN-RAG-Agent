@@ -15,6 +15,7 @@ underthesea>=6.0
 
 # Reranker (cross-encoder, local, no token cost)
 FlagEmbedding>=1.2
+transformers<5
 torch>=2.0
 
 # Ingestion

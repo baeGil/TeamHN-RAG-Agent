@@ -2,8 +2,12 @@
 
 Loaded lazily and degrades gracefully if the model/weights are unavailable.
 """
+import logging
 import threading
+import time
 from typing import Optional
+
+logger = logging.getLogger("rag.flow")
 
 
 class Reranker:
@@ -21,11 +25,22 @@ class Reranker:
             return self._model
         with self._lock:
             if self._model is None and not self._failed:
+                started = time.perf_counter()
                 try:
                     from FlagEmbedding import FlagReranker
 
                     self._model = FlagReranker(self.model_name, use_fp16=True)
+                    logger.info(
+                        "RAG_FLOW inference_load node=retrieve component=reranker model=%s duration_ms=%.1f",
+                        self.model_name,
+                        (time.perf_counter() - started) * 1000,
+                    )
                 except Exception:
+                    logger.exception(
+                        "RAG_FLOW inference_load_error node=retrieve component=reranker model=%s duration_ms=%.1f",
+                        self.model_name,
+                        (time.perf_counter() - started) * 1000,
+                    )
                     self._failed = True
                     self._model = None
         return self._model
@@ -43,7 +58,14 @@ class Reranker:
             return None
         pairs = [[query, text] for _, text in candidates]
         with self._infer_lock:
+            started = time.perf_counter()
             scores = model.compute_score(pairs, normalize=True)
+            logger.info(
+                "RAG_FLOW inference node=retrieve component=reranker model=%s duration_ms=%.1f pairs=%s",
+                self.model_name,
+                (time.perf_counter() - started) * 1000,
+                len(pairs),
+            )
         if not isinstance(scores, list):
             scores = [scores]
         ranked = sorted(

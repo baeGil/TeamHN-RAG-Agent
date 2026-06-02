@@ -1,0 +1,15 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+
+backend/.env
+backend/storage
+backend/storage_eval
+backend/storage_eval_before
+backend/storage_eval_ab
+hf-cache
+
+frontend/node_modules
+frontend/dist

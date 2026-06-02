@@ -39,6 +39,8 @@ The final answer is streamed token-by-token. Answers are grounded in retrieved
 context only; unsupported questions yield a partial warning.
 """
 import re
+import logging
+import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
 from typing import Any, Iterator, Optional
@@ -56,6 +58,7 @@ _GREETING_RE = re.compile(
     r"ok[\?\!\.]*|okay[\?\!\.]*)[\s\.\!\?]*$",
     re.IGNORECASE | re.UNICODE,
 )
+logger = logging.getLogger("rag.flow")
 
 
 def _chunk_string(s: str, size: int) -> list[str]:
@@ -101,7 +104,7 @@ class Agent:
         ]
         try:
             use_fast = self.settings.summary_model == self.settings.llm_model_fast
-            summary = self.llm.chat(msgs, fast=use_fast).strip()
+            summary = self.llm.chat(msgs, fast=use_fast, node="summarize").strip()
             return summary
         except Exception:
             return old_summary or "\n".join(f"{m['role']}: {m['content'][:200]}" for m in messages)
@@ -129,7 +132,7 @@ class Agent:
             {"role": "user", "content": question},
         ]
         try:
-            data = self.llm.chat_json(msgs, fast=True)
+            data = self.llm.chat_json(msgs, fast=True, node="router")
             route = data.get("route", "simple")
             if route not in {"no_retrieval", "simple", "complex"}:
                 route = "simple"
@@ -145,7 +148,7 @@ class Agent:
             {"role": "user", "content": question},
         ]
         try:
-            data = self.llm.chat_json(msgs, fast=True)
+            data = self.llm.chat_json(msgs, fast=True, node="planner")
             subqs = [s for s in data.get("subquestions", []) if isinstance(s, str) and s.strip()]
             return subqs[:4] or [question]
         except Exception as e:
@@ -157,7 +160,7 @@ class Agent:
             {"role": "system", "content": prompts.DISTILL_SYSTEM},
             {"role": "user", "content": f"CÂU HỎI CON:\n{subq}\n\nĐOẠN TRÍCH:\n{ctx}"},
         ]
-        return self.llm.chat(msgs, fast=True).strip()
+        return self.llm.chat(msgs, fast=True, node="distill").strip()
 
     def _generate_and_verify(
         self, question, history, context_chunks, steps, route, summary=None,
@@ -183,7 +186,7 @@ class Agent:
         msgs.extend(self._history_msgs(history, summary))
         msgs.append({"role": "user", "content": user_msg})
 
-        answer_text = self.llm.chat(msgs, fast=False).strip()
+        answer_text = self.llm.chat(msgs, fast=False, node="synthesize").strip()
         grounded, reason = self._verify_answer(answer_text, context_chunks)
         return answer_text, grounded, reason
 
@@ -194,7 +197,7 @@ class Agent:
             {"role": "user", "content": f"NHẬN ĐỊNH:\n{claim}\n\nNGỮ CẢNH:\n{ctx}"},
         ]
         try:
-            data = self.llm.chat_json(msgs, fast=True)
+            data = self.llm.chat_json(msgs, fast=True, node="verify")
             return bool(data.get("grounded", False)), data.get("reason", "")
         except Exception:
             return True, "Bỏ qua kiểm tra."
@@ -208,7 +211,7 @@ class Agent:
             {"role": "user", "content": f"CÂU HỎI GỐC:\n{question}\n\nGHI CHÚ ĐÃ KIỂM CHỨNG:\n{notes_text}"},
         ]
         try:
-            data = self.llm.chat_json(msgs, fast=True)
+            data = self.llm.chat_json(msgs, fast=True, node="sufficiency")
             return bool(data.get("sufficient", False)), data.get("reason", "")
         except Exception:
             return True, ""
@@ -234,7 +237,7 @@ class Agent:
             )},
         ]
         try:
-            data = self.llm.chat_json(msgs, fast=True)
+            data = self.llm.chat_json(msgs, fast=True, node="replan")
             new = [s for s in data.get("subquestions", []) if isinstance(s, str) and s.strip()]
             return new[:4] or [question]
         except Exception:
@@ -264,7 +267,7 @@ class Agent:
             {"role": "user", "content": f"CÂU TRẢ LỜI:\n{answer}\n\nNGỮ CẢNH:\n{ctx}"},
         ]
         try:
-            data = self.llm.chat_json(msgs, fast=True)
+            data = self.llm.chat_json(msgs, fast=True, node="verify_answer")
             grounded = bool(data.get("grounded", True))
             claims = data.get("ungrounded_claims", [])
             reason = data.get("reason", "")
@@ -278,6 +281,13 @@ class Agent:
     def run(self, question: str, history: Optional[list[dict]] = None, summary: Optional[str] = None) -> Iterator[dict]:
         history = history or []
         trace: list[dict] = []
+        run_started = time.perf_counter()
+        logger.info(
+            "RAG_FLOW run_start question_chars=%s history_messages=%s has_summary=%s",
+            len(question),
+            len(history),
+            bool(summary),
+        )
 
         def emit(etype: str, data: Any) -> dict:
             ev = {"type": etype, "data": data}
@@ -285,17 +295,38 @@ class Agent:
                 trace.append(ev)
             return ev
 
+        node_started = time.perf_counter()
         yield emit("thinking", {"node": "router"})
         route, reason = self._route(question, history)
+        logger.info(
+            "RAG_FLOW node_end node=router duration_ms=%.1f route=%s reason_chars=%s",
+            (time.perf_counter() - node_started) * 1000,
+            route,
+            len(reason or ""),
+        )
         yield emit("route", {"route": route, "reason": reason})
 
         if route == "no_retrieval":
             yield from self._answer_chitchat(question, history, trace, emit, summary=summary)
+            logger.info(
+                "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s",
+                (time.perf_counter() - run_started) * 1000,
+                route,
+                False,
+                0,
+                False,
+            )
             return
 
         if route == "complex":
+            node_started = time.perf_counter()
             yield emit("thinking", {"node": "planner"})
             subqs = self._plan(question)
+            logger.info(
+                "RAG_FLOW node_end node=planner duration_ms=%.1f subquestions=%s",
+                (time.perf_counter() - node_started) * 1000,
+                len(subqs),
+            )
             yield emit("plan", {"subquestions": subqs})
         else:
             subqs = [question]
@@ -308,6 +339,7 @@ class Agent:
 
         while True:
             # --- Retrieve ---
+            node_started = time.perf_counter()
             yield emit("thinking", {"node": "retrieve"})
             retrieval_jobs: dict[int, list[dict]] = {}
             with ThreadPoolExecutor(max_workers=min(4, len(subqs))) as ex:
@@ -319,6 +351,13 @@ class Agent:
                     i = futures[fut]
                     hits = fut.result()
                     retrieval_jobs[i] = [_chunk_to_dict(h) for h in hits]
+            logger.info(
+                "RAG_FLOW node_end node=retrieve iteration=%s duration_ms=%.1f subquestions=%s hits=%s",
+                iteration,
+                (time.perf_counter() - node_started) * 1000,
+                len(subqs),
+                sum(len(v) for v in retrieval_jobs.values()),
+            )
 
             for i, subq in enumerate(subqs):
                 yield emit("subquestion", {"index": i, "subquestion": subq})
@@ -348,6 +387,7 @@ class Agent:
 
             # --- Distill + Verify (complex only) ---
             if route == "complex":
+                node_started = time.perf_counter()
                 yield emit("thinking", {"node": "distill"})
                 distill_results: dict[int, dict] = {}
 
@@ -370,6 +410,12 @@ class Agent:
                 with ThreadPoolExecutor(max_workers=min(4, len(subqs))) as ex:
                     for i, res in ex.map(_distill_and_verify, list(enumerate(subqs))):
                         distill_results[i] = res
+                logger.info(
+                    "RAG_FLOW node_end node=distill_verify iteration=%s duration_ms=%.1f subquestions=%s",
+                    iteration,
+                    (time.perf_counter() - node_started) * 1000,
+                    len(subqs),
+                )
 
                 yield emit("thinking", {"node": "verify"})
                 for i, subq in enumerate(subqs):
@@ -407,8 +453,16 @@ class Agent:
                             for s in steps
                             if s.get("relevant") and s.get("grounded") and s.get("note")
                         ]
+                        node_started = time.perf_counter()
                         yield emit("thinking", {"node": "sufficiency"})
                         sufficient, s_reason = self._check_sufficiency(question, grounded_notes)
+                        logger.info(
+                            "RAG_FLOW node_end node=sufficiency iteration=%s duration_ms=%.1f sufficient=%s reason_chars=%s",
+                            iteration,
+                            (time.perf_counter() - node_started) * 1000,
+                            sufficient,
+                            len(s_reason or ""),
+                        )
                         yield emit("sufficiency", {"sufficient": sufficient, "reason": s_reason, "iteration": iteration})
                         if sufficient:
                             break
@@ -425,6 +479,7 @@ class Agent:
                         break
 
                     # --- Replan ---
+                    node_started = time.perf_counter()
                     yield emit("thinking", {"node": "replan"})
                     grounded_notes_for_replan = [
                         f"{s['subquestion']}: {s['note']}"
@@ -432,6 +487,13 @@ class Agent:
                         if s.get("relevant") and s.get("grounded") and s.get("note")
                     ]
                     new_subqs = self._replan(question, failed, grounded_notes_for_replan, iteration)
+                    logger.info(
+                        "RAG_FLOW node_end node=replan iteration=%s duration_ms=%.1f failed=%s new_subquestions=%s",
+                        iteration,
+                        (time.perf_counter() - node_started) * 1000,
+                        len(failed),
+                        len(new_subqs),
+                    )
                     step_results = [steps[i] for i in range(len(subqs))] if len(steps) == len(subqs) else steps[-len(subqs):]
                     subqs = self._merge_subquestions(subqs, step_results, new_subqs)
                     yield emit("replan", {"iteration": iteration + 1, "subquestions": subqs})
@@ -457,13 +519,27 @@ class Agent:
         context_chunks = self._select_context(pool, steps, route)
         if not context_chunks:
             yield from self._emit_not_found(trace, emit)
+            logger.info(
+                "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s",
+                (time.perf_counter() - run_started) * 1000,
+                "not_found",
+                False,
+                iteration,
+                False,
+            )
             return
 
         # --- Synthesize ---
+        node_started = time.perf_counter()
         yield emit("thinking", {"node": "synthesize"})
         yield emit(
             "synthesize",
             {"n_context": len(context_chunks), "labels": [c["label"] for c in context_chunks]},
+        )
+        logger.info(
+            "RAG_FLOW node_start node=synthesize route=%s context_chunks=%s",
+            route,
+            len(context_chunks),
         )
 
         # If answer verification is enabled, generate internally first to check grounding,
@@ -472,6 +548,12 @@ class Agent:
             # Generate internally (no streaming) and verify grounding
             answer_text, is_grounded, v_reason = self._generate_and_verify(
                 question, history, context_chunks, steps, route, summary=summary,
+            )
+            logger.info(
+                "RAG_FLOW node_end node=synthesize duration_ms=%.1f answer_chars=%s grounded=%s",
+                (time.perf_counter() - node_started) * 1000,
+                len(answer_text),
+                is_grounded,
             )
 
             if is_grounded:
@@ -495,6 +577,14 @@ class Agent:
                         "iterations": iteration,
                         "regenerated": False,
                     },
+                )
+                logger.info(
+                    "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s",
+                    (time.perf_counter() - run_started) * 1000,
+                    route,
+                    partial_warning,
+                    iteration,
+                    False,
                 )
             else:
                 # Answer has hallucinations — regenerate with warning
@@ -525,6 +615,14 @@ class Agent:
                             "regenerated": True,
                         },
                     )
+                    logger.info(
+                        "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s",
+                        (time.perf_counter() - run_started) * 1000,
+                        route,
+                        True,
+                        iteration,
+                        True,
+                    )
                 else:
                     # No regeneration allowed — stream the existing answer with partial warning
                     cited_labels = {int(m) for m in _CITE_RE.findall(answer_text)}
@@ -545,11 +643,28 @@ class Agent:
                             "regenerated": False,
                         },
                     )
+                    logger.info(
+                        "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s",
+                        (time.perf_counter() - run_started) * 1000,
+                        route,
+                        True,
+                        iteration,
+                        False,
+                    )
         else:
             # No verification — stream directly via _synthesize
             answer_result = yield from self._synthesize(
                 question, history, context_chunks, steps, route, trace, emit,
                 partial_warning=partial_warning, iterations=iteration, summary=summary,
+            )
+            logger.info(
+                "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s answer_chars=%s",
+                (time.perf_counter() - run_started) * 1000,
+                route,
+                partial_warning,
+                iteration,
+                False,
+                len(answer_result or ""),
             )
 
     # ---------------- helpers ----------------
@@ -632,7 +747,7 @@ class Agent:
 
         yield emit("thinking", {"node": "answer"})
         answer_parts: list[str] = []
-        for tok in self.llm.stream(msgs, fast=regenerate_reason is not None):
+        for tok in self.llm.stream(msgs, fast=regenerate_reason is not None, node="regenerate" if regenerate_reason else "answer"):
             answer_parts.append(tok)
             yield emit("token", {"text": tok})
         answer = "".join(answer_parts).strip()
@@ -666,7 +781,7 @@ class Agent:
         msgs.append({"role": "user", "content": question})
         yield emit("thinking", {"node": "answer"})
         parts = []
-        for tok in self.llm.stream(msgs, fast=True):
+        for tok in self.llm.stream(msgs, fast=True, node="answer"):
             parts.append(tok)
             yield emit("token", {"text": tok})
         answer = "".join(parts).strip()
