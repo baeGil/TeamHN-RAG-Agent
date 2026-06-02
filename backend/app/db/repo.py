@@ -63,17 +63,10 @@ class Repo:
         self.db.conn.executemany("UPDATE chunks SET embedding=? WHERE id=?", rows)
         self.db.conn.commit()
 
-    def set_hype_questions(self, chunk_id: int, questions: list[str]) -> None:
-        self.db.conn.execute(
-            "UPDATE chunks SET hype_questions=? WHERE id=?",
-            (json.dumps(questions, ensure_ascii=False), chunk_id),
-        )
-        self.db.conn.commit()
-
     def all_chunks_with_embeddings(self) -> list[dict[str, Any]]:
         """All chunks (in id order) with their stored float32 embedding bytes (or None)."""
         rows = self.db.conn.execute(
-            """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding, c.hype_questions,
+            """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding,
                       d.title AS doc_title
                FROM chunks c JOIN documents d ON d.id = c.document_id
                ORDER BY c.id"""

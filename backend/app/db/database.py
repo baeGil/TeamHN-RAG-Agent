@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS chunks (
     page        INTEGER,
     section     TEXT,
     embedding   BLOB,                  -- float32 vector; lets us rebuild the dense index from the DB
-    hype_questions TEXT,
     FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_chunks_doc ON chunks(document_id);
@@ -85,8 +84,6 @@ class Database:
         cols = {r["name"] for r in conn.execute("PRAGMA table_info(chunks)").fetchall()}
         if "embedding" not in cols:
             conn.execute("ALTER TABLE chunks ADD COLUMN embedding BLOB")
-        if "hype_questions" not in cols:
-            conn.execute("ALTER TABLE chunks ADD COLUMN hype_questions TEXT")
 
     @property
     def conn(self) -> sqlite3.Connection:
