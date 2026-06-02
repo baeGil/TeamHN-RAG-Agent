@@ -29,3 +29,5 @@ frontend/dist/
 .gemini/
 .kiro/
 opencode.jsonc
+.venv_parser/
+SKILL.md
