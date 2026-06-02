@@ -1,396 +1,58 @@
 [
   {
-    "scenario": 1,
-    "question": "Xin chào",
-    "error": null,
-    "events": [
-      {
-        "type": "route",
-        "data": {
-          "route": "no_retrieval",
-          "reason": "Câu chào hỏi — không cần tra cứu."
-        }
-      },
-      {
-        "type": "final",
-        "data": {
-          "answer": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp (PDF/URL/văn bản) để tôi có thể giúp bạn không?",
-          "citations": [],
-          "trace": [
-            {
-              "type": "thinking",
-              "data": {
-                "node": "router"
-              }
-            },
-            {
-              "type": "route",
-              "data": {
-                "route": "no_retrieval",
-                "reason": "Câu chào hỏi — không cần tra cứu."
-              }
-            },
-            {
-              "type": "thinking",
-              "data": {
-                "node": "answer"
-              }
-            }
-          ],
-          "usage": {
-            "prompt_tokens": 79,
-            "completion_tokens": 35,
-            "calls": 1
-          },
-          "route": "no_retrieval",
-          "partial": false,
-          "iterations": 0
-        }
-      }
-    ],
-    "event_types": [
-      "route",
-      "final"
-    ],
-    "final": {
-      "answer": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp (PDF/URL/văn bản) để tôi có thể giúp bạn không?",
-      "citations": [],
-      "trace": [
-        {
-          "type": "thinking",
-          "data": {
-            "node": "router"
-          }
-        },
-        {
-          "type": "route",
-          "data": {
-            "route": "no_retrieval",
-            "reason": "Câu chào hỏi — không cần tra cứu."
-          }
-        },
-        {
-          "type": "thinking",
-          "data": {
-            "node": "answer"
-          }
-        }
-      ],
-      "usage": {
-        "prompt_tokens": 79,
-        "completion_tokens": 35,
-        "calls": 1
-      },
-      "route": "no_retrieval",
-      "partial": false,
-      "iterations": 0
-    },
-    "elapsed": 1.63,
-    "route": "no_retrieval",
-    "iterations": 0,
-    "partial": false,
-    "answer_preview": "Xin chào! Rất vui được gặp bạn. Bạn có tài liệu nào muốn nạp (PDF/URL/văn bản) để tôi có thể giúp bạn không?",
-    "checks": [
-      [
-        "route",
-        true,
-        "expected=no_retrieval, got=no_retrieval"
-      ],
-      [
-        "event:route",
-        true,
-        "FOUND"
-      ],
-      [
-        "event:final",
-        true,
-        "FOUND"
-      ],
-      [
-        "no_event:retrieve",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:plan",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:distill",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:verify",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:synthesize",
-        true,
-        "NOT FOUND (ok)"
-      ]
-    ]
-  },
-  {
-    "scenario": 1,
-    "question": "Bạn là ai?",
-    "error": null,
-    "events": [
-      {
-        "type": "route",
-        "data": {
-          "route": "no_retrieval",
-          "reason": "Câu chào hỏi — không cần tra cứu."
-        }
-      },
-      {
-        "type": "final",
-        "data": {
-          "answer": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn tìm hiểu thông tin từ tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
-          "citations": [],
-          "trace": [
-            {
-              "type": "thinking",
-              "data": {
-                "node": "router"
-              }
-            },
-            {
-              "type": "route",
-              "data": {
-                "route": "no_retrieval",
-                "reason": "Câu chào hỏi — không cần tra cứu."
-              }
-            },
-            {
-              "type": "thinking",
-              "data": {
-                "node": "answer"
-              }
-            }
-          ],
-          "usage": {
-            "prompt_tokens": 80,
-            "completion_tokens": 55,
-            "calls": 1
-          },
-          "route": "no_retrieval",
-          "partial": false,
-          "iterations": 0
-        }
-      }
-    ],
-    "event_types": [
-      "route",
-      "final"
-    ],
-    "final": {
-      "answer": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn tìm hiểu thông tin từ tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
-      "citations": [],
-      "trace": [
-        {
-          "type": "thinking",
-          "data": {
-            "node": "router"
-          }
-        },
-        {
-          "type": "route",
-          "data": {
-            "route": "no_retrieval",
-            "reason": "Câu chào hỏi — không cần tra cứu."
-          }
-        },
-        {
-          "type": "thinking",
-          "data": {
-            "node": "answer"
-          }
-        }
-      ],
-      "usage": {
-        "prompt_tokens": 80,
-        "completion_tokens": 55,
-        "calls": 1
-      },
-      "route": "no_retrieval",
-      "partial": false,
-      "iterations": 0
-    },
-    "elapsed": 1.8,
-    "route": "no_retrieval",
-    "iterations": 0,
-    "partial": false,
-    "answer_preview": "Chào bạn! Mình là trợ lý hỏi đáp tài liệu tiếng Việt. Mình có thể giúp bạn tìm hiểu thông tin từ tài liệu mà bạn cung cấp. Bạn có thể nạp tài liệu (PDF/URL/văn bản) và đặt câu hỏi nhé!",
-    "checks": [
-      [
-        "route",
-        true,
-        "expected=no_retrieval, got=no_retrieval"
-      ],
-      [
-        "event:route",
-        true,
-        "FOUND"
-      ],
-      [
-        "event:final",
-        true,
-        "FOUND"
-      ],
-      [
-        "no_event:retrieve",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:plan",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:distill",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:verify",
-        true,
-        "NOT FOUND (ok)"
-      ],
-      [
-        "no_event:synthesize",
-        true,
-        "NOT FOUND (ok)"
-      ]
-    ]
-  },
-  {
-    "scenario": 1,
-    "question": "Cảm ơn bạn nhiều",
+    "scenario": 2,
+    "question": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?",
     "error": null,
     "events": [
       {
         "type": "route",
         "data": {
           "route": "simple",
-          "reason": "Buộc tra cứu tài liệu (tránh bỏ sót)."
+          "reason": "Câu hỏi yêu cầu tra cứu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), có thể trả lời từ tài liệu."
         }
       },
       {
         "type": "subquestion",
         "data": {
           "index": 0,
-          "subquestion": "Cảm ơn bạn nhiều"
+          "subquestion": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?"
         }
       },
       {
         "type": "retrieved",
         "data": {
-          "subquestion": "Cảm ơn bạn nhiều",
+          "subquestion": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?",
           "index": 0,
           "chunks": [
             {
-              "chunk_id": 227,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 7,
-              "preview": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F ",
-              "score": 0.0009,
-              "bm25_score": null,
-              "dense_score": 0.27127939462661743,
-              "rerank_score": 0.0009436192455752618
-            },
-            {
-              "chunk_id": 223,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 5,
-              "preview": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản",
-              "score": 0.0007,
-              "bm25_score": null,
-              "dense_score": 0.25707390904426575,
-              "rerank_score": 0.0006667023092435893
-            },
-            {
-              "chunk_id": 212,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 2,
-              "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
-              "score": 0.0006,
-              "bm25_score": 1.8758627868025417,
-              "dense_score": 0.2537315785884857,
-              "rerank_score": 0.000593021029357059
-            },
-            {
-              "chunk_id": 228,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 7,
-              "preview": "14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage) 19 for ",
-              "score": 0.0005,
-              "bm25_score": null,
-              "dense_score": 0.25552114844322205,
-              "rerank_score": 0.0005152656843015681
-            },
-            {
-              "chunk_id": 214,
-              "doc_title": "mô_hình_hóa_ĐATN",
+              "chunk_id": 43,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
               "page": 2,
               "preview": "• Với mỗi ô c trong lưới, chỉ số an toàn tại ô này được xác định như sau: S(c) = C1 · (24 − Nobs(c))/(24)+ (1 − C1) · (dmin(c, Oc))/(3)(4)\n– Oc: tập các ô vật cản trong vùng lân cận 5 × 5 xung quanh ô",
-              "score": 0.0003,
-              "bm25_score": null,
-              "dense_score": 0.2710592746734619,
-              "rerank_score": 0.0002846224015752145
+              "score": 0.0164,
+              "bm25_score": 5.986725081707633,
+              "dense_score": null,
+              "rerank_score": null
             },
             {
-              "chunk_id": 215,
-              "doc_title": "mô_hình_hóa_ĐATN",
+              "chunk_id": 44,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
               "page": 3,
               "preview": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , ",
-              "score": 0.0003,
-              "bm25_score": null,
-              "dense_score": 0.2589356303215027,
-              "rerank_score": 0.00026323832090326084
+              "score": 0.0161,
+              "bm25_score": 4.920789779185504,
+              "dense_score": null,
+              "rerank_score": null
             },
             {
-              "chunk_id": 219,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 4,
-              "preview": "Di,j = min w1 · length(∑ij) + w2 · ∫(∑ij) + w3 · Risk(∑ij) (8a)\nτ∑ij\n∑ij={pk=(cxk,cyk)}k=1\ns.t. cx ∈ {1, 2, . . . , W˜ }, cy ∈ {1, 2, . . . , H˜}, ∀i = 1, τ , (8b)\ni i ∑ p1 = si, pτ = sj, (8c) ∑ij\n−−−",
-              "score": 0.0003,
-              "bm25_score": null,
-              "dense_score": 0.24375703930854797,
-              "rerank_score": 0.0002611903190957194
-            },
-            {
-              "chunk_id": 220,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 4,
-              "preview": "Một pháo hoa F bao gồm một tập hợp các ô lưới có một ô mục tiêu làm gốc. Hai ô bất kỳ u và v trong pháo hoa có thể được kết nối bằng một đường đi liên tục: p(u, v) = {u, p1, . . . , pτ, v}, (10) trong",
-              "score": 0.0002,
-              "bm25_score": null,
-              "dense_score": 0.2731875479221344,
-              "rerank_score": 0.00017952796934677737
-            },
-            {
-              "chunk_id": 216,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 3,
-              "preview": "Mức độ rủi ro, được biểu diễn bằng liều bức xạ tích lũy ∫(∑), cho biết tổng mức phơi nhiễm\nbức xạ mà robot di động gặp phải. Trong bản đồ lưới rời rạc, ∫(∑) từ mục tiêu Ti đến Tj có thể được tính theo",
-              "score": 0.0002,
-              "bm25_score": null,
-              "dense_score": 0.27416884899139404,
-              "rerank_score": 0.0001753699377377387
-            },
-            {
-              "chunk_id": 230,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "page": 8,
-              "preview": "Bảng 1: Kết quả thực nghiệm so sánh tổng chiều dài đường đi (đã lược bỏ cột) (Map Map size FMF DFA SFF)/(T1_01 502 540 564)\n(T1_02)/(T1_03) (729 801 807)/(1333 1575 1533) 300 x 300 (T1_04)/(T1_05) (14",
-              "score": 0.0001,
-              "bm25_score": null,
-              "dense_score": 0.25589728355407715,
-              "rerank_score": 0.0001355207856240677
+              "chunk_id": 41,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 2,
+              "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
+              "score": 0.0159,
+              "bm25_score": 4.579196701189552,
+              "dense_score": null,
+              "rerank_score": null
             }
           ]
         }
@@ -398,158 +60,60 @@
       {
         "type": "synthesize",
         "data": {
-          "n_context": 10,
+          "n_context": 3,
           "labels": [
             1,
             2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
+            3
           ]
         }
       },
       {
         "type": "verify_answer",
         "data": {
-          "grounded": false,
-          "reason": "Không tìm thấy thông tin trong tài liệu."
-        }
-      },
-      {
-        "type": "verify_answer",
-        "data": {
           "grounded": true,
-          "reason": "Đã tạo lại câu trả lời."
+          "reason": ""
         }
       },
       {
         "type": "final",
         "data": {
-          "answer": "Không tìm thấy thông tin trong tài liệu.",
+          "answer": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố chính:  \n\n- $Nobs(c)$: số lượng ô vật cản trong vùng lân cận xét quanh ô $c$ [1][2]  \n- $d_{\\min}(c, O_c)$: khoảng cách từ ô $c$ tới vật cản gần nhất trong tập các ô vật cản lân cận $O_c$; nếu $O_c = \\varnothing$ thì $d_{\\min}(c, O_c) = 3$ [1]\n\nNgoài ra, $S(c)$ còn phụ thuộc vào hệ số điều chỉnh $C_1 \\in [0,1]$ [2].  \n\nCông thức được cho là:\n$$\nS(c) = C_1 \\cdot \\frac{24 - Nobs(c)}{24} + (1 - C_1)\\cdot \\frac{d_{\\min}(c, O_c)}{3}\n$$\n[1][2]",
           "citations": [
             {
               "label": 1,
-              "chunk_id": 227,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 7,
-              "section": "5 Mã giả thuật toán",
-              "text": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F cho các ô lưới; Ma trận chi phí D′ // Bước tiền xử lý chi phí cục bộ 1 Tính f(x) = w1 + (1 − w1)(1 − S(x)) cho toàn bộ ô x ∈/ O // Giai đoạn lan truyền (Expanding Stage) Khởi tạo Heap ← ∅; D′[i, j] ← ∞ với mọi i, j 2 3 for i ← 1 to |S| do\n4 Hold[i] ← ∅; // Khởi tạo bộ nhớ cho pháo hoa nguồn si\n5 Thêm si vào Heap; T(si) ← 0; F(si) ← i 6 while Heap không trống do 7 Trích xuất x có chi phí tích lũy T(x) nhỏ nhất từ Heap sau đó xóa x khỏi Heap // adjacent(x) là tập hợp 8 ô xung quanh ô x 8 foreach y ∈ adjacent(x), y ∈/ O do\n9 cost_step ← d(x, y) · f(y) // Chi phí bước đi có trọng số 10 if T(y) > T(x) + cost_step then 11 T(y) ← T(x) + cost_step\n12 F(y) ← F(x) // Cập nhật nhãn pháo hoa 13 Insert y vào Heap 14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage)",
-              "score": 0.0009,
-              "cited": false
-            },
-            {
-              "label": 2,
-              "chunk_id": 223,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 5,
-              "section": "4.1 Xác định hàm chi phí cục bộ f(x)",
-              "text": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản\"của môi trường đối với sự lan truyền của pháo hoa. Dựa trên chỉ số an toàn S(x) ∈ [0, 1] đã được thiết lập tại phương trình (4), tôi xác định hàm chi phí cục bộ tổng hợp được mô hình hóa như sau: f(x) = w1 + w2 · ∫(x) + w3 · (1 − S(x)) (11) Trong đó: • w1 ∈ [0, 1] là trọng số điều chỉnh mức độ ưu tiên. Khi w1 → 1, thuật toán ưu tiên đường\nđi ngắn nhất; khi w1 → 0, thuật toán ưu tiên đường đi an toàn nhất. • f(x) đại diện cho chi phí đơn vị để đi qua ô lưới x. Tại các vùng gần vật cản (S(x) thấp), f(x) sẽ có giá trị lớn, tạo ra lực đẩy ảo ngăn cản robot di chuyển vào vùng nguy hiểm.",
-              "score": 0.0007,
-              "cited": false
-            },
-            {
-              "label": 3,
-              "chunk_id": 212,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 2,
-              "section": "1 Problem formulation",
-              "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
-              "score": 0.0006,
-              "cited": false
-            },
-            {
-              "label": 4,
-              "chunk_id": 228,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 7,
-              "section": "5 Mã giả thuật toán",
-              "text": "14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage) 19 for i ← 1 to |S| do\n20 Border ← ∅ // Hàng đợi ưu tiên được sử dụng riêng cho các ô biên\n21 foreach x ∈ Hold[i] do 22 Tạm thời loại x khỏi bản đồ E 23 Thêm tất cả y ∈ adjacent(x) mà F(y) ̸= F(x) vào Border // y ∈/ Hold[i] 24 while Border không trống do 25 Trích xuất x có T(x) nhỏ nhất từ Border sau đó xóa x khỏi Border 26 foreach y ∈ adjacent(x) do 27 if F(y) ̸= F(x) then 28 cost_step ← d(x, y) · f(y)\n29 T(y) ← T(x) + cost_step\n30 F(y) ← F(x) 31 Insert y vào Border 32 foreach x ∈ Hold[i] do\n33 foreach y ∈ adjacent(x) do 34 if F(y) ̸= F(x) then AddEdge(x, y, 2, D′, f); // Kết nối thứ cấp 35 36 Thêm x trở lại bản đồ E 6",
-              "score": 0.0005,
-              "cited": false
-            },
-            {
-              "label": 5,
-              "chunk_id": 214,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
+              "chunk_id": 43,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
               "page": 2,
               "section": "1.1 Chỉ số an toàn, độ rủi ro va chạm",
               "text": "• Với mỗi ô c trong lưới, chỉ số an toàn tại ô này được xác định như sau: S(c) = C1 · (24 − Nobs(c))/(24)+ (1 − C1) · (dmin(c, Oc))/(3)(4)\n– Oc: tập các ô vật cản trong vùng lân cận 5 × 5 xung quanh ô c;\n– d (c, O ): khoảng cách từ ô c tới vật cản gần nhất trong O , nếu O = ∅ thì min c c c dmin(c, Oc) = 3; 1",
-              "score": 0.0003,
-              "cited": false
+              "score": 0.0164,
+              "cited": true
             },
             {
-              "label": 6,
-              "chunk_id": 215,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
+              "label": 2,
+              "chunk_id": 44,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
               "page": 3,
               "section": "1.1 Chỉ số an toàn, độ rủi ro va chạm",
               "text": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , pK), pi = (xi, yi).\n=⇒ 0 ≤ risk(∑) ≤ |∑| và risk càng nhỏ càng tốt",
-              "score": 0.0003,
-              "cited": false
+              "score": 0.0161,
+              "cited": true
             },
             {
-              "label": 7,
-              "chunk_id": 219,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 4,
-              "section": "2 Two phases of optimization",
-              "text": "Di,j = min w1 · length(∑ij) + w2 · ∫(∑ij) + w3 · Risk(∑ij) (8a)\nτ∑ij\n∑ij={pk=(cxk,cyk)}k=1\ns.t. cx ∈ {1, 2, . . . , W˜ }, cy ∈ {1, 2, . . . , H˜}, ∀i = 1, τ , (8b)\ni i ∑ p1 = si, pτ = sj, (8c) ∑ij\n−−−−−→\n(p , p ) ∩ O = ∅, ∀i = 1, τ . (8d)\ni i+1 ∑ij w1 + w2 + w3 = 1 (8e) Do đó, bằng cách đưa các ràng buộc của bài toán người du lịch (TSP) vào, ta có thể thu hẹp tập khả thi của bài toán đang xét mà vẫn duy trì sự tồn tại của nghiệm tối ưu toàn cục. Khi đó, bài toán tối ưu cho giai đoạn này được phát biểu như sau: |S|−1 min G(∫) = ∑ D + D (9a) ri,ri+1 r|S|,r1 ∫={r }|S| i i=1 i=1 s.t. ri ∈ S, ∀i = 1, |S|, (9b)\nri ̸= rj, ∀i ̸= j. (9c) trong đó hàm mục tiêu trong (9a) biểu diễn tổng chiều dài quãng đường robot cần di chuyển để thăm tất cả các mục tiêu. Các ràng buộc (9b) và (9c) bảo đảm rằng robot thăm mỗi mục tiêu trong S đúng một lần.",
-              "score": 0.0003,
-              "cited": false
-            },
-            {
-              "label": 8,
-              "chunk_id": 220,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 4,
-              "section": "3 The Fast Marching Firework",
-              "text": "Một pháo hoa F bao gồm một tập hợp các ô lưới có một ô mục tiêu làm gốc. Hai ô bất kỳ u và v trong pháo hoa có thể được kết nối bằng một đường đi liên tục: p(u, v) = {u, p1, . . . , pτ, v}, (10) trong đó τ là chiều dài của đường đi đó, pi ∈ F ∀i = 1, τ, và pi, pi+1 là hai ô lân cận trong vùng. Nói cách khác, vùng quan tâm (không bao gồm vật cản) được phân chia thành Xét pháo hoa có gốc s1 ∈ S Ký hiệu T(x) là thời gian ngắn nhất để pháo hoa đến ô x. Khởi tạo T(si) = 0 Ký hiệu F(x) là pháo hoa chứa ô x khi lan truyền Ký hiệu Src(F) là nguồn của pháo hoa F, Src(x) là nguồn của pháo hoa chứa x (tức là x ∈ F Ký hiệu Hold[i] là tập hợp tất cả các ô x mà tại đó, nguồn si là nguồn gần nhất (xét theo chi phí T) Ở mỗi vòng lặp, cell đầu tiên c trong Heap bị loại bỏ, các ô liền kề nó được tính toán bằng phương trình Eikonal: 1 = F(x)∥∇T(x)∥ trong đó x là vị trí hiện tại đang xét trên grid map, F(x) là tốc độ mở rộng của pháo hoa tại x",
-              "score": 0.0002,
-              "cited": false
-            },
-            {
-              "label": 9,
-              "chunk_id": 216,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 3,
-              "section": "1.2 Độ rủi ro phòng xạ",
-              "text": "Mức độ rủi ro, được biểu diễn bằng liều bức xạ tích lũy ∫(∑), cho biết tổng mức phơi nhiễm\nbức xạ mà robot di động gặp phải. Trong bản đồ lưới rời rạc, ∫(∑) từ mục tiêu Ti đến Tj có thể được tính theo công thức sau: τ∑ −1\n∫(∑) = ∑ ∫(p , p ) n n+1 n=1 (6) τ∑ −1 a = ∑ d(p , p ) × (∫(pn) + ∫(pn+1))/(2)× . n n+1 v n=1 Trong đó, ∫(pn, pn+1) biểu thị liều bức xạ tích lũy giữa hai điểm trung gian pn và pn+1;\n∫(pn) là suất liều bức xạ trung bình trong ô lưới pn; a là chiều dài của mỗi ô lưới; v là vận tốc của robot di động.",
-              "score": 0.0002,
-              "cited": false
-            },
-            {
-              "label": 10,
-              "chunk_id": 230,
-              "document_id": 7,
-              "doc_title": "mô_hình_hóa_ĐATN",
-              "doc_source": "mô_hình_hóa_ĐATN.pdf",
-              "page": 8,
-              "section": "6 Thực nghiệm",
-              "text": "Bảng 1: Kết quả thực nghiệm so sánh tổng chiều dài đường đi (đã lược bỏ cột) (Map Map size FMF DFA SFF)/(T1_01 502 540 564)\n(T1_02)/(T1_03) (729 801 807)/(1333 1575 1533) 300 x 300 (T1_04)/(T1_05) (1449 1585 1692)/(1676 1768 1783)\n(T1_06)/(T1_07) (1738 1974 1935)/(2055 2304 2311) T1_08 2863 2923 2954 7",
-              "score": 0.0001,
+              "label": 3,
+              "chunk_id": 41,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 2,
+              "section": "1 Problem formulation",
+              "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
+              "score": 0.0159,
               "cited": false
             }
           ],
@@ -564,7 +128,7 @@
               "type": "route",
               "data": {
                 "route": "simple",
-                "reason": "Buộc tra cứu tài liệu (tránh bỏ sót)."
+                "reason": "Câu hỏi yêu cầu tra cứu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), có thể trả lời từ tài liệu."
               }
             },
             {
@@ -577,114 +141,44 @@
               "type": "subquestion",
               "data": {
                 "index": 0,
-                "subquestion": "Cảm ơn bạn nhiều"
+                "subquestion": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?"
               }
             },
             {
               "type": "retrieved",
               "data": {
-                "subquestion": "Cảm ơn bạn nhiều",
+                "subquestion": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?",
                 "index": 0,
                 "chunks": [
                   {
-                    "chunk_id": 227,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 7,
-                    "preview": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F ",
-                    "score": 0.0009,
-                    "bm25_score": null,
-                    "dense_score": 0.27127939462661743,
-                    "rerank_score": 0.0009436192455752618
-                  },
-                  {
-                    "chunk_id": 223,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 5,
-                    "preview": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản",
-                    "score": 0.0007,
-                    "bm25_score": null,
-                    "dense_score": 0.25707390904426575,
-                    "rerank_score": 0.0006667023092435893
-                  },
-                  {
-                    "chunk_id": 212,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 2,
-                    "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
-                    "score": 0.0006,
-                    "bm25_score": 1.8758627868025417,
-                    "dense_score": 0.2537315785884857,
-                    "rerank_score": 0.000593021029357059
-                  },
-                  {
-                    "chunk_id": 228,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 7,
-                    "preview": "14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage) 19 for ",
-                    "score": 0.0005,
-                    "bm25_score": null,
-                    "dense_score": 0.25552114844322205,
-                    "rerank_score": 0.0005152656843015681
-                  },
-                  {
-                    "chunk_id": 214,
-                    "doc_title": "mô_hình_hóa_ĐATN",
+                    "chunk_id": 43,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
                     "page": 2,
                     "preview": "• Với mỗi ô c trong lưới, chỉ số an toàn tại ô này được xác định như sau: S(c) = C1 · (24 − Nobs(c))/(24)+ (1 − C1) · (dmin(c, Oc))/(3)(4)\n– Oc: tập các ô vật cản trong vùng lân cận 5 × 5 xung quanh ô",
-                    "score": 0.0003,
-                    "bm25_score": null,
-                    "dense_score": 0.2710592746734619,
-                    "rerank_score": 0.0002846224015752145
+                    "score": 0.0164,
+                    "bm25_score": 5.986725081707633,
+                    "dense_score": null,
+                    "rerank_score": null
                   },
                   {
-                    "chunk_id": 215,
-                    "doc_title": "mô_hình_hóa_ĐATN",
+                    "chunk_id": 44,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
                     "page": 3,
                     "preview": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , ",
-                    "score": 0.0003,
-                    "bm25_score": null,
-                    "dense_score": 0.2589356303215027,
-                    "rerank_score": 0.00026323832090326084
+                    "score": 0.0161,
+                    "bm25_score": 4.920789779185504,
+                    "dense_score": null,
+                    "rerank_score": null
                   },
                   {
-                    "chunk_id": 219,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 4,
-                    "preview": "Di,j = min w1 · length(∑ij) + w2 · ∫(∑ij) + w3 · Risk(∑ij) (8a)\nτ∑ij\n∑ij={pk=(cxk,cyk)}k=1\ns.t. cx ∈ {1, 2, . . . , W˜ }, cy ∈ {1, 2, . . . , H˜}, ∀i = 1, τ , (8b)\ni i ∑ p1 = si, pτ = sj, (8c) ∑ij\n−−−",
-                    "score": 0.0003,
-                    "bm25_score": null,
-                    "dense_score": 0.24375703930854797,
-                    "rerank_score": 0.0002611903190957194
-                  },
-                  {
-                    "chunk_id": 220,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 4,
-                    "preview": "Một pháo hoa F bao gồm một tập hợp các ô lưới có một ô mục tiêu làm gốc. Hai ô bất kỳ u và v trong pháo hoa có thể được kết nối bằng một đường đi liên tục: p(u, v) = {u, p1, . . . , pτ, v}, (10) trong",
-                    "score": 0.0002,
-                    "bm25_score": null,
-                    "dense_score": 0.2731875479221344,
-                    "rerank_score": 0.00017952796934677737
-                  },
-                  {
-                    "chunk_id": 216,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 3,
-                    "preview": "Mức độ rủi ro, được biểu diễn bằng liều bức xạ tích lũy ∫(∑), cho biết tổng mức phơi nhiễm\nbức xạ mà robot di động gặp phải. Trong bản đồ lưới rời rạc, ∫(∑) từ mục tiêu Ti đến Tj có thể được tính theo",
-                    "score": 0.0002,
-                    "bm25_score": null,
-                    "dense_score": 0.27416884899139404,
-                    "rerank_score": 0.0001753699377377387
-                  },
-                  {
-                    "chunk_id": 230,
-                    "doc_title": "mô_hình_hóa_ĐATN",
-                    "page": 8,
-                    "preview": "Bảng 1: Kết quả thực nghiệm so sánh tổng chiều dài đường đi (đã lược bỏ cột) (Map Map size FMF DFA SFF)/(T1_01 502 540 564)\n(T1_02)/(T1_03) (729 801 807)/(1333 1575 1533) 300 x 300 (T1_04)/(T1_05) (14",
-                    "score": 0.0001,
-                    "bm25_score": null,
-                    "dense_score": 0.25589728355407715,
-                    "rerank_score": 0.0001355207856240677
+                    "chunk_id": 41,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 2,
+                    "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
+                    "score": 0.0159,
+                    "bm25_score": 4.579196701189552,
+                    "dense_score": null,
+                    "rerank_score": null
                   }
                 ]
               }
@@ -698,18 +192,11 @@
             {
               "type": "synthesize",
               "data": {
-                "n_context": 10,
+                "n_context": 3,
                 "labels": [
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10
+                  3
                 ]
               }
             },
@@ -722,39 +209,20 @@
             {
               "type": "verify_answer",
               "data": {
-                "grounded": false,
-                "reason": "Không tìm thấy thông tin trong tài liệu."
-              }
-            },
-            {
-              "type": "thinking",
-              "data": {
-                "node": "regenerate"
-              }
-            },
-            {
-              "type": "thinking",
-              "data": {
-                "node": "answer"
-              }
-            },
-            {
-              "type": "verify_answer",
-              "data": {
                 "grounded": true,
-                "reason": "Đã tạo lại câu trả lời."
+                "reason": ""
               }
             }
           ],
           "usage": {
-            "prompt_tokens": 10303,
-            "completion_tokens": 120,
-            "calls": 4
+            "prompt_tokens": 2715,
+            "completion_tokens": 335,
+            "calls": 3
           },
           "route": "simple",
-          "partial": true,
+          "partial": false,
           "iterations": 0,
-          "regenerated": true
+          "regenerated": false
         }
       }
     ],
@@ -764,130 +232,45 @@
       "retrieved",
       "synthesize",
       "verify_answer",
-      "verify_answer",
       "final"
     ],
     "final": {
-      "answer": "Không tìm thấy thông tin trong tài liệu.",
+      "answer": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố chính:  \n\n- $Nobs(c)$: số lượng ô vật cản trong vùng lân cận xét quanh ô $c$ [1][2]  \n- $d_{\\min}(c, O_c)$: khoảng cách từ ô $c$ tới vật cản gần nhất trong tập các ô vật cản lân cận $O_c$; nếu $O_c = \\varnothing$ thì $d_{\\min}(c, O_c) = 3$ [1]\n\nNgoài ra, $S(c)$ còn phụ thuộc vào hệ số điều chỉnh $C_1 \\in [0,1]$ [2].  \n\nCông thức được cho là:\n$$\nS(c) = C_1 \\cdot \\frac{24 - Nobs(c)}{24} + (1 - C_1)\\cdot \\frac{d_{\\min}(c, O_c)}{3}\n$$\n[1][2]",
       "citations": [
         {
           "label": 1,
-          "chunk_id": 227,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 7,
-          "section": "5 Mã giả thuật toán",
-          "text": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F cho các ô lưới; Ma trận chi phí D′ // Bước tiền xử lý chi phí cục bộ 1 Tính f(x) = w1 + (1 − w1)(1 − S(x)) cho toàn bộ ô x ∈/ O // Giai đoạn lan truyền (Expanding Stage) Khởi tạo Heap ← ∅; D′[i, j] ← ∞ với mọi i, j 2 3 for i ← 1 to |S| do\n4 Hold[i] ← ∅; // Khởi tạo bộ nhớ cho pháo hoa nguồn si\n5 Thêm si vào Heap; T(si) ← 0; F(si) ← i 6 while Heap không trống do 7 Trích xuất x có chi phí tích lũy T(x) nhỏ nhất từ Heap sau đó xóa x khỏi Heap // adjacent(x) là tập hợp 8 ô xung quanh ô x 8 foreach y ∈ adjacent(x), y ∈/ O do\n9 cost_step ← d(x, y) · f(y) // Chi phí bước đi có trọng số 10 if T(y) > T(x) + cost_step then 11 T(y) ← T(x) + cost_step\n12 F(y) ← F(x) // Cập nhật nhãn pháo hoa 13 Insert y vào Heap 14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage)",
-          "score": 0.0009,
-          "cited": false
-        },
-        {
-          "label": 2,
-          "chunk_id": 223,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 5,
-          "section": "4.1 Xác định hàm chi phí cục bộ f(x)",
-          "text": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản\"của môi trường đối với sự lan truyền của pháo hoa. Dựa trên chỉ số an toàn S(x) ∈ [0, 1] đã được thiết lập tại phương trình (4), tôi xác định hàm chi phí cục bộ tổng hợp được mô hình hóa như sau: f(x) = w1 + w2 · ∫(x) + w3 · (1 − S(x)) (11) Trong đó: • w1 ∈ [0, 1] là trọng số điều chỉnh mức độ ưu tiên. Khi w1 → 1, thuật toán ưu tiên đường\nđi ngắn nhất; khi w1 → 0, thuật toán ưu tiên đường đi an toàn nhất. • f(x) đại diện cho chi phí đơn vị để đi qua ô lưới x. Tại các vùng gần vật cản (S(x) thấp), f(x) sẽ có giá trị lớn, tạo ra lực đẩy ảo ngăn cản robot di chuyển vào vùng nguy hiểm.",
-          "score": 0.0007,
-          "cited": false
-        },
-        {
-          "label": 3,
-          "chunk_id": 212,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 2,
-          "section": "1 Problem formulation",
-          "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
-          "score": 0.0006,
-          "cited": false
-        },
-        {
-          "label": 4,
-          "chunk_id": 228,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 7,
-          "section": "5 Mã giả thuật toán",
-          "text": "14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage) 19 for i ← 1 to |S| do\n20 Border ← ∅ // Hàng đợi ưu tiên được sử dụng riêng cho các ô biên\n21 foreach x ∈ Hold[i] do 22 Tạm thời loại x khỏi bản đồ E 23 Thêm tất cả y ∈ adjacent(x) mà F(y) ̸= F(x) vào Border // y ∈/ Hold[i] 24 while Border không trống do 25 Trích xuất x có T(x) nhỏ nhất từ Border sau đó xóa x khỏi Border 26 foreach y ∈ adjacent(x) do 27 if F(y) ̸= F(x) then 28 cost_step ← d(x, y) · f(y)\n29 T(y) ← T(x) + cost_step\n30 F(y) ← F(x) 31 Insert y vào Border 32 foreach x ∈ Hold[i] do\n33 foreach y ∈ adjacent(x) do 34 if F(y) ̸= F(x) then AddEdge(x, y, 2, D′, f); // Kết nối thứ cấp 35 36 Thêm x trở lại bản đồ E 6",
-          "score": 0.0005,
-          "cited": false
-        },
-        {
-          "label": 5,
-          "chunk_id": 214,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
+          "chunk_id": 43,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
           "page": 2,
           "section": "1.1 Chỉ số an toàn, độ rủi ro va chạm",
           "text": "• Với mỗi ô c trong lưới, chỉ số an toàn tại ô này được xác định như sau: S(c) = C1 · (24 − Nobs(c))/(24)+ (1 − C1) · (dmin(c, Oc))/(3)(4)\n– Oc: tập các ô vật cản trong vùng lân cận 5 × 5 xung quanh ô c;\n– d (c, O ): khoảng cách từ ô c tới vật cản gần nhất trong O , nếu O = ∅ thì min c c c dmin(c, Oc) = 3; 1",
-          "score": 0.0003,
-          "cited": false
+          "score": 0.0164,
+          "cited": true
         },
         {
-          "label": 6,
-          "chunk_id": 215,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
+          "label": 2,
+          "chunk_id": 44,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
           "page": 3,
           "section": "1.1 Chỉ số an toàn, độ rủi ro va chạm",
           "text": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , pK), pi = (xi, yi).\n=⇒ 0 ≤ risk(∑) ≤ |∑| và risk càng nhỏ càng tốt",
-          "score": 0.0003,
-          "cited": false
+          "score": 0.0161,
+          "cited": true
         },
         {
-          "label": 7,
-          "chunk_id": 219,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 4,
-          "section": "2 Two phases of optimization",
-          "text": "Di,j = min w1 · length(∑ij) + w2 · ∫(∑ij) + w3 · Risk(∑ij) (8a)\nτ∑ij\n∑ij={pk=(cxk,cyk)}k=1\ns.t. cx ∈ {1, 2, . . . , W˜ }, cy ∈ {1, 2, . . . , H˜}, ∀i = 1, τ , (8b)\ni i ∑ p1 = si, pτ = sj, (8c) ∑ij\n−−−−−→\n(p , p ) ∩ O = ∅, ∀i = 1, τ . (8d)\ni i+1 ∑ij w1 + w2 + w3 = 1 (8e) Do đó, bằng cách đưa các ràng buộc của bài toán người du lịch (TSP) vào, ta có thể thu hẹp tập khả thi của bài toán đang xét mà vẫn duy trì sự tồn tại của nghiệm tối ưu toàn cục. Khi đó, bài toán tối ưu cho giai đoạn này được phát biểu như sau: |S|−1 min G(∫) = ∑ D + D (9a) ri,ri+1 r|S|,r1 ∫={r }|S| i i=1 i=1 s.t. ri ∈ S, ∀i = 1, |S|, (9b)\nri ̸= rj, ∀i ̸= j. (9c) trong đó hàm mục tiêu trong (9a) biểu diễn tổng chiều dài quãng đường robot cần di chuyển để thăm tất cả các mục tiêu. Các ràng buộc (9b) và (9c) bảo đảm rằng robot thăm mỗi mục tiêu trong S đúng một lần.",
-          "score": 0.0003,
-          "cited": false
-        },
-        {
-          "label": 8,
-          "chunk_id": 220,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 4,
-          "section": "3 The Fast Marching Firework",
-          "text": "Một pháo hoa F bao gồm một tập hợp các ô lưới có một ô mục tiêu làm gốc. Hai ô bất kỳ u và v trong pháo hoa có thể được kết nối bằng một đường đi liên tục: p(u, v) = {u, p1, . . . , pτ, v}, (10) trong đó τ là chiều dài của đường đi đó, pi ∈ F ∀i = 1, τ, và pi, pi+1 là hai ô lân cận trong vùng. Nói cách khác, vùng quan tâm (không bao gồm vật cản) được phân chia thành Xét pháo hoa có gốc s1 ∈ S Ký hiệu T(x) là thời gian ngắn nhất để pháo hoa đến ô x. Khởi tạo T(si) = 0 Ký hiệu F(x) là pháo hoa chứa ô x khi lan truyền Ký hiệu Src(F) là nguồn của pháo hoa F, Src(x) là nguồn của pháo hoa chứa x (tức là x ∈ F Ký hiệu Hold[i] là tập hợp tất cả các ô x mà tại đó, nguồn si là nguồn gần nhất (xét theo chi phí T) Ở mỗi vòng lặp, cell đầu tiên c trong Heap bị loại bỏ, các ô liền kề nó được tính toán bằng phương trình Eikonal: 1 = F(x)∥∇T(x)∥ trong đó x là vị trí hiện tại đang xét trên grid map, F(x) là tốc độ mở rộng của pháo hoa tại x",
-          "score": 0.0002,
-          "cited": false
-        },
-        {
-          "label": 9,
-          "chunk_id": 216,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 3,
-          "section": "1.2 Độ rủi ro phòng xạ",
-          "text": "Mức độ rủi ro, được biểu diễn bằng liều bức xạ tích lũy ∫(∑), cho biết tổng mức phơi nhiễm\nbức xạ mà robot di động gặp phải. Trong bản đồ lưới rời rạc, ∫(∑) từ mục tiêu Ti đến Tj có thể được tính theo công thức sau: τ∑ −1\n∫(∑) = ∑ ∫(p , p ) n n+1 n=1 (6) τ∑ −1 a = ∑ d(p , p ) × (∫(pn) + ∫(pn+1))/(2)× . n n+1 v n=1 Trong đó, ∫(pn, pn+1) biểu thị liều bức xạ tích lũy giữa hai điểm trung gian pn và pn+1;\n∫(pn) là suất liều bức xạ trung bình trong ô lưới pn; a là chiều dài của mỗi ô lưới; v là vận tốc của robot di động.",
-          "score": 0.0002,
-          "cited": false
-        },
-        {
-          "label": 10,
-          "chunk_id": 230,
-          "document_id": 7,
-          "doc_title": "mô_hình_hóa_ĐATN",
-          "doc_source": "mô_hình_hóa_ĐATN.pdf",
-          "page": 8,
-          "section": "6 Thực nghiệm",
-          "text": "Bảng 1: Kết quả thực nghiệm so sánh tổng chiều dài đường đi (đã lược bỏ cột) (Map Map size FMF DFA SFF)/(T1_01 502 540 564)\n(T1_02)/(T1_03) (729 801 807)/(1333 1575 1533) 300 x 300 (T1_04)/(T1_05) (1449 1585 1692)/(1676 1768 1783)\n(T1_06)/(T1_07) (1738 1974 1935)/(2055 2304 2311) T1_08 2863 2923 2954 7",
-          "score": 0.0001,
+          "label": 3,
+          "chunk_id": 41,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 2,
+          "section": "1 Problem formulation",
+          "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
+          "score": 0.0159,
           "cited": false
         }
       ],
@@ -902,7 +285,7 @@
           "type": "route",
           "data": {
             "route": "simple",
-            "reason": "Buộc tra cứu tài liệu (tránh bỏ sót)."
+            "reason": "Câu hỏi yêu cầu tra cứu thông tin về các yếu tố ảnh hưởng đến chỉ số an toàn S(c), có thể trả lời từ tài liệu."
           }
         },
         {
@@ -915,114 +298,44 @@
           "type": "subquestion",
           "data": {
             "index": 0,
-            "subquestion": "Cảm ơn bạn nhiều"
+            "subquestion": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?"
           }
         },
         {
           "type": "retrieved",
           "data": {
-            "subquestion": "Cảm ơn bạn nhiều",
+            "subquestion": "Chỉ số an toàn S(c) phụ thuộc vào những yếu tố nào?",
             "index": 0,
             "chunks": [
               {
-                "chunk_id": 227,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 7,
-                "preview": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F ",
-                "score": 0.0009,
-                "bm25_score": null,
-                "dense_score": 0.27127939462661743,
-                "rerank_score": 0.0009436192455752618
-              },
-              {
-                "chunk_id": 223,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 5,
-                "preview": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản",
-                "score": 0.0007,
-                "bm25_score": null,
-                "dense_score": 0.25707390904426575,
-                "rerank_score": 0.0006667023092435893
-              },
-              {
-                "chunk_id": 212,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 2,
-                "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
-                "score": 0.0006,
-                "bm25_score": 1.8758627868025417,
-                "dense_score": 0.2537315785884857,
-                "rerank_score": 0.000593021029357059
-              },
-              {
-                "chunk_id": 228,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 7,
-                "preview": "14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage) 19 for ",
-                "score": 0.0005,
-                "bm25_score": null,
-                "dense_score": 0.25552114844322205,
-                "rerank_score": 0.0005152656843015681
-              },
-              {
-                "chunk_id": 214,
-                "doc_title": "mô_hình_hóa_ĐATN",
+                "chunk_id": 43,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
                 "page": 2,
                 "preview": "• Với mỗi ô c trong lưới, chỉ số an toàn tại ô này được xác định như sau: S(c) = C1 · (24 − Nobs(c))/(24)+ (1 − C1) · (dmin(c, Oc))/(3)(4)\n– Oc: tập các ô vật cản trong vùng lân cận 5 × 5 xung quanh ô",
-                "score": 0.0003,
-                "bm25_score": null,
-                "dense_score": 0.2710592746734619,
-                "rerank_score": 0.0002846224015752145
+                "score": 0.0164,
+                "bm25_score": 5.986725081707633,
+                "dense_score": null,
+                "rerank_score": null
               },
               {
-                "chunk_id": 215,
-                "doc_title": "mô_hình_hóa_ĐATN",
+                "chunk_id": 44,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
                 "page": 3,
                 "preview": "– Nobs(c): số lượng ô vật cản trong vùng xét; – C1 ∈ [0, 1]: hệ số điều chỉnh.\n=⇒ S(c) ∈ [0, 1], ∀c ∈ E • Chỉ số độ rủi ro: risk(∑) = ∑(1 − S(p)) , (5)\np∈∑\ntrong đó ∑ là đường đi\n∑ = (p0, p1, . . . , ",
-                "score": 0.0003,
-                "bm25_score": null,
-                "dense_score": 0.2589356303215027,
-                "rerank_score": 0.00026323832090326084
+                "score": 0.0161,
+                "bm25_score": 4.920789779185504,
+                "dense_score": null,
+                "rerank_score": null
               },
               {
-                "chunk_id": 219,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 4,
-                "preview": "Di,j = min w1 · length(∑ij) + w2 · ∫(∑ij) + w3 · Risk(∑ij) (8a)\nτ∑ij\n∑ij={pk=(cxk,cyk)}k=1\ns.t. cx ∈ {1, 2, . . . , W˜ }, cy ∈ {1, 2, . . . , H˜}, ∀i = 1, τ , (8b)\ni i ∑ p1 = si, pτ = sj, (8c) ∑ij\n−−−",
-                "score": 0.0003,
-                "bm25_score": null,
-                "dense_score": 0.24375703930854797,
-                "rerank_score": 0.0002611903190957194
-              },
-              {
-                "chunk_id": 220,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 4,
-                "preview": "Một pháo hoa F bao gồm một tập hợp các ô lưới có một ô mục tiêu làm gốc. Hai ô bất kỳ u và v trong pháo hoa có thể được kết nối bằng một đường đi liên tục: p(u, v) = {u, p1, . . . , pτ, v}, (10) trong",
-                "score": 0.0002,
-                "bm25_score": null,
-                "dense_score": 0.2731875479221344,
-                "rerank_score": 0.00017952796934677737
-              },
-              {
-                "chunk_id": 216,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 3,
-                "preview": "Mức độ rủi ro, được biểu diễn bằng liều bức xạ tích lũy ∫(∑), cho biết tổng mức phơi nhiễm\nbức xạ mà robot di động gặp phải. Trong bản đồ lưới rời rạc, ∫(∑) từ mục tiêu Ti đến Tj có thể được tính theo",
-                "score": 0.0002,
-                "bm25_score": null,
-                "dense_score": 0.27416884899139404,
-                "rerank_score": 0.0001753699377377387
-              },
-              {
-                "chunk_id": 230,
-                "doc_title": "mô_hình_hóa_ĐATN",
-                "page": 8,
-                "preview": "Bảng 1: Kết quả thực nghiệm so sánh tổng chiều dài đường đi (đã lược bỏ cột) (Map Map size FMF DFA SFF)/(T1_01 502 540 564)\n(T1_02)/(T1_03) (729 801 807)/(1333 1575 1533) 300 x 300 (T1_04)/(T1_05) (14",
-                "score": 0.0001,
-                "bm25_score": null,
-                "dense_score": 0.25589728355407715,
-                "rerank_score": 0.0001355207856240677
+                "chunk_id": 41,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 2,
+                "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
+                "score": 0.0159,
+                "bm25_score": 4.579196701189552,
+                "dense_score": null,
+                "rerank_score": null
               }
             ]
           }
@@ -1036,18 +349,11 @@
         {
           "type": "synthesize",
           "data": {
-            "n_context": 10,
+            "n_context": 3,
             "labels": [
               1,
               2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10
+              3
             ]
           }
         },
@@ -1060,50 +366,31 @@
         {
           "type": "verify_answer",
           "data": {
-            "grounded": false,
-            "reason": "Không tìm thấy thông tin trong tài liệu."
-          }
-        },
-        {
-          "type": "thinking",
-          "data": {
-            "node": "regenerate"
-          }
-        },
-        {
-          "type": "thinking",
-          "data": {
-            "node": "answer"
-          }
-        },
-        {
-          "type": "verify_answer",
-          "data": {
             "grounded": true,
-            "reason": "Đã tạo lại câu trả lời."
+            "reason": ""
           }
         }
       ],
       "usage": {
-        "prompt_tokens": 10303,
-        "completion_tokens": 120,
-        "calls": 4
+        "prompt_tokens": 2715,
+        "completion_tokens": 335,
+        "calls": 3
       },
       "route": "simple",
-      "partial": true,
+      "partial": false,
       "iterations": 0,
-      "regenerated": true
+      "regenerated": false
     },
-    "elapsed": 23.31,
+    "elapsed": 15.13,
     "route": "simple",
     "iterations": 0,
-    "partial": true,
-    "answer_preview": "Không tìm thấy thông tin trong tài liệu.",
+    "partial": false,
+    "answer_preview": "Chỉ số an toàn $S(c)$ phụ thuộc vào hai yếu tố chính:  \n\n- $Nobs(c)$: số lượng ô vật cản trong vùng lân cận xét quanh ô $c$ [1][2]  \n- $d_{\\min}(c, O_c)$: khoảng cách từ ô $c$ tới vật cản gần nhất tro",
     "checks": [
       [
         "route",
-        false,
-        "expected=no_retrieval, got=simple"
+        true,
+        "expected=simple, got=simple"
       ],
       [
         "event:route",
@@ -1111,14 +398,19 @@
         "FOUND"
       ],
       [
-        "event:final",
+        "event:retrieved",
         true,
         "FOUND"
       ],
       [
-        "no_event:retrieve",
+        "event:synthesize",
         true,
-        "NOT FOUND (ok)"
+        "FOUND"
+      ],
+      [
+        "event:verify_answer",
+        true,
+        "FOUND"
       ],
       [
         "no_event:plan",
@@ -1136,14 +428,904 @@
         "NOT FOUND (ok)"
       ],
       [
-        "no_event:synthesize",
-        false,
-        "FOUND (bad)"
+        "no_event:sufficiency",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:replan",
+        true,
+        "NOT FOUND (ok)"
       ],
       [
         "verify_answer_result",
         true,
-        "grounded=False"
+        "grounded=True"
+      ]
+    ]
+  },
+  {
+    "scenario": 2,
+    "question": "Đầu ra của bài toán quy hoạch đường đi là gì?",
+    "error": null,
+    "events": [
+      {
+        "type": "route",
+        "data": {
+          "route": "simple",
+          "reason": "Câu hỏi yêu cầu thông tin về đầu ra của bài toán quy hoạch đường đi, có thể trả lời từ tài liệu liên quan."
+        }
+      },
+      {
+        "type": "subquestion",
+        "data": {
+          "index": 0,
+          "subquestion": "Đầu ra của bài toán quy hoạch đường đi là gì?"
+        }
+      },
+      {
+        "type": "retrieved",
+        "data": {
+          "subquestion": "Đầu ra của bài toán quy hoạch đường đi là gì?",
+          "index": 0,
+          "chunks": [
+            {
+              "chunk_id": 50,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 4,
+              "preview": "định ma trận chi phí đa mục tiêu Trong nghiên cứu này, chúng tôi đề xuất một phiên bản cải tiến của thuật toán Fast Marching Firework (FMF) để giải quyết bài toán quy hoạch đường đi đa mục tiêu. Thay ",
+              "score": 0.0164,
+              "bm25_score": 12.037101122510883,
+              "dense_score": null,
+              "rerank_score": null
+            },
+            {
+              "chunk_id": 40,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 1,
+              "preview": "PHƯƠNG PHÁP CHO QUY HOẠCH ĐƯỜNG ĐI AN TOÀN ĐA ĐÍCH ĐẾN CỦA   DI ĐỘNG MÔI TRƯỜNG NHÀ MÁY HẠT NHÂN",
+              "score": 0.0161,
+              "bm25_score": 9.40412723912736,
+              "dense_score": null,
+              "rerank_score": null
+            },
+            {
+              "chunk_id": 41,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 2,
+              "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
+              "score": 0.0159,
+              "bm25_score": 5.244450921264796,
+              "dense_score": null,
+              "rerank_score": null
+            }
+          ]
+        }
+      },
+      {
+        "type": "synthesize",
+        "data": {
+          "n_context": 3,
+          "labels": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "type": "verify_answer",
+        "data": {
+          "grounded": true,
+          "reason": ""
+        }
+      },
+      {
+        "type": "final",
+        "data": {
+          "answer": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- **Một dãy $\\Sigma$ chứa thứ tự thăm tất cả các mục tiêu** [3]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\Sigma$ đi qua tất cả các mục tiêu trong $\\Sigma$** [3]",
+          "citations": [
+            {
+              "label": 1,
+              "chunk_id": 50,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 4,
+              "section": "4 Phương pháp Fast Marching Firework cải tiến xác",
+              "text": "định ma trận chi phí đa mục tiêu Trong nghiên cứu này, chúng tôi đề xuất một phiên bản cải tiến của thuật toán Fast Marching Firework (FMF) để giải quyết bài toán quy hoạch đường đi đa mục tiêu. Thay vì chỉ tập trung 3",
+              "score": 0.0164,
+              "cited": false
+            },
+            {
+              "label": 2,
+              "chunk_id": 40,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 1,
+              "section": null,
+              "text": "PHƯƠNG PHÁP CHO QUY HOẠCH ĐƯỜNG ĐI AN TOÀN ĐA ĐÍCH ĐẾN CỦA   DI ĐỘNG MÔI TRƯỜNG NHÀ MÁY HẠT NHÂN",
+              "score": 0.0161,
+              "cited": false
+            },
+            {
+              "label": 3,
+              "chunk_id": 41,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 2,
+              "section": "1 Problem formulation",
+              "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
+              "score": 0.0159,
+              "cited": true
+            }
+          ],
+          "trace": [
+            {
+              "type": "thinking",
+              "data": {
+                "node": "router"
+              }
+            },
+            {
+              "type": "route",
+              "data": {
+                "route": "simple",
+                "reason": "Câu hỏi yêu cầu thông tin về đầu ra của bài toán quy hoạch đường đi, có thể trả lời từ tài liệu liên quan."
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
+                "node": "retrieve"
+              }
+            },
+            {
+              "type": "subquestion",
+              "data": {
+                "index": 0,
+                "subquestion": "Đầu ra của bài toán quy hoạch đường đi là gì?"
+              }
+            },
+            {
+              "type": "retrieved",
+              "data": {
+                "subquestion": "Đầu ra của bài toán quy hoạch đường đi là gì?",
+                "index": 0,
+                "chunks": [
+                  {
+                    "chunk_id": 50,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 4,
+                    "preview": "định ma trận chi phí đa mục tiêu Trong nghiên cứu này, chúng tôi đề xuất một phiên bản cải tiến của thuật toán Fast Marching Firework (FMF) để giải quyết bài toán quy hoạch đường đi đa mục tiêu. Thay ",
+                    "score": 0.0164,
+                    "bm25_score": 12.037101122510883,
+                    "dense_score": null,
+                    "rerank_score": null
+                  },
+                  {
+                    "chunk_id": 40,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 1,
+                    "preview": "PHƯƠNG PHÁP CHO QUY HOẠCH ĐƯỜNG ĐI AN TOÀN ĐA ĐÍCH ĐẾN CỦA   DI ĐỘNG MÔI TRƯỜNG NHÀ MÁY HẠT NHÂN",
+                    "score": 0.0161,
+                    "bm25_score": 9.40412723912736,
+                    "dense_score": null,
+                    "rerank_score": null
+                  },
+                  {
+                    "chunk_id": 41,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 2,
+                    "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
+                    "score": 0.0159,
+                    "bm25_score": 5.244450921264796,
+                    "dense_score": null,
+                    "rerank_score": null
+                  }
+                ]
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
+                "node": "synthesize"
+              }
+            },
+            {
+              "type": "synthesize",
+              "data": {
+                "n_context": 3,
+                "labels": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
+                "node": "verify_answer"
+              }
+            },
+            {
+              "type": "verify_answer",
+              "data": {
+                "grounded": true,
+                "reason": ""
+              }
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 2267,
+            "completion_tokens": 186,
+            "calls": 3
+          },
+          "route": "simple",
+          "partial": false,
+          "iterations": 0,
+          "regenerated": false
+        }
+      }
+    ],
+    "event_types": [
+      "route",
+      "subquestion",
+      "retrieved",
+      "synthesize",
+      "verify_answer",
+      "final"
+    ],
+    "final": {
+      "answer": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- **Một dãy $\\Sigma$ chứa thứ tự thăm tất cả các mục tiêu** [3]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\Sigma$ đi qua tất cả các mục tiêu trong $\\Sigma$** [3]",
+      "citations": [
+        {
+          "label": 1,
+          "chunk_id": 50,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 4,
+          "section": "4 Phương pháp Fast Marching Firework cải tiến xác",
+          "text": "định ma trận chi phí đa mục tiêu Trong nghiên cứu này, chúng tôi đề xuất một phiên bản cải tiến của thuật toán Fast Marching Firework (FMF) để giải quyết bài toán quy hoạch đường đi đa mục tiêu. Thay vì chỉ tập trung 3",
+          "score": 0.0164,
+          "cited": false
+        },
+        {
+          "label": 2,
+          "chunk_id": 40,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 1,
+          "section": null,
+          "text": "PHƯƠNG PHÁP CHO QUY HOẠCH ĐƯỜNG ĐI AN TOÀN ĐA ĐÍCH ĐẾN CỦA   DI ĐỘNG MÔI TRƯỜNG NHÀ MÁY HẠT NHÂN",
+          "score": 0.0161,
+          "cited": false
+        },
+        {
+          "label": 3,
+          "chunk_id": 41,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 2,
+          "section": "1 Problem formulation",
+          "text": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất cả các mục tiêu - Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất ∑ đi qua tất cả các mục tiêu trong ∫ Ràng buộc: (1) Robot có thể bắt đầu tại bất kỳ mục tiêu nào (mục tiêu xuất phát) và phải thăm tất cả các mục tiêu còn lại, sau đó quay trở về mục tiêu xuất phát (2) Trong dãy ∫, mỗi mục tiêu phải xuất hiện ít nhất một lần\n(3) Trên đường đi ∑, robot phải thăm mỗi mục tiêu ít nhất một lần và không được đi qua các ô vật cản Mục tiêu: length(∑) −→ min\nSafetyScore(∑) −→ max ⇐⇒ risk(∑) −→ min\n∫(∑) −→ min Đường đi có dạng: τ∑\n∑ = {pi = (cxi, cyi)} , (1) i=1 Trong đó: • pi là các ô thuộc đường đi • τ∑ là số lượng ô (tức τ∑ = len(∑))\nLưu ý rằng một vị trí có thể xuất hiện nhiều lần trong ∑ vì ∑ là một đường đi. Khoảng cách giữa hai vị trí pi(cxi, cyi) và pj(cxj, cyj) là khoảng cách Euclid: √ 2 2 d(pi, pj) = (cxi − cxj) + (cyi − cyj) . (2) Điểm bắt đầu và điểm kết thúc của ∑ là trùng nhau, do đó tổng chiều dài của ∑ có thể được tính như sau: τ∑ −1\nlength(∑) = ∑ d(p , p ) (3)",
+          "score": 0.0159,
+          "cited": true
+        }
+      ],
+      "trace": [
+        {
+          "type": "thinking",
+          "data": {
+            "node": "router"
+          }
+        },
+        {
+          "type": "route",
+          "data": {
+            "route": "simple",
+            "reason": "Câu hỏi yêu cầu thông tin về đầu ra của bài toán quy hoạch đường đi, có thể trả lời từ tài liệu liên quan."
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
+            "node": "retrieve"
+          }
+        },
+        {
+          "type": "subquestion",
+          "data": {
+            "index": 0,
+            "subquestion": "Đầu ra của bài toán quy hoạch đường đi là gì?"
+          }
+        },
+        {
+          "type": "retrieved",
+          "data": {
+            "subquestion": "Đầu ra của bài toán quy hoạch đường đi là gì?",
+            "index": 0,
+            "chunks": [
+              {
+                "chunk_id": 50,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 4,
+                "preview": "định ma trận chi phí đa mục tiêu Trong nghiên cứu này, chúng tôi đề xuất một phiên bản cải tiến của thuật toán Fast Marching Firework (FMF) để giải quyết bài toán quy hoạch đường đi đa mục tiêu. Thay ",
+                "score": 0.0164,
+                "bm25_score": 12.037101122510883,
+                "dense_score": null,
+                "rerank_score": null
+              },
+              {
+                "chunk_id": 40,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 1,
+                "preview": "PHƯƠNG PHÁP CHO QUY HOẠCH ĐƯỜNG ĐI AN TOÀN ĐA ĐÍCH ĐẾN CỦA   DI ĐỘNG MÔI TRƯỜNG NHÀ MÁY HẠT NHÂN",
+                "score": 0.0161,
+                "bm25_score": 9.40412723912736,
+                "dense_score": null,
+                "rerank_score": null
+              },
+              {
+                "chunk_id": 41,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 2,
+                "preview": "Đầu vào: Bản đồ grid map E với kích thước H × W\nBản đồ radiation map ∫ với kích thước H × W - Tập các vị trí của vật cản O - Tập các vị trí của các mục tiêu S Đầu ra: - Một dãy ∫ chứa thứ tự thăm tất ",
+                "score": 0.0159,
+                "bm25_score": 5.244450921264796,
+                "dense_score": null,
+                "rerank_score": null
+              }
+            ]
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
+            "node": "synthesize"
+          }
+        },
+        {
+          "type": "synthesize",
+          "data": {
+            "n_context": 3,
+            "labels": [
+              1,
+              2,
+              3
+            ]
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
+            "node": "verify_answer"
+          }
+        },
+        {
+          "type": "verify_answer",
+          "data": {
+            "grounded": true,
+            "reason": ""
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 2267,
+        "completion_tokens": 186,
+        "calls": 3
+      },
+      "route": "simple",
+      "partial": false,
+      "iterations": 0,
+      "regenerated": false
+    },
+    "elapsed": 7.48,
+    "route": "simple",
+    "iterations": 0,
+    "partial": false,
+    "answer_preview": "Đầu ra của bài toán quy hoạch đường đi là:\n\n- **Một dãy $\\Sigma$ chứa thứ tự thăm tất cả các mục tiêu** [3]\n- **Một đường đi không va chạm có chi phí nhỏ nhất và an toàn nhất $\\Sigma$ đi qua tất cả cá",
+    "checks": [
+      [
+        "route",
+        true,
+        "expected=simple, got=simple"
+      ],
+      [
+        "event:route",
+        true,
+        "FOUND"
+      ],
+      [
+        "event:retrieved",
+        true,
+        "FOUND"
+      ],
+      [
+        "event:synthesize",
+        true,
+        "FOUND"
+      ],
+      [
+        "event:verify_answer",
+        true,
+        "FOUND"
+      ],
+      [
+        "no_event:plan",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:distill",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:verify",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:sufficiency",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:replan",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "verify_answer_result",
+        true,
+        "grounded=True"
+      ]
+    ]
+  },
+  {
+    "scenario": 2,
+    "question": "Hàm chi phí cục bộ f(x) đóng vai trò gì?",
+    "error": null,
+    "events": [
+      {
+        "type": "route",
+        "data": {
+          "route": "simple",
+          "reason": "Câu hỏi yêu cầu thông tin về vai trò của hàm chi phí cục bộ f(x), có thể trả lời từ tài liệu liên quan."
+        }
+      },
+      {
+        "type": "subquestion",
+        "data": {
+          "index": 0,
+          "subquestion": "Hàm chi phí cục bộ f(x) đóng vai trò gì?"
+        }
+      },
+      {
+        "type": "retrieved",
+        "data": {
+          "subquestion": "Hàm chi phí cục bộ f(x) đóng vai trò gì?",
+          "index": 0,
+          "chunks": [
+            {
+              "chunk_id": 52,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 5,
+              "preview": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản",
+              "score": 0.0164,
+              "bm25_score": 17.027577955246826,
+              "dense_score": null,
+              "rerank_score": null
+            },
+            {
+              "chunk_id": 53,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 5,
+              "preview": "Trong cơ chế của FMF, mỗi mục tiêu si ∈ S đóng vai trò là một nguồn phát xạ pháo hoa. Sự lan truyền của các mặt sóng pháo hoa được mô tả bởi phương trình Eikonal phi tuyến: ∥∇T(x)∥ = f(x), với T(si) =",
+              "score": 0.0161,
+              "bm25_score": 13.17746931347682,
+              "dense_score": null,
+              "rerank_score": null
+            },
+            {
+              "chunk_id": 56,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "page": 7,
+              "preview": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F ",
+              "score": 0.0159,
+              "bm25_score": 5.5679058812283255,
+              "dense_score": null,
+              "rerank_score": null
+            }
+          ]
+        }
+      },
+      {
+        "type": "synthesize",
+        "data": {
+          "n_context": 3,
+          "labels": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "type": "verify_answer",
+        "data": {
+          "grounded": true,
+          "reason": ""
+        }
+      },
+      {
+        "type": "final",
+        "data": {
+          "answer": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó được dùng để kết hợp hai mục tiêu: **tối thiểu hóa chiều dài đường đi** và **tối đa hóa độ an toàn**; đồng thời, tại các vùng gần vật cản (nơi $S(x)$ thấp), $f(x)$ sẽ lớn hơn, tạo lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]\n\nNgoài ra, trong cơ chế FMF, $f(x)$ còn là **độ cản trở tỉ lệ nghịch với vận tốc lan truyền** của pháo hoa, nên pháo hoa lan nhanh hơn ở vùng an toàn và chậm lại ở vùng rủi ro cao. [2]",
+          "citations": [
+            {
+              "label": 1,
+              "chunk_id": 52,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 5,
+              "section": "4.1 Xác định hàm chi phí cục bộ f(x)",
+              "text": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản\"của môi trường đối với sự lan truyền của pháo hoa. Dựa trên chỉ số an toàn S(x) ∈ [0, 1] đã được thiết lập tại phương trình (4), tôi xác định hàm chi phí cục bộ tổng hợp được mô hình hóa như sau: f(x) = w1 + w2 · ∫(x) + w3 · (1 − S(x)) (11) Trong đó: • w1 ∈ [0, 1] là trọng số điều chỉnh mức độ ưu tiên. Khi w1 → 1, thuật toán ưu tiên đường\nđi ngắn nhất; khi w1 → 0, thuật toán ưu tiên đường đi an toàn nhất. • f(x) đại diện cho chi phí đơn vị để đi qua ô lưới x. Tại các vùng gần vật cản (S(x) thấp), f(x) sẽ có giá trị lớn, tạo ra lực đẩy ảo ngăn cản robot di chuyển vào vùng nguy hiểm.",
+              "score": 0.0164,
+              "cited": true
+            },
+            {
+              "label": 2,
+              "chunk_id": 53,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 5,
+              "section": "4.2 Mô hình hóa hàm chi phí tích lũy T(x)",
+              "text": "Trong cơ chế của FMF, mỗi mục tiêu si ∈ S đóng vai trò là một nguồn phát xạ pháo hoa. Sự lan truyền của các mặt sóng pháo hoa được mô tả bởi phương trình Eikonal phi tuyến: ∥∇T(x)∥ = f(x), với T(si) = 0 ∀si ∈ S (12a) Trong đó: • T(x) là chi phí tích lũy tối ưu (Optimal Cumulative Cost) để pháo hoa lan truyền từ mục tiêu gần nhất đến vị trí x. • ∇T(x) là gradient của trường chi phí, chỉ hướng mà chi phí tăng nhanh nhất.\n• f(x) là độ cản trở, tỉ lệ nghịch với vận tốc F(x) (ở đây đang coi f(x) = (1)/(F(x))) Về mặt vật lý, phương trình (12a) mô tả một môi trường truyền dẫn không đồng nhất. Tốc độ lan truyền của pháo hoa tại điểm x tỉ lệ nghịch với chi phí cục bộ f(x). Do đó, mặt sóng pháo hoa sẽ có xu hướng \"uốn cong\"và lan truyền nhanh hơn qua các vùng không gian an toàn (nơi có f(x) thấp) và bị chậm lại tại các vùng có rủi ro va chạm cao.",
+              "score": 0.0161,
+              "cited": true
+            },
+            {
+              "label": 3,
+              "chunk_id": 56,
+              "document_id": 3,
+              "doc_title": "mô_hình_hóa_ĐATN (2)",
+              "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+              "page": 7,
+              "section": "5 Mã giả thuật toán",
+              "text": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F cho các ô lưới; Ma trận chi phí D′ // Bước tiền xử lý chi phí cục bộ 1 Tính f(x) = w1 + w2 · ∫(x) + w3 · (1 − S(x)) cho toàn bộ ô x ∈/ O // Giai đoạn lan truyền (Expanding Stage) Khởi tạo Heap ← ∅; D′[i, j] ← ∞ với mọi i, j 2 3 for i ← 1 to |S| do\n4 Hold[i] ← ∅; // Khởi tạo bộ nhớ cho pháo hoa nguồn si\n5 Thêm si vào Heap; T(si) ← 0; F(si) ← i 6 while Heap không trống do 7 Trích xuất x có chi phí tích lũy T(x) nhỏ nhất từ Heap sau đó xóa x khỏi Heap // adjacent(x) là tập hợp 8 ô xung quanh ô x 8 foreach y ∈ adjacent(x), y ∈/ O do\n9 cost_step ← d(x, y) · f(y) // Chi phí bước đi có trọng số 10 if T(y) > T(x) + cost_step then 11 T(y) ← T(x) + cost_step\n12 F(y) ← F(x) // Cập nhật nhãn pháo hoa 13 Insert y vào Heap 14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage)",
+              "score": 0.0159,
+              "cited": false
+            }
+          ],
+          "trace": [
+            {
+              "type": "thinking",
+              "data": {
+                "node": "router"
+              }
+            },
+            {
+              "type": "route",
+              "data": {
+                "route": "simple",
+                "reason": "Câu hỏi yêu cầu thông tin về vai trò của hàm chi phí cục bộ f(x), có thể trả lời từ tài liệu liên quan."
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
+                "node": "retrieve"
+              }
+            },
+            {
+              "type": "subquestion",
+              "data": {
+                "index": 0,
+                "subquestion": "Hàm chi phí cục bộ f(x) đóng vai trò gì?"
+              }
+            },
+            {
+              "type": "retrieved",
+              "data": {
+                "subquestion": "Hàm chi phí cục bộ f(x) đóng vai trò gì?",
+                "index": 0,
+                "chunks": [
+                  {
+                    "chunk_id": 52,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 5,
+                    "preview": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản",
+                    "score": 0.0164,
+                    "bm25_score": 17.027577955246826,
+                    "dense_score": null,
+                    "rerank_score": null
+                  },
+                  {
+                    "chunk_id": 53,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 5,
+                    "preview": "Trong cơ chế của FMF, mỗi mục tiêu si ∈ S đóng vai trò là một nguồn phát xạ pháo hoa. Sự lan truyền của các mặt sóng pháo hoa được mô tả bởi phương trình Eikonal phi tuyến: ∥∇T(x)∥ = f(x), với T(si) =",
+                    "score": 0.0161,
+                    "bm25_score": 13.17746931347682,
+                    "dense_score": null,
+                    "rerank_score": null
+                  },
+                  {
+                    "chunk_id": 56,
+                    "doc_title": "mô_hình_hóa_ĐATN (2)",
+                    "page": 7,
+                    "preview": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F ",
+                    "score": 0.0159,
+                    "bm25_score": 5.5679058812283255,
+                    "dense_score": null,
+                    "rerank_score": null
+                  }
+                ]
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
+                "node": "synthesize"
+              }
+            },
+            {
+              "type": "synthesize",
+              "data": {
+                "n_context": 3,
+                "labels": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            },
+            {
+              "type": "thinking",
+              "data": {
+                "node": "verify_answer"
+              }
+            },
+            {
+              "type": "verify_answer",
+              "data": {
+                "grounded": true,
+                "reason": ""
+              }
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 3266,
+            "completion_tokens": 318,
+            "calls": 3
+          },
+          "route": "simple",
+          "partial": false,
+          "iterations": 0,
+          "regenerated": false
+        }
+      }
+    ],
+    "event_types": [
+      "route",
+      "subquestion",
+      "retrieved",
+      "synthesize",
+      "verify_answer",
+      "final"
+    ],
+    "final": {
+      "answer": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó được dùng để kết hợp hai mục tiêu: **tối thiểu hóa chiều dài đường đi** và **tối đa hóa độ an toàn**; đồng thời, tại các vùng gần vật cản (nơi $S(x)$ thấp), $f(x)$ sẽ lớn hơn, tạo lực đẩy ảo ngăn robot đi vào vùng nguy hiểm. [1]\n\nNgoài ra, trong cơ chế FMF, $f(x)$ còn là **độ cản trở tỉ lệ nghịch với vận tốc lan truyền** của pháo hoa, nên pháo hoa lan nhanh hơn ở vùng an toàn và chậm lại ở vùng rủi ro cao. [2]",
+      "citations": [
+        {
+          "label": 1,
+          "chunk_id": 52,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 5,
+          "section": "4.1 Xác định hàm chi phí cục bộ f(x)",
+          "text": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản\"của môi trường đối với sự lan truyền của pháo hoa. Dựa trên chỉ số an toàn S(x) ∈ [0, 1] đã được thiết lập tại phương trình (4), tôi xác định hàm chi phí cục bộ tổng hợp được mô hình hóa như sau: f(x) = w1 + w2 · ∫(x) + w3 · (1 − S(x)) (11) Trong đó: • w1 ∈ [0, 1] là trọng số điều chỉnh mức độ ưu tiên. Khi w1 → 1, thuật toán ưu tiên đường\nđi ngắn nhất; khi w1 → 0, thuật toán ưu tiên đường đi an toàn nhất. • f(x) đại diện cho chi phí đơn vị để đi qua ô lưới x. Tại các vùng gần vật cản (S(x) thấp), f(x) sẽ có giá trị lớn, tạo ra lực đẩy ảo ngăn cản robot di chuyển vào vùng nguy hiểm.",
+          "score": 0.0164,
+          "cited": true
+        },
+        {
+          "label": 2,
+          "chunk_id": 53,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 5,
+          "section": "4.2 Mô hình hóa hàm chi phí tích lũy T(x)",
+          "text": "Trong cơ chế của FMF, mỗi mục tiêu si ∈ S đóng vai trò là một nguồn phát xạ pháo hoa. Sự lan truyền của các mặt sóng pháo hoa được mô tả bởi phương trình Eikonal phi tuyến: ∥∇T(x)∥ = f(x), với T(si) = 0 ∀si ∈ S (12a) Trong đó: • T(x) là chi phí tích lũy tối ưu (Optimal Cumulative Cost) để pháo hoa lan truyền từ mục tiêu gần nhất đến vị trí x. • ∇T(x) là gradient của trường chi phí, chỉ hướng mà chi phí tăng nhanh nhất.\n• f(x) là độ cản trở, tỉ lệ nghịch với vận tốc F(x) (ở đây đang coi f(x) = (1)/(F(x))) Về mặt vật lý, phương trình (12a) mô tả một môi trường truyền dẫn không đồng nhất. Tốc độ lan truyền của pháo hoa tại điểm x tỉ lệ nghịch với chi phí cục bộ f(x). Do đó, mặt sóng pháo hoa sẽ có xu hướng \"uốn cong\"và lan truyền nhanh hơn qua các vùng không gian an toàn (nơi có f(x) thấp) và bị chậm lại tại các vùng có rủi ro va chạm cao.",
+          "score": 0.0161,
+          "cited": true
+        },
+        {
+          "label": 3,
+          "chunk_id": 56,
+          "document_id": 3,
+          "doc_title": "mô_hình_hóa_ĐATN (2)",
+          "doc_source": "mô_hình_hóa_ĐATN (2).pdf",
+          "page": 7,
+          "section": "5 Mã giả thuật toán",
+          "text": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F cho các ô lưới; Ma trận chi phí D′ // Bước tiền xử lý chi phí cục bộ 1 Tính f(x) = w1 + w2 · ∫(x) + w3 · (1 − S(x)) cho toàn bộ ô x ∈/ O // Giai đoạn lan truyền (Expanding Stage) Khởi tạo Heap ← ∅; D′[i, j] ← ∞ với mọi i, j 2 3 for i ← 1 to |S| do\n4 Hold[i] ← ∅; // Khởi tạo bộ nhớ cho pháo hoa nguồn si\n5 Thêm si vào Heap; T(si) ← 0; F(si) ← i 6 while Heap không trống do 7 Trích xuất x có chi phí tích lũy T(x) nhỏ nhất từ Heap sau đó xóa x khỏi Heap // adjacent(x) là tập hợp 8 ô xung quanh ô x 8 foreach y ∈ adjacent(x), y ∈/ O do\n9 cost_step ← d(x, y) · f(y) // Chi phí bước đi có trọng số 10 if T(y) > T(x) + cost_step then 11 T(y) ← T(x) + cost_step\n12 F(y) ← F(x) // Cập nhật nhãn pháo hoa 13 Insert y vào Heap 14 foreach x ∈ E \\ O do 15 Thêm x vào Hold[F[x]] 16 foreach y ∈ adjacent(x) do 17 if F(y) ̸= F(x) then AddEdge(x, y, 1, D′, f); // Kết nối sơ cấp 18 // Giai đoạn giao thoa (Intersecting Stage)",
+          "score": 0.0159,
+          "cited": false
+        }
+      ],
+      "trace": [
+        {
+          "type": "thinking",
+          "data": {
+            "node": "router"
+          }
+        },
+        {
+          "type": "route",
+          "data": {
+            "route": "simple",
+            "reason": "Câu hỏi yêu cầu thông tin về vai trò của hàm chi phí cục bộ f(x), có thể trả lời từ tài liệu liên quan."
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
+            "node": "retrieve"
+          }
+        },
+        {
+          "type": "subquestion",
+          "data": {
+            "index": 0,
+            "subquestion": "Hàm chi phí cục bộ f(x) đóng vai trò gì?"
+          }
+        },
+        {
+          "type": "retrieved",
+          "data": {
+            "subquestion": "Hàm chi phí cục bộ f(x) đóng vai trò gì?",
+            "index": 0,
+            "chunks": [
+              {
+                "chunk_id": 52,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 5,
+                "preview": "Để kết hợp hai mục tiêu: tối thiểu hóa chiều dài đường đi (Length) và tối đa hóa độ an toàn (Safety), chúng tôi định nghĩa một hàm chi phí cục bộ f(x) tại mỗi ô lưới x. Hàm này đóng vai trò là \"độ cản",
+                "score": 0.0164,
+                "bm25_score": 17.027577955246826,
+                "dense_score": null,
+                "rerank_score": null
+              },
+              {
+                "chunk_id": 53,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 5,
+                "preview": "Trong cơ chế của FMF, mỗi mục tiêu si ∈ S đóng vai trò là một nguồn phát xạ pháo hoa. Sự lan truyền của các mặt sóng pháo hoa được mô tả bởi phương trình Eikonal phi tuyến: ∥∇T(x)∥ = f(x), với T(si) =",
+                "score": 0.0161,
+                "bm25_score": 13.17746931347682,
+                "dense_score": null,
+                "rerank_score": null
+              },
+              {
+                "chunk_id": 56,
+                "doc_title": "mô_hình_hóa_ĐATN (2)",
+                "page": 7,
+                "preview": "Algorithm 1: Giai đoạn 1 của quy trình tối ưu hóa FMF đa mục tiêu Input: bản đồ E kích thước W˜ × H˜, Tập mục tiêu S, Tập vật cản O, Ma trận an toàn S, Trọng số w1, Trọng số C1 Output: Giá trị T và F ",
+                "score": 0.0159,
+                "bm25_score": 5.5679058812283255,
+                "dense_score": null,
+                "rerank_score": null
+              }
+            ]
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
+            "node": "synthesize"
+          }
+        },
+        {
+          "type": "synthesize",
+          "data": {
+            "n_context": 3,
+            "labels": [
+              1,
+              2,
+              3
+            ]
+          }
+        },
+        {
+          "type": "thinking",
+          "data": {
+            "node": "verify_answer"
+          }
+        },
+        {
+          "type": "verify_answer",
+          "data": {
+            "grounded": true,
+            "reason": ""
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 3266,
+        "completion_tokens": 318,
+        "calls": 3
+      },
+      "route": "simple",
+      "partial": false,
+      "iterations": 0,
+      "regenerated": false
+    },
+    "elapsed": 7.82,
+    "route": "simple",
+    "iterations": 0,
+    "partial": false,
+    "answer_preview": "Hàm chi phí cục bộ $f(x)$ đóng vai trò là **“độ cản” của môi trường đối với sự lan truyền của pháo hoa**. Nó được dùng để kết hợp hai mục tiêu: **tối thiểu hóa chiều dài đường đi** và **tối đa hóa độ ",
+    "checks": [
+      [
+        "route",
+        true,
+        "expected=simple, got=simple"
+      ],
+      [
+        "event:route",
+        true,
+        "FOUND"
+      ],
+      [
+        "event:retrieved",
+        true,
+        "FOUND"
+      ],
+      [
+        "event:synthesize",
+        true,
+        "FOUND"
+      ],
+      [
+        "event:verify_answer",
+        true,
+        "FOUND"
+      ],
+      [
+        "no_event:plan",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:distill",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:verify",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:sufficiency",
+        true,
+        "NOT FOUND (ok)"
+      ],
+      [
+        "no_event:replan",
+        true,
+        "NOT FOUND (ok)"
       ],
       [
         "verify_answer_result",

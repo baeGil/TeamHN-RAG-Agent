@@ -36,7 +36,7 @@ SCENARIOS = [
         ],
         "expect_route": "no_retrieval",
         "expect_events": ["route", "final"],
-        "expect_not_events": ["retrieve", "plan", "distill", "verify", "synthesize"],
+        "expect_not_events": ["retrieved", "plan", "distill", "verify", "synthesize"],
     },
     {
         "id": 2,
@@ -47,7 +47,7 @@ SCENARIOS = [
             "Hàm chi phí cục bộ f(x) đóng vai trò gì?",
         ],
         "expect_route": "simple",
-        "expect_events": ["route", "retrieve", "synthesize", "verify_answer"],
+        "expect_events": ["route", "retrieved", "synthesize", "verify_answer"],
         "expect_not_events": ["plan", "distill", "verify", "sufficiency", "replan"],
     },
     {
@@ -58,7 +58,7 @@ SCENARIOS = [
             "Bài toán quy hoạch đường đi an toàn đa đích có đầu vào và đầu ra như thế nào?",
         ],
         "expect_route": "complex",
-        "expect_events": ["route", "plan", "retrieve", "distill", "verify"],
+        "expect_events": ["route", "plan", "retrieved", "distill", "verify"],
         "expect_may_events": ["sufficiency", "converged", "verify_answer"],
     },
     {
