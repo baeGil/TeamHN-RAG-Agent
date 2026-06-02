@@ -14,7 +14,7 @@ import fitz
 
 from .vn_text import normalize_structure
 
-Block = tuple[Optional[int], Optional[str], str]
+from .block import Block
 
 _SYSTEM = (
     "Bạn là công cụ trích xuất tài liệu học thuật tiếng Việt sang Markdown. "
@@ -70,5 +70,5 @@ def transcribe_pages(
                     cache.put(key, md)
             md = normalize_structure(md)
             if md.strip():
-                out.append((pno, None, md))
+                out.append(Block(page=pno, section=None, text=md))
     return out
