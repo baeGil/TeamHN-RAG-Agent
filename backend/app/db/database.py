@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS chunks (
     section     TEXT,
     embedding   BLOB,                  -- float32 vector; lets us rebuild the dense index from the DB
     embed_text  TEXT,                   -- optimized text for embedding (from Reducto embed field)
+    hype_questions TEXT,
     FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_chunks_doc ON chunks(document_id);
@@ -87,6 +88,8 @@ class Database:
             conn.execute("ALTER TABLE chunks ADD COLUMN embedding BLOB")
         if "embed_text" not in cols:
             conn.execute("ALTER TABLE chunks ADD COLUMN embed_text TEXT")
+        if "hype_questions" not in cols:
+            conn.execute("ALTER TABLE chunks ADD COLUMN hype_questions TEXT")
 
     @property
     def conn(self) -> sqlite3.Connection:
