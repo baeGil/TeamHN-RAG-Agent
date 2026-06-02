@@ -1,6 +1,8 @@
 """KnowledgeBase: orchestrates ingestion, hybrid retrieval and persistence."""
 import json
+import logging
 import threading
+import time
 from dataclasses import dataclass
 from typing import Any, Optional
 
@@ -17,6 +19,7 @@ from .bm25_index import BM25Index
 from .embeddings import Embedder
 from .vector_index import VectorIndex
 
+logger = logging.getLogger("rag.flow")
 
 # Bump when tokenization or index_text formatting changes, to force a rebuild of
 # persisted indexes on next load (otherwise stale tokens silently degrade recall).
@@ -213,28 +216,53 @@ class KnowledgeBase:
 
     # ---------------- retrieval ----------------
     def retrieve(self, query: str, top_k: Optional[int] = None) -> list[RetrievedChunk]:
+        started = time.perf_counter()
         s = self.settings
         top_k = top_k or s.final_top_k
+        bm25_started = time.perf_counter()
         bm25_hits = self.bm25.search(query, s.bm25_top_k)
+        bm25_ms = (time.perf_counter() - bm25_started) * 1000
         dense_hits: list[tuple[int, float]] = []
+        dense_ms = 0.0
         if self.vector.ready:
+            dense_started = time.perf_counter()
             qv = self.embedder.embed_query(query)
             dense_hits = self.vector.search(qv, s.dense_top_k)
+            dense_ms = (time.perf_counter() - dense_started) * 1000
+        fusion_started = time.perf_counter()
         fused: list[FusedHit] = reciprocal_rank_fusion(bm25_hits, dense_hits, k=s.rrf_k)
+        fusion_ms = (time.perf_counter() - fusion_started) * 1000
         if not fused:
+            logger.info(
+                "RAG_FLOW retrieval node=retrieve duration_ms=%.1f bm25_ms=%.1f dense_ms=%.1f fusion_ms=%.1f "
+                "query_chars=%s bm25_hits=%s dense_hits=%s fused_hits=0 rerank_enabled=%s returned=0",
+                (time.perf_counter() - started) * 1000,
+                bm25_ms,
+                dense_ms,
+                fusion_ms,
+                len(query),
+                len(bm25_hits),
+                len(dense_hits),
+                s.use_reranker,
+            )
             return []
 
         candidates = fused[: s.rerank_top_n]
+        meta_started = time.perf_counter()
         meta = self.repo.get_chunks([h.chunk_id for h in candidates])
+        meta_ms = (time.perf_counter() - meta_started) * 1000
 
         rerank_map: dict[int, float] = {}
+        rerank_ms = 0.0
         if s.use_reranker:
             pairs = [
                 (h.chunk_id, meta[h.chunk_id]["text"])
                 for h in candidates
                 if h.chunk_id in meta
             ]
+            rerank_started = time.perf_counter()
             reranked = self.reranker.rerank(query, pairs, top_k=len(pairs))
+            rerank_ms = (time.perf_counter() - rerank_started) * 1000
             if reranked is not None:
                 rerank_map = {cid: sc for cid, sc in reranked}
 
@@ -263,6 +291,24 @@ class KnowledgeBase:
                     score=_final_score(h),
                 )
             )
+        logger.info(
+            "RAG_FLOW retrieval node=retrieve duration_ms=%.1f bm25_ms=%.1f dense_ms=%.1f fusion_ms=%.1f "
+            "meta_ms=%.1f reranker_ms=%.1f query_chars=%s bm25_hits=%s dense_hits=%s fused_hits=%s "
+            "candidates=%s reranked=%s returned=%s",
+            (time.perf_counter() - started) * 1000,
+            bm25_ms,
+            dense_ms,
+            fusion_ms,
+            meta_ms,
+            rerank_ms,
+            len(query),
+            len(bm25_hits),
+            len(dense_hits),
+            len(fused),
+            len(candidates),
+            len(rerank_map),
+            len(out),
+        )
         return out
 
     def stats(self) -> dict[str, Any]:
