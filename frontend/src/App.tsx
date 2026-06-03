@@ -112,6 +112,7 @@ export default function App() {
         onRefreshSessions={refreshSessions}
         onSelectSession={selectSession}
         onNewSession={newSession}
+        maxUploadSize={config?.max_upload_size}
       />
       {!sidebarCollapsed && (
         <button

@@ -98,6 +98,7 @@ def config():
         "embed_model": settings.embed_model,
         "use_reranker": settings.use_reranker,
         "reranker_model": settings.reranker_model,
+        "max_upload_size": settings.max_upload_size,
     }
 
 
@@ -143,6 +144,13 @@ def view_document_pdf(doc_id: int):
 @app.post("/api/documents/upload")
 async def upload_document(file: UploadFile = File(...)):
     data = await file.read()
+    if len(data) > settings.max_upload_size:
+        raise HTTPException(
+            413,
+            f"File quá lớn ({len(data) // 1024 // 1024}MB). Tối đa {settings.max_upload_size // 1024 // 1024}MB.",
+        )
+    if not data[:5].startswith(b"%PDF"):
+        raise HTTPException(400, "File không phải PDF hợp lệ.")
     name = file.filename or "document.pdf"
     if not name.lower().endswith(".pdf"):
         raise HTTPException(400, "Chỉ hỗ trợ tệp PDF qua kênh upload.")

@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { api } from "../lib/api";
 import type { DocumentItem, SessionItem } from "../lib/types";
 
+const DEFAULT_MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
+
 interface Props {
   documents: DocumentItem[];
   sessions: SessionItem[];
@@ -12,6 +14,7 @@ interface Props {
   onRefreshSessions: () => void;
   onSelectSession: (id: string) => void;
   onNewSession: () => void;
+  maxUploadSize?: number;
 }
 
 export default function Sidebar({
@@ -24,11 +27,14 @@ export default function Sidebar({
   onRefreshSessions,
   onSelectSession,
   onNewSession,
+  maxUploadSize,
 }: Props) {
   const [url, setUrl] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const maxSize = maxUploadSize || DEFAULT_MAX_UPLOAD_SIZE;
 
   const wrap = async (fn: () => Promise<any>) => {
     setBusy(true);
@@ -90,16 +96,37 @@ export default function Sidebar({
           ref={fileRef}
           type="file"
           accept="application/pdf"
+          multiple
           hidden
           onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) wrap(() => api.uploadPdf(f));
+            const files = Array.from(e.target.files || []);
             if (fileRef.current) fileRef.current.value = "";
+            if (files.length === 0) return;
+            const oversized = files.find((f) => f.size > maxSize);
+            if (oversized) {
+              setErr(
+                `"${oversized.name}" quá lớn (${(oversized.size / 1024 / 1024).toFixed(1)}MB). Tối đa ${maxSize / 1024 / 1024}MB.`
+              );
+              return;
+            }
+            const nonPdf = files.find((f) => !f.name.toLowerCase().endsWith(".pdf"));
+            if (nonPdf) {
+              setErr(`"${nonPdf.name}" không phải PDF. Chỉ hỗ trợ tệp PDF.`);
+              return;
+            }
+            wrap(async () => {
+              for (const f of files) {
+                await api.uploadPdf(f);
+              }
+            });
           }}
         />
         <button className="btn block" disabled={busy} onClick={() => fileRef.current?.click()}>
           ⬆ Tải lên PDF
         </button>
+        <div className="muted small" style={{ marginTop: 2 }}>
+          Tối đa {maxSize / 1024 / 1024}MB mỗi file
+        </div>
         <div className="url-row">
           <input
             className="input"

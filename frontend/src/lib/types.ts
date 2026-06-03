@@ -47,4 +47,5 @@ export interface AppConfig {
   embed_model: string;
   use_reranker: boolean;
   reranker_model: string;
+  max_upload_size: number;
 }

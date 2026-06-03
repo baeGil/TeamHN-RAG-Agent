@@ -80,6 +80,8 @@ class Settings:
         ]
         self.reducto_table_format = os.getenv("REDUCTO_TABLE_FORMAT", "dynamic")
 
+        self.max_upload_size = _get_int("MAX_UPLOAD_SIZE", 5 * 1024 * 1024)
+
         storage = os.getenv("STORAGE_DIR", "storage")
         self.storage_dir = (BASE_DIR / storage) if not os.path.isabs(storage) else Path(storage)
         self.storage_dir.mkdir(parents=True, exist_ok=True)
