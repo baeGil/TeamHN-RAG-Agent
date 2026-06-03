@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Technique Playbook - Roadmap & A/B Plan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #07111f;
+  --bg2: #0c1727;
+  --bg3: #111f33;
+  --panel: #13263d;
+  --panel2: #182c47;
+  --text: #eaf2ff;
+  --muted: #9db0c9;
+  --cyan: #43d9ff;
+  --mint: #5ef0b0;
+  --amber: #ffcb6b;
+  --rose: #ff7a90;
+  --violet: #9ca8ff;
+  --line: rgba(255,255,255,0.10);
+  --shadow: 0 18px 60px rgba(0,0,0,0.32);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(67,217,255,0.14), transparent 26%),
+    radial-gradient(circle at 85% 20%, rgba(94,240,176,0.10), transparent 24%),
+    radial-gradient(circle at 72% 82%, rgba(156,168,255,0.10), transparent 22%),
+    linear-gradient(180deg, var(--bg), var(--bg2) 65%, #050b14);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.deck {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding: 40px 56px 56px;
+  overflow-y: auto;
+  animation: fadeIn .30s ease;
+}
+.slide.active { display: flex; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(67,217,255,0.24);
+  background: rgba(67,217,255,0.08);
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.chip.mint { border-color: rgba(94,240,176,0.24); background: rgba(94,240,176,0.08); color: var(--mint); }
+.chip.amber { border-color: rgba(255,203,107,0.24); background: rgba(255,203,107,0.09); color: var(--amber); }
+.chip.violet { border-color: rgba(156,168,255,0.24); background: rgba(156,168,255,0.08); color: var(--violet); }
+
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  margin: 0;
+}
+h1 {
+  font-size: 3rem;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+}
+h2 {
+  font-size: 1.75rem;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+h3 {
+  font-size: 1.05rem;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+p, li, td, th {
+  font-size: 0.93rem;
+  line-height: 1.62;
+  color: var(--text);
+}
+.muted { color: var(--muted); }
+.small { font-size: 0.8rem; }
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  align-items: center;
+  min-height: 100%;
+}
+.hero-card, .panel, .callout, .metric, .matrix, .timeline-item {
+  background: linear-gradient(180deg, rgba(19,38,61,0.94), rgba(12,23,39,0.94));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.hero-card { padding: 26px; position: relative; overflow: hidden; }
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -50px -80px auto;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(67,217,255,0.24), transparent 68%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+.hero-side {
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+.hero-stat {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+}
+.hero-stat .value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.hero-stat .label {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .hero, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+.panel {
+  padding: 18px;
+}
+.panel h3 { margin-bottom: 12px; }
+.panel ul { margin: 10px 0 0 18px; padding: 0; }
+.panel li { margin-bottom: 8px; }
+
+.table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(10,19,33,0.92);
+}
+th, td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: rgba(255,255,255,0.03);
+  color: var(--cyan);
+  font-size: 0.79rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+tr:hover td { background: rgba(67,217,255,0.035); }
+
+.callout {
+  padding: 16px 18px;
+  border-left: 4px solid var(--cyan);
+}
+.callout strong { color: var(--cyan); }
+.callout.amber { border-left-color: var(--amber); }
+.callout.mint { border-left-color: var(--mint); }
+.callout.rose { border-left-color: var(--rose); }
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.node {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  min-width: 120px;
+  text-align: center;
+  font-size: 0.82rem;
+}
+.node strong { display: block; margin-bottom: 4px; font-size: 0.9rem; }
+.arrow {
+  color: var(--muted);
+  font-size: 1.2rem;
+  margin: 0 2px;
+}
+.node.live { border-color: rgba(94,240,176,0.3); background: rgba(94,240,176,0.07); }
+.node.next { border-color: rgba(255,203,107,0.3); background: rgba(255,203,107,0.07); }
+
+.metric {
+  padding: 16px;
+  min-height: 140px;
+}
+.metric .title {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.metric .big {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.timeline {
+  display: grid;
+  gap: 12px;
+}
+.timeline-item {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+}
+.timeline-item .phase {
+  color: var(--amber);
+  font-weight: 700;
+}
+.timeline-item .desc {
+  color: var(--text);
+}
+
+.sources {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.source-link {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(157,176,201,0.5);
+}
+.source-link:hover { color: var(--text); border-bottom-color: var(--text); }
+
+.cover-note {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 10px;
+  max-width: 60ch;
+}
+
+.slide-counter {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  z-index: 30;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(7,17,31,0.68);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.nav {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 40;
+}
+.nav button {
+  border: 1px solid var(--line);
+  background: rgba(19,38,61,0.92);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.nav button:hover { border-color: rgba(67,217,255,0.6); }
+.nav button.primary {
+  background: linear-gradient(135deg, rgba(67,217,255,0.18), rgba(94,240,176,0.14));
+  border-color: rgba(67,217,255,0.28);
+}
+.progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--mint), var(--amber));
+  z-index: 35;
+  transition: width .25s ease;
+}
+
+.legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot.cyan { background: var(--cyan); }
+.dot.mint { background: var(--mint); }
+.dot.amber { background: var(--amber); }
+.dot.rose { background: var(--rose); }
+.dot.violet { background: var(--violet); }
+
+.priority {
+  display: grid;
+  gap: 10px;
+}
+.priority-row {
+  display: grid;
+  grid-template-columns: 88px 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+}
+.priority-row .rank {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--amber);
+}
+.priority-row .good { color: var(--mint); }
+.priority-row .wait { color: var(--muted); }
+
+@media (max-width: 900px) {
+  .slide { padding: 28px 18px 52px; }
+  h1 { font-size: 2.2rem; }
+  .section-head { flex-direction: column; align-items: start; }
+  .timeline-item { grid-template-columns: 1fr; }
+  .priority-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="slide-counter" id="counter">1 / 26</div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1 -->
+<section class="slide active">
+  <div class="hero">
+    <div class="hero-card">
+      <div class="chip-row" style="margin-bottom: 18px;">
+        <span class="chip">Query enhancement</span>
+        <span class="chip mint">Context enrichment</span>
+        <span class="chip amber">Advanced retrieval</span>
+        <span class="chip violet">Adaptive retrieval</span>
+      </div>
+      <h1>RAG Technique Playbook</h1>
+      <p class="cover-note">
+        Từ <b>improvement checklist</b> sang một roadmap triển khai, thử nghiệm và A/B test
+        để team chốt được pipeline RAG cuối cùng cho sản phẩm.
+      </p>
+      <div style="margin-top: 22px;" class="legend">
+        <span><i class="dot cyan"></i> Goal: tăng recall, precision, faithfulness</span>
+        <span><i class="dot mint"></i> Goal: giữ ngữ cảnh & giảm chunk noise</span>
+        <span><i class="dot amber"></i> Goal: đa dạng hóa & phân cấp truy hồi</span>
+        <span><i class="dot rose"></i> Goal: routing theo loại query</span>
+      </div>
+      <div style="margin-top: 26px;" class="callout">
+        <strong>Đầu vào hiện tại của team:</strong> Reducto parse cho PDF toán, BM25 + dense + RRF + reranker,
+        local SQLite / turbovec. Deck này chỉ ra các lớp tăng cường nên thêm theo thứ tự ưu tiên.
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-stat">
+        <div class="value" style="color:var(--cyan)">4 nhóm</div>
+        <div class="label">Query enhancement, context enrichment, advanced retrieval, iterative retrieval</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--mint)">1 mục tiêu</div>
+        <div class="label">Tối ưu chất lượng cuối cùng mà vẫn kiểm soát latency, cost và hallucination</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--amber)">1 quy trình</div>
+        <div class="label">Baseline -> ablation -> canary -> rollout</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--violet)">3 tầng</div>
+        <div class="label">Ingest, retrieve, generate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Mục tiêu cuộc họp</h2>
+      <p class="muted">Chúng ta không chỉ “thêm technique”, mà cần biết kỹ thuật nào thật sự mở khóa chất lượng, kỹ thuật nào chỉ trùng với Reducto, và kỹ thuật nào đo được sạch.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip mint">offline eval</span>
+      <span class="chip">ablation</span>
+      <span class="chip amber">A/B test</span>
+      <span class="chip violet">rollout</span>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Chúng ta đã có gì</h3>
+      <ul>
+        <li><b>Ingestion:</b> PDF đi qua Reducto agentic, fallback PyMuPDF math-aware; URL ingestion và text ingestion API đã có.</li>
+        <li><b>Structure:</b> Reducto trả về <code>content</code> và <code>embed_text</code>, backend normalize rồi lưu <code>page</code>, <code>section</code>, <code>text</code>, <code>embed_text</code>.</li>
+        <li><b>Index:</b> SQLite local cho documents/chunks/sessions/messages, BM25 cho sparse search, turbovec cho dense search, embedding cache để giảm chi phí.</li>
+        <li><b>Agent:</b> Router <code>no_retrieval / simple / complex</code>, planner, distill, sufficiency check, answer verify, regenerate.</li>
+        <li><b>Frontend:</b> Upload PDF/URL, chat, citation hover/click, agent trace/graph, session persistence qua reload.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Eval hiện tại:</strong> trên bộ 20 câu, cấu hình <b>Hybrid + Rerank</b> đạt
+        <b>Recall@5 = 0.845</b>, <b>MRR@5 = 0.863</b>, <b>Hit@5 = 1.000</b>. Tức là baseline đã mạnh, nên technique mới phải chứng minh uplift thật.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Những failure mode còn lại</h3>
+      <ul>
+        <li><b>Chunk granularity trade-off:</b> chunk nhỏ hơn giúp công thức đúng hơn, nhưng có thể làm recall giảm khi evidence bị phân mảnh.</li>
+        <li><b>Router edge cases:</b> router là LLM-based nên vẫn có thể misroute một số query mơ hồ, compound, hoặc thiếu context.</li>
+        <li><b>Multi-hop sensitivity:</b> query cần nhiều bước suy luận vẫn có thể rơi vào replan / sufficiency / early-stop nếu corpus thiếu tín hiệu.</li>
+        <li><b>Diversity còn mỏng:</b> top-k vẫn có thể gần-duplicate nếu cùng một ý được lặp trong corpus hoặc query quá phổ biến.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:16px" class="callout amber">
+    <strong>Thông điệp cho team:</strong> Hãy coi các technique dưới đây như các “lớp điều khiển” cho retrieval,
+    không phải các mẹo tách rời. Đặt đúng thứ tự sẽ quan trọng hơn việc bật thật nhiều thứ cùng lúc.
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../backend/app/indexing/store.py">Current baseline</a>
+    <a class="source-link" href="../backend/app/ingestion/loaders.py">Ingestion flow</a>
+    <a class="source-link" href="../backend/app/retrieval/hybrid.py">Hybrid retrieval</a>
+  </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Bản đồ kỹ thuật và thứ tự ưu tiên</h2>
+      <p class="muted">Đừng triển khai theo cảm hứng. Chia theo impact / effort / risk, và luôn hỏi: Reducto đã làm hộ phần nào chưa?</p>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Ingest</strong> Reducto parses PDF, filters noise, produces embed_text</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Index</strong> BM25 + dense + metadata + section path</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Query</strong> rewrite / step-back / decomposition</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Retrieve</strong> rerank / compress / assemble segment</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Route</strong> simple / complex / fallback</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Nhóm nào nên làm trước</h3>
+      <ul>
+        <li><b>P0:</b> query transformation, step-back, decomposition. Đây là lớp rẻ nhất, sạch nhất, dễ đo uplift.</li>
+        <li><b>P1:</b> contextual chunk headers, RSE, contextual compression. Đây là lớp “context assembly” sau retrieval.</li>
+        <li><b>P2:</b> adaptive retrieval, hierarchical indices. Cần policy rõ và logging tốt hơn.</li>
+        <li><b>P3:</b> dartboard retrieval, HyPE. Chỉ nên làm khi baseline và eval đã ổn định.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Điều quan trọng nhất</h3>
+      <ul>
+        <li>Nếu một technique chỉ cải thiện vì làm chunk đẹp hơn, hãy xác minh xem Reducto đã làm điều đó sẵn chưa.</li>
+        <li>Nếu một technique chỉ chạy ở query-time, nó là ứng viên tốt để thử đầu tiên.</li>
+        <li>Nếu technique đòi hỏi offline indexing nặng hơn, phải tính chi phí ingest và khả năng rollback.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top: 18px" class="priority">
+    <div class="priority-row">
+      <div class="rank">P0</div>
+      <div><b>Query transformation + contextual chunk headers</b></div>
+      <div class="good">Impact cao, effort thấp. Dễ test, dễ rollback.</div>
+    </div>
+    <div class="priority-row">
+      <div class="rank">P1</div>
+      <div><b>Semantic chunking + compression + RSE</b></div>
+      <div class="good">Tạo khác biệt rõ với long docs và multi-hop.</div>
+    </div>
+    <div class="priority-row">
+      <div class="rank">P2</div>
+      <div><b>Adaptive retrieval + hierarchical indices</b></div>
+      <div class="wait">Cần policy và instrumentation rõ hơn.</div>
+    </div>
+    <div class="priority-row">
+      <div class="rank">P3</div>
+      <div><b>Dartboard retrieval + HyPE</b></div>
+      <div class="wait">Chỉ nên thử khi baseline đã ổn định.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Reducto overlap map</h2>
+      <p class="muted">Trước khi thử technique mới, phải biết Reducto đã “làm hộ” phần nào của pipeline, để khỏi đo nhầm uplift.</p>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 16px;">
+    <div class="node live"><strong>PDF</strong> upload / temp file</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Reducto</strong> page_sections + filter blocks + embed_text</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Normalize</strong> text / embed_text / metadata</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Index</strong> BM25 + OpenAI embeddings + turbovec</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Nhóm kỹ thuật</th>
+        <th>Reducto đã bao phủ?</th>
+        <th>Ý nghĩa thực tế</th>
+        <th>Cách test đúng</th>
+      </tr>
+      <tr>
+        <td><b>Semantic chunking</b></td>
+        <td>Gần như có một phần</td>
+        <td>Reducto đã chunk theo <code>page_sections</code>, nên lợi ích semantic chunking sẽ bị trộn với parse/chunk quality của Reducto.</td>
+        <td>Chỉ test sạch nếu tắt Reducto hoặc test trên text/URL path không đi qua parser này.</td>
+      </tr>
+      <tr>
+        <td><b>Contextual chunk headers</b></td>
+        <td>Có overlap một phần</td>
+        <td>Hệ thống đã prepend <code>title › section</code> cho index text, nên nếu thêm header nữa cần tránh lặp context.</td>
+        <td>Thử nâng cấp header thành summary / section path / domain note, rồi đo recall + citation accuracy.</td>
+      </tr>
+      <tr>
+        <td><b>Document augmentation</b></td>
+        <td>Gián tiếp có</td>
+        <td>Reducto <code>embed_text</code> đã là dạng tối ưu cho embedding, nên augmentation thêm có thể chỉ giúp nhẹ hoặc làm noise.</td>
+        <td>Chỉ thử nếu corpus có query khó, và so sánh trực tiếp với dense trên <code>embed_text</code> hiện tại.</td>
+      </tr>
+      <tr>
+        <td><b>Query enhancement</b></td>
+        <td>Không</td>
+        <td>Reducto không đụng query-time, nên đây là vùng thử nghiệm sạch nhất.</td>
+        <td>Rất nên test: rewrite, step-back, decomposition, HyDE, HyPE.</td>
+      </tr>
+      <tr>
+        <td><b>Retrieval-time techniques</b></td>
+        <td>Không</td>
+        <td>RRF, rerank, hierarchical indices, dartboard, RSE, compression đều là lớp logic phía trên Reducto.</td>
+        <td>Đây là vùng “đáng thử nhất” vì không bị trộn với parse-time improvements.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px;">
+    <div class="panel">
+      <h3>Nếu dùng Reducto thì nên nghĩ thế nào?</h3>
+      <ul>
+        <li>Đừng cố “cải thiện chunking” trước khi chứng minh retrieval/query-time còn nghẽn.</li>
+        <li>Ưu tiên technique mà Reducto chưa làm hộ: query rewrite, routing, diversity, context assembly.</li>
+        <li>Với PDF toán, Reducto đang là parse baseline rất mạnh, nên các experiment phải tách biệt rõ.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Rule để không tự đánh lừa mình</h3>
+      <ul>
+        <li>Nếu một technique chỉ tăng score nhờ làm text dài hơn, chưa chắc là thật sự tốt hơn.</li>
+        <li>So sánh phải giữ cố định parse layer, embedding model, reranker và eval set.</li>
+        <li>Đánh giá riêng retrieval quality, generation quality và latency/cost.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:16px;">
+    <strong>Kết luận thực dụng:</strong> Nếu đang dùng Reducto cho PDF, thì các experiment “sạch” nhất là
+    <b>query enhancement</b>, <b>adaptive routing</b>, <b>diversity / hierarchical retrieval</b>,
+    và <b>RSE / compression</b>. Semantic chunking và contextual headers chỉ nên thử khi bạn tách được baseline Reducto.
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../backend/app/ingestion/reducto_parser.py">Reducto parser</a>
+    <a class="source-link" href="../backend/app/indexing/store.py">Indexing layer</a>
+    <a class="source-link" href="../backend/app/ingestion/chunker.py">Chunker fallback</a>
+  </div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide">
+  <div class="hero" style="min-height: 100%;">
+    <div class="hero-card">
+      <div class="chip-row" style="margin-bottom: 18px;">
+        <span class="chip">Nhóm 1</span>
+        <span class="chip mint">Query enhancement</span>
+      </div>
+      <h1>Query Enhancement</h1>
+      <p class="cover-note">
+        Nhóm kỹ thuật này xử lý câu hỏi trước khi retrieve. Mục tiêu là làm query rõ hơn, rộng hơn hoặc tách thành sub-queries để tăng recall và giảm mismatch giữa query ngắn với tài liệu dài.
+      </p>
+      <div style="margin-top: 22px;" class="legend">
+        <span><i class="dot cyan"></i> Rewrite: làm rõ query</span>
+        <span><i class="dot mint"></i> Step-back: lấy bối cảnh rộng hơn</span>
+        <span><i class="dot amber"></i> Decomposition: tách query phức tạp</span>
+      </div>
+      <div style="margin-top: 26px;" class="callout">
+        <strong>Điểm cần nhớ:</strong> đây là vùng query-time sạch nhất. Reducto không chạm vào đây, nên rất thích hợp để A/B test đầu tiên.
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-stat">
+        <div class="value" style="color:var(--cyan)">3 kỹ thuật</div>
+        <div class="label">Query transformation, HyDE, HyPE</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--mint)">P0</div>
+        <div class="label">Dễ test, dễ rollback, dễ thấy uplift</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--amber)">Không overlap</div>
+        <div class="label">Reducto không ảnh hưởng trực tiếp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>1. Query transformation</h2>
+      <p class="muted">Biến query ngắn, mơ hồ hoặc nhiều ý thành input dễ retrieve hơn. Đây là lớp query-time sạch nhất, vì Reducto không can thiệp vào đây.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">rewrite</span>
+      <span class="chip mint">step-back</span>
+      <span class="chip amber">decomposition</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Query gốc</strong> ngắn, mơ hồ, hoặc nhiều ý</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Rewrite / Step-back</strong> làm rõ hoặc làm rộng</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Decomposition</strong> tách thành sub-queries</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Retrieve</strong> trên query đã tối ưu</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Ba biến thể cốt lõi</h3>
+      <ul>
+        <li><b>Query rewriting:</b> viết lại query để cụ thể hơn, thêm ràng buộc, tăng tín hiệu lexical và semantic.</li>
+        <li><b>Step-back prompting:</b> lùi lên câu hỏi khái quát hơn để lấy bối cảnh nền trước khi drill-down.</li>
+        <li><b>Sub-query decomposition:</b> bóc tách câu hỏi phức tạp thành nhiều query con để truy hồi toàn diện hơn.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Vì sao hiệu quả</h3>
+      <ul>
+        <li>Query ngắn thường thiếu ngữ cảnh, còn tài liệu dài lại viết theo phong cách trả lời.</li>
+        <li>Rewriting giảm mismatch giữa ngôn ngữ hỏi và ngôn ngữ tài liệu.</li>
+        <li>Step-back giúp tìm kiến thức nền thay vì chỉ một fact hẹp.</li>
+        <li>Decomposition rất mạnh cho multi-hop và câu hỏi nhiều ràng buộc.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không có. Đây là vùng test sạch nhất để đo uplift query-time.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Biến thể</th>
+        <th>Mục tiêu</th>
+        <th>Metric nên nhìn</th>
+      </tr>
+      <tr>
+        <td><b>Rewrite</b></td>
+        <td>Làm query rõ và giàu tín hiệu hơn.</td>
+        <td>Recall@k, MRR@k.</td>
+      </tr>
+      <tr>
+        <td><b>Step-back</b></td>
+        <td>Lấy bối cảnh nền trước khi đi vào chi tiết.</td>
+        <td>Context recall, answer coverage.</td>
+      </tr>
+      <tr>
+        <td><b>Decomposition</b></td>
+        <td>Giải câu hỏi đa ý bằng nhiều query con.</td>
+        <td>Tail query success, answer completeness.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="https://arxiv.org/abs/2310.06117">Step-Back Prompting</a>
+    <a class="source-link" href="https://arxiv.org/abs/2305.14283">Query Rewriting for RAG</a>
+    <a class="source-link" href="../improvement/query-enhancement/query-transformation.md">Local notes</a>
+  </div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>2. HyDE</h2>
+      <p class="muted">Hypothetical Document Embeddings: tạo một tài liệu giả định từ query rồi dùng nó để truy hồi. Không đụng Reducto vì đây hoàn toàn là query-time logic.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">hypothetical doc</span>
+      <span class="chip mint">dense retrieval</span>
+      <span class="chip amber">zero-shot</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Query</strong> của user</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>LLM</strong> viết hypothetical answer / doc</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Embed</strong> văn bản giả định</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Retrieve</strong> docs gần với hypothetical doc</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Ý tưởng cốt lõi</h3>
+      <ul>
+        <li>Query của người dùng thường là ngôn ngữ hỏi, còn corpus thường là ngôn ngữ trả lời.</li>
+        <li>HyDE dùng LLM để sinh ra một “câu trả lời giả định” hoặc “tài liệu giả định” cho query đó.</li>
+        <li>Embedding của tài liệu giả định thường nằm gần vùng ngữ nghĩa của các tài liệu thật có câu trả lời tương ứng.</li>
+        <li>Chi tiết sai trong bản giả định thường bị encoder làm mờ đi, còn ý cốt lõi thì vẫn được giữ lại.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Vì sao hiệu quả:</strong> nó giảm semantic gap giữa query ngắn và tài liệu dài, answer-like.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Khi nào nên dùng</h3>
+      <ul>
+        <li>Khi dense retrieval theo query literal kém vì cách người dùng hỏi khác cách tài liệu viết.</li>
+        <li>Khi query rất ngắn nhưng muốn tìm đúng phần giải thích trong corpus dài.</li>
+        <li>Khi cần zero-shot và không muốn train retriever riêng.</li>
+        <li>Không lý tưởng cho truy vấn cần exact symbol, math notation, hoặc fact cực kỳ cụ thể nếu LLM dễ hallucinate.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không có. Nhưng runtime cost tăng vì phải gọi LLM ở query-time.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Ưu điểm</th>
+        <th>Nhược điểm</th>
+        <th>Đo gì</th>
+      </tr>
+      <tr>
+        <td>Zero-shot, dễ cắm vào pipeline hiện tại.</td>
+        <td>Thêm latency và cost cho mỗi query.</td>
+        <td>Recall@k, MRR@k, latency p95, answer faithfulness.</td>
+      </tr>
+      <tr>
+        <td>Tốt cho semantic gap và query ngắn.</td>
+        <td>Phụ thuộc vào chất lượng viết giả định của LLM.</td>
+        <td>Hard-query uplift, top-k diversity.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="https://arxiv.org/abs/2212.10496">HyDE paper</a>
+    <a class="source-link" href="../improvement/query-enhancement/hyde.md">Local notes</a>
+  </div>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>3. HyPE</h2>
+      <p class="muted">Hypothetical Prompt Embeddings: chuyển truy xuất thành question-to-question matching bằng cách tạo câu hỏi giả định từ chunk ở giai đoạn indexing.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">offline index</span>
+      <span class="chip mint">no runtime latency</span>
+      <span class="chip amber">question matching</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Chunk</strong> gốc</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>LLM</strong> sinh nhiều câu hỏi giả định</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Embed</strong> các câu hỏi đó</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Retrieve</strong> query tới question embeddings</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Cơ chế hoạt động</h3>
+      <ul>
+        <li>Ở offline indexing, mỗi chunk được biến thành nhiều câu hỏi giả định mà chunk đó có thể trả lời.</li>
+        <li>Các câu hỏi này được embed thay vì chỉ embed text gốc.</li>
+        <li>Khi user hỏi, hệ thống embed query và đi tìm các question embeddings gần nhất.</li>
+        <li>Vì cả hai bên đều ở dạng câu hỏi, style mismatch giảm mạnh.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Vì sao khác HyDE:</strong> HyDE tạo doc giả định ở runtime, còn HyPE tạo prompts trước ở indexing time.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Khi nào nên dùng</h3>
+      <ul>
+        <li>Khi corpus khá ổn định và bạn chấp nhận chi phí indexing cao hơn để đổi lấy query-time nhanh.</li>
+        <li>Khi user query thường mang style “hỏi”, còn corpus mang style “trình bày”.</li>
+        <li>Khi muốn cải thiện context precision mà không tăng runtime latency.</li>
+        <li>Không nên bật sớm nếu ingest đã nặng hoặc corpus thay đổi liên tục.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không trực tiếp, nhưng Reducto đã làm ingest nặng hơn nên phải cân nhắc chi phí tổng.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Điểm mạnh</th>
+        <th>Điểm yếu</th>
+        <th>Đo gì</th>
+      </tr>
+      <tr>
+        <td>Không thêm latency lúc query.</td>
+        <td>Index size và ingest cost tăng.</td>
+        <td>Context precision, recall, retrieval time, index cost.</td>
+      </tr>
+      <tr>
+        <td>Tốt cho corpora ổn định, large-scale search.</td>
+        <td>Phụ thuộc prompt quality và coverage của question generation.</td>
+        <td>Offline quality of generated questions, uplift on hard queries.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5139335">HyPE paper</a>
+    <a class="source-link" href="../improvement/query-enhancement/hype.md">Local notes</a>
+  </div>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide">
+  <div class="hero" style="min-height: 100%;">
+    <div class="hero-card">
+      <div class="chip-row" style="margin-bottom: 18px;">
+        <span class="chip">Nhóm 2</span>
+        <span class="chip mint">Context enrichment</span>
+      </div>
+      <h1>Context Enrichment</h1>
+      <p class="cover-note">
+        Nhóm này làm chunk và context “đỡ trơ” hơn. Nó gồm contextual chunk headers, semantic chunking, context window enhancement, contextual compression, RSE và document augmentation.
+      </p>
+      <div style="margin-top: 22px;" class="legend">
+        <span><i class="dot cyan"></i> Headers: thêm ngữ cảnh vào chunk</span>
+        <span><i class="dot mint"></i> Chunking: cắt theo nghĩa</span>
+        <span><i class="dot amber"></i> Compression/RSE: làm sạch và ghép segment</span>
+      </div>
+      <div style="margin-top: 26px;" class="callout">
+        <strong>Điểm cần nhớ:</strong> một phần nhóm này đã bị Reducto bao phủ. Vậy nên phải phân biệt kỹ giữa uplift thật và uplift do parse/chunk đã tốt sẵn.
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-stat">
+        <div class="value" style="color:var(--cyan)">6 kỹ thuật</div>
+        <div class="label">Header, semantic chunking, window, compression, RSE, augmentation</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--mint)">P1</div>
+        <div class="label">Rất đáng thử, nhưng phải ablate sạch</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--amber)">Overlap</div>
+        <div class="label">Chunking và headers có trùng một phần với Reducto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>4. Contextual chunk headers</h2>
+      <p class="muted">Gắn ngữ cảnh cấp tài liệu và cấp section vào chunk trước khi embed. Đây là kiểu AutoContext mà dsRAG làm rất rõ, và project của bạn đã có bản rút gọn qua <code>title › section</code>.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip mint">document context</span>
+      <span class="chip">section path</span>
+      <span class="chip amber">AutoContext-like</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Document</strong> title / summary / domain</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Section</strong> heading / page range</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Chunk</strong> + header trước khi index</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>BM25 + Dense</strong> nhìn thấy context</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Nó làm gì</h3>
+      <ul>
+        <li>Không thay đổi nội dung chunk cốt lõi, mà thêm lớp context ở phía trước.</li>
+        <li>Header thường gồm document title, section title, summary ngắn, domain note hoặc path của section.</li>
+        <li>Khi chunk được embed, vector phản ánh cả nội dung lẫn vị trí logic trong tài liệu.</li>
+        <li>Với sparse search, header cũng giúp BM25 bớt “mù ngữ cảnh”.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Lý do hiệu quả:</strong> chunk tự mang theo “ai tôi là” thay vì chỉ có nội dung thô.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Reducto overlap</h3>
+      <ul>
+        <li><b>Partial overlap:</b> hệ của bạn đã prepend <code>title › section</code> trước khi index.</li>
+        <li><b>Partial overlap:</b> Reducto trả về <code>embed_text</code> tối ưu cho embedding.</li>
+        <li>Nếu muốn test clean, nâng cấp header thành summary/section path/domain note và đo uplift riêng.</li>
+        <li>Đây là kỹ thuật rất đáng thử khi chunk đúng nhưng thiếu ngữ cảnh.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Không nên hiểu nhầm:</strong> đây không phải semantic chunking. Đây là context injection trước embedding.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Header layer</th>
+        <th>Ví dụ</th>
+        <th>Giá trị</th>
+      </tr>
+      <tr>
+        <td><b>Document-level</b></td>
+        <td>title, summary, domain, date.</td>
+        <td>Giúp nhận diện chủ đề lớn.</td>
+      </tr>
+      <tr>
+        <td><b>Section-level</b></td>
+        <td>section heading, page range, subsection path.</td>
+        <td>Giúp chunk đứng đúng vị trí logic.</td>
+      </tr>
+      <tr>
+        <td><b>Local-level</b></td>
+        <td>neighbor summary, table caption, figure note.</td>
+        <td>Giúp disambiguate chunk rất ngắn.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="https://d-star-ai.github.io/dsRAG/concepts/overview/">dsRAG overview</a>
+    <a class="source-link" href="../improvement/context-enrichment/contextual-chunk-headers.md">Local notes</a>
+  </div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>5. Semantic chunking</h2>
+      <p class="muted">Chia tài liệu theo ranh giới ý nghĩa thay vì cắt theo số ký tự cố định. Kỹ thuật này hữu ích cho văn bản dài, nhưng trên PDF path hiện tại nó đã bị Reducto bao phủ một phần.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">semantic boundaries</span>
+      <span class="chip mint">sentence embeddings</span>
+      <span class="chip amber">breakpoints</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Text</strong> → câu / đoạn nhỏ</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Distance</strong> giữa câu / cụm câu</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Breakpoint</strong> theo ngưỡng ngữ nghĩa</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Chunk</strong> coherent theo ý</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Nguyên lý hoạt động</h3>
+      <ul>
+        <li>Không cắt theo độ dài cố định, mà quan sát sự thay đổi ngữ nghĩa giữa các câu hoặc đoạn.</li>
+        <li>Semantic distance tăng mạnh là tín hiệu để đặt breakpoint.</li>
+        <li>Breakpoint có thể xác định bằng percentile, std dev, IQR, heuristics hoặc LLM.</li>
+        <li>Hybrid approach thường thực dụng nhất: dùng embeddings để đo và rule/LLM để xác nhận biên.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Lý do hiệu quả:</strong> chunk giữ trọn một ý thay vì bị cắt ngang ở giữa một lập luận hoặc công thức.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Reducto overlap</h3>
+      <ul>
+        <li><b>Partial overlap mạnh:</b> Reducto đã chunk theo <code>page_sections</code>, tức là đã xử lý một phần semantic/layout boundary.</li>
+        <li>Vì vậy, test semantic chunking trên PDF path hiện tại sẽ bị trộn với chất lượng parse của Reducto.</li>
+        <li>Để test sạch, hãy dùng text/URL path hoặc baseline fallback không qua Reducto.</li>
+        <li>Trong corpus có heading yếu, semantic chunking thường cải thiện rõ hơn ở long-doc retrieval.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Không nên nhầm:</strong> Reducto không thay thế hoàn toàn semantic chunking. Nó chỉ làm tốt một phần boundary detection.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Breakpoint method</th>
+        <th>Ý tưởng</th>
+        <th>Khi hợp</th>
+      </tr>
+      <tr>
+        <td><b>Percentile</b></td>
+        <td>Cắt tại các điểm có distance nằm trong vùng outlier.</td>
+        <td>Corpus có thay đổi ngữ nghĩa rõ ràng.</td>
+      </tr>
+      <tr>
+        <td><b>Std dev / IQR</b></td>
+        <td>Dùng thống kê để tìm đoạn có độ lệch lớn.</td>
+        <td>Corpus có cấu trúc vừa phải, cần heuristic ổn định.</td>
+      </tr>
+      <tr>
+        <td><b>LLM / hybrid</b></td>
+        <td>LLM xác nhận điểm cắt hoặc chỉnh ngưỡng.</td>
+        <td>Corpus phức tạp, cần chất lượng cao hơn tốc độ.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../improvement/context-enrichment/semantic-chunking.md">Local notes</a>
+    <a class="source-link" href="https://colab.research.google.com/github/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/semantic_chunking.ipynb">Reference notebook</a>
+  </div>
+</section>
+
+<!-- SLIDE 10 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>6. Context window enhancement</h2>
+      <p class="muted">Sau khi retrieve một chunk, kéo thêm hàng xóm trước/sau nó để phục hồi ngữ cảnh bị cắt. Kỹ thuật này mạnh khi câu trả lời nằm trải trên nhiều chunk liên tiếp.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">neighbor chunks</span>
+      <span class="chip mint">local window</span>
+      <span class="chip amber">dedupe overlap</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Retrieve</strong> chunk top-k</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Fetch</strong> neighbors theo chunk index</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Merge</strong> + dedupe overlap</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Prompt</strong> có context rộng hơn</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Ý tưởng cốt lõi</h3>
+      <ul>
+        <li>Retrieval ban đầu chỉ chọn được chunk “đúng nhất”, nhưng chunk đó có thể thiếu câu trước hoặc câu sau.</li>
+        <li>Window enhancement dùng metadata vị trí để lấy thêm chunk lân cận quanh chunk gốc.</li>
+        <li>Thường cần chunk index, page order, section order hoặc chronological index để xác định hàng xóm.</li>
+        <li>Khi dùng tốt, nó giúp answer đầy đủ hơn mà không cần tăng chunk size quá lớn từ đầu.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Lý do hiệu quả:</strong> nhiều câu trả lời cần 1 câu trước để gỡ đại từ, 1 câu sau để chốt kết luận.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Điểm cần chú ý</h3>
+      <ul>
+        <li>Token budget có thể tăng nhanh nếu window quá rộng.</li>
+        <li>Cần dedupe overlap để không nhét nội dung lặp.</li>
+        <li>Hiệu quả phụ thuộc vào chất lượng chunk boundary ban đầu.</li>
+        <li>Không thay thế retrieval, mà chỉ làm giàu context trước generation.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không trực tiếp, nhưng Reducto làm chunk boundary tốt hơn nên window enhancement càng có giá trị.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Window strategy</th>
+        <th>Mục tiêu</th>
+        <th>Trade-off</th>
+      </tr>
+      <tr>
+        <td><b>Fixed neighbors</b></td>
+        <td>Luôn lấy n chunk trước/sau.</td>
+        <td>Dễ triển khai nhưng có thể over-include noise.</td>
+      </tr>
+      <tr>
+        <td><b>Boundary-aware</b></td>
+        <td>Dừng theo section/page boundary.</td>
+        <td>An toàn hơn, nhưng có thể thiếu context nếu boundary quá ngắn.</td>
+      </tr>
+      <tr>
+        <td><b>Score-aware</b></td>
+        <td>Chọn hàng xóm khi chúng đủ liên quan.</td>
+        <td>Thông minh hơn nhưng cần logic tốt hơn.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../improvement/context-enrichment/context-window-enhancement.md">Local notes</a>
+    <a class="source-link" href="https://colab.research.google.com/github/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/context_enrichment_window_around_chunk.ipynb">Reference notebook</a>
+  </div>
+</section>
+
+<!-- SLIDE 11 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>7. Contextual compression</h2>
+      <p class="muted">Retrieve rộng trước, rồi nén lại chỉ còn phần liên quan nhất với query. Mục tiêu là giảm noise và giảm token trước khi vào LLM.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">extractor</span>
+      <span class="chip mint">LLM compressor</span>
+      <span class="chip amber">token budget</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Retrieve rộng</strong> top-k hoặc top-n</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Compressor</strong> giữ span liên quan</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Prune</strong> bỏ câu / đoạn thừa</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Generate</strong> trên context gọn hơn</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Nó hoạt động thế nào</h3>
+      <ul>
+        <li>Không cố đoán chunk nào là tốt nhất ngay từ đầu, mà chấp nhận retrieve rộng.</li>
+        <li>Sau đó một extractor hoặc LLM-based compressor sẽ trích ra câu / span thật sự trả lời câu hỏi.</li>
+        <li>Điều này rất hợp khi tài liệu dài, chunk noisy, hoặc context window bị giới hạn.</li>
+        <li>Compression không thay retrieval, nó là lớp lọc cuối trước generation.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Lý do hiệu quả:</strong> mô hình cuối đọc ít hơn nhưng đúng hơn.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Điểm cần cân nhắc</h3>
+      <ul>
+        <li>Compressor quá aggressive có thể bỏ mất chi tiết quyết định.</li>
+        <li>LLM-based compression thêm cost và latency.</li>
+        <li>Extractor-based compression rẻ hơn nhưng có thể kém linh hoạt hơn.</li>
+        <li>Phù hợp khi bạn đã có retrieval ổn và cần giảm noise ở tầng generate.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không trực tiếp. Nhưng vì Reducto đã làm embedding-friendly text, compression càng hữu ích nếu corpus vẫn dài.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Loại compressor</th>
+        <th>Ưu điểm</th>
+        <th>Nhược điểm</th>
+      </tr>
+      <tr>
+        <td><b>Extractor-based</b></td>
+        <td>Rẻ hơn, predictable hơn.</td>
+        <td>Ít linh hoạt khi query phức tạp.</td>
+      </tr>
+      <tr>
+        <td><b>LLM-based</b></td>
+        <td>Hiểu câu hỏi tốt hơn, chọn span thông minh hơn.</td>
+        <td>Đắt hơn và có thể sinh noise nếu prompt kém.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="https://api.python.langchain.com/en/v0.0.354/retrievers/langchain.retrievers.contextual_compression.ContextualCompressionRetriever.html">LangChain contextual compression</a>
+    <a class="source-link" href="../improvement/context-enrichment/contextual-compression.md">Local notes</a>
+  </div>
+</section>
+
+<!-- SLIDE 12 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>8. Relevant Segment Extraction</h2>
+      <p class="muted">Không trả về các chunk rời rạc, mà gom các chunk liên tiếp thành một segment có nghĩa. Đây là lớp “answer-ready context assembly” sau retrieval và rerank.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">contiguous segment</span>
+      <span class="chip mint">max-sum</span>
+      <span class="chip amber">multi-hop</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Top-k chunks</strong> sau retrieve/rerank</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Adjacency scoring</strong> + chunk index</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Segment assembly</strong> liên tiếp</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>LLM</strong> đọc một đoạn mạch lạc</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Lý thuyết cốt lõi</h3>
+      <ul>
+        <li>Trong tài liệu thật, các mẩu thông tin liên quan thường cluster gần nhau thay vì nằm rời rạc khắp nơi.</li>
+        <li>RSE tận dụng điều đó: thay vì trả về top-k mảnh vụn, nó cố ghép thành một segment liên tục và có ngữ nghĩa.</li>
+        <li>Có thể dùng chunk score, rank, và penalty cho chunk không liên quan để tối ưu hóa chuỗi liên tiếp tốt nhất.</li>
+        <li>Nếu chunking không overlap và có metadata order tốt, việc assembly sẽ đáng tin cậy hơn.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Vì sao hiệu quả:</strong> LLM không thích đọc list mảnh; nó thích một đoạn mạch lạc có đầu, giữa, cuối.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Khi nào dùng</h3>
+      <ul>
+        <li>Multi-hop questions.</li>
+        <li>Questions cần reasoning qua nhiều câu liên tiếp.</li>
+        <li>Long answers cần continuity.</li>
+        <li>Tài liệu kỹ thuật mà một công thức được giải thích qua nhiều đoạn liền nhau.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không trực tiếp. Nhưng Reducto làm chunk boundary tốt hơn, nên RSE càng dễ ghép segment đúng.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Signal</th>
+        <th>Ý nghĩa</th>
+        <th>Tác dụng trong RSE</th>
+      </tr>
+      <tr>
+        <td><b>Similarity score</b></td>
+        <td>Chunk nào gần query hơn.</td>
+        <td>Chọn hạt nhân của segment.</td>
+      </tr>
+      <tr>
+        <td><b>Adjacency</b></td>
+        <td>Chunk nào đứng cạnh chunk hạt nhân.</td>
+        <td>Giữ continuity cho segment.</td>
+      </tr>
+      <tr>
+        <td><b>Penalty</b></td>
+        <td>Chunk nào quá nhiễu hoặc không liên quan.</td>
+        <td>Tránh kéo rác vào segment.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="https://d-star-ai.github.io/dsRAG/concepts/overview/">dsRAG overview</a>
+    <a class="source-link" href="../improvement/context-enrichment/relevant-segment-extraction.md">Local notes</a>
+  </div>
+</section>
+
+<!-- SLIDE 13 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>9. Document augmentation</h2>
+      <p class="muted">Sinh thêm câu hỏi hoặc văn bản kiểu query cho từng document/chunk để làm tài liệu “dễ tìm” hơn. Kỹ thuật này có ích, nhưng với Reducto path hiện tại thì chỉ nên xem là augmentation bổ sung, không phải baseline chính.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">doc2query-like</span>
+      <span class="chip mint">question generation</span>
+      <span class="chip amber">synthetic text</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Document / chunk</strong> gốc</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Generate</strong> câu hỏi / query giả định</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Augment</strong> text hoặc index thêm variant</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Retrieve</strong> trên bản augmented</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Nó làm gì</h3>
+      <ul>
+        <li>Thay vì chỉ lưu text gốc, hệ thống tạo thêm các câu hỏi mà tài liệu đó có thể trả lời.</li>
+        <li>Các câu hỏi này thường giống style của user query hơn style của văn bản gốc.</li>
+        <li>Kết quả là vector space của document trở nên “dễ chạm” hơn với query dạng hỏi.</li>
+        <li>Đây là một cách mở rộng tài liệu theo hướng retrieval-friendly.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Ý nghĩa:</strong> bạn đang tăng bề mặt truy hồi của tài liệu bằng các câu hỏi giả định.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Reducto overlap</h3>
+      <ul>
+        <li><b>Partial overlap:</b> Reducto đã trả về <code>embed_text</code> tối ưu cho embedding, nên lợi ích augmentation riêng có thể nhỏ hơn.</li>
+        <li>Nếu test, nên so sánh trực tiếp <code>text</code> vs <code>embed_text</code> + augmented variant để tách tín hiệu.</li>
+        <li>Không nên xem đây là bắt buộc nếu dense retrieval hiện tại đã đủ tốt.</li>
+        <li>Phù hợp nhất khi corpus có query sparse hoặc phrasing rất khác văn bản gốc.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Khuyến nghị:</strong> đây là technique đáng thử, nhưng phải ablate cẩn thận để tránh đo nhầm lợi ích của Reducto.
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../improvement/context-enrichment/document-augmentation.md">Local notes</a>
+    <a class="source-link" href="https://arxiv.org/abs/1904.08375">Doc2Query</a>
+  </div>
+</section>
+
+<!-- SLIDE 14 -->
+<section class="slide">
+  <div class="hero" style="min-height: 100%;">
+    <div class="hero-card">
+      <div class="chip-row" style="margin-bottom: 18px;">
+        <span class="chip">Nhóm 3</span>
+        <span class="chip amber">Advanced retrieval</span>
+      </div>
+      <h1>Advanced Retrieval</h1>
+      <p class="cover-note">
+        Nhóm này không đổi query hay parse, mà đổi cách chọn và tổ chức candidate set: hierarchical indices và dartboard retrieval.
+      </p>
+      <div style="margin-top: 22px;" class="legend">
+        <span><i class="dot cyan"></i> Hierarchical: coarse-to-fine</span>
+        <span><i class="dot amber"></i> Dartboard: relevance + diversity</span>
+      </div>
+      <div style="margin-top: 26px;" class="callout">
+        <strong>Điểm cần nhớ:</strong> đây là nhóm phù hợp khi retrieval đã ổn nhưng vẫn còn redundancy hoặc search space quá rộng.
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-stat">
+        <div class="value" style="color:var(--cyan)">2 kỹ thuật</div>
+        <div class="label">Hierarchical indices, dartboard retrieval</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--mint)">P2</div>
+        <div class="label">Cần policy và instrumentation tốt hơn</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--amber)">Navigation vs selection</div>
+        <div class="label">Một cái thu hẹp vùng, một cái tăng đa dạng</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 15 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>10. Hierarchical indices</h2>
+      <p class="muted">Tổ chức retrieval theo nhiều tầng: summary -> section -> chunk. Kỹ thuật này thiên về navigation và scaling, phù hợp khi corpus lớn hoặc query cần tìm vùng tài liệu trước rồi mới drill-down.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">coarse-to-fine</span>
+      <span class="chip mint">summary layer</span>
+      <span class="chip amber">section drill-down</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Summary index</strong> tài liệu / chương</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Section index</strong> lọc vùng liên quan</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Chunk index</strong> tìm chi tiết</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Answer</strong> dựa trên vùng đã thu hẹp</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Cơ chế</h3>
+      <ul>
+        <li>Thay vì quét một index phẳng cực lớn, hệ thống tạo một lớp summary hoặc overview trước.</li>
+        <li>Query trước tiên chạy qua lớp coarse để xác định tài liệu hoặc section có khả năng chứa câu trả lời.</li>
+        <li>Sau đó mới search chi tiết trong phạm vi nhỏ hơn ở tầng section hoặc chunk.</li>
+        <li>Coarse-to-fine giúp giảm search space và thường tăng khả năng mở rộng khi corpus lớn lên.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Lý do hiệu quả:</strong> không phải mọi query đều cần quét toàn bộ chunk chi tiết ngay từ đầu.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Rủi ro và lưu ý</h3>
+      <ul>
+        <li>Summary layer có thể drift nếu tóm tắt kém.</li>
+        <li>Update index phức tạp hơn flat retrieval.</li>
+        <li>Cần metadata mapping rõ ràng giữa summary, section và chunk.</li>
+        <li>Không phải kỹ thuật bắt buộc với corpus nhỏ hoặc khi hybrid retrieval hiện tại đã đủ tốt.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không trực tiếp, nhưng Reducto làm tốt parse layer; hierarchical indices là lớp retrieval bổ sung ở phía trên.
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../improvement/advanced-retrieval/hierarchical-indices.md">Local notes</a>
+    <a class="source-link" href="https://colab.research.google.com/github/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/hierarchical_indices.ipynb">Reference notebook</a>
+  </div>
+</section>
+
+<!-- SLIDE 15 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>11. Dartboard retrieval</h2>
+      <p class="muted">Chọn top-k không chỉ theo relevance mà còn phải giữ diversity. Mục tiêu là tránh “echo chamber” trong kết quả truy hồi.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">relevance</span>
+      <span class="chip mint">diversity</span>
+      <span class="chip amber">greedy selection</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Candidate set</strong> từ BM25/dense/rerank</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Greedy pick</strong> chunk tốt nhất đầu tiên</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Penalty</strong> cho chunk quá giống nhau</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Top-k</strong> vừa đúng vừa đa dạng</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Nó làm gì</h3>
+      <ul>
+        <li>Retrieval truyền thống thường lấy các chunk rất giống nhau vì similarity cao quanh cùng một đoạn.</li>
+        <li>Dartboard retrieval chọn greedy để mỗi chunk mới vừa liên quan đến query, vừa khác enough so với chunk đã chọn.</li>
+        <li>Có thể xem nó như một lớp diversity-aware selection trên candidate set.</li>
+        <li>Đặc biệt hữu ích khi corpus lặp ý, hoặc khi câu hỏi cần nhiều góc nhìn.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Ý nghĩa:</strong> không phải lúc nào chunk có similarity cao nhất cũng là chunk hữu ích nhất để đưa vào prompt.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Khi dùng</h3>
+      <ul>
+        <li>Khi top-k đang bị gần-duplicate.</li>
+        <li>Khi cần so sánh, phản biện, hoặc tổng hợp nhiều quan điểm.</li>
+        <li>Khi muốn đa dạng hóa evidence trước generation.</li>
+        <li>Không nên dùng nếu corpus đã rất gọn và reranker đã đủ đa dạng.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không trực tiếp. Đây là lớp retrieval-selection ở phía trên parse.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Giữ gì</th>
+        <th>Hy sinh gì</th>
+        <th>Đo gì</th>
+      </tr>
+      <tr>
+        <td>Relevance nền tảng.</td>
+        <td>Một chút best-match tuyệt đối để đổi lấy diversity.</td>
+        <td>Redundancy ratio, coverage, answer diversity.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../improvement/advanced-retrieval/dartboard-retrieval.md">Local notes</a>
+    <a class="source-link" href="https://colab.research.google.com/github/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/dartboard.ipynb">Reference notebook</a>
+  </div>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide">
+  <div class="hero" style="min-height: 100%;">
+    <div class="hero-card">
+      <div class="chip-row" style="margin-bottom: 18px;">
+        <span class="chip">Nhóm 4</span>
+        <span class="chip violet">Iterative techniques</span>
+      </div>
+      <h1>Iterative Techniques</h1>
+      <p class="cover-note">
+        Nhóm này không áp dụng một công thức duy nhất cho mọi query, mà phân loại query rồi chọn chiến lược phù hợp. Đây là lớp policy của RAG.
+      </p>
+      <div style="margin-top: 22px;" class="legend">
+        <span><i class="dot cyan"></i> Classify query trước khi retrieve</span>
+        <span><i class="dot mint"></i> Route factual / analytical / contextual</span>
+        <span><i class="dot amber"></i> Fallback khi không chắc chắn</span>
+      </div>
+      <div style="margin-top: 26px;" class="callout">
+        <strong>Điểm cần nhớ:</strong> đây là lớp policy rất hợp với router hiện tại của project, và hoàn toàn không đụng Reducto.
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-stat">
+        <div class="value" style="color:var(--cyan)">1 kỹ thuật</div>
+        <div class="label">Adaptive retrieval</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--mint)">P2</div>
+        <div class="label">Cần logging tốt để debug route</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value" style="color:var(--amber)">Policy layer</div>
+        <div class="label">Biến RAG thành decision engine</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 19 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>12. Adaptive retrieval</h2>
+      <p class="muted">Thay vì một chiến lược cho mọi query, hệ thống phân loại query rồi chọn chiến lược phù hợp. Đây là lớp policy, rất hợp với router hiện tại của project.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">query classification</span>
+      <span class="chip mint">routing policy</span>
+      <span class="chip amber">fallback</span>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Query</strong> incoming</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Classifier</strong> factual / analytical / opinion / contextual</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Route</strong> strategy phù hợp</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Fallback</strong> nếu classifier không chắc</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Ý tưởng cốt lõi</h3>
+      <ul>
+        <li><b>Factual:</b> rewrite nhẹ, keyword-heavy, dense + rerank.</li>
+        <li><b>Analytical:</b> decomposition, RSE, compression.</li>
+        <li><b>Opinion / compare:</b> dartboard, diversity-aware retrieval.</li>
+        <li><b>Contextual:</b> window enhancement, session history.</li>
+      </ul>
+      <div class="callout mint" style="margin-top:12px;">
+        <strong>Insight:</strong> RAG tốt không phải vì có một kỹ thuật tốt, mà vì biết chọn kỹ thuật đúng cho từng loại query.
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Fit với project hiện tại</h3>
+      <ul>
+        <li>Router hiện tại đã có <code>no_retrieval / simple / complex</code>, nên adaptive retrieval là bước mở rộng tự nhiên.</li>
+        <li>Chỉ cần thêm classification signals và policy rõ ràng là có thể scale logic routing.</li>
+        <li>Phải log reason code để debug misroute.</li>
+        <li>Đây là lớp không đụng Reducto, nên test rất sạch ở query-time.</li>
+      </ul>
+      <div class="callout amber" style="margin-top:12px;">
+        <strong>Reducto overlap:</strong> không có. Nhưng nếu parse đã mạnh, adaptive retrieval càng giúp khai thác phần retrieval/generation còn lại.
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Query type</th>
+        <th>Signal</th>
+        <th>Strategy</th>
+      </tr>
+      <tr>
+        <td><b>Factual</b></td>
+        <td>Entity rõ, câu hỏi cụ thể.</td>
+        <td>Rewrite + sparse/dense hybrid.</td>
+      </tr>
+      <tr>
+        <td><b>Analytical</b></td>
+        <td>Why / compare / impact / trade-off.</td>
+        <td>Decomposition + RSE + compression.</td>
+      </tr>
+      <tr>
+        <td><b>Contextual</b></td>
+        <td>Phụ thuộc chat history / session.</td>
+        <td>Window enhancement + memory.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <a class="source-link" href="../improvement/iterative-techniques/adaptive-retrieval.md">Local notes</a>
+    <a class="source-link" href="https://arxiv.org/abs/2305.14283">Query rewriting for RAG</a>
+  </div>
+</section>
+
+<!-- SLIDE 17 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Target architecture đề xuất cho team</h2>
+      <p class="muted">Một stack thực dụng: giữ cái đang chạy tốt, rồi thêm từng lớp theo thứ tự đo được.</p>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-bottom: 18px;">
+    <div class="node live"><strong>Ingest</strong> Reducto / fallback local</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Context</strong> headers + section path</div>
+    <div class="arrow">→</div>
+    <div class="node live"><strong>Index</strong> BM25 + dense + summaries</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Query</strong> rewrite + route</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Retrieve</strong> hybrid + diversity + RSE</div>
+    <div class="arrow">→</div>
+    <div class="node next"><strong>Generate</strong> cite + verify</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>What to keep</h3>
+      <ul>
+        <li>Current local-first storage + index layout.</li>
+        <li>Dual-channel indexing: <code>text</code> cho BM25, <code>embed_text</code> cho dense.</li>
+        <li>RRF + reranker vì đây là baseline vững.</li>
+        <li>Router / planner / verify vì đây là chỗ team đã có control logic.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>What to add next</h3>
+      <ul>
+        <li>Contextual chunk headers nâng cấp theo kiểu AutoContext.</li>
+        <li>Query transformation + step-back + decomposition.</li>
+        <li>RSE / compression để generate context-ready segments.</li>
+        <li>Adaptive router để chọn strategy theo query type.</li>
+        <li>Hierarchical indices hoặc dartboard chỉ sau khi có metric ổn định.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:16px;">
+    <strong>Triển khai theo lớp:</strong> first make queries better, then make retrieved context better, then make retrieval policy smarter.
+  </div>
+
+  <div class="callout mint" style="margin-top:16px;">
+    <strong>Nguyên tắc:</strong> Không trộn hết kỹ thuật vào một lần. Hãy bật từng lớp và đo uplift riêng của từng lớp.
+  </div>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Offline evaluation: đo cái gì trước khi rollout</h2>
+      <p class="muted">Nếu không có ground truth và ablation, rất dễ “thấy hay” nhưng không biết cái gì thật sự giúp.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <h3>Retrieval metrics</h3>
+      <ul>
+        <li><b>Recall@k</b>, <b>MRR@k</b>, <b>nDCG@k</b></li>
+        <li>Context precision / context recall</li>
+        <li>Redundancy ratio trong top-k</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Generation metrics</h3>
+      <ul>
+        <li>Faithfulness / groundedness</li>
+        <li>Answer correctness / exactness</li>
+        <li>Citation accuracy (page / section / chunk)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px;">
+    <div class="panel">
+      <h3>System metrics</h3>
+      <ul>
+        <li>Latency p50 / p95</li>
+        <li>Token usage / cost per question</li>
+        <li>No-answer rate / refusal rate</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Domain-specific metrics</h3>
+      <ul>
+        <li>Formula correctness</li>
+        <li>Section hit rate</li>
+        <li>Page-level citation correctness</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:16px;">
+    <strong>Khuyến nghị:</strong> Tạo một gold set nhỏ nhưng đa dạng: factual, analytical, contextual, comparison,
+    multi-hop, và một ít câu hỏi toán / formula nếu corpus của team có PDF kỹ thuật.
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Nhóm câu hỏi</th>
+        <th>Đo chất lượng nào</th>
+        <th>Điều gì dễ nhìn nhầm</th>
+      </tr>
+      <tr>
+        <td><b>Factual</b></td>
+        <td>Recall@k, citation accuracy, answer exactness.</td>
+        <td>Chunk đúng nhưng answer vẫn dài và lan man.</td>
+      </tr>
+      <tr>
+        <td><b>Analytical / multi-hop</b></td>
+        <td>Faithfulness, context completeness, chain coverage.</td>
+        <td>Answer nghe hợp lý nhưng thiếu evidence liên kết.</td>
+      </tr>
+      <tr>
+        <td><b>Contextual / conversational</b></td>
+        <td>Session consistency, window usage, router correctness.</td>
+        <td>Trả lời đúng câu hiện tại nhưng quên ngữ cảnh trước đó.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- SLIDE 19 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>A/B test matrix</h2>
+      <p class="muted">Thử theo từng lớp, không bật tất cả một lúc. Control phải là baseline đang chạy ổn nhất.</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Variant</th>
+        <th>Thay đổi</th>
+        <th>Giả thuyết</th>
+        <th>Decision metric</th>
+      </tr>
+      <tr>
+        <td><b>A</b></td>
+        <td>Baseline hiện tại</td>
+        <td>Đây là control để so sánh.</td>
+        <td>Recall@5, MRR@5, faithfulness</td>
+      </tr>
+      <tr>
+        <td><b>B1</b></td>
+        <td>+ query transformation / step-back</td>
+        <td>Query rõ hơn → recall tăng.</td>
+        <td>Retrieval uplift, latency delta</td>
+      </tr>
+      <tr>
+        <td><b>B2</b></td>
+        <td>+ contextual chunk headers</td>
+        <td>Chunk hiểu ngữ cảnh hơn → match tốt hơn.</td>
+        <td>Context precision, citation accuracy</td>
+      </tr>
+      <tr>
+        <td><b>B3</b></td>
+        <td>+ semantic chunking / compression / RSE</td>
+        <td>Context mạch lạc hơn → answer quality tăng.</td>
+        <td>Faithfulness, answer score</td>
+      </tr>
+      <tr>
+        <td><b>B4</b></td>
+        <td>+ adaptive router / diversity layer</td>
+        <td>Routing đúng loại query → gain thêm ở hard queries.</td>
+        <td>Tail queries, redundancy ratio</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px;">
+    <div class="panel">
+      <h3>Thiết kế test</h3>
+      <ul>
+        <li>Chạy cùng một dataset và cùng một hidden evaluation set.</li>
+        <li>Giữ embedding model / reranker / generator cố định khi test 1 technique.</li>
+        <li>Log top-k chunks, reason codes, latency và token usage.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Nguyên tắc ra quyết định</h3>
+      <ul>
+        <li>Không chỉ nhìn average: hãy nhìn tail queries.</li>
+        <li>Nếu uplift nhỏ nhưng cost tăng nhiều, kỹ thuật đó chưa nên rollout.</li>
+        <li>Technique nào tăng faithfulness nhưng giảm latency quá mạnh thì cần cân nhắc.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 20 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Rollout và guardrails</h2>
+      <p class="muted">Online test chỉ nên làm khi offline score đã đủ tin cậy.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="phase">Shadow</div>
+      <div class="desc">Chạy song song với baseline, không ảnh hưởng user. Dùng để debug routing / retrieval / citations.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">10%</div>
+      <div class="desc">Canary traffic. So p95 latency, no-answer rate, faithfulness proxy và phản hồi người dùng.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">50%</div>
+      <div class="desc">Nếu metrics ổn định, mở rộng traffic. Tối ưu ngưỡng cutoff cho router và compressor.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">100%</div>
+      <div class="desc">Chỉ rollout full khi không có regression đáng kể về chất lượng hoặc cost.</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px;">
+    <div class="panel">
+      <h3>Guardrails phải có</h3>
+      <ul>
+        <li>Latency p95 không vượt ngưỡng team đặt ra.</li>
+        <li>Hallucination / citation mismatch không tăng.</li>
+        <li>No-answer rate không tăng bất thường.</li>
+        <li>Router misroute rate không tăng khi traffic thật vào.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Feature flags nên tách</h3>
+      <ul>
+        <li>Query enhancer</li>
+        <li>Chunker / context assembler</li>
+        <li>Retriever router</li>
+        <li>Diversity / compression policy</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:16px;">
+    <strong>Rollback trigger:</strong> chỉ cần một trong các chỉ số sau xấu đi rõ rệt là phải dừng: p95 latency, citation mismatch, no-answer rate, hoặc hard-query recall.
+  </div>
+</section>
+
+<!-- SLIDE 21 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>Roadmap khuyến nghị cho team</h2>
+      <p class="muted">Kế hoạch này ưu tiên các kỹ thuật “đánh nhanh, đo được, rollback được”.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="phase">Sprint 1</div>
+      <div class="desc">Freeze baseline, xây gold set, thêm query transformation + contextual chunk headers.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">Sprint 2</div>
+      <div class="desc">Thử semantic chunking + contextual compression + RSE, đo uplift trên hard queries.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">Sprint 3</div>
+      <div class="desc">Thêm adaptive router, phân loại query, và diversity layer nếu top-k còn trùng lặp.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">Sprint 4</div>
+      <div class="desc">Chỉ khi cần: hierarchical indices, dartboard retrieval, và HyPE cho corpus ổn định.</div>
+    </div>
+  </div>
+
+  <div class="priority" style="margin-top:16px;">
+    <div class="priority-row">
+      <div class="rank">Do now</div>
+      <div><b>Chọn 2 kỹ thuật dễ thắng nhất</b></div>
+      <div class="good">Contextual chunk headers + query transformation.</div>
+    </div>
+    <div class="priority-row">
+      <div class="rank">Measure</div>
+      <div><b>Chạy ablation nghiêm túc</b></div>
+      <div class="good">Một kỹ thuật mỗi lần, cùng eval set, cùng baseline.</div>
+    </div>
+    <div class="priority-row">
+      <div class="rank">Only later</div>
+      <div><b>Thuật toán nặng hơn</b></div>
+      <div class="wait">Hierarchical / dartboard / HyPE khi hệ đã ổn.</div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <tr>
+        <th>Sprint</th>
+        <th>Output phải có</th>
+        <th>Go / No-go</th>
+      </tr>
+      <tr>
+        <td><b>1</b></td>
+        <td>Gold set, baseline frozen, query rewrite + header variant.</td>
+        <td>Go nếu uplift có ý nghĩa và không tăng latency nhiều.</td>
+      </tr>
+      <tr>
+        <td><b>2</b></td>
+        <td>Compression / RSE / semantic-aware context assembly.</td>
+        <td>Go nếu faithfulness và multi-hop gain rõ trên hard set.</td>
+      </tr>
+      <tr>
+        <td><b>3</b></td>
+        <td>Adaptive router + diversity policy.</td>
+        <td>Go nếu tail query cải thiện và misroute không tăng.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- SLIDE 22 -->
+<section class="slide">
+  <div class="section-head">
+    <div>
+      <h2>21. References</h2>
+      <p class="muted">Nguồn tổng hợp từ folder <code>improvement/</code> và tài liệu gốc bên ngoài.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="panel">
+      <h3>Local notes</h3>
+      <ul>
+        <li><a class="source-link" href="../improvement/query-enhancement/query-transformation.md">Query transformation</a></li>
+        <li><a class="source-link" href="../improvement/query-enhancement/hyde.md">HyDE</a></li>
+        <li><a class="source-link" href="../improvement/query-enhancement/hype.md">HyPE</a></li>
+        <li><a class="source-link" href="../improvement/context-enrichment/contextual-chunk-headers.md">Contextual chunk headers</a></li>
+        <li><a class="source-link" href="../improvement/context-enrichment/semantic-chunking.md">Semantic chunking</a></li>
+        <li><a class="source-link" href="../improvement/context-enrichment/contextual-compression.md">Contextual compression</a></li>
+        <li><a class="source-link" href="../improvement/context-enrichment/relevant-segment-extraction.md">Relevant segment extraction</a></li>
+        <li><a class="source-link" href="../improvement/context-enrichment/document-augmentation.md">Document augmentation</a></li>
+        <li><a class="source-link" href="../improvement/advanced-retrieval/hierarchical-indices.md">Hierarchical indices</a></li>
+        <li><a class="source-link" href="../improvement/advanced-retrieval/dartboard-retrieval.md">Dartboard retrieval</a></li>
+        <li><a class="source-link" href="../improvement/iterative-techniques/adaptive-retrieval.md">Adaptive retrieval</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Primary sources</h3>
+      <ul>
+        <li><a class="source-link" href="https://arxiv.org/abs/2212.10496">HyDE: Hypothetical Document Embeddings</a></li>
+        <li><a class="source-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5139335">HyPE: Hypothetical Prompt Embeddings</a></li>
+        <li><a class="source-link" href="https://arxiv.org/abs/2310.06117">Take a Step Back</a></li>
+        <li><a class="source-link" href="https://arxiv.org/abs/2205.10625">Least-to-Most Prompting</a></li>
+        <li><a class="source-link" href="https://arxiv.org/abs/2305.14283">Query Rewriting for RAG</a></li>
+        <li><a class="source-link" href="https://arxiv.org/abs/1904.08375">Doc2Query</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Implementation refs</h3>
+      <ul>
+        <li><a class="source-link" href="https://d-star-ai.github.io/dsRAG/concepts/overview/">dsRAG overview</a></li>
+        <li><a class="source-link" href="https://d-star-ai.github.io/dsRAG/concepts/config/">dsRAG config</a></li>
+        <li><a class="source-link" href="https://api.python.langchain.com/en/v0.0.354/retrievers/langchain.retrievers.contextual_compression.ContextualCompressionRetriever.html">LangChain contextual compression</a></li>
+        <li><a class="source-link" href="https://api.python.langchain.com/en/latest/experimental/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html">LangChain SemanticChunker</a></li>
+        <li><a class="source-link" href="https://github.com/NirDiamant/RAG_Techniques">NirDiamant/RAG_Techniques</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:16px;">
+    <strong>Gợi ý trình bày:</strong> mở deck này theo flow từ <b>baseline</b> → <b>query enhancement</b> →
+    <b>context enrichment</b> → <b>advanced retrieval</b> → <b>adaptive policy</b> →
+    <b>evaluation / rollout</b>.
+  </div>
+</section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" type="button">← Prev</button>
+  <button id="fullscreenBtn" type="button" class="primary">⛶ Fullscreen</button>
+  <button id="nextBtn" type="button">Next →</button>
+</div>
+<div class="progress" id="progress"></div>
+
+<script>
+(() => {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+  let idx = 0;
+
+  function show(n) {
+    idx = Math.max(0, Math.min(total - 1, n));
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    counter.textContent = `${idx + 1} / ${total}`;
+    progress.style.width = `${((idx + 1) / total) * 100}%`;
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => show(idx - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => show(idx + 1));
+  fullscreenBtn.addEventListener('click', async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (err) {
+      console.warn('Fullscreen toggle failed:', err);
+    }
+  });
+  function syncFullscreenLabel() {
+    fullscreenBtn.textContent = document.fullscreenElement ? '⤫ Exit fullscreen' : '⛶ Fullscreen';
+  }
+  document.addEventListener('fullscreenchange', syncFullscreenLabel);
+  syncFullscreenLabel();
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') show(idx + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(idx - 1);
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(total - 1);
+    if (e.key.toLowerCase() === 'f') {
+      fullscreenBtn.click();
+    }
+  });
+  show(0);
+})();
+</script>
+
+</body>
+</html>
