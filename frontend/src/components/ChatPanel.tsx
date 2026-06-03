@@ -110,6 +110,7 @@ export default function ChatPanel({
     let answer = "";
     let citations: Citation[] = [];
     const trace: TraceEvent[] = [];
+    let gotFinal = false;
 
     try {
       await streamChat(sessionId, msg, {
@@ -120,6 +121,7 @@ export default function ChatPanel({
             answer += data.text;
             setLiveAnswer(answer);
           } else if (type === "final") {
+            gotFinal = true;
             answer = data.answer;
             citations = data.citations || [];
           } else {
@@ -132,29 +134,33 @@ export default function ChatPanel({
           setChatError(m);
         },
         onDone: () => {
-          setMessages((prev) => {
-            const processingIdx = prev.findIndex(
-              (m) => m.role === "assistant" && m.status === "processing"
-            );
-            if (processingIdx >= 0) {
-              const updated = [...prev];
-              updated[processingIdx] = {
-                ...updated[processingIdx],
-                content: answer,
-                citations,
-                trace,
-                status: "complete",
-              };
-              return updated;
-            }
-            return [
-              ...prev,
-              { role: "assistant", content: answer, citations, trace, status: "complete" },
-            ];
-          });
           setStreaming(false);
-          setLiveAnswer("");
-          setLiveTrace([]);
+          if (gotFinal) {
+            // Normal completion — update message and clear live state
+            setMessages((prev) => {
+              const processingIdx = prev.findIndex(
+                (m) => m.role === "assistant" && m.status === "processing"
+              );
+              if (processingIdx >= 0) {
+                const updated = [...prev];
+                updated[processingIdx] = {
+                  ...updated[processingIdx],
+                  content: answer,
+                  citations,
+                  trace,
+                  status: "complete",
+                };
+                return updated;
+              }
+              return [
+                ...prev,
+                { role: "assistant", content: answer, citations, trace, status: "complete" },
+              ];
+            });
+            setLiveAnswer("");
+            setLiveTrace([]);
+          }
+          // If !gotFinal (interrupted): keep liveTrace/liveAnswer for AgentGraph resume
         },
       });
     } catch (e: any) {
@@ -177,8 +183,10 @@ export default function ChatPanel({
   const hasProcessing = messages.some(
     (m) => m.role === "assistant" && m.status === "processing"
   );
-  const graphEvents = streaming || (hasProcessing && liveTrace.length > 0) ? liveTrace : lastAssistant?.trace || [];
-  const graphAnswer = streaming || (hasProcessing && liveAnswer.length > 0) ? liveAnswer : lastAssistant?.content || "";
+  const graphEvents = streaming || hasProcessing
+    ? (liveTrace.length > 0 ? liveTrace : [{ type: "thinking" as const, data: { node: "router" } }])
+    : lastAssistant?.trace || [];
+  const graphAnswer = streaming || hasProcessing ? liveAnswer : lastAssistant?.content || "";
 
   const startAgentResize = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
