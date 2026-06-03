@@ -66,6 +66,9 @@ body {
 .btn:disabled { opacity: .5; cursor: default; }
 .btn.primary { background: var(--accent2); border-color: var(--accent2); color: white; font-weight: 600; }
 .btn.primary:hover:not(:disabled) { background: var(--accent); }
+.btn.danger { background: #7f3a44; border-color: #7f3a44; color: white; font-weight: 600; }
+.btn.danger:hover:not(:disabled) { background: #a34b52; }
+.btn.small { padding: 4px 8px; font-size: 12px; border-radius: 6px; }
 .btn.block { width: 100%; }
 
 .uploader { display: flex; flex-direction: column; gap: 8px; }
@@ -268,6 +271,7 @@ body {
 .user-text { white-space: pre-wrap; }
 .typing { color: var(--muted); letter-spacing: 2px; animation: blink 1.2s infinite; }
 @keyframes blink { 50% { opacity: .4; } }
+.bubble-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
 
 /* ---------- markdown + latex ---------- */
 .md { overflow-x: auto; }

@@ -123,6 +123,21 @@ export default function ChatPanel({
         };
         return updated;
       }
+      // Nếu đang streaming mà chưa có message assistant trong state,
+      // thêm placeholder cancelled để UI hiện "Đã hủy" ngay lập tức
+      if (streaming) {
+        return [
+          ...prev,
+          {
+            role: "assistant",
+            content: liveAnswer,
+            citations: [],
+            trace: liveTrace,
+            status: "cancelled",
+            error_message: "Đã hủy.",
+          },
+        ];
+      }
       return prev;
     });
     setLiveAnswer("");
@@ -296,7 +311,10 @@ export default function ChatPanel({
                     {m.role === "assistant" && m.status === "processing" && !streaming && (
                       <>
                         <AgentTrace events={m.trace || []} live />
-                        <div className="typing">●●●</div>
+                        <div className="bubble-actions">
+                          <div className="typing">●●●</div>
+                          <button className="btn danger small" onClick={cancelChat}>Hủy</button>
+                        </div>
                       </>
                     )}
                     {m.role === "assistant" && m.status === "cancelled" && (
@@ -345,6 +363,9 @@ export default function ChatPanel({
                     ) : (
                       <div className="typing">●●●</div>
                     )}
+                    <div className="bubble-actions">
+                      <button className="btn danger small" onClick={cancelChat}>Hủy</button>
+                    </div>
                   </div>
                 </div>
               )}
