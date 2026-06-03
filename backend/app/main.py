@@ -4,9 +4,13 @@ import logging
 import os
 from urllib.parse import quote
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.responses import FileResponse
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.util import get_remote_address
+from starlette.responses import FileResponse, JSONResponse
 from starlette.responses import StreamingResponse
 
 from .agent.graph import Agent
@@ -43,6 +47,9 @@ def _configure_logging() -> None:
 _configure_logging()
 app = FastAPI(title="Vietnamese RAG Agent", version="1.0.0")
 
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -50,6 +57,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(SlowAPIMiddleware)
+
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Quá nhiều yêu cầu. Vui lòng thử lại sau."},
+    )
 
 kb = KnowledgeBase(settings)
 
@@ -142,7 +159,8 @@ def view_document_pdf(doc_id: int):
 
 
 @app.post("/api/documents/upload")
-async def upload_document(file: UploadFile = File(...)):
+@limiter.limit("10/minute")
+async def upload_document(request: Request, file: UploadFile = File(...)):
     data = await file.read()
     if len(data) > settings.max_upload_size:
         raise HTTPException(
@@ -181,7 +199,8 @@ async def upload_document(file: UploadFile = File(...)):
 
 
 @app.post("/api/documents/url")
-def ingest_url(body: UrlIn):
+@limiter.limit("10/minute")
+def ingest_url(request: Request, body: UrlIn):
     try:
         return kb.ingest_url(body.url)
     except Exception as e:
@@ -301,7 +320,8 @@ def _run_agent_sync(
 
 
 @app.post("/api/chat")
-async def chat(body: ChatIn):
+@limiter.limit("30/minute")
+async def chat(request: Request, body: ChatIn):
     if not settings.has_openai:
         raise HTTPException(400, "OPENAI_API_KEY chưa được cấu hình trong backend/.env")
 
