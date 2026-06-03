@@ -210,9 +210,74 @@ def delete_session(sid: str):
     return {"deleted": sid}
 
 
-# ---------------- chat (SSE via StreamingResponse) ----------------
+# ---------------- chat (SSE via StreamingResponse + background processing) ----------------
+_active_streams: dict[str, asyncio.Queue] = {}
+
+
 def _sse_event(event: str, data: object) -> str:
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False, default=str)}\n\n"
+
+
+def _run_agent_sync(
+    session_id: str,
+    msg_id: int,
+    question: str,
+    history: list[dict],
+    summary: str | None,
+    queue: asyncio.Queue,
+) -> None:
+    agent = Agent(kb)
+    final_payload: dict = {"answer": "", "citations": [], "trace": []}
+
+    try:
+        gen = agent.run(question, history, summary=summary)
+
+        while True:
+            try:
+                ev = next(gen)
+            except StopIteration:
+                break
+
+            try:
+                queue.put_nowait(ev)
+            except Exception:
+                pass
+
+            if ev["type"] == "final":
+                final_payload.update(ev["data"])
+                answer_text = ev["data"].get("answer", "")
+                if answer_text:
+                    kb.repo.update_message(
+                        msg_id,
+                        content=answer_text,
+                        citations=ev["data"].get("citations", []),
+                        trace=[e for e in ev["data"].get("trace", []) if e.get("type") != "thinking"],
+                        status="complete",
+                    )
+                    kb.repo.touch_session(session_id)
+                    if settings.enable_summarization:
+                        _maybe_summarize(session_id, agent, kb)
+
+        if not final_payload.get("answer"):
+            existing = kb.repo.get_message(msg_id)
+            if existing and existing.get("status") == "processing":
+                kb.repo.update_message(msg_id, status="failed", error_message="Agent không tạo được câu trả lời.")
+
+    except Exception as e:
+        logging.getLogger("rag.flow").exception("RAG_FLOW agent_error session=%s msg=%s", session_id, msg_id)
+        try:
+            queue.put_nowait({"type": "error", "data": {"message": str(e)}})
+        except Exception:
+            pass
+        existing = kb.repo.get_message(msg_id)
+        if existing and existing.get("status") == "processing":
+            kb.repo.update_message(msg_id, content=f"Lỗi: {e}", status="failed", error_message=str(e))
+    finally:
+        try:
+            queue.put_nowait(None)
+        except Exception:
+            pass
+        _active_streams.pop(session_id, None)
 
 
 @app.post("/api/chat")
@@ -226,6 +291,10 @@ async def chat(body: ChatIn):
     else:
         kb.repo.ensure_session(sid)
 
+    processing = kb.repo.get_processing_messages(sid)
+    if processing:
+        raise HTTPException(409, "Vui lòng đợi câu trả lời trước khi gửi tin nhắn mới.")
+
     history = kb.repo.recent_history(sid, limit=settings.history_window)
 
     summary = None
@@ -238,82 +307,42 @@ async def chat(body: ChatIn):
     if len(history) == 0:
         kb.repo.touch_session(sid, title=body.message[:60])
 
-    agent = Agent(kb)
-    final_payload = {"answer": "", "citations": [], "trace": []}
+    msg_id = kb.repo.add_message(sid, "assistant", "", status="processing")
+
+    queue: asyncio.Queue = asyncio.Queue()
+    _active_streams[sid] = queue
+
+    loop = asyncio.get_running_loop()
+    loop.run_in_executor(
+        None,
+        _run_agent_sync,
+        sid,
+        msg_id,
+        body.message,
+        history,
+        summary,
+        queue,
+    )
 
     async def stream():
         yield _sse_event("session", {"session_id": sid})
         if summary:
             yield _sse_event("summary", {"has_summary": True})
 
-        gen = agent.run(body.message, history, summary=summary)
-        gen_exhausted = False
-
-        def _next_event():
-            try:
-                return next(gen)
-            except StopIteration:
-                return None
-
-        loop = asyncio.get_running_loop()
-
         try:
-            pending_next = loop.run_in_executor(None, _next_event)
-
-            while not gen_exhausted:
+            while True:
                 try:
-                    ev = await asyncio.wait_for(
-                        asyncio.shield(pending_next),
-                        timeout=25,
-                    )
+                    ev = await asyncio.wait_for(queue.get(), timeout=25)
                 except asyncio.TimeoutError:
                     yield ": keepalive\n\n"
                     continue
 
                 if ev is None:
-                    gen_exhausted = True
                     break
 
-                pending_next = loop.run_in_executor(None, _next_event)
-
-                if ev["type"] == "final":
-                    final_payload.update(ev["data"])
-                    # Persist assistant message immediately on "final" so it
-                    # survives a client disconnect mid-stream.
-                    answer_text = ev["data"].get("answer", "")
-                    if answer_text:
-                        kb.repo.add_message(
-                            sid,
-                            "assistant",
-                            answer_text,
-                            citations=ev["data"].get("citations", []),
-                            trace=[e for e in ev["data"].get("trace", []) if e.get("type") != "thinking"],
-                        )
-                        kb.repo.touch_session(sid)
-
-                        if settings.enable_summarization:
-                            _maybe_summarize(sid, agent, kb)
                 yield _sse_event(ev["type"], ev["data"])
-        except Exception as e:
-            yield _sse_event("error", {"message": str(e)})
-            final_payload["answer"] = f"Lỗi: {e}"
-
-        # Fallback: persist error messages or answers that bypassed "final".
-        if final_payload.get("answer") and not any(
-            m["role"] == "assistant" and m["content"] == final_payload["answer"]
-            for m in kb.repo.get_messages(sid)
-        ):
-            kb.repo.add_message(
-                sid,
-                "assistant",
-                final_payload["answer"],
-                citations=final_payload.get("citations", []),
-                trace=[e for e in final_payload.get("trace", []) if e.get("type") != "thinking"],
-            )
-            kb.repo.touch_session(sid)
-
-            if settings.enable_summarization:
-                _maybe_summarize(sid, agent, kb)
+        except (asyncio.CancelledError, GeneratorExit):
+            pass
 
     return StreamingResponse(
         stream(),

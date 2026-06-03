@@ -53,6 +53,8 @@ export default function App() {
           ...m,
           citations: m.citations || [],
           trace: m.trace || [],
+          status: m.status || "complete",
+          error_message: m.error_message || null,
         }));
         setMessages(msgs);
       })

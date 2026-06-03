@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Citation, Message, TraceEvent } from "../lib/types";
-import { streamChat } from "../lib/api";
+import { api, streamChat } from "../lib/api";
 import Markdown from "./Markdown";
 import AgentTrace from "./AgentTrace";
 import AgentGraph from "./AgentGraph";
@@ -15,6 +15,16 @@ interface Props {
   openaiReady: boolean;
   configLoaded: boolean;
   messagesLoading: boolean;
+}
+
+function normalizeMessage(m: any): Message {
+  return {
+    ...m,
+    citations: m.citations || [],
+    trace: m.trace || [],
+    status: m.status || "complete",
+    error_message: m.error_message || null,
+  };
 }
 
 export default function ChatPanel({
@@ -34,16 +44,60 @@ export default function ChatPanel({
   const [liveAnswer, setLiveAnswer] = useState("");
   const [agentCollapsed, setAgentCollapsed] = useState(false);
   const [agentWidth, setAgentWidth] = useState(360);
+  const [polling, setPolling] = useState(false);
+  const [chatError, setChatError] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, liveAnswer, liveTrace]);
 
+  useEffect(() => {
+    if (!sessionId) {
+      setPolling(false);
+      return;
+    }
+    const hasProcessing = messages.some(
+      (m) => m.role === "assistant" && m.status === "processing"
+    );
+    if (hasProcessing && !streaming && !polling) {
+      setPolling(true);
+    }
+    if (!hasProcessing && polling) {
+      setPolling(false);
+    }
+  }, [sessionId, messages, streaming, polling]);
+
+  useEffect(() => {
+    if (!polling || !sessionId) return;
+    const poll = async () => {
+      try {
+        const s = await api.getSession(sessionId);
+        const msgs = (s.messages || []).map(normalizeMessage);
+        setMessages(msgs);
+        const stillHasProcessing = msgs.some(
+          (m: Message) => m.role === "assistant" && m.status === "processing"
+        );
+        if (!stillHasProcessing) {
+          setPolling(false);
+        }
+      } catch {
+        setPolling(false);
+      }
+    };
+    pollRef.current = setInterval(poll, 2000);
+    poll();
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, [polling, sessionId, setMessages]);
+
   const send = async () => {
     const msg = input.trim();
     if (!msg || streaming) return;
     setInput("");
+    setChatError("");
     setMessages((m) => [...m, { role: "user", content: msg, citations: [], trace: [] }]);
     setStreaming(true);
     setLiveTrace([]);
@@ -53,34 +107,62 @@ export default function ChatPanel({
     let citations: Citation[] = [];
     const trace: TraceEvent[] = [];
 
-    await streamChat(sessionId, msg, {
-      onEvent: (type, data) => {
-        if (type === "session") {
-          onSession(data.session_id);
-        } else if (type === "token") {
-          answer += data.text;
-          setLiveAnswer(answer);
-        } else if (type === "final") {
-          answer = data.answer;
-          citations = data.citations || [];
-        } else {
-          trace.push({ type, data });
-          setLiveTrace([...trace]);
-        }
-      },
-      onError: (m) => {
-        answer = answer || `⚠️ Lỗi: ${m}`;
-      },
-      onDone: () => {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: answer, citations, trace },
-        ]);
-        setStreaming(false);
-        setLiveAnswer("");
-        setLiveTrace([]);
-      },
-    });
+    try {
+      await streamChat(sessionId, msg, {
+        onEvent: (type, data) => {
+          if (type === "session") {
+            onSession(data.session_id);
+          } else if (type === "token") {
+            answer += data.text;
+            setLiveAnswer(answer);
+          } else if (type === "final") {
+            answer = data.answer;
+            citations = data.citations || [];
+          } else {
+            trace.push({ type, data });
+            setLiveTrace([...trace]);
+          }
+        },
+        onError: (m) => {
+          answer = answer || `⚠️ Lỗi: ${m}`;
+          setChatError(m);
+        },
+        onDone: () => {
+          setMessages((prev) => {
+            const processingIdx = prev.findIndex(
+              (m) => m.role === "assistant" && m.status === "processing"
+            );
+            if (processingIdx >= 0) {
+              const updated = [...prev];
+              updated[processingIdx] = {
+                ...updated[processingIdx],
+                content: answer,
+                citations,
+                trace,
+                status: "complete",
+              };
+              return updated;
+            }
+            return [
+              ...prev,
+              { role: "assistant", content: answer, citations, trace, status: "complete" },
+            ];
+          });
+          setStreaming(false);
+          setLiveAnswer("");
+          setLiveTrace([]);
+        },
+      });
+    } catch (e: any) {
+      setChatError(e.message || String(e));
+      setStreaming(false);
+      setLiveAnswer("");
+      setLiveTrace([]);
+      const s = await api.getSession(sessionId || "").catch(() => null);
+      if (s) {
+        setMessages((s.messages || []).map(normalizeMessage));
+      }
+    }
   };
 
   const lastAssistant = useMemo(
@@ -112,6 +194,7 @@ export default function ChatPanel({
   }, [agentWidth]);
 
   const chatColumns = `minmax(320px, 1fr) ${agentCollapsed ? 56 : agentWidth}px`;
+  const isProcessing = streaming || polling;
 
   return (
     <div
@@ -126,7 +209,7 @@ export default function ChatPanel({
                 </div>
               )}
 
-              {messages.length === 0 && !streaming && !messagesLoading && (
+              {messages.length === 0 && !isProcessing && !messagesLoading && (
                 <div className="empty-state">
                   <h2>Hỏi đáp dựa trên tài liệu của bạn</h2>
                   <p className="muted">
@@ -146,18 +229,24 @@ export default function ChatPanel({
                 <div key={i} className={`msg ${m.role}`}>
                   <div className="avatar">{m.role === "user" ? "🧑" : "🤖"}</div>
                   <div className="bubble">
+                    {m.role === "assistant" && m.status === "processing" && !streaming && (
+                      <div className="typing">⏳ Đang xử lý…</div>
+                    )}
+                    {m.role === "assistant" && m.status === "failed" && m.error_message && (
+                      <div className="error-box">⚠️ {m.error_message}</div>
+                    )}
                     {m.role === "assistant" && m.trace && m.trace.length > 0 && m.trace.some((e) => e.type !== "thinking") && (
                       <AgentTrace events={m.trace} />
                     )}
-                    {m.role === "assistant" ? (
+                    {m.role === "assistant" && m.content ? (
                       <Markdown content={m.content} citations={m.citations || []} onCite={(label) => {
                         const c = (m.citations || []).find((x) => x.label === label);
                         if (c) onOpenCitation(c);
                       }} />
-                    ) : (
+                    ) : m.role === "assistant" ? null : (
                       <div className="user-text">{m.content}</div>
                     )}
-                    {m.role === "assistant" && m.citations && m.citations.length > 0 && (
+                    {m.role === "assistant" && m.citations && m.citations.length > 0 && m.status === "complete" && (
                       <div className="sources">
                         <div className="sources-title">Nguồn trích dẫn</div>
                         <div className="sources-list">
@@ -192,6 +281,10 @@ export default function ChatPanel({
                   </div>
                 </div>
               )}
+
+              {chatError && !streaming && (
+                <div className="error-box">{chatError}</div>
+              )}
         </div>
 
         <div className="composer">
@@ -208,8 +301,8 @@ export default function ChatPanel({
                   }
                 }}
               />
-              <button className="btn primary" disabled={streaming || !input.trim()} onClick={send}>
-                {streaming ? "…" : "Gửi"}
+              <button className="btn primary" disabled={isProcessing || !input.trim()} onClick={send}>
+                {isProcessing ? "…" : "Gửi"}
               </button>
         </div>
       </section>
@@ -242,7 +335,7 @@ export default function ChatPanel({
                 ▶
               </button>
             </div>
-            <AgentGraph events={graphEvents} liveAnswer={graphAnswer} done={!streaming && !!lastAssistant} />
+            <AgentGraph events={graphEvents} liveAnswer={graphAnswer} done={!isProcessing && !!lastAssistant} />
             <div className="agent-panel-legend">
               <div><span className="legend-dot active" /> <b>Đang xử lý</b></div>
               <div><span className="legend-dot done" /> <b>Hoàn thành</b></div>

@@ -10,16 +10,29 @@ class Repo:
         self.db = db
 
     # ---------- documents ----------
-    def add_document(self, title: str, source: str, source_type: str) -> int:
+    def add_document(self, title: str, source: str, source_type: str, status: str = "ready") -> int:
         cur = self.db.conn.execute(
-            "INSERT INTO documents(title, source, source_type) VALUES (?,?,?)",
-            (title, source, source_type),
+            "INSERT INTO documents(title, source, source_type, status) VALUES (?,?,?,?)",
+            (title, source, source_type, status),
         )
         self.db.conn.commit()
         return int(cur.lastrowid)
 
     def set_document_chunk_count(self, doc_id: int, n: int) -> None:
         self.db.conn.execute("UPDATE documents SET n_chunks=? WHERE id=?", (n, doc_id))
+        self.db.conn.commit()
+
+    def update_document_status(self, doc_id: int, status: str, error_message: Optional[str] = None) -> None:
+        if error_message is not None:
+            self.db.conn.execute(
+                "UPDATE documents SET status=?, error_message=? WHERE id=?",
+                (status, error_message, doc_id),
+            )
+        else:
+            self.db.conn.execute(
+                "UPDATE documents SET status=? WHERE id=?",
+                (status, doc_id),
+            )
         self.db.conn.commit()
 
     def list_documents(self) -> list[dict[str, Any]]:
@@ -150,19 +163,67 @@ class Repo:
         content: str,
         citations: Optional[list] = None,
         trace: Optional[list] = None,
+        status: str = "complete",
     ) -> int:
         cur = self.db.conn.execute(
-            "INSERT INTO messages(session_id, role, content, citations, trace) VALUES (?,?,?,?,?)",
+            "INSERT INTO messages(session_id, role, content, citations, trace, status) VALUES (?,?,?,?,?,?)",
             (
                 session_id,
                 role,
                 content,
                 json.dumps(citations, ensure_ascii=False) if citations is not None else None,
                 json.dumps(trace, ensure_ascii=False) if trace is not None else None,
+                status,
             ),
         )
         self.db.conn.commit()
         return int(cur.lastrowid)
+
+    def update_message(
+        self,
+        msg_id: int,
+        *,
+        content: Optional[str] = None,
+        citations: Optional[list] = None,
+        trace: Optional[list] = None,
+        status: Optional[str] = None,
+        error_message: Optional[str] = None,
+    ) -> None:
+        parts: list[str] = []
+        vals: list[Any] = []
+        if content is not None:
+            parts.append("content=?")
+            vals.append(content)
+        if citations is not None:
+            parts.append("citations=?")
+            vals.append(json.dumps(citations, ensure_ascii=False))
+        if trace is not None:
+            parts.append("trace=?")
+            vals.append(json.dumps(trace, ensure_ascii=False))
+        if status is not None:
+            parts.append("status=?")
+            vals.append(status)
+        if error_message is not None:
+            parts.append("error_message=?")
+            vals.append(error_message)
+        if not parts:
+            return
+        vals.append(msg_id)
+        self.db.conn.execute(
+            f"UPDATE messages SET {', '.join(parts)} WHERE id=?", vals
+        )
+        self.db.conn.commit()
+
+    def get_message(self, msg_id: int) -> Optional[dict[str, Any]]:
+        row = self.db.conn.execute(
+            "SELECT * FROM messages WHERE id=?", (msg_id,)
+        ).fetchone()
+        if row is None:
+            return None
+        d = dict(row)
+        d["citations"] = json.loads(d["citations"]) if d["citations"] else []
+        d["trace"] = [e for e in (json.loads(d["trace"]) if d["trace"] else []) if e.get("type") != "thinking"]
+        return d
 
     def get_messages(self, session_id: str) -> list[dict[str, Any]]:
         rows = self.db.conn.execute(
@@ -220,3 +281,16 @@ class Repo:
             (session_id, limit),
         ).fetchall()
         return [{"role": r["role"], "content": r["content"]} for r in reversed(rows)]
+
+    def get_processing_messages(self, session_id: str) -> list[dict[str, Any]]:
+        rows = self.db.conn.execute(
+            "SELECT * FROM messages WHERE session_id=? AND status='processing' ORDER BY id",
+            (session_id,),
+        ).fetchall()
+        out = []
+        for r in rows:
+            d = dict(r)
+            d["citations"] = json.loads(d["citations"]) if d["citations"] else []
+            d["trace"] = [e for e in (json.loads(d["trace"]) if d["trace"] else []) if e.get("type") != "thinking"]
+            out.append(d)
+        return out

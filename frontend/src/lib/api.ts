@@ -67,6 +67,9 @@ export async function streamChat(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ session_id: sessionId, message }),
   });
+  if (resp.status === 409) {
+    throw new Error("Vui lòng đợi câu trả lời trước khi gửi tin nhắn mới.");
+  }
   if (!resp.ok || !resp.body) {
     handlers.onError?.(await resp.text());
     return;
