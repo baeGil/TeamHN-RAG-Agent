@@ -22,6 +22,8 @@ export interface Message {
   content: string;
   citations: Citation[];
   trace: TraceEvent[];
+  status?: "processing" | "complete" | "failed" | "cancelled";
+  error_message?: string | null;
 }
 
 export interface DocumentItem {
@@ -31,6 +33,8 @@ export interface DocumentItem {
   source_type: string;
   n_chunks: number;
   created_at: string;
+  status?: "processing" | "ready" | "failed";
+  error_message?: string | null;
 }
 
 export interface SessionItem {
@@ -47,4 +51,5 @@ export interface AppConfig {
   embed_model: string;
   use_reranker: boolean;
   reranker_model: string;
+  max_upload_size: number;
 }

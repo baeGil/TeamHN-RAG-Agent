@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS documents (
     source      TEXT NOT NULL,
     source_type TEXT NOT NULL,         -- pdf | url | text
     n_chunks    INTEGER NOT NULL DEFAULT 0,
+    status      TEXT NOT NULL DEFAULT 'ready',  -- ready | processing | failed
+    error_message TEXT,
     created_at  TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -39,6 +41,8 @@ CREATE TABLE IF NOT EXISTS messages (
     content     TEXT NOT NULL,
     citations   TEXT,                  -- JSON
     trace       TEXT,                  -- JSON list of agent events
+    status      TEXT NOT NULL DEFAULT 'complete',  -- processing | complete | failed
+    error_message TEXT,
     created_at  TEXT NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
 );
@@ -71,6 +75,7 @@ class Database:
             conn.row_factory = sqlite3.Row
             conn.execute("PRAGMA foreign_keys = ON")
             conn.execute("PRAGMA journal_mode = WAL")
+            conn.execute("PRAGMA busy_timeout = 5000")
             _local.conn = conn
         return conn
 
@@ -87,6 +92,18 @@ class Database:
             conn.execute("ALTER TABLE chunks ADD COLUMN embedding BLOB")
         if "embed_text" not in cols:
             conn.execute("ALTER TABLE chunks ADD COLUMN embed_text TEXT")
+
+        doc_cols = {r["name"] for r in conn.execute("PRAGMA table_info(documents)").fetchall()}
+        if "status" not in doc_cols:
+            conn.execute("ALTER TABLE documents ADD COLUMN status TEXT NOT NULL DEFAULT 'ready'")
+        if "error_message" not in doc_cols:
+            conn.execute("ALTER TABLE documents ADD COLUMN error_message TEXT")
+
+        msg_cols = {r["name"] for r in conn.execute("PRAGMA table_info(messages)").fetchall()}
+        if "status" not in msg_cols:
+            conn.execute("ALTER TABLE messages ADD COLUMN status TEXT NOT NULL DEFAULT 'complete'")
+        if "error_message" not in msg_cols:
+            conn.execute("ALTER TABLE messages ADD COLUMN error_message TEXT")
 
     @property
     def conn(self) -> sqlite3.Connection:

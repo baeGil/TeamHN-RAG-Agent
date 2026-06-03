@@ -17,5 +17,9 @@ class ChatIn(BaseModel):
     message: str
 
 
+class CancelChatIn(BaseModel):
+    session_id: str
+
+
 class SessionIn(BaseModel):
     title: Optional[str] = None

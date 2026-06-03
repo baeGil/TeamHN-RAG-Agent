@@ -1,6 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../lib/api";
 import type { DocumentItem, SessionItem } from "../lib/types";
+
+const DEFAULT_MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
+const MAX_CONCURRENT_UPLOADS = 3;
+
+interface UploadProgress {
+  name: string;
+  status: "uploading" | "done" | "error";
+  error?: string;
+}
 
 interface Props {
   documents: DocumentItem[];
@@ -12,6 +21,7 @@ interface Props {
   onRefreshSessions: () => void;
   onSelectSession: (id: string) => void;
   onNewSession: () => void;
+  maxUploadSize?: number;
 }
 
 export default function Sidebar({
@@ -24,23 +34,63 @@ export default function Sidebar({
   onRefreshSessions,
   onSelectSession,
   onNewSession,
+  maxUploadSize,
 }: Props) {
   const [url, setUrl] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress[]>([]);
   const [err, setErr] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const wrap = async (fn: () => Promise<any>) => {
-    setBusy(true);
+  const maxSize = maxUploadSize || DEFAULT_MAX_UPLOAD_SIZE;
+
+  const hasProcessing = documents.some((d) => d.status === "processing");
+
+  useEffect(() => {
+    if (!hasProcessing) return;
+    const t = setInterval(() => onRefreshDocs(), 2000);
+    return () => clearInterval(t);
+  }, [hasProcessing, onRefreshDocs]);
+
+  const uploadFiles = async (files: File[]) => {
+    if (files.length === 0) return;
+    setUploading(true);
     setErr("");
-    try {
-      await fn();
-      onRefreshDocs();
-    } catch (e: any) {
-      setErr(String(e.message || e).slice(0, 200));
-    } finally {
-      setBusy(false);
+
+    const progress: UploadProgress[] = files.map((f) => ({
+      name: f.name,
+      status: "uploading" as const,
+    }));
+    setUploadProgress([...progress]);
+
+    let nextIdx = 0;
+    const results: { file: File; ok: boolean; error?: string }[] = [];
+
+    const uploadNext = async () => {
+      while (nextIdx < files.length) {
+        const idx = nextIdx++;
+        const file = files[idx];
+        try {
+          await api.uploadPdf(file);
+          progress[idx] = { name: file.name, status: "done" };
+        } catch (e: any) {
+          progress[idx] = { name: file.name, status: "error", error: String(e.message || e).slice(0, 100) };
+        }
+        setUploadProgress([...progress]);
+      }
+    };
+
+    const concurrency = Math.min(MAX_CONCURRENT_UPLOADS, files.length);
+    await Promise.all(Array.from({ length: concurrency }, () => uploadNext()));
+
+    const errors = progress.filter((p) => p.status === "error");
+    if (errors.length > 0) {
+      setErr(errors.map((e) => `${e.name}: ${e.error || "Lỗi"}`).join("\n"));
     }
+
+    onRefreshDocs();
+    setUploading(false);
+    setTimeout(() => setUploadProgress([]), 3000);
   };
 
   if (collapsed) {
@@ -90,16 +140,33 @@ export default function Sidebar({
           ref={fileRef}
           type="file"
           accept="application/pdf"
+          multiple
           hidden
           onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) wrap(() => api.uploadPdf(f));
+            const files = Array.from(e.target.files || []);
             if (fileRef.current) fileRef.current.value = "";
+            if (files.length === 0) return;
+            const oversized = files.find((f) => f.size > maxSize);
+            if (oversized) {
+              setErr(
+                `"${oversized.name}" quá lớn (${(oversized.size / 1024 / 1024).toFixed(1)}MB). Tối đa ${maxSize / 1024 / 1024}MB.`
+              );
+              return;
+            }
+            const nonPdf = files.find((f) => !f.name.toLowerCase().endsWith(".pdf"));
+            if (nonPdf) {
+              setErr(`"${nonPdf.name}" không phải PDF. Chỉ hỗ trợ tệp PDF.`);
+              return;
+            }
+            uploadFiles(files);
           }}
         />
-        <button className="btn block" disabled={busy} onClick={() => fileRef.current?.click()}>
-          ⬆ Tải lên PDF
+        <button className="btn block" disabled={uploading} onClick={() => fileRef.current?.click()}>
+          {uploading ? "⏳ Đang tải lên…" : "⬆ Tải lên PDF"}
         </button>
+        <div className="muted small" style={{ marginTop: 2 }}>
+          Tối đa {maxSize / 1024 / 1024}MB mỗi file
+        </div>
         <div className="url-row">
           <input
             className="input"
@@ -109,18 +176,29 @@ export default function Sidebar({
           />
           <button
             className="btn"
-            disabled={busy || !url.trim()}
-            onClick={() => wrap(async () => { await api.ingestUrl(url.trim()); setUrl(""); })}
+            disabled={uploading || !url.trim()}
+            onClick={async () => {
+              setUploading(true);
+              setErr("");
+              try {
+                await api.ingestUrl(url.trim());
+                setUrl("");
+                onRefreshDocs();
+              } catch (e: any) {
+                setErr(String(e.message || e).slice(0, 200));
+              } finally {
+                setUploading(false);
+              }
+            }}
           >
             +
           </button>
         </div>
       </div>
-      {busy && <div className="hint">Đang xử lý & lập chỉ mục…</div>}
       {err && <div className="error-box">{err}</div>}
 
       <div className="doc-list">
-        {documents.length === 0 && <div className="muted small">Chưa có tài liệu nào.</div>}
+        {documents.length === 0 && !uploading && <div className="muted small">Chưa có tài liệu nào.</div>}
         {documents.map((d) => (
           <div key={d.id} className="doc-item">
             <div className="doc-meta">
@@ -137,13 +215,33 @@ export default function Sidebar({
                   {d.source_type === "url" ? "🌐" : "📝"} {d.title}
                 </div>
               )}
-              <div className="muted small">{d.n_chunks} đoạn</div>
+              <div className="muted small">
+                {d.status === "processing" && <span style={{ color: "var(--accent)", fontWeight: 500 }}>⏳ Đang xử lý…</span>}
+                {d.status === "failed" && `❌ Lỗi: ${d.error_message || "Không xác định"}`}
+                {d.status === "ready" && `${d.n_chunks} đoạn`}
+                {!d.status && `${d.n_chunks} đoạn`}
+              </div>
             </div>
             <div className="doc-actions">
+              {d.status === "processing" && (
+                <button
+                  className="icon-btn"
+                  title="Hủy xử lý"
+                  onClick={async () => {
+                    await api.deleteDocument(d.id);
+                    onRefreshDocs();
+                  }}
+                >
+                  🛑
+                </button>
+              )}
               <button
                 className="icon-btn"
                 title="Xoá tài liệu"
-                onClick={() => wrap(() => api.deleteDocument(d.id))}
+                onClick={async () => {
+                  await api.deleteDocument(d.id);
+                  onRefreshDocs();
+                }}
               >
                 ✕
               </button>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Citation, Message, TraceEvent } from "../lib/types";
-import { streamChat } from "../lib/api";
+import { api, streamChat } from "../lib/api";
 import Markdown from "./Markdown";
 import AgentTrace from "./AgentTrace";
 import AgentGraph from "./AgentGraph";
@@ -15,6 +15,16 @@ interface Props {
   openaiReady: boolean;
   configLoaded: boolean;
   messagesLoading: boolean;
+}
+
+function normalizeMessage(m: any): Message {
+  return {
+    ...m,
+    citations: m.citations || [],
+    trace: m.trace || [],
+    status: m.status || "complete",
+    error_message: m.error_message || null,
+  };
 }
 
 export default function ChatPanel({
@@ -34,16 +44,111 @@ export default function ChatPanel({
   const [liveAnswer, setLiveAnswer] = useState("");
   const [agentCollapsed, setAgentCollapsed] = useState(false);
   const [agentWidth, setAgentWidth] = useState(360);
+  const [polling, setPolling] = useState(false);
+  const [chatError, setChatError] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, liveAnswer, liveTrace]);
 
+  useEffect(() => {
+    if (!sessionId) {
+      setPolling(false);
+      return;
+    }
+    const hasProcessing = messages.some(
+      (m) => m.role === "assistant" && m.status === "processing"
+    );
+    if (hasProcessing && !streaming && !polling) {
+      setPolling(true);
+    }
+    if (!hasProcessing && polling) {
+      setPolling(false);
+    }
+  }, [sessionId, messages, streaming, polling]);
+
+  useEffect(() => {
+    if (!polling || !sessionId) return;
+    const poll = async () => {
+      try {
+        const s = await api.getSession(sessionId);
+        const msgs = (s.messages || []).map(normalizeMessage);
+        setMessages(msgs);
+        const stillHasProcessing = msgs.some(
+          (m: Message) => m.role === "assistant" && m.status === "processing"
+        );
+        if (!stillHasProcessing) {
+          setPolling(false);
+          setLiveAnswer("");
+          setLiveTrace([]);
+        }
+      } catch {
+        setPolling(false);
+        setLiveAnswer("");
+        setLiveTrace([]);
+      }
+    };
+    pollRef.current = setInterval(poll, 2000);
+    poll();
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, [polling, sessionId, setMessages]);
+
+  const cancelChat = async () => {
+    if (!sessionId) return;
+    // Abort the HTTP request
+    abortRef.current?.abort();
+    // Tell backend to stop processing
+    try {
+      await api.cancelChat(sessionId);
+    } catch {
+      /* ignore */
+    }
+    setStreaming(false);
+    // Mark the processing message as cancelled in UI immediately
+    setMessages((prev) => {
+      const processingIdx = prev.findIndex(
+        (m) => m.role === "assistant" && m.status === "processing"
+      );
+      if (processingIdx >= 0) {
+        const updated = [...prev];
+        updated[processingIdx] = {
+          ...updated[processingIdx],
+          status: "cancelled",
+          error_message: "Đã hủy.",
+        };
+        return updated;
+      }
+      // Nếu đang streaming mà chưa có message assistant trong state,
+      // thêm placeholder cancelled để UI hiện "Đã hủy" ngay lập tức
+      if (streaming) {
+        return [
+          ...prev,
+          {
+            role: "assistant",
+            content: liveAnswer,
+            citations: [],
+            trace: liveTrace,
+            status: "cancelled",
+            error_message: "Đã hủy.",
+          },
+        ];
+      }
+      return prev;
+    });
+    setLiveAnswer("");
+    setLiveTrace([]);
+  };
+
   const send = async () => {
     const msg = input.trim();
     if (!msg || streaming) return;
     setInput("");
+    setChatError("");
     setMessages((m) => [...m, { role: "user", content: msg, citations: [], trace: [] }]);
     setStreaming(true);
     setLiveTrace([]);
@@ -52,42 +157,98 @@ export default function ChatPanel({
     let answer = "";
     let citations: Citation[] = [];
     const trace: TraceEvent[] = [];
+    let gotFinal = false;
 
-    await streamChat(sessionId, msg, {
-      onEvent: (type, data) => {
-        if (type === "session") {
-          onSession(data.session_id);
-        } else if (type === "token") {
-          answer += data.text;
-          setLiveAnswer(answer);
-        } else if (type === "final") {
-          answer = data.answer;
-          citations = data.citations || [];
-        } else {
-          trace.push({ type, data });
-          setLiveTrace([...trace]);
-        }
-      },
-      onError: (m) => {
-        answer = answer || `⚠️ Lỗi: ${m}`;
-      },
-      onDone: () => {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: answer, citations, trace },
-        ]);
-        setStreaming(false);
-        setLiveAnswer("");
-        setLiveTrace([]);
-      },
-    });
+    abortRef.current = new AbortController();
+
+    try {
+      await streamChat(sessionId, msg, {
+        onEvent: (type, data) => {
+          if (type === "session") {
+            onSession(data.session_id);
+          } else if (type === "token") {
+            answer += data.text;
+            setLiveAnswer(answer);
+          } else if (type === "final") {
+            gotFinal = true;
+            answer = data.answer;
+            citations = data.citations || [];
+          } else {
+            trace.push({ type, data });
+            setLiveTrace([...trace]);
+          }
+        },
+        onError: (m) => {
+          answer = answer || `⚠️ Lỗi: ${m}`;
+          setChatError(m);
+        },
+        onDone: () => {
+          setStreaming(false);
+          if (gotFinal) {
+            // Normal completion — update message and clear live state
+            setMessages((prev) => {
+              const processingIdx = prev.findIndex(
+                (m) => m.role === "assistant" && m.status === "processing"
+              );
+              if (processingIdx >= 0) {
+                const updated = [...prev];
+                updated[processingIdx] = {
+                  ...updated[processingIdx],
+                  content: answer,
+                  citations,
+                  trace,
+                  status: "complete",
+                };
+                return updated;
+              }
+              return [
+                ...prev,
+                { role: "assistant", content: answer, citations, trace, status: "complete" },
+              ];
+            });
+            setLiveAnswer("");
+            setLiveTrace([]);
+          }
+          // If !gotFinal (interrupted): keep liveTrace/liveAnswer for AgentGraph resume
+        },
+      }, abortRef.current.signal);
+    } catch (e: any) {
+      if (e.name === "AbortError") {
+        // User cancelled — already handled by cancelChat
+        return;
+      }
+      setChatError(e.message || String(e));
+      setStreaming(false);
+      // DON'T clear liveAnswer/liveTrace — keep them for AgentGraph resume
+      const s = await api.getSession(sessionId || "").catch(() => null);
+      if (s) {
+        setMessages((s.messages || []).map(normalizeMessage));
+      }
+    }
   };
 
   const lastAssistant = useMemo(
     () => [...messages].reverse().find((m) => m.role === "assistant"),
     [messages]
   );
-  const graphEvents = streaming ? liveTrace : lastAssistant?.trace || [];
+  const hasProcessing = messages.some(
+    (m) => m.role === "assistant" && m.status === "processing"
+  );
+  // graphEvents priority:
+  // 1. streaming → liveTrace (realtime events from current SSE)
+  // 2. hasProcessing (interrupted/reload) → lastAssistant.trace from DB (persisted)
+  //    only fall back to synthetic router if absolutely nothing available
+  // 3. done → lastAssistant.trace
+  let _graphEvents: TraceEvent[];
+  if (streaming) {
+    _graphEvents = liveTrace.length > 0 ? liveTrace : [{ type: "thinking" as const, data: { node: "router" } }];
+  } else if (hasProcessing) {
+    const dbTrace = lastAssistant?.trace || [];
+    _graphEvents = dbTrace.length > 0 ? dbTrace : [{ type: "thinking" as const, data: { node: "router" } }];
+  } else {
+    _graphEvents = lastAssistant?.trace || [];
+  }
+  const graphEvents = _graphEvents;
   const graphAnswer = streaming ? liveAnswer : lastAssistant?.content || "";
 
   const startAgentResize = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
@@ -112,6 +273,7 @@ export default function ChatPanel({
   }, [agentWidth]);
 
   const chatColumns = `minmax(320px, 1fr) ${agentCollapsed ? 56 : agentWidth}px`;
+  const isProcessing = streaming || polling;
 
   return (
     <div
@@ -126,7 +288,7 @@ export default function ChatPanel({
                 </div>
               )}
 
-              {messages.length === 0 && !streaming && !messagesLoading && (
+              {messages.length === 0 && !isProcessing && !messagesLoading && (
                 <div className="empty-state">
                   <h2>Hỏi đáp dựa trên tài liệu của bạn</h2>
                   <p className="muted">
@@ -146,18 +308,30 @@ export default function ChatPanel({
                 <div key={i} className={`msg ${m.role}`}>
                   <div className="avatar">{m.role === "user" ? "🧑" : "🤖"}</div>
                   <div className="bubble">
-                    {m.role === "assistant" && m.trace && m.trace.length > 0 && m.trace.some((e) => e.type !== "thinking") && (
-                      <AgentTrace events={m.trace} />
+                    {m.role === "assistant" && m.status === "processing" && !streaming && (
+                      <>
+                        <AgentTrace events={m.trace || []} live />
+                        <div className="bubble-actions">
+                          <div className="typing">●●●</div>
+                          <button className="btn danger small" onClick={cancelChat}>Hủy</button>
+                        </div>
+                      </>
                     )}
-                    {m.role === "assistant" ? (
+                    {m.role === "assistant" && m.status === "cancelled" && (
+                      <div className="error-box">🛑 Đã hủy.</div>
+                    )}
+                    {m.role === "assistant" && m.status === "failed" && m.error_message && (
+                      <div className="error-box">⚠️ {m.error_message}</div>
+                    )}
+                    {m.role === "assistant" && m.content ? (
                       <Markdown content={m.content} citations={m.citations || []} onCite={(label) => {
                         const c = (m.citations || []).find((x) => x.label === label);
                         if (c) onOpenCitation(c);
                       }} />
-                    ) : (
+                    ) : m.role === "assistant" ? null : (
                       <div className="user-text">{m.content}</div>
                     )}
-                    {m.role === "assistant" && m.citations && m.citations.length > 0 && (
+                    {m.role === "assistant" && m.citations && m.citations.length > 0 && m.status === "complete" && (
                       <div className="sources">
                         <div className="sources-title">Nguồn trích dẫn</div>
                         <div className="sources-list">
@@ -189,8 +363,15 @@ export default function ChatPanel({
                     ) : (
                       <div className="typing">●●●</div>
                     )}
+                    <div className="bubble-actions">
+                      <button className="btn danger small" onClick={cancelChat}>Hủy</button>
+                    </div>
                   </div>
                 </div>
+              )}
+
+              {chatError && !streaming && (
+                <div className="error-box">{chatError}</div>
               )}
         </div>
 
@@ -204,13 +385,23 @@ export default function ChatPanel({
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
-                    send();
+                    if (streaming) {
+                      cancelChat();
+                    } else {
+                      send();
+                    }
                   }
                 }}
               />
-              <button className="btn primary" disabled={streaming || !input.trim()} onClick={send}>
-                {streaming ? "…" : "Gửi"}
-              </button>
+              {streaming ? (
+                <button className="btn danger" onClick={cancelChat}>
+                  ✕ Hủy
+                </button>
+              ) : (
+                <button className="btn primary" disabled={isProcessing || !input.trim()} onClick={send}>
+                  {isProcessing ? "…" : "Gửi"}
+                </button>
+              )}
         </div>
       </section>
 
@@ -242,7 +433,7 @@ export default function ChatPanel({
                 ▶
               </button>
             </div>
-            <AgentGraph events={graphEvents} liveAnswer={graphAnswer} done={!streaming && !!lastAssistant} />
+            <AgentGraph events={graphEvents} liveAnswer={graphAnswer} done={!isProcessing && !!lastAssistant} />
             <div className="agent-panel-legend">
               <div><span className="legend-dot active" /> <b>Đang xử lý</b></div>
               <div><span className="legend-dot done" /> <b>Hoàn thành</b></div>
