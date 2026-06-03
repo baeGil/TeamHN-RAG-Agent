@@ -257,14 +257,8 @@ export default function ChatPanel({
                   <div className="bubble">
                     {m.role === "assistant" && m.status === "processing" && !streaming && (
                       <>
-                        {m.trace && m.trace.length > 0 && m.trace.some((e) => e.type !== "thinking") ? (
-                          <>
-                            <div className="typing">Đang suy luận…</div>
-                            <AgentTrace events={m.trace} />
-                          </>
-                        ) : (
-                          <div className="typing">⏳ Đang xử lý…</div>
-                        )}
+                        <AgentTrace events={m.trace || []} live />
+                        <div className="typing">Đang suy luận…</div>
                       </>
                     )}
                     {m.role === "assistant" && m.status === "failed" && m.error_message && (
