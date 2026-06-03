@@ -164,9 +164,6 @@ export default function Sidebar({
         <button className="btn block" disabled={uploading} onClick={() => fileRef.current?.click()}>
           {uploading ? "⏳ Đang tải lên…" : "⬆ Tải lên PDF"}
         </button>
-        <div className="muted small" style={{ marginTop: 2 }}>
-          Tối đa {maxSize / 1024 / 1024}MB mỗi file
-        </div>
         {uploadProgress.length > 0 && (
           <div className="upload-progress">
             {uploadProgress.map((p, i) => (
@@ -227,7 +224,7 @@ export default function Sidebar({
                 </div>
               )}
               <div className="muted small">
-                {d.status === "processing" && "⏳ Đang xử lý…"}
+                {d.status === "processing" && <span style={{ color: "var(--accent)", fontWeight: 500 }}>⏳ Đang xử lý…</span>}
                 {d.status === "failed" && `❌ Lỗi: ${d.error_message || "Không xác định"}`}
                 {d.status === "ready" && `${d.n_chunks} đoạn`}
                 {!d.status && `${d.n_chunks} đoạn`}
