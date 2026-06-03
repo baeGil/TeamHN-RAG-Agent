@@ -22,7 +22,7 @@ export interface Message {
   content: string;
   citations: Citation[];
   trace: TraceEvent[];
-  status?: "processing" | "complete" | "failed";
+  status?: "processing" | "complete" | "failed" | "cancelled";
   error_message?: string | null;
 }
 

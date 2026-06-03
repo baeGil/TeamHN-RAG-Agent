@@ -18,7 +18,7 @@ from contextlib import asynccontextmanager
 from .agent.graph import Agent
 from .config import get_settings
 from .indexing.store import KnowledgeBase
-from .schemas import ChatIn, SessionIn, TextIn, UrlIn
+from .schemas import CancelChatIn, ChatIn, SessionIn, TextIn, UrlIn
 
 settings = get_settings()
 
@@ -191,11 +191,23 @@ async def upload_document(request: Request, file: UploadFile = File(...)):
 
     def _ingest_bg():
         try:
+            # Check if document still exists before processing
+            doc = kb.repo.get_document(doc_id)
+            if not doc:
+                return None  # User cancelled (deleted)
             result = kb.ingest_pdf(data, name, doc_id=doc_id)
-            kb.repo.update_document_status(doc_id, "ready")
+            # Check again before updating status
+            doc = kb.repo.get_document(doc_id)
+            if doc:
+                kb.repo.update_document_status(doc_id, "ready")
             return result
         except Exception as e:
-            kb.repo.update_document_status(doc_id, "failed", error_message=str(e))
+            try:
+                doc = kb.repo.get_document(doc_id)
+                if doc:
+                    kb.repo.update_document_status(doc_id, "failed", error_message=str(e))
+            except Exception:
+                pass  # Document already deleted, ignore
             logging.getLogger("rag.flow").exception("RAG_FLOW ingest_error doc_id=%s", doc_id)
             return None
 
@@ -265,6 +277,7 @@ def delete_session(sid: str):
 
 # ---------------- chat (SSE via StreamingResponse + background processing) ----------------
 _active_streams: dict[str, asyncio.Queue] = {}
+_cancelled_sessions: set[str] = set()
 
 
 def _sse_event(event: str, data: object) -> str:
@@ -282,11 +295,17 @@ def _run_agent_sync(
     agent = Agent(kb)
     final_payload: dict = {"answer": "", "citations": [], "trace": []}
     trace_snapshot: list[dict] = []
+    cancelled = False
 
     try:
         gen = agent.run(question, history, summary=summary)
 
         while True:
+            # Cooperative cancellation check
+            if session_id in _cancelled_sessions:
+                cancelled = True
+                break
+
             try:
                 ev = next(gen)
             except StopIteration:
@@ -319,7 +338,12 @@ def _run_agent_sync(
                     if settings.enable_summarization:
                         _maybe_summarize(session_id, agent, kb)
 
-        if not final_payload.get("answer"):
+        if cancelled:
+            existing = kb.repo.get_message(msg_id)
+            if existing and existing.get("status") == "processing":
+                kb.repo.update_message(msg_id, status="cancelled", error_message="Đã hủy bởi người dùng.")
+            kb.repo.touch_session(session_id)
+        elif not final_payload.get("answer"):
             existing = kb.repo.get_message(msg_id)
             if existing and existing.get("status") == "processing":
                 kb.repo.update_message(msg_id, status="failed", error_message="Agent không tạo được câu trả lời.")
@@ -339,6 +363,7 @@ def _run_agent_sync(
         except Exception:
             pass
         _active_streams.pop(session_id, None)
+        _cancelled_sessions.discard(session_id)
 
 
 @app.post("/api/chat")
@@ -416,3 +441,23 @@ async def chat(request: Request, body: ChatIn):
             "Pragma": "no-cache",
         },
     )
+
+
+@app.post("/api/chat/cancel")
+@limiter.limit("30/minute")
+async def cancel_chat(request: Request, body: CancelChatIn):
+    sid = body.session_id
+    if not sid:
+        raise HTTPException(400, "Thiếu session_id.")
+
+    processing = kb.repo.get_processing_messages(sid)
+    if not processing:
+        return {"cancelled": False, "message": "Không có câu trả lời nào đang xử lý."}
+
+    _cancelled_sessions.add(sid)
+
+    # Mark all processing messages as cancelled immediately
+    for msg in processing:
+        kb.repo.update_message(msg["id"], status="cancelled", error_message="Đã hủy bởi người dùng.")
+
+    return {"cancelled": True, "message": "Đã hủy."}

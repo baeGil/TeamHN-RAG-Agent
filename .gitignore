@@ -35,3 +35,5 @@ opencode.jsonc
 .venv_parser/
 SKILL.md
 data/eval_ab/
+.opencode/
+openspec/

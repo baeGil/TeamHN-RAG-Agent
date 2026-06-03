@@ -223,6 +223,18 @@ export default function Sidebar({
               </div>
             </div>
             <div className="doc-actions">
+              {d.status === "processing" && (
+                <button
+                  className="icon-btn"
+                  title="Hủy xử lý"
+                  onClick={async () => {
+                    await api.deleteDocument(d.id);
+                    onRefreshDocs();
+                  }}
+                >
+                  🛑
+                </button>
+              )}
               <button
                 className="icon-btn"
                 title="Xoá tài liệu"

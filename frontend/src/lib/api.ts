@@ -48,6 +48,8 @@ export const api = {
     jget<{ id: string; messages: Message[]; summary: string | null }>(`/sessions/${id}`),
   deleteSession: (id: string) =>
     fetch(`${BASE}/sessions/${id}`, { method: "DELETE" }).then((r) => r.json()),
+  cancelChat: (sessionId: string | null) =>
+    jpost("/chat/cancel", { session_id: sessionId }),
 };
 
 export interface StreamHandlers {
@@ -60,12 +62,14 @@ export interface StreamHandlers {
 export async function streamChat(
   sessionId: string | null,
   message: string,
-  handlers: StreamHandlers
+  handlers: StreamHandlers,
+  abortSignal?: AbortSignal
 ): Promise<void> {
   const resp = await fetch(`${BASE}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ session_id: sessionId, message }),
+    signal: abortSignal,
   });
   if (resp.status === 409) {
     throw new Error("Vui lòng đợi câu trả lời trước khi gửi tin nhắn mới.");
@@ -97,17 +101,25 @@ export async function streamChat(
     }
   };
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    let idx;
-    while ((idx = buffer.indexOf("\n\n")) !== -1) {
-      const chunk = buffer.slice(0, idx);
-      buffer = buffer.slice(idx + 2);
-      flush(chunk);
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      let idx;
+      while ((idx = buffer.indexOf("\n\n")) !== -1) {
+        const chunk = buffer.slice(0, idx);
+        buffer = buffer.slice(idx + 2);
+        flush(chunk);
+      }
     }
+    if (buffer.trim()) flush(buffer);
+    handlers.onDone?.();
+  } catch (e: any) {
+    if (e.name === "AbortError") {
+      // User cancelled — don't call onError, just stop
+      return;
+    }
+    throw e;
   }
-  if (buffer.trim()) flush(buffer);
-  handlers.onDone?.();
 }

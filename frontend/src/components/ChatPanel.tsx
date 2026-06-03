@@ -48,6 +48,7 @@ export default function ChatPanel({
   const [chatError, setChatError] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -97,6 +98,37 @@ export default function ChatPanel({
     };
   }, [polling, sessionId, setMessages]);
 
+  const cancelChat = async () => {
+    if (!sessionId) return;
+    // Abort the HTTP request
+    abortRef.current?.abort();
+    // Tell backend to stop processing
+    try {
+      await api.cancelChat(sessionId);
+    } catch {
+      /* ignore */
+    }
+    setStreaming(false);
+    // Mark the processing message as cancelled in UI immediately
+    setMessages((prev) => {
+      const processingIdx = prev.findIndex(
+        (m) => m.role === "assistant" && m.status === "processing"
+      );
+      if (processingIdx >= 0) {
+        const updated = [...prev];
+        updated[processingIdx] = {
+          ...updated[processingIdx],
+          status: "cancelled",
+          error_message: "Đã hủy.",
+        };
+        return updated;
+      }
+      return prev;
+    });
+    setLiveAnswer("");
+    setLiveTrace([]);
+  };
+
   const send = async () => {
     const msg = input.trim();
     if (!msg || streaming) return;
@@ -111,6 +143,8 @@ export default function ChatPanel({
     let citations: Citation[] = [];
     const trace: TraceEvent[] = [];
     let gotFinal = false;
+
+    abortRef.current = new AbortController();
 
     try {
       await streamChat(sessionId, msg, {
@@ -162,8 +196,12 @@ export default function ChatPanel({
           }
           // If !gotFinal (interrupted): keep liveTrace/liveAnswer for AgentGraph resume
         },
-      });
+      }, abortRef.current.signal);
     } catch (e: any) {
+      if (e.name === "AbortError") {
+        // User cancelled — already handled by cancelChat
+        return;
+      }
       setChatError(e.message || String(e));
       setStreaming(false);
       // DON'T clear liveAnswer/liveTrace — keep them for AgentGraph resume
@@ -261,6 +299,9 @@ export default function ChatPanel({
                         <div className="typing">●●●</div>
                       </>
                     )}
+                    {m.role === "assistant" && m.status === "cancelled" && (
+                      <div className="error-box">🛑 Đã hủy.</div>
+                    )}
                     {m.role === "assistant" && m.status === "failed" && m.error_message && (
                       <div className="error-box">⚠️ {m.error_message}</div>
                     )}
@@ -323,13 +364,23 @@ export default function ChatPanel({
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
-                    send();
+                    if (streaming) {
+                      cancelChat();
+                    } else {
+                      send();
+                    }
                   }
                 }}
               />
-              <button className="btn primary" disabled={isProcessing || !input.trim()} onClick={send}>
-                {isProcessing ? "…" : "Gửi"}
-              </button>
+              {streaming ? (
+                <button className="btn danger" onClick={cancelChat}>
+                  ✕ Hủy
+                </button>
+              ) : (
+                <button className="btn primary" disabled={isProcessing || !input.trim()} onClick={send}>
+                  {isProcessing ? "…" : "Gửi"}
+                </button>
+              )}
         </div>
       </section>
 
