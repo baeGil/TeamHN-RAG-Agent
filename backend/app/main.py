@@ -281,6 +281,7 @@ def _run_agent_sync(
 ) -> None:
     agent = Agent(kb)
     final_payload: dict = {"answer": "", "citations": [], "trace": []}
+    trace_snapshot: list[dict] = []
 
     try:
         gen = agent.run(question, history, summary=summary)
@@ -295,6 +296,13 @@ def _run_agent_sync(
                 queue.put_nowait(ev)
             except Exception:
                 pass
+
+            # Persist trace events incrementally so UI survives interrupt/reload
+            if ev["type"] not in ("token", "final"):
+                trace_snapshot.append(ev)
+                # Strip "thinking" events for DB storage (they're UI-only)
+                clean_trace = [e for e in trace_snapshot if e.get("type") != "thinking"]
+                kb.repo.update_message(msg_id, trace=clean_trace)
 
             if ev["type"] == "final":
                 final_payload.update(ev["data"])

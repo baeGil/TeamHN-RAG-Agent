@@ -178,15 +178,25 @@ export default function ChatPanel({
     () => [...messages].reverse().find((m) => m.role === "assistant"),
     [messages]
   );
-  // If there's a processing message (interrupted), keep showing liveTrace/liveAnswer
-  // so AgentGraph doesn't break. Only fall back to persisted trace when done.
   const hasProcessing = messages.some(
     (m) => m.role === "assistant" && m.status === "processing"
   );
-  const graphEvents = streaming || hasProcessing
-    ? (liveTrace.length > 0 ? liveTrace : [{ type: "thinking" as const, data: { node: "router" } }])
-    : lastAssistant?.trace || [];
-  const graphAnswer = streaming || hasProcessing ? liveAnswer : lastAssistant?.content || "";
+  // graphEvents priority:
+  // 1. streaming → liveTrace (realtime events from current SSE)
+  // 2. hasProcessing (interrupted/reload) → lastAssistant.trace from DB (persisted)
+  //    only fall back to synthetic router if absolutely nothing available
+  // 3. done → lastAssistant.trace
+  let _graphEvents: TraceEvent[];
+  if (streaming) {
+    _graphEvents = liveTrace.length > 0 ? liveTrace : [{ type: "thinking" as const, data: { node: "router" } }];
+  } else if (hasProcessing) {
+    const dbTrace = lastAssistant?.trace || [];
+    _graphEvents = dbTrace.length > 0 ? dbTrace : [{ type: "thinking" as const, data: { node: "router" } }];
+  } else {
+    _graphEvents = lastAssistant?.trace || [];
+  }
+  const graphEvents = _graphEvents;
+  const graphAnswer = streaming ? liveAnswer : lastAssistant?.content || "";
 
   const startAgentResize = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -246,13 +256,19 @@ export default function ChatPanel({
                   <div className="avatar">{m.role === "user" ? "🧑" : "🤖"}</div>
                   <div className="bubble">
                     {m.role === "assistant" && m.status === "processing" && !streaming && (
-                      <div className="typing">⏳ Đang xử lý…</div>
+                      <>
+                        {m.trace && m.trace.length > 0 && m.trace.some((e) => e.type !== "thinking") ? (
+                          <>
+                            <div className="typing">Đang suy luận…</div>
+                            <AgentTrace events={m.trace} />
+                          </>
+                        ) : (
+                          <div className="typing">⏳ Đang xử lý…</div>
+                        )}
+                      </>
                     )}
                     {m.role === "assistant" && m.status === "failed" && m.error_message && (
                       <div className="error-box">⚠️ {m.error_message}</div>
-                    )}
-                    {m.role === "assistant" && m.trace && m.trace.length > 0 && m.trace.some((e) => e.type !== "thinking") && (
-                      <AgentTrace events={m.trace} />
                     )}
                     {m.role === "assistant" && m.content ? (
                       <Markdown content={m.content} citations={m.citations || []} onCite={(label) => {
