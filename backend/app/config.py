@@ -54,6 +54,8 @@ class Settings:
         self.history_window = _get_int("HISTORY_WINDOW", 6)
         self.summary_model = os.getenv("SUMMARY_MODEL", "") or self.llm_model_fast
         self.turbovec_bit_width = _get_int("TURBOVEC_BIT_WIDTH", 4)
+        log_file = os.getenv("LOG_FILE", "logs/app.log")
+        self.log_file = (BASE_DIR / log_file) if not os.path.isabs(log_file) else Path(log_file)
 
         # Ingestion / parsing
         # VLM_PARSE: "off" (local only), "auto" (VLM fallback for empty/scanned pages),
