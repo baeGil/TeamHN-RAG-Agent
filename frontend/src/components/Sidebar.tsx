@@ -164,17 +164,9 @@ export default function Sidebar({
         <button className="btn block" disabled={uploading} onClick={() => fileRef.current?.click()}>
           {uploading ? "⏳ Đang tải lên…" : "⬆ Tải lên PDF"}
         </button>
-        {uploadProgress.length > 0 && (
-          <div className="upload-progress">
-            {uploadProgress.map((p, i) => (
-              <div key={i} className={`upload-item ${p.status}`}>
-                {p.status === "uploading" && `⏳ ${p.name}`}
-                {p.status === "done" && `✅ ${p.name}`}
-                {p.status === "error" && `❌ ${p.name}`}
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="muted small" style={{ marginTop: 2 }}>
+          Tối đa {maxSize / 1024 / 1024}MB mỗi file
+        </div>
         <div className="url-row">
           <input
             className="input"
