@@ -13,6 +13,8 @@ from slowapi.util import get_remote_address
 from starlette.responses import FileResponse, JSONResponse
 from starlette.responses import StreamingResponse
 
+from contextlib import asynccontextmanager
+
 from .agent.graph import Agent
 from .config import get_settings
 from .indexing.store import KnowledgeBase
@@ -45,7 +47,19 @@ def _configure_logging() -> None:
 
 
 _configure_logging()
-app = FastAPI(title="Vietnamese RAG Agent", version="1.0.0")
+
+kb = KnowledgeBase(settings)
+
+
+@asynccontextmanager
+async def lifespan(app):
+    cleaned = kb.repo.cleanup_stale_processing(max_age_minutes=10)
+    if cleaned:
+        logging.getLogger("rag.flow").info("RAG_FLOW startup_cleanup cleaned=%s stale records", cleaned)
+    yield
+
+
+app = FastAPI(title="Vietnamese RAG Agent", version="1.0.0", lifespan=lifespan)
 
 limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
@@ -69,13 +83,6 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
     )
 
 kb = KnowledgeBase(settings)
-
-
-@app.on_event("startup")
-def _startup_cleanup():
-    cleaned = kb.repo.cleanup_stale_processing(max_age_minutes=10)
-    if cleaned:
-        logging.getLogger("rag.flow").info("RAG_FLOW startup_cleanup cleaned=%s stale records", cleaned)
 
 
 def _maybe_summarize(session_id: str, agent: Agent, knowledge_base: KnowledgeBase) -> None:
