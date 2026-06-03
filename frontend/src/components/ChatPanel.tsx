@@ -81,9 +81,13 @@ export default function ChatPanel({
         );
         if (!stillHasProcessing) {
           setPolling(false);
+          setLiveAnswer("");
+          setLiveTrace([]);
         }
       } catch {
         setPolling(false);
+        setLiveAnswer("");
+        setLiveTrace([]);
       }
     };
     pollRef.current = setInterval(poll, 2000);
@@ -156,8 +160,7 @@ export default function ChatPanel({
     } catch (e: any) {
       setChatError(e.message || String(e));
       setStreaming(false);
-      setLiveAnswer("");
-      setLiveTrace([]);
+      // DON'T clear liveAnswer/liveTrace — keep them for AgentGraph resume
       const s = await api.getSession(sessionId || "").catch(() => null);
       if (s) {
         setMessages((s.messages || []).map(normalizeMessage));
@@ -169,8 +172,13 @@ export default function ChatPanel({
     () => [...messages].reverse().find((m) => m.role === "assistant"),
     [messages]
   );
-  const graphEvents = streaming ? liveTrace : lastAssistant?.trace || [];
-  const graphAnswer = streaming ? liveAnswer : lastAssistant?.content || "";
+  // If there's a processing message (interrupted), keep showing liveTrace/liveAnswer
+  // so AgentGraph doesn't break. Only fall back to persisted trace when done.
+  const hasProcessing = messages.some(
+    (m) => m.role === "assistant" && m.status === "processing"
+  );
+  const graphEvents = streaming || (hasProcessing && liveTrace.length > 0) ? liveTrace : lastAssistant?.trace || [];
+  const graphAnswer = streaming || (hasProcessing && liveAnswer.length > 0) ? liveAnswer : lastAssistant?.content || "";
 
   const startAgentResize = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

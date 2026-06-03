@@ -22,7 +22,7 @@ export default function App() {
     localStorage.getItem(LS_KEY)
   );
   const [messages, setMessages] = useState<Message[]>([]);
-  const [messagesLoading, setMessagesLoading] = useState(false);
+  const [messagesLoading, setMessagesLoading] = useState(() => !!localStorage.getItem(LS_KEY));
   const [citation, setCitation] = useState<Citation | null>(null);
 
   const refreshDocs = useCallback(() => {
@@ -42,6 +42,7 @@ export default function App() {
   useEffect(() => {
     if (!sessionId) {
       setMessages([]);
+      setMessagesLoading(false);
       return;
     }
     localStorage.setItem(LS_KEY, sessionId);
