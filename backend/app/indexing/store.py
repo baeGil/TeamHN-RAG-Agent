@@ -175,9 +175,9 @@ class KnowledgeBase:
             )
 
     # ---------------- ingestion ----------------
-    def ingest_pdf(self, data: bytes, filename: str) -> dict[str, Any]:
+    def ingest_pdf(self, data: bytes, filename: str, doc_id: Optional[int] = None) -> dict[str, Any]:
         title, blocks = loaders.load_pdf(data, filename, cache_dir=self.settings.storage_dir)
-        result = self._ingest(title, filename, "pdf", blocks)
+        result = self._ingest(title, filename, "pdf", blocks, doc_id=doc_id)
         pdf_path = self.pdf_path(int(result["document_id"]))
         pdf_path.parent.mkdir(parents=True, exist_ok=True)
         pdf_path.write_bytes(data)
@@ -191,7 +191,7 @@ class KnowledgeBase:
         title, blocks = loaders.load_text(text, title)
         return self._ingest(title, title, "text", blocks)
 
-    def _ingest(self, title, source, source_type, blocks) -> dict[str, Any]:
+    def _ingest(self, title, source, source_type, blocks, doc_id: Optional[int] = None) -> dict[str, Any]:
         has_embed_text = any(getattr(b, "embed_text", None) for b in blocks)
 
         if has_embed_text:
@@ -210,7 +210,8 @@ class KnowledgeBase:
             raise ValueError("Không tách được đoạn văn bản nào từ nguồn này.")
 
         with self._lock:
-            doc_id = self.repo.add_document(title, source, source_type)
+            if doc_id is None:
+                doc_id = self.repo.add_document(title, source, source_type)
             chunk_ids: list[int] = []
             index_texts: list[str] = []
             embed_texts: list[Optional[str]] = []

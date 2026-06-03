@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../lib/api";
 import type { DocumentItem, SessionItem } from "../lib/types";
 
@@ -35,6 +35,14 @@ export default function Sidebar({
   const fileRef = useRef<HTMLInputElement>(null);
 
   const maxSize = maxUploadSize || DEFAULT_MAX_UPLOAD_SIZE;
+
+  const hasProcessing = documents.some((d) => d.status === "processing");
+
+  useEffect(() => {
+    if (!hasProcessing) return;
+    const t = setInterval(() => onRefreshDocs(), 2000);
+    return () => clearInterval(t);
+  }, [hasProcessing, onRefreshDocs]);
 
   const wrap = async (fn: () => Promise<any>) => {
     setBusy(true);
@@ -164,7 +172,12 @@ export default function Sidebar({
                   {d.source_type === "url" ? "🌐" : "📝"} {d.title}
                 </div>
               )}
-              <div className="muted small">{d.n_chunks} đoạn</div>
+              <div className="muted small">
+                {d.status === "processing" && "⏳ Đang xử lý…"}
+                {d.status === "failed" && `❌ Lỗi: ${d.error_message || "Không xác định"}`}
+                {d.status === "ready" && `${d.n_chunks} đoạn`}
+                {!d.status && `${d.n_chunks} đoạn`}
+              </div>
             </div>
             <div className="doc-actions">
               <button

@@ -154,10 +154,30 @@ async def upload_document(file: UploadFile = File(...)):
     name = file.filename or "document.pdf"
     if not name.lower().endswith(".pdf"):
         raise HTTPException(400, "Chỉ hỗ trợ tệp PDF qua kênh upload.")
-    try:
-        return kb.ingest_pdf(data, name)
-    except Exception as e:
-        raise HTTPException(400, str(e))
+
+    doc_id = kb.repo.add_document(name, name, "pdf", status="processing")
+
+    def _ingest_bg():
+        try:
+            result = kb.ingest_pdf(data, name, doc_id=doc_id)
+            kb.repo.update_document_status(doc_id, "ready")
+            return result
+        except Exception as e:
+            kb.repo.update_document_status(doc_id, "failed", error_message=str(e))
+            logging.getLogger("rag.flow").exception("RAG_FLOW ingest_error doc_id=%s", doc_id)
+            return None
+
+    loop = asyncio.get_running_loop()
+    loop.run_in_executor(None, _ingest_bg)
+
+    return {
+        "document_id": doc_id,
+        "title": name,
+        "source": name,
+        "source_type": "pdf",
+        "status": "processing",
+        "n_chunks": 0,
+    }
 
 
 @app.post("/api/documents/url")
