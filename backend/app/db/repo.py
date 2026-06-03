@@ -294,3 +294,31 @@ class Repo:
             d["trace"] = [e for e in (json.loads(d["trace"]) if d["trace"] else []) if e.get("type") != "thinking"]
             out.append(d)
         return out
+
+    def cleanup_stale_processing(self, max_age_minutes: int = 10) -> int:
+        import datetime
+        cutoff = datetime.datetime.utcnow() - datetime.timedelta(minutes=max_age_minutes)
+        cutoff_str = cutoff.strftime("%Y-%m-%d %H:%M:%S")
+
+        doc_rows = self.db.conn.execute(
+            "SELECT id FROM documents WHERE status='processing' AND created_at < ?",
+            (cutoff_str,),
+        ).fetchall()
+        for row in doc_rows:
+            self.db.conn.execute(
+                "UPDATE documents SET status='failed', error_message='Xử lý bị gián đoạn (timeout)' WHERE id=?",
+                (row["id"],),
+            )
+
+        msg_rows = self.db.conn.execute(
+            "SELECT id FROM messages WHERE status='processing' AND created_at < ?",
+            (cutoff_str,),
+        ).fetchall()
+        for row in msg_rows:
+            self.db.conn.execute(
+                "UPDATE messages SET status='failed', error_message='Xử lý bị gián đoạn (timeout)' WHERE id=?",
+                (row["id"],),
+            )
+
+        self.db.conn.commit()
+        return len(doc_rows) + len(msg_rows)
