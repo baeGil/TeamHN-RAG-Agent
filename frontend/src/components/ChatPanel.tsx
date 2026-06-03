@@ -258,7 +258,7 @@ export default function ChatPanel({
                     {m.role === "assistant" && m.status === "processing" && !streaming && (
                       <>
                         <AgentTrace events={m.trace || []} live />
-                        <div className="typing">Đang suy luận…</div>
+                        <div className="typing">●●●</div>
                       </>
                     )}
                     {m.role === "assistant" && m.status === "failed" && m.error_message && (
