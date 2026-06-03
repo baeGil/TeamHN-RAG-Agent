@@ -3,6 +3,13 @@ import { api } from "../lib/api";
 import type { DocumentItem, SessionItem } from "../lib/types";
 
 const DEFAULT_MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
+const MAX_CONCURRENT_UPLOADS = 3;
+
+interface UploadProgress {
+  name: string;
+  status: "uploading" | "done" | "error";
+  error?: string;
+}
 
 interface Props {
   documents: DocumentItem[];
@@ -30,7 +37,8 @@ export default function Sidebar({
   maxUploadSize,
 }: Props) {
   const [url, setUrl] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress[]>([]);
   const [err, setErr] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -44,17 +52,45 @@ export default function Sidebar({
     return () => clearInterval(t);
   }, [hasProcessing, onRefreshDocs]);
 
-  const wrap = async (fn: () => Promise<any>) => {
-    setBusy(true);
+  const uploadFiles = async (files: File[]) => {
+    if (files.length === 0) return;
+    setUploading(true);
     setErr("");
-    try {
-      await fn();
-      onRefreshDocs();
-    } catch (e: any) {
-      setErr(String(e.message || e).slice(0, 200));
-    } finally {
-      setBusy(false);
+
+    const progress: UploadProgress[] = files.map((f) => ({
+      name: f.name,
+      status: "uploading" as const,
+    }));
+    setUploadProgress([...progress]);
+
+    let nextIdx = 0;
+    const results: { file: File; ok: boolean; error?: string }[] = [];
+
+    const uploadNext = async () => {
+      while (nextIdx < files.length) {
+        const idx = nextIdx++;
+        const file = files[idx];
+        try {
+          await api.uploadPdf(file);
+          progress[idx] = { name: file.name, status: "done" };
+        } catch (e: any) {
+          progress[idx] = { name: file.name, status: "error", error: String(e.message || e).slice(0, 100) };
+        }
+        setUploadProgress([...progress]);
+      }
+    };
+
+    const concurrency = Math.min(MAX_CONCURRENT_UPLOADS, files.length);
+    await Promise.all(Array.from({ length: concurrency }, () => uploadNext()));
+
+    const errors = progress.filter((p) => p.status === "error");
+    if (errors.length > 0) {
+      setErr(errors.map((e) => `${e.name}: ${e.error || "Lỗi"}`).join("\n"));
     }
+
+    onRefreshDocs();
+    setUploading(false);
+    setTimeout(() => setUploadProgress([]), 3000);
   };
 
   if (collapsed) {
@@ -122,19 +158,26 @@ export default function Sidebar({
               setErr(`"${nonPdf.name}" không phải PDF. Chỉ hỗ trợ tệp PDF.`);
               return;
             }
-            wrap(async () => {
-              for (const f of files) {
-                await api.uploadPdf(f);
-              }
-            });
+            uploadFiles(files);
           }}
         />
-        <button className="btn block" disabled={busy} onClick={() => fileRef.current?.click()}>
-          ⬆ Tải lên PDF
+        <button className="btn block" disabled={uploading} onClick={() => fileRef.current?.click()}>
+          {uploading ? "⏳ Đang tải lên…" : "⬆ Tải lên PDF"}
         </button>
         <div className="muted small" style={{ marginTop: 2 }}>
           Tối đa {maxSize / 1024 / 1024}MB mỗi file
         </div>
+        {uploadProgress.length > 0 && (
+          <div className="upload-progress">
+            {uploadProgress.map((p, i) => (
+              <div key={i} className={`upload-item ${p.status}`}>
+                {p.status === "uploading" && `⏳ ${p.name}`}
+                {p.status === "done" && `✅ ${p.name}`}
+                {p.status === "error" && `❌ ${p.name}`}
+              </div>
+            ))}
+          </div>
+        )}
         <div className="url-row">
           <input
             className="input"
@@ -144,18 +187,29 @@ export default function Sidebar({
           />
           <button
             className="btn"
-            disabled={busy || !url.trim()}
-            onClick={() => wrap(async () => { await api.ingestUrl(url.trim()); setUrl(""); })}
+            disabled={uploading || !url.trim()}
+            onClick={async () => {
+              setUploading(true);
+              setErr("");
+              try {
+                await api.ingestUrl(url.trim());
+                setUrl("");
+                onRefreshDocs();
+              } catch (e: any) {
+                setErr(String(e.message || e).slice(0, 200));
+              } finally {
+                setUploading(false);
+              }
+            }}
           >
             +
           </button>
         </div>
       </div>
-      {busy && <div className="hint">Đang xử lý & lập chỉ mục…</div>}
       {err && <div className="error-box">{err}</div>}
 
       <div className="doc-list">
-        {documents.length === 0 && <div className="muted small">Chưa có tài liệu nào.</div>}
+        {documents.length === 0 && !uploading && <div className="muted small">Chưa có tài liệu nào.</div>}
         {documents.map((d) => (
           <div key={d.id} className="doc-item">
             <div className="doc-meta">
@@ -183,7 +237,10 @@ export default function Sidebar({
               <button
                 className="icon-btn"
                 title="Xoá tài liệu"
-                onClick={() => wrap(() => api.deleteDocument(d.id))}
+                onClick={async () => {
+                  await api.deleteDocument(d.id);
+                  onRefreshDocs();
+                }}
               >
                 ✕
               </button>
