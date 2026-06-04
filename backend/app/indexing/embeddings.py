@@ -28,6 +28,8 @@ class Embedder:
         conn = getattr(self._local, "conn", None)
         if conn is None:
             conn = sqlite3.connect(str(self._cache_path), check_same_thread=False)
+            conn.execute("PRAGMA journal_mode = WAL")
+            conn.execute("PRAGMA busy_timeout = 5000")
             self._local.conn = conn
         return conn
 

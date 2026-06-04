@@ -277,6 +277,83 @@ class Agent:
         except Exception:
             return True, ""
 
+    def _compress_simple(self, question: str, chunks: list[dict]) -> list[dict]:
+        """Contextual Compression for simple single-hop queries.
+
+        Calls the LLM to strip irrelevant sentences from retrieved chunks,
+        returning a copy of chunks whose 'text' field is replaced with the
+        compressed, query-relevant excerpt. Citation labels are preserved so
+        downstream citation rendering still works correctly.
+        If the LLM returns KHÔNG_TÌM_THẤY or an empty string, the original
+        chunk is kept unchanged (fail-open behaviour).
+        """
+        if not chunks:
+            return chunks
+        ctx = prompts.build_context(chunks, label_key="label")
+        msgs = [
+            {"role": "system", "content": prompts.COMPRESS_SIMPLE_SYSTEM},
+            {"role": "user", "content": f"CÂU HỎI:\n{question}\n\nNGỮ CẢNH:\n{ctx}"},
+        ]
+        try:
+            compressed_ctx = self.llm.chat(msgs, fast=True, node="compress").strip()
+        except Exception as e:
+            logger.warning("RAG_FLOW compress_simple_error: %s", e)
+            return chunks
+
+        if not compressed_ctx or compressed_ctx == "KHÔNG_TÌM_THẤY":
+            return chunks
+
+        # Map compressed text back to chunk labels.
+        # Strategy: split on label headers "[N]" and reassign text per chunk.
+        import re as _re
+        label_pattern = _re.compile(r"\[(\d+)\]")
+        label_map: dict[int, str] = {}
+        parts = label_pattern.split(compressed_ctx)
+        # parts alternates: [pre-text, label, text, label, text, ...]
+        i = 1
+        while i + 1 < len(parts):
+            try:
+                lbl = int(parts[i])
+                text_fragment = parts[i + 1].strip()
+                if text_fragment:
+                    label_map[lbl] = text_fragment
+            except ValueError:
+                pass
+            i += 2
+
+        if not label_map:
+            # Compressor returned free-form text without label markers — keep original
+            return chunks
+
+        # Safety constants
+        MIN_CHUNK_CHARS  = 150   # don't replace if compressed is shorter than this
+        MAX_STRIP_RATIO  = 0.80  # don't replace if compressor removed >80% of content
+
+        result = []
+        for chunk in chunks:
+            lbl = chunk.get("label")
+            if lbl is not None and lbl in label_map:
+                compressed_text = label_map[lbl]
+                original_len    = len(chunk["text"])
+                strip_ratio     = 1.0 - len(compressed_text) / original_len if original_len else 0.0
+
+                if len(compressed_text) >= MIN_CHUNK_CHARS and strip_ratio <= MAX_STRIP_RATIO:
+                    compressed_chunk = dict(chunk)
+                    compressed_chunk["text"] = compressed_text
+                    result.append(compressed_chunk)
+                else:
+                    # Compressed too aggressively (formula / dense content) — keep original
+                    logger.debug(
+                        "RAG_FLOW compress_guard chunk=%s compressed_len=%d strip_ratio=%.2f — keeping original",
+                        lbl, len(compressed_text), strip_ratio,
+                    )
+                    result.append(chunk)
+            else:
+                # Chunk was dropped by compressor — still include original so
+                # synthesizer has some fallback context.
+                result.append(chunk)
+        return result
+
     # ---------------- orchestration ----------------
     def run(self, question: str, history: Optional[list[dict]] = None, summary: Optional[str] = None) -> Iterator[dict]:
         history = history or []
@@ -508,6 +585,32 @@ class Agent:
             else:
                 # Simple route: no loop
                 break
+
+        # --- Contextual Compression for simple route ---
+        if route == "simple" and self.settings.enable_simple_compression:
+            node_started = time.perf_counter()
+            yield emit("thinking", {"node": "compress"})
+            context_for_compress = sorted(pool.values(), key=lambda c: c.get("score", 0.0), reverse=True)
+            context_for_compress = context_for_compress[:self.settings.final_top_k]
+            context_for_compress = self._with_labels(context_for_compress)
+            chars_before = sum(len(c["text"]) for c in context_for_compress)
+            compressed = self._compress_simple(question, context_for_compress)
+            chars_after = sum(len(c["text"]) for c in compressed)
+            compression_ratio = round(1.0 - chars_after / chars_before, 3) if chars_before > 0 else 0.0
+            logger.info(
+                "RAG_FLOW node_end node=compress route=simple duration_ms=%.1f "
+                "chars_before=%s chars_after=%s compression_ratio=%.3f",
+                (time.perf_counter() - node_started) * 1000,
+                chars_before, chars_after, compression_ratio,
+            )
+            yield emit("compression", {
+                "chars_before": chars_before,
+                "chars_after": chars_after,
+                "compression_ratio": compression_ratio,
+            })
+            # Write compressed chunks back into pool so _select_context picks them up
+            for c in compressed:
+                pool[c["chunk_id"]] = c
 
         # --- Build context ---
         partial_warning = False

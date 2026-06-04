@@ -56,12 +56,14 @@ class VectorIndex:
         if self._index is None:
             return
         for cid in ids:
-            try:
-                if self._index.contains(int(cid)):
-                    self._index.remove(int(cid))
-                    self._count -= 1
-            except Exception:
-                pass
+            for idx in range(10):
+                mapped_id = int(cid) * 10 + idx
+                try:
+                    if self._index.contains(mapped_id):
+                        self._index.remove(mapped_id)
+                        self._count -= 1
+                except Exception:
+                    pass
         try:
             self._index.prepare()
         except Exception:
@@ -73,10 +75,17 @@ class VectorIndex:
         q = np.ascontiguousarray(query, dtype=np.float32)
         if q.ndim == 1:
             q = q.reshape(1, -1)
-        scores, ids = self._index.search(q, k=min(k, self._count))
+        raw_k = min(k * 5, self._count)
+        scores, ids = self._index.search(q, k=raw_k)
+        seen = set()
         out: list[tuple[int, float]] = []
         for cid, sc in zip(ids[0].tolist(), scores[0].tolist()):
-            out.append((int(cid), float(sc)))
+            cid_int = int(cid) // 10
+            if cid_int not in seen:
+                seen.add(cid_int)
+                out.append((cid_int, float(sc)))
+                if len(out) == k:
+                    break
         return out
 
     def save(self, path: Path) -> None:
