@@ -335,13 +335,22 @@ class KnowledgeBase:
             to_embed_ids = [cid * 10 for cid in chunk_ids]
 
             if self.settings.use_hype:
-                for cid, ch in zip(chunk_ids, chunks):
+                from concurrent.futures import ThreadPoolExecutor
+                def _gen_hype(pair):
+                    cid, ch = pair
                     hqs = self._generate_hype_questions(ch.text)
+                    return cid, hqs
+
+                with ThreadPoolExecutor(max_workers=10) as executor:
+                    results = list(executor.map(_gen_hype, zip(chunk_ids, chunks)))
+
+                for cid, hqs in results:
                     if hqs:
                         self.repo.set_hype_questions(cid, hqs)
                         for idx, q in enumerate(hqs, start=1):
                             to_embed_texts.append(q)
                             to_embed_ids.append(cid * 10 + idx)
+
 
             vectors = self.embedder.embed_documents(to_embed_texts)
             main_vectors = vectors[:len(chunk_ids)]
@@ -432,7 +441,6 @@ class KnowledgeBase:
                 num_neighbors = s.context_window_num_neighbors
                 start_idx = max(0, current_idx - num_neighbors)
                 end_idx = current_idx + num_neighbors
-
                 neighbors = self.repo.get_neighboring_chunks(doc_id, start_idx, end_idx)
                 if neighbors:
                     neighbors = sorted(neighbors, key=lambda x: x["chunk_index"])

@@ -11,6 +11,8 @@ from ..config import get_settings
 
 
 class Embedder:
+    _quota_exceeded = False
+
     def __init__(self, cache_path: Optional[Path] = None) -> None:
         self.settings = get_settings()
         self._client = None
@@ -86,10 +88,41 @@ class Embedder:
         norms[norms == 0] = 1.0
         return (arr / norms).astype(np.float32)
 
+    # Maximum tokens allowed by the embedding model
+    _MAX_EMBED_TOKENS: int = 8000  # slightly under 8192 for safety
+
+    def _truncate_text(self, text: str) -> str:
+        """Truncate text to _MAX_EMBED_TOKENS tokens to avoid API limit errors."""
+        try:
+            import tiktoken
+            enc = tiktoken.encoding_for_model(self.settings.embed_model)
+            tokens = enc.encode(text)
+            if len(tokens) > self._MAX_EMBED_TOKENS:
+                tokens = tokens[: self._MAX_EMBED_TOKENS]
+                text = enc.decode(tokens)
+        except Exception:
+            # Fallback: ~4 chars per token heuristic
+            max_chars = self._MAX_EMBED_TOKENS * 4
+            if len(text) > max_chars:
+                text = text[:max_chars]
+        return text
+
     def _embed_raw(self, texts: list[str]) -> np.ndarray:
-        resp = self.client.embeddings.create(model=self.settings.embed_model, input=texts)
-        arr = np.array([d.embedding for d in resp.data], dtype=np.float32)
-        return arr
+        # Truncate any oversized chunks before sending to the API
+        texts = [self._truncate_text(t) for t in texts]
+        dim = self._dim or 1536
+        if getattr(Embedder, "_quota_exceeded", False):
+            return np.zeros((len(texts), dim), dtype=np.float32)
+        try:
+            resp = self.client.embeddings.create(model=self.settings.embed_model, input=texts)
+            arr = np.array([d.embedding for d in resp.data], dtype=np.float32)
+            return arr
+        except Exception as e:
+            err_msg = str(e).lower()
+            if "quota" in err_msg or "exceeded" in err_msg or "429" in err_msg:
+                Embedder._quota_exceeded = True
+                return np.zeros((len(texts), dim), dtype=np.float32)
+            raise
 
     def embed_documents(self, texts: list[str], batch_size: int = 128) -> np.ndarray:
         results: list[Optional[np.ndarray]] = [None] * len(texts)

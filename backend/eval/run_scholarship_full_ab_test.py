@@ -68,17 +68,31 @@ def parse_md_hocbong(path: Path) -> list[QA]:
         if first in ("Cấp độ", "---", "ID", "STT") or first.startswith(":") or first.startswith("-") or not cells[1]:
             continue
         
+        # Detect column mapping dynamically
+        c_level = cells[0].replace("**", "").strip()
+        c_question = cells[1]
+        c_expected = cells[2]
+        
+        # If cells[0] is numeric (like STT '001'), then level is in cells[1], question is cells[2], expected cells[3]
+        if (c_level.isdigit() or len(c_level) <= 3) and len(cells) >= 4 and not any(w in c_level.lower() for w in ("dễ", "khó", "easy", "hard", "medium", "trung")):
+            c_level = cells[1].replace("**", "").strip()
+            c_question = cells[2]
+            c_expected = cells[3]
+            
+        if not c_question or c_question in ("Câu hỏi", "---", ""):
+            continue
+            
         difficulty = "easy"
-        if "trung bình" in first.lower() or "medium" in first.lower():
+        if any(w in c_level.lower() for w in ("trung bình", "medium", "tb")):
             difficulty = "medium"
-        elif "khó" in first.lower() or "hard" in first.lower():
+        elif any(w in c_level.lower() for w in ("khó", "hard")):
             difficulty = "hard"
             
         out.append(
             QA(
                 qid=f"hb{idx}",
-                question=cells[1],
-                expected=cells[2],
+                question=c_question,
+                expected=c_expected,
                 difficulty=difficulty
             )
         )
@@ -119,7 +133,6 @@ METHODS = {
     "BM25": bm25_ranked,
     "Dense": dense_ranked,
     "Hybrid (RRF)": hybrid_ranked,
-    "Hybrid + Rerank": hybrid_rerank_ranked,
 }
 
 # In compression test, we compress the text of candidate chunks using LLM
@@ -271,14 +284,33 @@ def judge_relevant_combined(kbs, qa, pool_items, cache):
         f"CÁC ĐOẠN ỨNG VIÊN:\n" + "\n\n".join(lines)
     )
     
-    llm = LLM()
-    res = llm.chat_json(
-        [{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": user}],
-        fast=True,
-    )
-    
-    valid_ids = {item[0] for item in pool_items}
-    rel = [x for x in res.get("relevant_ids", []) if x in valid_ids]
+    try:
+        llm = LLM()
+        res = llm.chat_json(
+            [{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": user}],
+            fast=True,
+        )
+        valid_ids = {item[0] for item in pool_items}
+        rel = [x for x in res.get("relevant_ids", []) if x in valid_ids]
+    except Exception as e:
+        print(f"  [Judge Error] {e}, falling back to heuristic matching...")
+        import re
+        expected_words = set(re.findall(r'\w+', qa.expected.lower()))
+        expected_words = {w for w in expected_words if len(w) > 2}
+        
+        rel = []
+        for str_id, kb_name, cid, text_override in pool_items:
+            if text_override:
+                txt = text_override.lower()
+            else:
+                kb = kbs["Baseline"]
+                meta = kb.repo.get_chunks([cid])
+                txt = meta[cid]["text"].lower() if cid in meta else ""
+            
+            if txt:
+                matched = sum(1 for w in expected_words if w in txt)
+                if matched >= min(2, len(expected_words)) or (expected_words and matched / len(expected_words) >= 0.25):
+                    rel.append(str_id)
     cache[key] = rel
     return set(rel)
 

@@ -49,7 +49,9 @@ class Reranker:
                     import torch
 
                     if not torch.cuda.is_available():
-                        torch.set_num_threads(1)
+                        import os
+                        threads = int(os.getenv("TORCH_NUM_THREADS", "8"))
+                        torch.set_num_threads(threads)
 
                     self._model = FlagReranker(self.model_name, use_fp16=torch.cuda.is_available())
                     logger.info(

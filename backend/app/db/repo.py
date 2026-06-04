@@ -121,6 +121,13 @@ class Repo:
         ).fetchall()
         return {int(r["id"]): dict(r) for r in rows}
 
+    def get_neighboring_chunks(self, document_id: int, start_index: int, end_index: int) -> list[dict[str, Any]]:
+        rows = self.db.conn.execute(
+            "SELECT chunk_index, text FROM chunks WHERE document_id = ? AND chunk_index BETWEEN ? AND ? ORDER BY chunk_index",
+            (document_id, start_index, end_index),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
     def all_chunks(self) -> list[dict[str, Any]]:
         rows = self.db.conn.execute(
             """SELECT c.*, d.title AS doc_title, d.source AS doc_source,
