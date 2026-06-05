@@ -686,6 +686,103 @@ svg{max-width:100%;height:auto}
 </section>
 
 <!-- SLIDE 28 -->
+<section class="slide" data-title="A/B Evaluation Results">
+  <h1>Evaluation: Kết quả A/B trên Golden Dataset</h1>
+  <div class="card">
+    <h2>Thiết lập benchmark</h2>
+    <p class="small">
+      Chạy 94 câu hỏi từ <code>data/golden-dataset</code> trên cùng baseline storage Reducto, so sánh A, B5, B6, B9, B12.
+      LLM sinh câu trả lời và judge dùng <code>mimo-v2.5-pro</code>; embedding online dùng Jina khi cần.
+    </p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Quality tổng thể</h2>
+      <table>
+        <thead><tr><th>Run</th><th>Recall@5</th><th>MRR@5</th><th>Correct</th><th>Faith</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td><b>0.750</b></td><td>0.808</td><td>0.891</td><td>0.927</td></tr>
+          <tr><td>B5</td><td>0.599</td><td>0.733</td><td><b>0.902</b></td><td><b>0.951</b></td></tr>
+          <tr><td>B6</td><td>0.684</td><td>0.776</td><td>0.891</td><td>0.942</td></tr>
+          <tr><td>B9</td><td>0.743</td><td><b>0.814</b></td><td>0.879</td><td>0.947</td></tr>
+          <tr><td>B12</td><td>0.739</td><td>0.805</td><td>0.892</td><td>0.948</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Retrieval & context</h2>
+      <table>
+        <thead><tr><th>Run</th><th>Hit@5</th><th>nDCG@5</th><th>Ctx Recall</th><th>Ctx Precision</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td><b>0.979</b></td><td>0.709</td><td><b>0.824</b></td><td>0.478</td></tr>
+          <tr><td>B5</td><td>0.926</td><td>0.692</td><td>0.696</td><td>0.473</td></tr>
+          <tr><td>B6</td><td>0.947</td><td>0.708</td><td>0.821</td><td><b>0.574</b></td></tr>
+          <tr><td>B9</td><td><b>0.979</b></td><td>0.714</td><td>0.822</td><td>0.469</td></tr>
+          <tr><td>B12</td><td><b>0.979</b></td><td><b>0.794</b></td><td>0.809</td><td>0.556</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Kết luận rollout</h2>
+    <table>
+      <thead><tr><th>Technique</th><th>Tín hiệu tốt</th><th>Rủi ro</th><th>Khuyến nghị</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>Recall@5 cao nhất, quality ổn định</td><td>Token và p95 vẫn cao</td><td>Giữ làm baseline production</td></tr>
+        <tr><td>B5</td><td>Correctness/Faithfulness tăng</td><td>Recall giảm -0.152, token tăng mạnh</td><td>Không bật global</td></tr>
+        <tr><td>B6</td><td>Ctx precision cao nhất 0.574</td><td>Recall thấp hơn A</td><td>Dùng selective cho hard/multi-hop</td></tr>
+        <tr><td>B9</td><td>MRR tốt nhất, p95 tốt nhất</td><td>Correctness giảm nhẹ</td><td>Tiếp tục thử với filter synthetic query</td></tr>
+        <tr><td>B12</td><td>Token thấp nhất, nDCG cao nhất</td><td>p95 latency cao</td><td>Rollout có kiểm soát, tối ưu rerank depth</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SLIDE 29 -->
+<section class="slide" data-title="Benchmark Performance & Cost">
+  <h1>Performance & Cost: Latency, Token, Trade-off</h1>
+  <div class="grid2">
+    <div class="card">
+      <h2>Latency trên 94 câu hỏi</h2>
+      <table>
+        <thead><tr><th>Run</th><th>Retrieval</th><th>Generation</th><th>E2E avg</th><th>p95</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>1.80s</td><td>15.30s</td><td>22.87s</td><td>35.18s</td></tr>
+          <tr><td>B5</td><td>1.39s</td><td>16.50s</td><td>24.16s</td><td>35.60s</td></tr>
+          <tr><td>B6</td><td><b>1.24s</b></td><td>16.34s</td><td>23.24s</td><td>35.44s</td></tr>
+          <tr><td>B9</td><td>1.27s</td><td><b>14.89s</b></td><td><b>21.93s</b></td><td><b>31.28s</b></td></tr>
+          <tr><td>B12</td><td>5.11s</td><td>22.48s</td><td>33.22s</td><td>44.42s</td></tr>
+        </tbody>
+      </table>
+      <p class="small">B9 đang nhanh nhất về E2E và p95. B12 tiết kiệm token nhưng latency cao do route/rerank sâu hơn.</p>
+    </div>
+    <div class="card">
+      <h2>Token online / câu hỏi</h2>
+      <table>
+        <thead><tr><th>Run</th><th>Prompt</th><th>Output</th><th>Total</th><th>Delta vs A</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>3,766</td><td>628</td><td>4,445</td><td>Baseline</td></tr>
+          <tr><td>B5</td><td>6,394</td><td>666</td><td>7,110</td><td>+2,665</td></tr>
+          <tr><td>B6</td><td>4,447</td><td>664</td><td>5,161</td><td>+716</td></tr>
+          <tr><td>B9</td><td>3,523</td><td><b>603</b></td><td>4,177</td><td>-268</td></tr>
+          <tr><td>B12</td><td><b>2,547</b></td><td>669</td><td><b>3,267</b></td><td><b>-1,179</b></td></tr>
+        </tbody>
+      </table>
+      <p class="small">Cost đang ghi 0 vì benchmark chưa nhập đơn giá API; phần đáng tin để so sánh là token/query và total online token.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Thông điệp production</h2>
+    <ul>
+      <li><b>A</b> là baseline an toàn nhất nếu ưu tiên recall và độ ổn định.</li>
+      <li><b>B9</b> là ứng viên tốt nhất nếu ưu tiên latency, nhưng cần kiểm soát chất lượng query augmentation.</li>
+      <li><b>B12</b> là hướng giảm token rõ nhất, phù hợp khi chi phí quan trọng hơn p95 latency.</li>
+      <li><b>B6</b> nên bật theo điều kiện cho câu hỏi khó/multi-hop vì tăng context precision.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SLIDE 30 -->
 <section class="slide" data-title="Software Architecture">
 <h1>Interrupt & Recovery: Tại sao reload không mất tiến trình?</h1>
 <div class="card"><h3>Nguyên lý cốt lõi: State nằm ở DB, không nằm ở SSE connection</h3><p>Khi user reload trang hoặc chuyển session, SSE connection bị đứt — nhưng <strong>background thread vẫn chạy</strong> và <strong>tiếp tục ghi kết quả vào DB</strong>. SSE chỉ là "cửa sổ xem trực tiếp", không phải nơi lưu trữ state.</p></div>
