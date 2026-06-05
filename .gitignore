@@ -11,8 +11,8 @@ backend/.env
 *.log
 backend/logs/
 backend/storage/
-backend/storage_eval/
-backend/storage_eval_before/
+#backend/storage_eval/
+#backend/storage_eval_before/
 backend/**/parse_cache.db
 backend/**/*.tvim
 backend/**/*.pkl
@@ -34,7 +34,7 @@ frontend/dist/
 opencode.jsonc
 .venv_parser/
 SKILL.md
-data/eval_ab/
+#data/eval_ab/
 .opencode/
 openspec/
 slide_generate_prompt.md

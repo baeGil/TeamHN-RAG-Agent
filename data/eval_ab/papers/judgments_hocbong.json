@@ -1,0 +1,105 @@
+{
+  "hb5": [
+    "Baseline:BM25:295",
+    "Baseline:Dense:295",
+    "HyPE:BM25:295",
+    "HyPE:Dense:295",
+    "HyDE:BM25:295",
+    "HyDE:Dense:295",
+    "Context Compression:BM25:295",
+    "Context Compression:Dense:295",
+    "Context Compression:Hybrid (RRF):295"
+  ],
+  "hb6": [
+    "HyPE:Dense:303",
+    "HyPE:Dense:300",
+    "HyPE:Dense:305",
+    "HyPE:Dense:306"
+  ],
+  "hb7": [
+    "HyDE:Dense:14"
+  ],
+  "hb8": [
+    "Baseline:Dense:308",
+    "Baseline:Hybrid (RRF):308"
+  ],
+  "hb9": [
+    "Baseline:BM25:2",
+    "Baseline:BM25:17",
+    "Baseline:BM25:28",
+    "HyPE:BM25:2",
+    "HyPE:BM25:17",
+    "HyPE:BM25:28",
+    "HyDE:BM25:2",
+    "HyDE:BM25:17",
+    "HyDE:BM25:28"
+  ],
+  "hb10": [
+    "Baseline:Dense:295",
+    "Baseline:Dense:311",
+    "Baseline:Dense:305",
+    "Baseline:Dense:306",
+    "Baseline:Dense:299"
+  ],
+  "hb11": [
+    "HyPE:Dense:16",
+    "HyPE:Dense:15"
+  ],
+  "hb12": [],
+  "hb13": [
+    "HyPE:Dense:26",
+    "HyPE:Hybrid (RRF):35",
+    "HyPE:Hybrid (RRF):16"
+  ],
+  "hb14": [
+    "Baseline:Dense:20",
+    "Baseline:Dense:25",
+    "Baseline:Dense:12",
+    "Baseline:Dense:14",
+    "Baseline:Dense:26",
+    "Baseline:Dense:31"
+  ],
+  "hb15": [
+    "Context Compression:Dense:295",
+    "Context Compression:Dense:306",
+    "Context Compression:Dense:311",
+    "Context Compression:Dense:14",
+    "Context Compression:Dense:299"
+  ],
+  "hb16": [
+    "Baseline:Dense:16",
+    "Baseline:Dense:35",
+    "Baseline:Dense:12",
+    "Baseline:Dense:14",
+    "Baseline:Dense:15",
+    "Baseline:Dense:13",
+    "Baseline:Dense:27",
+    "HyPE:Dense:16",
+    "HyPE:Dense:35",
+    "HyPE:Dense:15",
+    "HyPE:Dense:13",
+    "HyPE:Dense:27",
+    "Window Enrichment:Dense:16",
+    "Window Enrichment:Dense:35",
+    "Window Enrichment:Dense:12",
+    "Window Enrichment:Dense:14",
+    "Window Enrichment:Dense:15",
+    "Window Enrichment:Dense:13",
+    "Window Enrichment:Dense:27"
+  ],
+  "hb17": [
+    "Baseline:BM25:13",
+    "HyPE:BM25:13",
+    "HyDE:BM25:13",
+    "Context Compression:BM25:13",
+    "Context Compression:Dense:31"
+  ],
+  "hb18": [
+    "Context Compression:BM25:25",
+    "Context Compression:Hybrid (RRF):100",
+    "Context Compression:Hybrid (RRF):66"
+  ],
+  "hb19": [
+    "HyPE:Dense:13"
+  ]
+}
