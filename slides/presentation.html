@@ -5,6 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hệ thống RAG Agent Tiếng Việt — Kiến trúc & Triển khai</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    darkMode: true,
+    background: '#0b0f19',
+    fontSize: '16px',
+    /* Actor / participant boxes */
+    actorBkg: '#1e3a5f',
+    actorBorder: '#60a5fa',
+    actorTextColor: '#f8fafc',
+    actorLineColor: '#60a5fa',
+    /* Messages / signals */
+    signalColor: '#94a3b8',
+    signalTextColor: '#f1f5f9',
+    messageTextColor: '#f1f5f9',
+    /* Notes (yellow boxes) */
+    noteBkgColor: '#fde68a',
+    noteTextColor: '#111827',
+    noteBorderColor: '#f59e0b',
+    /* Loop / labels */
+    labelBoxBkgColor: '#1e3a5f',
+    labelBoxBorderColor: '#60a5fa',
+    labelTextColor: '#f8fafc',
+    loopTextColor: '#f1f5f9',
+    activationBkgColor: '#334155',
+    activationBorderColor: '#94a3b8',
+    sequenceNumberColor: '#0b0f19'
+  }
+});
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#0b0f19;color:#e2e8f0;line-height:1.65}
@@ -649,40 +681,6 @@ svg{max-width:100%;height:auto}
 <div class="card"><h3>Output eval</h3>
 <p>Kết quả ghi ra <span class="c">eval_results.json</span>, <span class="c">eval_report.md</span>, <span class="c">eval_comparison.md</span>. Có flag <span class="c">--baseline</span> để so sánh trước/sau khi tối ưu.</p>
 <p style="margin-top:10px"><strong>File</strong>: <span class="c">eval/run_eval.py</span>, <span class="c">eval/metrics.py</span></p></div>
-</section>
-
-<!-- SLIDE 27 -->
-<section class="slide" data-title="Performance & Cost Analysis">
-<h1>Performance & Cost: Hệ thống nhanh/chậm thế nào?</h1>
-<div class="grid2">
-<div class="card"><h3>Thời gian xử lý 1 câu hỏi</h3>
-<table><tr><th>Thành phần</th><th>Thời gian</th><th>Ghi chú</th></tr>
-<tr><td>BM25 search</td><td>~1ms</td><td>Rất nhanh, pure Python</td></tr>
-<tr><td>Dense search</td><td>~0.5ms</td><td>Turbovec SIMD, dữ liệu nén</td></tr>
-<tr><td>RRF fusion</td><td>~0.1ms</td><td>Dict merge đơn giản</td></tr>
-<tr><td>Reranker</td><td>~50-100ms</td><td>Chậm nhất trong retrieval</td></tr>
-<tr><td>LLM calls (agent)</td><td>~500-2000ms</td><td>Phụ thuộc số lần replanning</td></tr>
-<tr><td><strong>Tổng</strong></td><td><strong>~0.6-2.2 giây</strong></td><td>Từ query đến câu trả lời</td></tr></table>
-<p style="margin-top:10px"><strong>Nhận xét:</strong> Reranker chiếm 80-90% thời gian retrieval. LLM calls chiếm phần lớn tổng thời gian.</p></div>
-<div class="card"><h3>Chi phí tokens (gpt-4o-mini)</h3>
-<table><tr><th>Node</th><th>Input</th><th>Output</th></tr>
-<tr><td>Router</td><td>~200</td><td>~50</td></tr>
-<tr><td>Planner</td><td>~400</td><td>~200</td></tr>
-<tr><td>Distill</td><td>~3000 (20 chunks)</td><td>~500</td></tr>
-<tr><td>Verify</td><td>~700</td><td>~100</td></tr>
-<tr><td>Sufficiency</td><td>~700</td><td>~50</td></tr>
-<tr><td>Synthesize</td><td>~1500</td><td>~500</td></tr>
-<tr><td><strong>Tổng/lần</strong></td><td><strong>~6500</strong></td><td><strong>~1400</strong></td></tr></table>
-<p style="margin-top:10px">Với tối đa 3 lần replanning: worst case ~26K input + 5.6K output tokens. Giá gpt-4o-mini: $0.150/1M input, $0.600/1M output → ~$0.005/câu hỏi đơn giản, ~$0.015/câu hỏi phức tạp.</p></div>
-</div>
-<div class="card"><h3>Bộ nhớ & Storage</h3>
-<table><tr><th>Thành phần</th><th>Kích thước</th><th>Ghi chú</th></tr>
-<tr><td>Turbovec index (4-bit)</td><td>768 bytes/vector</td><td>1536 chiều × 4-bit</td></tr>
-<tr><td>BM25 index</td><td>~KB</td><td>Rất nhỏ, pure Python dict</td></tr>
-<tr><td>Embedding cache</td><td>SQLite BLOB</td><td>Cache để không gọi API lại</td></tr>
-<tr><td>Reranker model</td><td>~1GB</td><td>Load 1 lần lúc startup</td></tr>
-<tr><td>SQLite database</td><td>~MB</td><td>Metadata, sessions, messages</td></tr></table>
-<p style="margin-top:10px"><strong>Deployment:</strong> CPU-only, không cần GPU. Docker image Python 3.11-slim.</p></div>
 </section>
 
 <!-- SLIDE 28 -->
