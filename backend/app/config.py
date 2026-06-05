@@ -90,6 +90,7 @@ class Settings:
         storage = os.getenv("STORAGE_DIR", "storage")
         self.storage_dir = (BASE_DIR / storage) if not os.path.isabs(storage) else Path(storage)
         self.storage_dir.mkdir(parents=True, exist_ok=True)
+        self._quota_exceeded = False
 
     @property
     def db_path(self) -> Path:

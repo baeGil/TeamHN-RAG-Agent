@@ -21,8 +21,6 @@ def _message_chars(messages: list[dict[str, Any]]) -> int:
 
 
 class LLM:
-    _quota_exceeded = False
-
     def __init__(self) -> None:
         self.settings = get_settings()
         self._client = None
@@ -58,7 +56,7 @@ class LLM:
         json_mode: bool = False,
         node: str = "unknown",
     ) -> str:
-        if getattr(LLM, "_quota_exceeded", False):
+        if getattr(self.settings, "_quota_exceeded", False):
             raise RuntimeError("OpenAI API Quota Exceeded (Short-circuited)")
         model = self.settings.llm_model_fast if fast else self.settings.llm_model
         kwargs: dict[str, Any] = {
@@ -93,7 +91,7 @@ class LLM:
             duration_ms = (time.perf_counter() - started) * 1000
             err_msg = str(e).lower()
             if "quota" in err_msg or "exceeded" in err_msg or "429" in err_msg:
-                LLM._quota_exceeded = True
+                self.settings._quota_exceeded = True
             logger.exception(
                 "RAG_FLOW llm_error node=%s mode=chat model=%s fast=%s json=%s duration_ms=%.1f",
                 node,
@@ -108,7 +106,7 @@ class LLM:
         self, system: str, instruction: str, image_b64: str, temperature: float = 0.0, node: str = "vision"
     ) -> str:
         """Single-image vision transcription using the configured VLM model."""
-        if getattr(LLM, "_quota_exceeded", False):
+        if getattr(self.settings, "_quota_exceeded", False):
             raise RuntimeError("OpenAI API Quota Exceeded (Short-circuited)")
         messages = [
             {"role": "system", "content": system},
@@ -149,7 +147,7 @@ class LLM:
             duration_ms = (time.perf_counter() - started) * 1000
             err_msg = str(e).lower()
             if "quota" in err_msg or "exceeded" in err_msg or "429" in err_msg:
-                LLM._quota_exceeded = True
+                self.settings._quota_exceeded = True
             logger.exception(
                 "RAG_FLOW llm_error node=%s mode=vision model=%s duration_ms=%.1f",
                 node,
@@ -171,7 +169,7 @@ class LLM:
     def stream(
         self, messages: list[dict[str, str]], fast: bool = False, temperature: float = 0.0, node: str = "answer"
     ) -> Iterator[str]:
-        if getattr(LLM, "_quota_exceeded", False):
+        if getattr(self.settings, "_quota_exceeded", False):
             raise RuntimeError("OpenAI API Quota Exceeded (Short-circuited)")
         model = self.settings.llm_model_fast if fast else self.settings.llm_model
         started = time.perf_counter()
@@ -222,7 +220,7 @@ class LLM:
             duration_ms = (time.perf_counter() - started) * 1000
             err_msg = str(e).lower()
             if "quota" in err_msg or "exceeded" in err_msg or "429" in err_msg:
-                LLM._quota_exceeded = True
+                self.settings._quota_exceeded = True
             logger.exception(
                 "RAG_FLOW llm_error node=%s mode=stream model=%s fast=%s duration_ms=%.1f "
                 "first_token_ms=%s output_chars=%s chunks=%s",

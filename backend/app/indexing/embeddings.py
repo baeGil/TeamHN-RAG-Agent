@@ -11,8 +11,6 @@ from ..config import get_settings
 
 
 class Embedder:
-    _quota_exceeded = False
-
     def __init__(self, cache_path: Optional[Path] = None) -> None:
         self.settings = get_settings()
         self._client = None
@@ -111,7 +109,7 @@ class Embedder:
         # Truncate any oversized chunks before sending to the API
         texts = [self._truncate_text(t) for t in texts]
         dim = self._dim or 1536
-        if getattr(Embedder, "_quota_exceeded", False):
+        if getattr(self.settings, "_quota_exceeded", False):
             return np.zeros((len(texts), dim), dtype=np.float32)
         try:
             resp = self.client.embeddings.create(model=self.settings.embed_model, input=texts)
@@ -120,7 +118,7 @@ class Embedder:
         except Exception as e:
             err_msg = str(e).lower()
             if "quota" in err_msg or "exceeded" in err_msg or "429" in err_msg:
-                Embedder._quota_exceeded = True
+                self.settings._quota_exceeded = True
                 return np.zeros((len(texts), dim), dtype=np.float32)
             raise
 
