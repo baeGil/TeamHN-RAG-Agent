@@ -25,6 +25,7 @@ class LLM:
         self.settings = get_settings()
         self._client = None
         self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "calls": 0}
+        self.node_usage: dict[str, dict] = {}
 
     @property
     def client(self):
@@ -48,6 +49,16 @@ class LLM:
             self.usage["completion_tokens"] += getattr(u, "completion_tokens", 0) or 0
         self.usage["calls"] += 1
 
+    def _track_node(self, node: str, model: str, prompt_tokens: int, completion_tokens: int, duration_ms: float) -> None:
+        if node not in self.node_usage:
+            self.node_usage[node] = {"model": model, "prompt_tokens": 0, "completion_tokens": 0, "calls": 0, "total_ms": 0.0}
+        e = self.node_usage[node]
+        e["model"] = model
+        e["prompt_tokens"] += prompt_tokens
+        e["completion_tokens"] += completion_tokens
+        e["calls"] += 1
+        e["total_ms"] = round(e["total_ms"] + duration_ms, 1)
+
     def chat(
         self,
         messages: list[dict[str, str]],
@@ -70,6 +81,7 @@ class LLM:
             duration_ms = (time.perf_counter() - started) * 1000
             self._track(resp)
             u = getattr(resp, "usage", None)
+            self._track_node(node, model, getattr(u, "prompt_tokens", 0) or 0, getattr(u, "completion_tokens", 0) or 0, duration_ms)
             content = resp.choices[0].message.content or ""
             logger.info(
                 "RAG_FLOW llm_call node=%s mode=chat model=%s fast=%s json=%s duration_ms=%.1f "
@@ -204,6 +216,8 @@ class LLM:
                 output_chars,
                 chunks,
             )
+            if prompt_tokens is not None:
+                self._track_node(node, model, prompt_tokens or 0, completion_tokens or 0, duration_ms)
         except Exception:
             duration_ms = (time.perf_counter() - started) * 1000
             logger.exception(

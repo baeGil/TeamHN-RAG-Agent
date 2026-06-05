@@ -71,7 +71,7 @@ METHODS = {
 }
 
 
-def judge_relevant(kb, qa, candidate_ids, cache):
+def judge_relevant(kb, qa, candidate_ids, cache, llm=None):
     key = qa.qid
     if key in cache:
         return set(cache[key])
@@ -88,10 +88,12 @@ def judge_relevant(kb, qa, candidate_ids, cache):
     data = kb.embedder  # noqa  (ensure embedder loaded)
     from app.agent.llm import LLM
 
-    llm = LLM()
+    if llm is None:
+        llm = LLM()
     res = llm.chat_json(
         [{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": user}],
         fast=True,
+        node="eval_judge",
     )
     rel = [int(x) for x in res.get("relevant_ids", []) if int(x) in set(candidate_ids)]
     cache[key] = rel

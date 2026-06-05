@@ -1,0 +1,1882 @@
+{
+  "version": "golden-5-imported8-1.0",
+  "purpose": "Retrieval-only A/B benchmark from all 5 markdown files in data/golden-dataset, evaluated against pre-imported 8-PDF storage.",
+  "design": {
+    "documents": 0,
+    "answerable_questions": 94,
+    "source_files": [
+      "data/golden-dataset/context_retrieval_benchmark_table.md",
+      "data/golden-dataset/golden_dataset_khoa_luan.md",
+      "data/golden-dataset/golden_dataset_quang_trung_table.md",
+      "data/golden-dataset/test_paper.md",
+      "data/golden-dataset/test_Schorlarships.md"
+    ],
+    "source_question_counts": {
+      "context_retrieval_benchmark_table_md": 34,
+      "golden_dataset_khoa_luan_md": 15,
+      "golden_dataset_quang_trung_table_md": 15,
+      "test_paper_md": 15,
+      "test_schorlarships_md": 15
+    },
+    "note": "No documents listed intentionally: use existing storage DB, do not parse PDFs."
+  },
+  "documents": [],
+  "items": [
+    {
+      "id": "context_retrieval_benchmark_table_md_001",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Thông tư 29/2024/TT-BGDĐT quy định về hoạt động nào và áp dụng cho những ai?",
+      "expected_answer": "Thông tư quy định về dạy thêm, học thêm đối với giáo dục phổ thông và giáo dục thường xuyên; áp dụng cho người dạy thêm, người học thêm, tổ chức/cá nhân tổ chức dạy thêm, học thêm và các tổ chức, cá nhân liên quan.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.1 [Điều 1. Phạm vi điều chỉnh]: Thông tư quy định về dạy thêm, học thêm đối với giáo dục phổ thông, giáo dục thường xuyên. ▸ p.2 [Điều 1. Đối tượng áp dụng]: Áp dụng đối với người dạy thêm, người học thêm; tổ chức, cá nhân tổ chức dạy thêm, học thêm và tổ chức, cá nhân có liên quan."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_002",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Theo Điều 2, dạy thêm, học thêm được hiểu là gì?",
+      "expected_answer": "Đó là hoạt động dạy học phụ thêm ngoài thời lượng quy định trong kế hoạch giáo dục đối với môn học/hoạt động giáo dục thuộc chương trình giáo dục phổ thông hoặc giáo dục thường xuyên cấp THCS, THPT.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.2 [Điều 2. Giải thích từ ngữ]: Dạy thêm, học thêm là hoạt động dạy học phụ thêm ngoài thời lượng quy định trong kế hoạch giáo dục."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_003",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Thông tư có hiệu lực từ ngày nào và thay thế văn bản nào?",
+      "expected_answer": "Thông tư có hiệu lực từ ngày 14/02/2025 và thay thế Thông tư số 17/2012/TT-BGDĐT ngày 16/5/2012 về dạy thêm, học thêm.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.7 [Điều 17. Hiệu lực thi hành]: Thông tư có hiệu lực thi hành kể từ ngày 14 tháng 02 năm 2025. ▸ p.8 [Điều 17. Hiệu lực thi hành]: Thông tư này thay thế Thông tư số 17/2012/TT-BGDĐT ngày 16 tháng 5 năm 2012."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_004",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Phụ lục của Thông tư gồm những mẫu biểu chính nào?",
+      "expected_answer": "Phụ lục gồm Mẫu số 01 đơn đăng ký học thêm của học sinh, Mẫu số 02 công khai thông tin tuyển sinh các khóa học thêm ngoài nhà trường, và Mẫu số 03 báo cáo của giáo viên đang dạy tại cơ sở giáo dục khi tham gia dạy thêm ngoài nhà trường.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.9 [Phụ lục - Mẫu số 01]: Mẫu số 01. Mẫu đơn đăng ký học thêm của học sinh. ▸ p.10 [Phụ lục - Mẫu số 02]: Mẫu số 02. Mẫu Công khai trên cổng thông tin điện tử hoặc niêm yết tại nơi cơ sở dạy thêm đặt trụ sở. ▸ p.12 [Phụ lục - Mẫu số 03]: Mẫu số 03. Mẫu báo cáo của giáo viên đang dạy học tại cơ sở giáo dục tham gia dạy thêm ngoài nhà trường."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_005",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Một lớp dạy thêm trong nhà trường được xếp tối đa bao nhiêu học sinh và mỗi môn học được tổ chức không quá bao nhiêu tiết mỗi tuần?",
+      "expected_answer": "Mỗi lớp dạy thêm trong nhà trường có không quá 45 học sinh; mỗi môn học được tổ chức dạy thêm không quá 02 tiết/tuần.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.4 [Điều 5. Dạy thêm, học thêm trong nhà trường]: Mỗi lớp có không quá 45 học sinh; mỗi môn học được tổ chức dạy thêm không quá 02 tiết/tuần."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_006",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Con học tiểu học muốn học thêm Toán theo lớp học thêm thông thường thì Thông tư nhìn chung có cho tổ chức không?",
+      "expected_answer": "Không. Thông tư không tổ chức dạy thêm đối với học sinh tiểu học, chỉ trừ các hoạt động bồi dưỡng nghệ thuật, thể dục thể thao và rèn luyện kỹ năng sống.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.3 [Điều 4. Các trường hợp không được dạy thêm, tổ chức dạy thêm]: Không tổ chức dạy thêm đối với học sinh tiểu học, trừ bồi dưỡng về nghệ thuật, thể dục thể thao, rèn luyện kĩ năng sống."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_007",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Dạy thêm trong nhà trường có được thu tiền không và chỉ dành cho những nhóm học sinh nào?",
+      "expected_answer": "Không được thu tiền học sinh. Dạy thêm trong nhà trường chỉ dành cho học sinh đăng ký theo từng môn thuộc ba nhóm: học sinh có kết quả môn học cuối học kỳ liền kề ở mức chưa đạt; học sinh được lựa chọn bồi dưỡng học sinh giỏi; học sinh lớp cuối cấp tự nguyện ôn thi tuyển sinh hoặc ôn thi tốt nghiệp theo kế hoạch của nhà trường.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.3 [Điều 5. Dạy thêm, học thêm trong nhà trường]: Không được thu tiền của học sinh; chỉ dành cho học sinh chưa đạt, học sinh được chọn bồi dưỡng học sinh giỏi, học sinh lớp cuối cấp tự nguyện ôn thi."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_008",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Một giáo viên đang dạy chính khóa có thể mở lớp thu tiền ngoài nhà trường cho chính học sinh mình đang được phân công dạy không; nếu tham gia dạy thêm ngoài trường nói chung thì cần báo cáo ai?",
+      "expected_answer": "Không được dạy thêm ngoài nhà trường có thu tiền đối với học sinh mà giáo viên đó đang được nhà trường phân công dạy. Nếu giáo viên đang dạy tại nhà trường tham gia dạy thêm ngoài nhà trường thì phải báo cáo Hiệu trưởng/Giám đốc/người đứng đầu nhà trường về môn học, địa điểm, hình thức và thời gian dạy thêm.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.3 [Điều 4. Các trường hợp không được dạy thêm]: Giáo viên không được dạy thêm ngoài nhà trường có thu tiền đối với học sinh mà giáo viên đó đang được phân công dạy. ▸ p.4 [Điều 6. Dạy thêm ngoài nhà trường]: Giáo viên tham gia dạy thêm ngoài nhà trường phải báo cáo Hiệu trưởng về môn học, địa điểm, hình thức, thời gian."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_009",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nhìn từ các nguyên tắc ở Điều 3, Thông tư muốn giảm những rủi ro nào của việc dạy thêm?",
+      "expected_answer": "Thông tư muốn giảm rủi ro ép buộc học sinh học thêm, cắt xén chương trình chính khóa để đưa vào dạy thêm, nội dung dạy thêm trái pháp luật hoặc có định kiến, và việc tổ chức dạy thêm gây ảnh hưởng sức khỏe, chương trình học, an ninh, trật tự, an toàn, vệ sinh môi trường, phòng cháy chữa cháy.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.2 [Điều 3. Nguyên tắc dạy thêm, học thêm]: Không được ép buộc học sinh học thêm; không cắt giảm nội dung dạy học theo kế hoạch giáo dục để đưa vào dạy thêm. ▸ p.3 [Điều 3. Nguyên tắc dạy thêm, học thêm]: Thời lượng, thời gian, địa điểm, hình thức phải phù hợp tâm sinh lý, bảo đảm sức khỏe và tuân thủ an ninh, trật tự, an toàn, vệ sinh môi trường, phòng chống cháy nổ."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_010",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Mẫu số 02 yêu cầu cơ sở dạy thêm ngoài nhà trường công khai những nhóm thông tin nào trước khi tuyển sinh?",
+      "expected_answer": "Cơ sở phải công khai các môn học và thời lượng theo từng khối lớp, địa điểm, hình thức, thời gian/thời khóa biểu, danh sách người dạy thêm và mức thu tiền học thêm.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.4 [Điều 6. Dạy thêm ngoài nhà trường]: Công khai môn học, thời lượng, địa điểm, hình thức, thời gian, danh sách người dạy và mức thu tiền học thêm trước khi tuyển sinh. ▸ p.10 [Phụ lục - Mẫu số 02]: Mẫu công khai thông tin tuyển sinh các khóa học thêm: môn học, địa điểm, hình thức, thời khóa biểu, danh sách người dạy. ▸ p.11 [Phụ lục - Mẫu số 02]: Mức thu tiền học thêm: ghi rõ đơn giá và đơn vị tính."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_011",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu tóm tắt thành một thông điệp quản lý, Thông tư phân biệt dạy thêm trong trường và ngoài trường như thế nào?",
+      "expected_answer": "Dạy thêm trong trường là hoạt động không thu tiền, chỉ dành cho nhóm học sinh có nhu cầu/đối tượng cụ thể và phải do nhà trường lập kế hoạch, xếp lớp, công khai. Dạy thêm ngoài trường có thể thu tiền theo thỏa thuận nhưng cơ sở phải đăng ký kinh doanh, công khai thông tin tuyển sinh, danh sách người dạy và học phí; giáo viên đang dạy tại trường phải báo cáo khi tham gia dạy ngoài trường.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.3 [Điều 5. Dạy thêm trong nhà trường]: Trong nhà trường không được thu tiền và chỉ dành cho các đối tượng học sinh đăng ký học thêm theo từng môn. ▸ p.4 [Điều 5-6. Tổ chức dạy thêm]: Trong trường có lớp tối đa 45 học sinh, mỗi môn không quá 02 tiết/tuần; ngoài trường phải đăng ký kinh doanh và công khai thông tin."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_012",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao văn bản này không chỉ là danh sách điều cấm, mà còn là cơ chế quản trị nhiều tầng đối với dạy thêm?",
+      "expected_answer": "Vì ngoài các nguyên tắc và điều cấm, Thông tư phân công trách nhiệm cho UBND cấp tỉnh ban hành quy định địa phương, Sở GDĐT tham mưu/hướng dẫn/thanh tra, UBND cấp huyện và cấp xã kiểm tra/giám sát, Phòng GDĐT quản lý trên địa bàn, Hiệu trưởng quản lý giáo viên và dạy thêm trong trường, còn cơ sở dạy thêm phải quản lý chất lượng, tiền học thêm, hồ sơ và giải trình khi được yêu cầu.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.5 [Điều 8-10. Trách nhiệm quản lý]: UBND cấp tỉnh ban hành quy định địa phương; Sở GDĐT tham mưu, hướng dẫn, thanh tra, kiểm tra; UBND cấp huyện quản lý trên địa bàn. ▸ p.6 [Điều 11-13. Trách nhiệm quản lý]: Phòng GDĐT quản lý, kiểm tra; UBND cấp xã phối hợp quản lý; Hiệu trưởng tổ chức và quản lý dạy thêm trong nhà trường. ▸ p.7 [Điều 14. Trách nhiệm của cơ sở dạy thêm]: Cơ sở dạy thêm quản lý chất lượng, quyền lợi, tiền học thêm, hồ sơ, báo cáo và giải trình khi được yêu cầu."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_013",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu một phụ huynh phản ánh trung tâm dạy thêm không công khai học phí, danh sách giáo viên và lớp học có vấn đề an toàn, tài liệu gợi ý những lớp trách nhiệm nào có thể liên quan?",
+      "expected_answer": "Trung tâm/cơ sở dạy thêm vi phạm nghĩa vụ công khai và bảo đảm chất lượng/quyền lợi; UBND cấp tỉnh, Sở GDĐT, Phòng GDĐT và UBND cấp huyện có trách nhiệm quản lý, thanh tra/kiểm tra, xử lý hoặc kiến nghị xử lý. UBND cấp xã có thể tham gia giám sát các điều kiện về thời giờ, an ninh, trật tự, an toàn, vệ sinh môi trường và phòng cháy chữa cháy theo chỉ đạo của UBND cấp huyện.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.4 [Điều 6. Dạy thêm ngoài nhà trường]: Cơ sở dạy thêm phải công khai môn học, thời lượng, địa điểm, hình thức, danh sách người dạy và mức thu tiền học thêm. ▸ p.6 [Điều 10-12. Trách nhiệm địa phương]: UBND cấp huyện hướng dẫn, kiểm tra và chỉ đạo cấp xã giám sát an ninh, an toàn, vệ sinh môi trường, phòng chống cháy nổ; Phòng GDĐT kiểm tra hoạt động dạy thêm. ▸ p.7 [Điều 14-16. Trách nhiệm cơ sở và xử lý vi phạm]: Cơ sở dạy thêm quản lý chất lượng, quyền lợi, tiền học thêm, hồ sơ; vi phạm bị xử lý theo pháp luật."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_014",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Ba mẫu trong phụ lục cho thấy luồng thông tin quản lý dạy thêm đi theo những hướng nào?",
+      "expected_answer": "Mẫu 01 là luồng học sinh/cha mẹ đăng ký với nhà trường; Mẫu 02 là luồng cơ sở dạy thêm ngoài nhà trường công khai thông tin tuyển sinh cho công chúng/phụ huynh; Mẫu 03 là luồng giáo viên đang dạy trong trường báo cáo với Hiệu trưởng khi tham gia dạy thêm ngoài nhà trường.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.9 [Phụ lục - Mẫu số 01]: Đơn đăng ký học thêm gửi Hiệu trưởng và giáo viên chủ nhiệm, có ý kiến cha mẹ học sinh với người chưa thành niên. ▸ p.10 [Phụ lục - Mẫu số 02]: Công khai thông tin tuyển sinh các khóa học thêm tại cơ sở dạy thêm ngoài nhà trường. ▸ p.12 [Phụ lục - Mẫu số 03]: Giáo viên báo cáo với Hiệu trưởng về việc tham gia dạy thêm ngoài nhà trường."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_015",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Một trường muốn mở lớp ôn thi tốt nghiệp cho học sinh cuối cấp tự nguyện. Để đúng tinh thần Thông tư, trường cần đáp ứng các điều kiện vận hành nào?",
+      "expected_answer": "Trường chỉ tổ chức cho học sinh lớp cuối cấp tự nguyện đăng ký ôn thi theo kế hoạch giáo dục; không thu tiền học sinh; tổ chức đăng ký theo từng môn, lập kế hoạch theo môn/khối, xếp lớp theo môn với tối đa 45 học sinh, không xếp giờ dạy thêm xen kẽ thời khóa biểu, không dạy trước chương trình, mỗi môn không quá 02 tiết/tuần và công khai kế hoạch.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.3 [Điều 5. Dạy thêm trong nhà trường]: Không thu tiền; học sinh lớp cuối cấp tự nguyện đăng ký ôn thi; học sinh viết đơn đăng ký theo từng môn; nhà trường xây dựng kế hoạch. ▸ p.4 [Điều 5. Dạy thêm trong nhà trường]: Mỗi lớp không quá 45 học sinh; không xếp xen kẽ thời khóa biểu; không dạy trước nội dung; mỗi môn không quá 02 tiết/tuần; kế hoạch được công khai."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_016",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Thông tư quy định mức học phí cụ thể mỗi giờ cho từng môn dạy thêm ngoài nhà trường là bao nhiêu?",
+      "expected_answer": "Không có thông tin này trong tài liệu. Thông tư chỉ nêu mức thu tiền học thêm ngoài nhà trường do cha mẹ học sinh, học sinh thỏa thuận với cơ sở dạy thêm và cơ sở phải công khai mức thu.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.5 [Điều 7. Thu và quản lý tiền học thêm]: Mức thu tiền học thêm ngoài nhà trường do thỏa thuận giữa cha mẹ học sinh, học sinh với cơ sở dạy thêm. ▸ p.11 [Phụ lục - Mẫu số 02]: Mức thu tiền học thêm: ghi rõ đơn giá và đơn vị tính."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_017",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Dựa vào Thông tư này, có thể kết luận trung tâm dạy thêm cụ thể nào ở Hà Nội đang được cấp phép hay không?",
+      "expected_answer": "Không. Tài liệu quy định nguyên tắc, điều kiện, trách nhiệm quản lý và mẫu công khai/báo cáo; không liệt kê danh sách cơ sở dạy thêm được cấp phép tại từng địa phương.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.1 [Điều 1. Phạm vi điều chỉnh]: Thông tư quy định nguyên tắc, trường hợp không được dạy thêm, tổ chức dạy thêm và trách nhiệm quản lý. ▸ p.4 [Điều 6. Dạy thêm ngoài nhà trường]: Cơ sở dạy thêm phải đăng ký kinh doanh và công khai thông tin trước khi tuyển sinh."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_018",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tài liệu MWG này là loại báo cáo nào, của công ty nào và cho kỳ nào?",
+      "expected_answer": "Đây là Báo cáo tài chính riêng giữa niên độ của Công ty Cổ phần Đầu tư Thế Giới Di Động, cho kỳ kế toán ba tháng kết thúc ngày 31/03/2026.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.1 [Trang bìa báo cáo]: Công ty Cổ phần Đầu tư Thế Giới Di Động - Báo cáo tài chính riêng giữa niên độ - cho kỳ kế toán ba tháng kết thúc ngày 31 tháng 3 năm 2026."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_019",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Mục lục cho thấy báo cáo có những phần chính nào?",
+      "expected_answer": "Các phần chính gồm Thông tin chung, Báo cáo của Ban Tổng Giám đốc, Báo cáo tình hình tài chính riêng giữa niên độ, Báo cáo kết quả hoạt động kinh doanh riêng giữa niên độ, Báo cáo lưu chuyển tiền tệ riêng giữa niên độ và Thuyết minh báo cáo tài chính riêng giữa niên độ.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.2 [Mục lục]: Mục lục liệt kê Thông tin chung, Báo cáo của Ban Tổng Giám đốc, Báo cáo tình hình tài chính, Báo cáo kết quả hoạt động kinh doanh, Báo cáo lưu chuyển tiền tệ và Thuyết minh."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_020",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tổng tài sản của MWG tại ngày 31/03/2026 là bao nhiêu?",
+      "expected_answer": "Tổng tài sản tại ngày 31/03/2026 là 27.712.398.098.519 đồng.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.5 [Báo cáo tình hình tài chính riêng giữa niên độ - Tài sản]: Dòng 280 Tổng cộng tài sản: 27.712.398.098.519 VND tại ngày 31 tháng 3 năm 2026."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_021",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Khoản tiền gửi ngân hàng của MWG tại ngày 31/03/2026 là bao nhiêu?",
+      "expected_answer": "Tiền gửi ngân hàng tại ngày 31/03/2026 là 13.080.937.821 đồng.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.16 [Thuyết minh 4. Tiền]: Tiền gửi ngân hàng: 13.080.937.821 VND tại ngày 31 tháng 3 năm 2026."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_022",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Hoạt động chính của MWG trong báo cáo này được mô tả là gì?",
+      "expected_answer": "Hoạt động chính trong kỳ hiện tại của công ty là quản lý các khoản đầu tư vào các công ty con.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.10 [Thuyết minh 1. Thông tin công ty]: Hoạt động chính trong kỳ hiện tại của Công ty là quản lý các khoản đầu tư vào các công ty con."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_023",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tổng tài sản cuối quý 1/2026 tăng hay giảm so với cuối năm 2025, và biến động đó chủ yếu đi cùng chiều với tài sản ngắn hạn hay tài sản dài hạn?",
+      "expected_answer": "Tổng tài sản tăng nhẹ từ 27.626.935.334.025 đồng lên 27.712.398.098.519 đồng. Tài sản ngắn hạn giảm từ 4.770.260.531.773 xuống 4.673.734.343.562 đồng, còn tài sản dài hạn tăng từ 22.856.674.802.252 lên 23.038.663.754.957 đồng; vì vậy mức tăng tổng tài sản chủ yếu đi cùng chiều với tài sản dài hạn.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.5 [Báo cáo tình hình tài chính riêng giữa niên độ - Tài sản]: Tài sản ngắn hạn: 4.673.734.343.562 so với 4.770.260.531.773; tài sản dài hạn: 23.038.663.754.957 so với 22.856.674.802.252; tổng tài sản: 27.712.398.098.519 so với 27.626.935.334.025."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_024",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Lợi nhuận sau thuế quý 1/2026 giảm mạnh so với cùng kỳ 2025; nhìn vào bảng kết quả kinh doanh, nguyên nhân số liệu nổi bật nhất là gì?",
+      "expected_answer": "Lợi nhuận sau thuế giảm từ 507.375.447.169 đồng xuống 79.283.644.593 đồng. Biến động nổi bật là doanh thu hoạt động tài chính giảm rất mạnh từ 620.644.572.253 xuống 108.205.776.934 đồng; chi phí tài chính cũng giảm từ 112.306.741.819 xuống 23.723.801.205 đồng, nhưng không bù được mức giảm doanh thu tài chính.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.7 [Báo cáo kết quả hoạt động kinh doanh riêng giữa niên độ]: Doanh thu hoạt động tài chính: 108.205.776.934 so với 620.644.572.253; chi phí tài chính: 23.723.801.205 so với 112.306.741.819; lợi nhuận sau thuế: 79.283.644.593 so với 507.375.447.169."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_025",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Trong báo cáo lưu chuyển tiền tệ quý 1/2026, dòng tiền thuần từ hoạt động kinh doanh, đầu tư và tài chính lần lượt là bao nhiêu?",
+      "expected_answer": "Lưu chuyển tiền thuần từ hoạt động kinh doanh là 28.637.340.817 đồng; từ hoạt động đầu tư là âm 236.620.533.924 đồng; từ hoạt động tài chính là âm 332.340.000 đồng.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.8 [Báo cáo lưu chuyển tiền tệ riêng giữa niên độ]: Lưu chuyển tiền thuần sử dụng vào hoạt động kinh doanh: 28.637.340.817; hoạt động đầu tư: (236.620.533.924); hoạt động tài chính: (332.340.000)."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_026",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Có nên dùng riêng báo cáo tài chính riêng này để hiểu đầy đủ tình hình của cả tập đoàn MWG không?",
+      "expected_answer": "Không nên. Báo cáo nêu người sử dụng nên đọc báo cáo tài chính riêng giữa niên độ cùng với báo cáo tài chính hợp nhất giữa niên độ để có thông tin đầy đủ về tình hình tài chính, kết quả kinh doanh hợp nhất và lưu chuyển tiền tệ hợp nhất của Công ty và các công ty con.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.4 [Báo cáo của Ban Tổng Giám đốc]: Người sử dụng báo cáo nên đọc báo cáo này cùng với báo cáo tài chính hợp nhất giữa niên độ. ▸ p.11 [Thuyết minh 2.1. Mục đích lập báo cáo tài chính riêng]: Nên đọc cùng báo cáo tài chính hợp nhất để có thông tin đầy đủ về tình hình tài chính hợp nhất, kết quả kinh doanh hợp nhất và lưu chuyển tiền tệ hợp nhất."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_027",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao tiền cuối kỳ giảm mạnh dù dòng tiền kinh doanh quý 1/2026 là dương?",
+      "expected_answer": "Vì dòng tiền kinh doanh dương 28.637.340.817 đồng nhưng dòng tiền đầu tư âm 236.620.533.924 đồng và dòng tiền tài chính âm 332.340.000 đồng, làm lưu chuyển tiền thuần trong kỳ âm 208.315.533.107 đồng. Do đó tiền giảm từ 221.396.470.928 đồng đầu kỳ xuống 13.080.937.821 đồng cuối kỳ.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.8 [Báo cáo lưu chuyển tiền tệ riêng giữa niên độ]: Dòng tiền kinh doanh 28.637.340.817; dòng tiền đầu tư (236.620.533.924); dòng tiền tài chính (332.340.000). ▸ p.9 [Báo cáo lưu chuyển tiền tệ riêng giữa niên độ]: Lưu chuyển tiền thuần trong kỳ (208.315.533.107); tiền đầu kỳ 221.396.470.928; tiền cuối kỳ 13.080.937.821."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_028",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nhìn ở mức ý nghĩa kinh doanh, báo cáo này cho thấy MWG trong vai trò công ty mẹ tạo doanh thu/lợi nhuận chủ yếu qua hoạt động nào?",
+      "expected_answer": "Báo cáo cho thấy MWG là công ty mẹ/holding quản lý đầu tư vào công ty con. Doanh thu hoạt động tài chính gồm cổ tức, lãi trái phiếu, lãi tiền gửi và lãi cho vay; trong quý 1/2026, doanh thu tài chính 108.205.776.934 đồng là nguồn thu chính trên báo cáo riêng, không phải doanh thu bán lẻ trực tiếp.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.10 [Thuyết minh 1. Thông tin công ty]: Hoạt động chính trong kỳ hiện tại là quản lý các khoản đầu tư vào các công ty con. ▸ p.21 [Thuyết minh 12. Doanh thu hoạt động tài chính]: Doanh thu hoạt động tài chính gồm thu nhập từ cổ tức, lãi từ trái phiếu, lãi tiền gửi, lãi tiền cho vay; tổng cộng 108.205.776.934 VND."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_029",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vốn chủ sở hữu cuối quý 1/2026 tăng ít so với đầu năm. Bảng biến động vốn cho thấy hai tác động chính nào tạo ra mức tăng đó?",
+      "expected_answer": "Vốn chủ sở hữu tăng từ 26.678.813.736.885 đồng lên 26.757.765.041.478 đồng. Mức tăng chủ yếu đến từ lợi nhuận sau thuế chưa phân phối kỳ này 79.283.644.593 đồng, nhưng bị giảm nhẹ bởi giao dịch mua cổ phiếu quỹ 332.340.000 đồng; vì vậy tổng vốn chủ sở hữu chỉ tăng khoảng 78,95 tỷ đồng.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.20 [Thuyết minh 11. Vốn chủ sở hữu]: Số dư đầu kỳ vốn chủ sở hữu 26.678.813.736.885; lợi nhuận sau thuế chưa phân phối kỳ này 79.283.644.593; mua cổ phiếu quỹ (332.340.000); số dư cuối kỳ 26.757.765.041.478. ▸ p.6 [Báo cáo tình hình tài chính riêng giữa niên độ - Nguồn vốn]: Vốn chủ sở hữu: 26.757.765.041.478 tại ngày 31/3/2026 so với 26.678.813.736.885 tại ngày 31/12/2025."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_030",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu tóm tắt cấu trúc tài chính của công ty mẹ, vì sao có thể nói khoản đầu tư vào công ty con quan trọng hơn nhiều so với tiền mặt hoặc vay ngắn hạn?",
+      "expected_answer": "Tại 31/03/2026, đầu tư vào công ty con là 22.574.760.411.707 đồng, trong khi tiền gửi ngân hàng chỉ 13.080.937.821 đồng và vay ngắn hạn 911.750.000.000 đồng. Hoạt động chính cũng được mô tả là quản lý đầu tư vào công ty con, nên bảng cân đối của công ty mẹ tập trung chủ yếu ở khoản đầu tư dài hạn vào các công ty con.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.10 [Thuyết minh 1. Thông tin công ty]: Hoạt động chính là quản lý các khoản đầu tư vào các công ty con. ▸ p.16 [Thuyết minh 4 và 6. Tiền, đầu tư tài chính dài hạn]: Tiền gửi ngân hàng 13.080.937.821; đầu tư vào công ty con 22.574.760.411.707. ▸ p.19 [Thuyết minh 10. Vay ngắn hạn]: Vay ngắn hạn 911.750.000.000 tại ngày 31/3/2026."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_031",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao báo cáo có lợi nhuận kế toán trước thuế 79,28 tỷ đồng nhưng chi phí thuế TNDN hiện hành lại bằng 0?",
+      "expected_answer": "Thuyết minh thuế cho thấy lợi nhuận kế toán trước thuế là 79.283.644.593 đồng và thuế theo thuế suất 20% là 15.856.728.919 đồng. Tuy nhiên có các điều chỉnh như thu nhập từ cổ tức không chịu thuế 803.600.000 đồng và lỗ thuần được chuyển sang 15.053.128.919 đồng, nên chi phí thuế TNDN hiện hành là 0.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.23 [Thuyết minh 15. Thuế thu nhập doanh nghiệp]: Thuế suất TNDN 20%; lợi nhuận kế toán trước thuế 79.283.644.593; thuế TNDN theo thuế suất 20% là 15.856.728.919; điều chỉnh thu nhập từ cổ tức và lỗ thuần được chuyển sang; chi phí thuế TNDN bằng 0."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_032",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Phần sự kiện sau ngày kết thúc kỳ kế toán và chữ ký cuối báo cáo giúp hiểu gì về trạng thái hoàn tất của báo cáo?",
+      "expected_answer": "Báo cáo nêu không có sự kiện nào sau ngày kết thúc kỳ kế toán cần điều chỉnh hay trình bày trong báo cáo tài chính riêng giữa niên độ. Trang cuối có chữ ký của người lập, kế toán trưởng và Tổng Giám đốc, lập tại TP.HCM ngày 24/04/2026, cho thấy báo cáo đã được ký phát hành với kết luận không cần điều chỉnh sau kỳ.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.26 [Thuyết minh 18. Sự kiện sau ngày kết thúc kỳ kế toán]: Không có sự kiện nào phát sinh sau ngày kết thúc kỳ kế toán yêu cầu phải được điều chỉnh hay trình bày. ▸ p.26 [Trang ký báo cáo]: Nguyễn Thu Thủy - Người lập; Lý Trần Kim Ngân - Kế toán trưởng; Vũ Đăng Linh - Tổng Giám đốc; TP.HCM, ngày 24 tháng 4 năm 2026."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_033",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Báo cáo này có đủ số liệu để kết luận doanh thu bán lẻ hợp nhất của toàn tập đoàn MWG quý 1/2026 là bao nhiêu không?",
+      "expected_answer": "Không. Đây là báo cáo tài chính riêng của công ty mẹ; tài liệu còn khuyến nghị đọc cùng báo cáo tài chính hợp nhất để hiểu đầy đủ tình hình tài chính, kết quả kinh doanh và lưu chuyển tiền tệ hợp nhất của công ty và các công ty con.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.1 [Trang bìa]: Báo cáo tài chính riêng giữa niên độ. ▸ p.11 [Thuyết minh 2.1. Mục đích lập báo cáo tài chính riêng]: Nên đọc cùng báo cáo tài chính hợp nhất giữa niên độ để có thông tin đầy đủ về tình hình tài chính, kết quả kinh doanh và lưu chuyển tiền tệ hợp nhất."
+        }
+      ]
+    },
+    {
+      "id": "context_retrieval_benchmark_table_md_034",
+      "doc_id": "context_retrieval_benchmark_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Kiểm toán viên đã đưa ý kiến kiểm toán nào đối với báo cáo tài chính riêng quý 1/2026 này?",
+      "expected_answer": "Không có thông tin này trong tài liệu. Báo cáo là báo cáo tài chính riêng giữa niên độ do Ban Tổng Giám đốc trình bày/ký, không có báo cáo kiểm toán hoặc ý kiến kiểm toán viên trong tài liệu.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "context_retrieval_benchmark_table",
+          "evidence": "p.4 [Báo cáo của Ban Tổng Giám đốc]: Ban Tổng Giám đốc trình bày báo cáo này và chịu trách nhiệm về việc lập báo cáo tài chính riêng giữa niên độ. ▸ p.26 [Trang ký báo cáo]: Báo cáo có chữ ký Người lập, Kế toán trưởng và Tổng Giám đốc; không có phần ý kiến kiểm toán viên."
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_001",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Deepfake là gì theo khóa luận?",
+      "expected_answer": "Theo khóa luận, deepfake là kỹ thuật kết hợp deep learning và fake, sử dụng các mô hình học sâu như GANs và gần đây là Diffusion Models để lồng ghép khuôn mặt của một chủ thể mục tiêu vào video nguồn, từ đó tạo video giả mạo hành vi của chủ thể mục tiêu.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 12; sections: 1.2. Khái niệm về deepfake"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_002",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Bộ dữ liệu FaceForensics++ trong khóa luận gồm những gì?",
+      "expected_answer": "FaceForensics++ gồm 1000 video gốc từ YouTube và các video giả mạo được tạo bằng nhiều kỹ thuật như Deepfakes, Face2Face, FaceShifter, FaceSwap, NeuralTextures và DeepFakeDetection. Khóa luận mô tả tổng dữ liệu có 7000 video, gồm 6000 deepfake và 1000 real, kèm 10 file CSV metadata.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 29, 30; sections: 3.1. Tổng quan về dữ liệu"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_003",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Xception là gì và dùng loại tích chập nào thay cho tích chập tiêu chuẩn?",
+      "expected_answer": "Xception là viết tắt của Extreme Inception, là một kiến trúc CNN sâu được cải tiến từ Inception. Nó thay thế tích chập tiêu chuẩn bằng depthwise separable convolution, gồm Depthwise Convolution xử lý từng kênh riêng và Pointwise Convolution 1x1 để học quan hệ giữa các kênh.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 18; sections: 2.3. Xception"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_004",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "MTCNN dùng để làm gì trong khóa luận?",
+      "expected_answer": "MTCNN được dùng để phát hiện khuôn mặt và căn chỉnh các điểm mốc trên khuôn mặt trong một quy trình duy nhất. Trong tiền xử lý, MTCNN xác định và cắt khuôn mặt từ các khung hình, sau đó dựa trên 5 điểm mốc gồm hai mắt, mũi và hai khóe miệng để căn chỉnh khuôn mặt.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 20, 31; sections: 2.4. MTCNN, 3.2.4. Phát hiện và cắt khuôn mặt, 3.2.5. Căn chỉnh khuôn mặt"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_005",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Khóa luận dùng những chỉ số nào để đánh giá hiệu suất mô hình?",
+      "expected_answer": "Khóa luận dùng ba chỉ số chính: Accuracy để đo tỷ lệ dự đoán đúng real/fake, AUC-ROC để đo khả năng phân biệt hai lớp real và fake, và Confusion Matrix để đánh giá chi tiết khả năng phân loại cũng như kiểm tra mô hình có thiên vị lớp nào do mất cân bằng dữ liệu hay không.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 43; sections: 5.1. Chỉ số đánh giá"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_006",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Từ một video ban đầu, hệ thống đi qua những biến đổi nào trước khi ra nhãn?",
+      "expected_answer": "Dữ liệu FaceForensics++ trước hết được chia thành train/test/validation theo tỷ lệ 70%/15%/15%. Vì khóa luận chỉ làm bài toán nhị phân, thư mục original gồm 1000 video gốc được gán nhãn real; thư mục DeepFakeDetection không dùng vì trùng phương pháp với các nhóm khác; các thư mục còn lại như Deepfakes, Face2Face, FaceSwap, FaceShifter và NeuralTextures được gộp thành nhãn fake với khoảng 5000 video. Mỗi video sau đó được trích xuất 10 khung hình chia đều từ đầu đến cuối và lưu thành một thư mục riêng. Các khung hình được MTCNN phát hiện/cắt khuôn mặt, chuẩn hóa kích thước 224x244 pixels và căn chỉnh theo 5 landmark gồm mắt trái, mắt phải, mũi, khóe miệng trái, khóe miệng phải. Sau bước tiền xử lý, từng frame được CNN như EfficientNet hoặc Xception trích xuất đặc trưng không gian; chuỗi đặc trưng được Temporal Attention, LSTM hoặc Transformer Encoder tổng hợp quan hệ thời gian; cuối cùng lớp fully connected và Sigmoid đưa ra xác suất để phân loại real/fake.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 30, 31, 35, 36, 37, 38, 39, 40; sections: 3.2. Tiền xử lý dữ liệu, 3.2.3. Trích xuất khung hình, 3.2.4. Phát hiện và cắt khuôn mặt, 3.2.5. Căn chỉnh khuôn mặt, 4.1. Xây dựng mô hình EfficientNet kết hợp Temporal Attention, 4.2. Xây dựng mô hình Xception kết hợp mạng LSTM, 4.3. Xây dựng mô hình Xception kết hợp Transformer Encoder"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_007",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Các công thức biến đổi ảnh khác gì với công thức chọn khung hình quan trọng?",
+      "expected_answer": "Nhóm công thức tăng cường dữ liệu ở phần tiền xử lý tác động trực tiếp lên ảnh đầu vào: lật ngang dùng I'(x,y)=I(W-x-1,y), thay đổi độ sáng dùng I'(x,y)=I(x,y)+β, thay đổi tương phản dùng I'(x,y)=α·I(x,y), và thay đổi độ đậm màu dùng I'(x,y)=γ·I(x,y)+(1-γ)·Igray(x,y). Các công thức này tạo biến thể ảnh để mô hình bớt phụ thuộc vào hướng mặt, ánh sáng, tương phản và màu sắc. Ngược lại, công thức Temporal Attention không biến đổi ảnh mà làm việc trên vector đặc trưng frame: tính điểm e_t=W^T·f_t+b, dùng softmax để ra trọng số α_t, rồi tổng hợp V_final=Σ α_t·f_t. Như vậy augmentation làm giàu dữ liệu ảnh trước huấn luyện, còn Temporal Attention chọn frame quan trọng khi tổng hợp chuỗi đặc trưng theo thời gian.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 32, 33, 36, 37; sections: 3.2.6. Tăng cường dữ liệu, 4.1.2. Temporal Attention, 4.1.3. Phân loại và đưa ra quyết định"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_008",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Ba mô hình được thử nghiệm khác nhau như thế nào về cách xử lý đặc trưng không gian và thời gian?",
+      "expected_answer": "EfficientNet + Temporal Attention dùng EfficientNet để trích xuất đặc trưng không gian từng khung hình rồi Temporal Attention gán trọng số cho các frame quan trọng. Xception + LSTM dùng Xception để trích xuất đặc trưng không gian mạnh hơn, sau đó LSTM hai chiều học sự biến đổi của khuôn mặt theo thứ tự thời gian. Xception + Transformer Encoder vẫn dùng Xception nhưng thay LSTM bằng Transformer Encoder/Multi-Head Self-Attention để học quan hệ toàn cục giữa các khung hình, kể cả các khung hình cách xa nhau.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 35, 36, 37, 38, 39, 40; sections: 4.1. Xây dựng mô hình EfficientNet kết hợp Temporal Attention, 4.2. Xây dựng mô hình Xception kết hợp mạng LSTM, 4.3. Xây dựng mô hình Xception kết hợp Transformer Encoder"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_009",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao khóa luận dùng class weighting/pos_weight và việc này liên quan gì đến mất cân bằng dữ liệu?",
+      "expected_answer": "Dữ liệu sau khi gộp nhãn có 1000 video real và 5000 video fake nên bị mất cân bằng, khiến mô hình có nguy cơ thiên lệch về lớp đa số fake và làm giảm khả năng nhận diện lớp real. Vì vậy khi huấn luyện, nhóm dùng class weighting với pos_weight trong BCEWithLogitsLoss để cân bằng ảnh hưởng giữa hai lớp, giảm thiên lệch và cải thiện khả năng học của lớp thiểu số. Phân tích ma trận nhầm lẫn sau đó cho thấy mô hình không bị thiên kiến hoàn toàn về lớp fake.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 30, 31, 41, 45; sections: 3.2.2. Chia lại nhãn, 4.4.1. Trọng số cân bằng dữ liệu, 5.4. Phân tích ma trận nhầm lẫn"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_010",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Mô hình nào đạt kết quả tốt nhất và vì sao khóa luận cho rằng kết quả đó hợp lý?",
+      "expected_answer": "Mô hình EfficientNet + Temporal Attention đạt kết quả tốt nhất với Accuracy 93,66% và AUC-ROC 97,68%, cao hơn Xception + LSTM (92,8%, 96,43%) và Xception + Transformer Encoder (92,94%, 97,09%). Khóa luận giải thích rằng mô hình phức tạp hơn không nhất thiết tốt hơn vì dễ overfitting hoặc cần nhiều dữ liệu hơn; Temporal Attention giúp tập trung vào các khung hình/tín hiệu quan trọng trong chuỗi video, từ đó quyết định dựa trên bằng chứng mạnh hơn.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 43, 44; sections: 5.2. So sánh các mô hình, 5.3. Nhận xét và đánh giá kết quả của mô hình"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_011",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Chương 2 nói về gì?",
+      "expected_answer": "Chương 2 là phần cơ sở lý thuyết của khóa luận. Nội dung chính gồm: PyTorch như framework học sâu dùng để xây dựng mô hình; Transformer với cơ chế attention; Xception và depthwise separable convolution; MTCNN cho phát hiện/căn chỉnh khuôn mặt; LSTM cho học dữ liệu tuần tự và ghi nhớ quan hệ dài hạn; EfficientNet-B0 với kiến trúc tối ưu cho trích xuất đặc trưng ảnh. Đây là nền tảng để hiểu các mô hình nhận diện deepfake được xây dựng ở các chương sau.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 14, 15, 18, 20, 23, 28; sections: 1.7. Bố cục khóa luận, CHƯƠNG 2. CƠ SỞ LÝ THUYẾT, 2.1. PyTorch, 2.2. Transformers, 2.3. Xception, 2.4. MTCNN, 2.5. Long Short-Term Memory (LSTM), 2.6. EfficientNet"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_012",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao phải làm đề tài này?",
+      "expected_answer": "Đề tài cần làm vì deepfake vừa có mặt tích cực nhưng cũng bị lạm dụng để giả mạo khuôn mặt/giọng nói, lừa đảo, đăng tin giả và thao túng dư luận. Công nghệ này phát triển nhanh nhờ học sâu, GPU phổ biến và dữ liệu mạng xã hội. Khóa luận nêu thêm tình hình gian lận deepfake tăng mạnh, trong đó Việt Nam có mức tăng đáng chú ý, nên việc xây dựng mô hình phát hiện deepfake là cấp bách để giảm rủi ro xã hội.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 12, 13; sections: 1.1. Đặt vấn đề, 1.2. Khái niệm về deepfake, 1.3. Mục tiêu"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_013",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nhìn các con số thì có nên tin không?",
+      "expected_answer": "Có thể tin ở mức khá tốt nhưng vẫn nên xem là hệ thống hỗ trợ. Bằng chứng tích cực là mô hình tốt nhất đạt Accuracy 93,66% và AUC-ROC 97,68%; validation accuracy 93,44% gần test accuracy 93,66%, nên không có dấu hiệu overfitting rõ. Ma trận nhầm lẫn cho thấy nhận diện đúng 513/545 video fake và 136/149 video real, tức mô hình không chỉ nghiêng hoàn toàn về lớp fake. Tuy nhiên khóa luận vẫn nêu hạn chế về phần cứng, dữ liệu và thời gian huấn luyện, nên chưa nên xem là kết luận tuyệt đối.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 43, 44, 45, 47; sections: 5.2. So sánh các mô hình, 5.3. Nhận xét và đánh giá kết quả của mô hình, 5.4. Phân tích ma trận nhầm lẫn, 6.1. Kết luận"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_014",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu làm tiếp thì nên sửa gì trước?",
+      "expected_answer": "Nên ưu tiên xử lý các hạn chế về dữ liệu và khả năng tổng quát hóa. Khóa luận đề xuất tăng số khung hình trích xuất từ 10 lên 20, 30 hoặc hơn để có thêm tín hiệu thời gian; bổ sung luồng ELA hoặc đặc trưng tần số ngoài RGB; huấn luyện và đánh giá trên các tập dữ liệu đa dạng hơn thay vì chỉ FaceForensics++; đồng thời tiếp tục thử nghiệm các kiến trúc mô hình khác để cải thiện độ chính xác và khả năng tổng quát hóa.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 47; sections: 6.1. Kết luận, 6.2. Hướng phát triển"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_khoa_luan_md_015",
+      "doc_id": "golden_dataset_khoa_luan_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Từ nghiên cứu đến dùng thật, đã đi tới đâu?",
+      "expected_answer": "Khóa luận đã đi từ xây dựng và đánh giá mô hình đến một bản demo ứng dụng. Về nghiên cứu, mô hình tốt nhất đạt Accuracy 93,66% và AUC-ROC 97,68%, có phân tích ma trận nhầm lẫn cho cả fake và real. Về sử dụng thử, ứng dụng demo dùng CustomTkinter, chụp màn hình liên tục bằng mss, phát hiện khuôn mặt, cứ mỗi 10 khung hình thì phân loại real/fake và hiển thị bounding box cùng nhãn trực tiếp. Tuy vậy, do còn hạn chế dữ liệu, phần cứng và thời gian huấn luyện, mức này phù hợp để xem như prototype/hệ thống hỗ trợ hơn là sản phẩm hoàn chỉnh.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_khoa_luan",
+          "evidence": "PDF pages 43, 44, 45, 47, 48; sections: 5.2. So sánh các mô hình, 5.4. Phân tích ma trận nhầm lẫn, 6.1. Kết luận, CHƯƠNG 7. DEMO ỨNG DỤNG"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_001",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Quang Trung là ai?",
+      "expected_answer": "Quang Trung, tên khai sinh là Hồ Thơm, sau đổi tên thành Nguyễn Huệ, là nhà chính trị và quân sự người Việt Nam, hoàng đế thứ hai của nhà Tây Sơn sau Nguyễn Nhạc.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 1; sections: Quang Trung, Thông tin chung"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_002",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Ông trị vì trong khoảng thời gian nào?",
+      "expected_answer": "Quang Trung trị vì từ ngày 22 tháng 12 năm 1788 đến ngày 16 tháng 9 năm 1792, khoảng 3 năm 269 ngày.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 1; sections: Hoàng đế Đại Việt, Trị vì"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_003",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tây Sơn tam kiệt gồm những ai?",
+      "expected_answer": "Tây Sơn tam kiệt gồm ba anh em Nguyễn Nhạc, Nguyễn Huệ và Nguyễn Lữ.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 1, 3, 4; sections: Quang Trung, Nguồn gốc dòng Tây Sơn"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_004",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Ông sinh và mất năm nào?",
+      "expected_answer": "Quang Trung sinh năm 1753 và mất ngày 16 tháng 9 năm 1792, khi khoảng 40 tuổi.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 1; sections: Thông tin chung, Sinh, Mất"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_005",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Chiến thắng Rạch Gầm - Xoài Mút chống lực lượng nào?",
+      "expected_answer": "Chiến thắng Rạch Gầm - Xoài Mút là trận quân Tây Sơn dưới sự chỉ huy của Nguyễn Huệ đánh bại quân Xiêm và lực lượng Nguyễn Ánh cầu viện.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 8, 9; sections: Trận Rạch Gầm - Xoài Mút"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_006",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Từ một nhóm nổi dậy, vì sao lực lượng này lớn lên nhanh?",
+      "expected_answer": "Lực lượng Tây Sơn lớn lên trong bối cảnh Đàng Trong bất ổn, chính quyền chúa Nguyễn có nhiều mâu thuẫn và Trương Phúc Loan bị mô tả là tham lam, tàn ác khiến dân oán giận. Ban đầu lực lượng của Nguyễn Nhạc nối kết nhiều nhóm cư dân Việt, Thượng, Hoa và cả các nhóm sẵn sàng bạo động. Cách họ chia của nhà giàu cho người nghèo, không làm hại dân thường cũng giúp tạo hình ảnh có lợi trong quần chúng nghèo khổ.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 4, 5; sections: Nguồn gốc dòng Tây Sơn, Khởi nghĩa Tây Sơn"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_007",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Từ thế bị kẹp, vì sao Nguyễn Huệ có cơ hội nổi lên?",
+      "expected_answer": "Khi quân Trịnh từ Bắc tiến vào còn chúa Nguyễn rút về Nam, Tây Sơn bị kẹp giữa hai phía. Nguyễn Nhạc chọn giảng hòa/xin hàng với phía Trịnh để tạm yên phía Bắc, rồi tập trung đánh phía Nam. Trong tình thế đó, ông cử Nguyễn Huệ làm chủ tướng vào Nam đánh Phú Yên. Chiến thắng này giúp Tây Sơn thoát thế nguy hiểm, còn Nguyễn Huệ bắt đầu nổi bật với vai trò chỉ huy quân sự.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 6, 7; sections: Tây Sơn trong thế kẹp giữa Trịnh và Nguyễn, Nguyễn Huệ đánh Phú Yên"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_008",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Một trận ở miền Nam đã làm thay đổi tương quan ra sao?",
+      "expected_answer": "Sau khi Nguyễn Ánh cầu viện Xiêm, quân Xiêm tiến vào Nam Bộ. Nguyễn Huệ tổ chức thế trận khóa chặt hai đầu, dùng pháo và thuyền hỏa công làm quân Xiêm rối loạn. Trận quyết chiến tiêu diệt gần như toàn bộ khoảng 2 vạn quân Xiêm, khiến số sống sót tháo chạy và quân Xiêm khiếp sợ trước sức mạnh Tây Sơn. Điều này làm suy yếu chỗ dựa bên ngoài của Nguyễn Ánh và nâng uy thế quân Tây Sơn.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 8, 9; sections: Trận Rạch Gầm - Xoài Mút"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_009",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Ra Bắc rồi, ông vừa đánh vừa giữ danh nghĩa bằng cách nào?",
+      "expected_answer": "Sau khi chiếm Phú Xuân và tiến ra Bắc, Nguyễn Huệ vào Thăng Long yết kiến vua Lê Hiển Tông, cấm quân lính cướp phá dân gian, dâng sổ quân sĩ và dân đinh để tỏ nghĩa tôn phù nhất thống. Vua Lê phong ông làm Nguyên Soái Uy Quốc Công và gả Ngọc Hân công chúa. Những chi tiết này cho thấy ông không chỉ dùng quân sự mà còn dựa vào danh nghĩa chính trị với nhà Lê.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 10, 11; sections: Chiếm Phú Xuân, Ra Thăng Long"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_010",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Sau chiến thắng lớn, ông xử lý người thua và việc bang giao ra sao?",
+      "expected_answer": "Sau khi đánh bại quân Thanh, Quang Trung tìm cách xóa bỏ thù hằn: chiêu hàng, nuôi dưỡng tù binh, thu dọn và cúng tế quân Thanh. Ông cũng sai Ngô Thì Nhậm viết thư mềm dẻo, trả tù binh và thực hiện chính sách hòa giải với nhà Thanh, triều cống, xin phong vương. Cách xử lý này cho thấy ông muốn ổn định quan hệ với cường quốc phương Bắc thay vì kéo dài chiến tranh.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 22, 23, 40; sections: Quan hệ với nhà Thanh, Ngoại giao sau chiến thắng"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_011",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Ông hơn người ở điểm nào?",
+      "expected_answer": "Tài liệu mô tả Quang Trung nổi bật ở nhiều mặt: hành quân và chỉ huy rất nhanh, tổ chức chiến dịch đánh Thanh quyết đoán, xử lý ngoại giao sau chiến thắng khéo léo, đồng thời có nhiều cải cách trong nước. Các nhận xét về sau cũng nhấn mạnh ông không chỉ là viên tướng thiện chiến mà còn là nhà cai trị tài ba, biết dùng ngoại giao, thu dụng nhân tài và xây dựng đất nước.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 16, 40, 41, 42; sections: Chiến dịch đánh Thanh, Cải cách, Nhận định về Quang Trung"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_012",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Trước khi thắng quân Thanh, ông đã chuẩn bị những gì?",
+      "expected_answer": "Chiến thắng trước quân Thanh được chuẩn bị qua nhiều bước: Nguyễn Huệ lên ngôi, đặt niên hiệu Quang Trung để thống nhất danh nghĩa chỉ huy; ban lời hiệu dụ khích lệ tướng sĩ; hành quân rất nhanh ra Tam Điệp; dự kiến mốc mồng 7 Tết vào Thăng Long; chia quân làm 5 đạo với các hướng đánh và chặn đường lui khác nhau. Đây là sự kết hợp giữa chính danh, tinh thần quân đội, tốc độ hành quân và bố trí chiến thuật.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 14, 15, 16; sections: Lên ngôi, Hịch đánh Thanh, Hành quân ra Bắc, Chia quân làm 5 đạo"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_013",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu không mất sớm thì còn điều gì dang dở?",
+      "expected_answer": "Tài liệu cho thấy nhiều việc còn dang dở: kế hoạch Nam tiến để tiêu diệt Nguyễn Ánh không thành vì Quang Trung mất đột ngột năm 1792; ý định dời đô ra Phượng Hoàng Trung Đô chưa quyết xong; các cải cách trong nước chỉ thực hiện chưa đầy 3 năm nên chưa kịp phát huy triệt để; người kế vị còn quá nhỏ nên không tiếp tục được những cải cách đó.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 25, 26, 41, 43; sections: Kế hoạch Nam tiến, Cái chết, Cải cách chưa trọn, Di sản"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_014",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao đời sau vẫn nhớ?",
+      "expected_answer": "Đời sau vẫn nhớ Quang Trung vì ông gắn với việc đánh bại ngoại xâm, thống nhất đất nước, xóa bỏ thế lực cát cứ và được xem như anh hùng áo vải dân tộc. Dù nhà Nguyễn từng tìm cách bôi nhọ và xóa dấu tích Tây Sơn, tên tuổi ông không mai một; ông được thờ phụng, dựng tượng, đặt tên đường phố, trường học, phường xã và trở thành hình tượng văn hóa lịch sử.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 35, 36, 39, 43, 44; sections: Đánh giá, Di sản, Tưởng niệm"
+        }
+      ]
+    },
+    {
+      "id": "golden_dataset_quang_trung_table_md_015",
+      "doc_id": "golden_dataset_quang_trung_table_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Có nên chỉ xem ông là võ tướng không?",
+      "expected_answer": "Không nên chỉ xem Quang Trung là võ tướng. Ngoài chiến công quân sự, tài liệu nêu ông xây dựng bộ máy hành chính, thúc đẩy chữ Nôm và giáo dục, quan tâm nông nghiệp, thủ công nghiệp, ngoại thương, thực hiện ngoại giao hòa giải với nhà Thanh và biết thu dụng nhân tài. Các nhận xét trong tài liệu cũng nói ông không chỉ cầm quân mà còn là nhà cai trị giỏi.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "golden_dataset_quang_trung_table",
+          "evidence": "PDF pages 18, 19, 20, 21, 22, 40, 42; sections: Bộ máy hành chính, Chữ Nôm và giáo dục, Kinh tế, Ngoại giao, Nhận định"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_001",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Hai nhiệm vụ con (sub-tasks) của bài toán liên kết thực thể NIL (NIL-linking) được đề cập trong tài liệu về NILK là gì?",
+      "expected_answer": "Hai nhiệm vụ con là phát hiện NIL (NIL-detection) và khử nhập nhằng NIL (NIL-disambiguation).",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1, 2"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_002",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Bộ dữ liệu NILK sử dụng hai phiên bản nào của Wikidata để mô phỏng sự xuất hiện của các thực thể mới?",
+      "expected_answer": "Bộ dữ liệu NILK sử dụng WikiData bản năm 2017 làm cơ sở tri thức gốc và bản năm 2021 làm nguồn bổ sung thực tế.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_003",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Mô hình BLINKout sử dụng token đặc biệt nào để biểu diễn cho thực thể NIL?",
+      "expected_answer": "BLINKout sử dụng token đặc biệt [NIL] để gán cho thực thể NIL, tránh nhầm lẫn với các tên thực thể khác trong cơ sở tri thức.",
+      "gold_context": [
+        {
+          "page": 3,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 3"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_004",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tổng số lượng đề cập thực thể NIL (NIL-mentions) có trong bộ dữ liệu NILK là bao nhiêu?",
+      "expected_answer": "Bộ dữ liệu NILK chứa tổng cộng 1.652.484 đề cập NIL (NIL-mentions).",
+      "gold_context": [
+        {
+          "page": 4,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 4"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_005",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Phương pháp \"Cắt tỉa Cơ sở tri thức\" (KB Pruning) tạo ra các thực thể NIL bằng cách nào?",
+      "expected_answer": "Phương pháp này chọn ngẫu nhiên một phần thực thể trong KB và xóa chúng đi, sau đó liên kết trực tiếp thực thể cha và con của thực thể bị xóa để giữ nguyên cấu trúc phân cấp.",
+      "gold_context": [
+        {
+          "page": 4,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 4"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_006",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tại sao bộ dữ liệu NILK lại giải quyết được bài toán \"Khử nhập nhằng NIL\" (NIL-disambiguation) mà các bộ dữ liệu khác thường bỏ qua?",
+      "expected_answer": "Thay vì chỉ gán một nhãn \"NIL\" chung chung, NILK sử dụng ID từ Wikidata 2021 để gán cho các đề cập NIL. ID này đóng vai trò như một mã định danh nhóm giúp hệ thống xác định các đề cập nào cùng chỉ về chung một thực thể mới.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1-3"
+        },
+        {
+          "page": 2,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1-3"
+        },
+        {
+          "page": 3,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1-3"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_007",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Để tăng cường hiệu suất, mô hình BLINKout xử lý các từ đồng nghĩa (synonyms) ở bộ mã hóa kép (bi-encoder) và bộ mã hóa chéo (cross-encoder) khác nhau như thế nào?",
+      "expected_answer": "Ở bi-encoder, mỗi từ đồng nghĩa được xem như một ứng viên thực thể riêng biệt để tăng cường dữ liệu huấn luyện (Augmentation). Ở cross-encoder, các từ đồng nghĩa được nối trực tiếp với nhau bằng token [SYN] vào cùng một chuỗi đầu vào (Concatenation) để giảm thiểu số lượng lớp phải tính toán.",
+      "gold_context": [
+        {
+          "page": 3,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 3, 4"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_008",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Trong giai đoạn 1 của quá trình tạo bộ dữ liệu NILK, hệ thống đã dùng cách nào để loại bỏ bớt các khái niệm quá trừu tượng?",
+      "expected_answer": "Hệ thống tiến hành kiểm tra và chỉ chọn các thực thể mới có chứa quan hệ \"instance of\" (là một ví dụ của) và lọc bỏ các thực thể có chứa quan hệ \"subclass\" (lớp con) trên Wikidata.",
+      "gold_context": [
+        {
+          "page": 2,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 2"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_009",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Vì sao việc áp dụng từ đồng nghĩa (Synonym Enhancement) vào mô hình BLINKout lại không mang lại hiệu quả nâng cấp rõ rệt trên bộ dữ liệu NILK-sample?",
+      "expected_answer": "Vì NILK-sample là bộ dữ liệu theo dạng \"zero-shot\", nơi các thực thể lúc kiểm tra hoàn toàn mới so với lúc huấn luyện, nên từ đồng nghĩa của chúng không xuất hiện trong lúc học. Hơn nữa, tỷ lệ thực thể có từ đồng nghĩa trong WikiData (khoảng 25%) thấp hơn nhiều so với các bộ dữ liệu y khoa (khoảng 99%).",
+      "gold_context": [
+        {
+          "page": 5,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 5, 6"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_010",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Sự khác biệt cốt lõi giữa phương pháp tiếp cận dựa trên ngưỡng (Threshold-based) và BLINKout trong việc phân loại thực thể NIL là gì?",
+      "expected_answer": "Phương pháp dựa trên ngưỡng sẽ xuất ra kết quả NIL nếu điểm số của ứng viên gần nhất trong cơ sở tri thức vẫn thấp hơn một ngưỡng cố định. Trong khi đó, BLINKout chủ động thêm token [NIL] vào danh sách ứng viên và sử dụng hàm mất mát kết hợp (joint loss) để mô hình tự học cách phân loại xem đề cập có phải là NIL hay không.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 1, 3"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_011",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Trong bối cảnh xử lý hiện tượng \"NIL-disambiguation\" đối với không gian thực thể rỗng, chiến lược \"mượn mã định danh tương lai\" (borrowed future IDs) từ Wikidata 2021 trong cấu trúc 5 bước của bộ dữ liệu NILK cung cấp ưu thế hình học nào so với việc chỉ định một tọa độ \"NIL\" tĩnh chung chung như các bộ dữ liệu tiền nhiệm?",
+      "expected_answer": "Việc sử dụng ID thực tế từ phiên bản Wikidata 2021 cung cấp một mã định danh nhóm cụ thể làm mỏ neo trong không gian biểu diễn. Điều này cho phép hệ thống phân biệt và gom cụm chính xác các đề cập NIL đang cùng trỏ về một khái niệm mới, thay vì đánh đồng mọi thực thể ngoài cơ sở tri thức vào một điểm \"NIL\" vô nghĩa duy nhất.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1-3"
+        },
+        {
+          "page": 2,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1-3"
+        },
+        {
+          "page": 3,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 1-3"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_012",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Khi đối mặt với môi trường Zero-shot Entity Linking khắc nghiệt, tại sao cơ chế \"Concatenation bằng token [SYN]\" của Cross-encoder lại sụp đổ hiệu năng biểu diễn, gây ra sự khác biệt cận biên (marginal improvement) trên bộ tập mẫu NILK-sample so với các ontology chuyên biệt y sinh?",
+      "expected_answer": "Trong môi trường Zero-shot, các thực thể chưa từng xuất hiện trong quá trình huấn luyện, dẫn đến việc các từ đồng nghĩa của chúng không thể hỗ trợ việc xếp hạng. Thêm vào đó, do Wikidata chỉ có khoảng 25% thực thể sở hữu từ đồng nghĩa, cơ chế nối chuỗi này thiếu hụt dữ liệu đầu vào trầm trọng so với các ontology y sinh, khiến nó không tạo ra được lợi thế khác biệt đáng kể nào.",
+      "gold_context": [
+        {
+          "page": 5,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 5, 6"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_013",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nghịch lý nào về mặt tối ưu hóa xảy ra khi mô hình BLINKout áp dụng hàm mất mát kết hợp (Joint Loss - $L_{NIL}$) với trọng số $\\lambda_{NIL}$ tỷ lệ thuận với phân phối thực thể rỗng, và nó tác động thế nào đến điểm F1 ngoại vi?",
+      "expected_answer": "Mặc dù hàm Joint Loss ($L_{NIL}$) ép mạng nơ-ron học cách xác minh chéo tính hợp lệ của phân phối ứng viên nhị phân để giảm thiểu việc phân loại nhầm. Tuy nhiên, việc áp dụng hàm mất mát này lại có xu hướng làm tăng độ nhạy (Recall) nhưng có thể tàn phá nghiêm trọng độ chuẩn xác (Precision), dẫn đến sự suy giảm điểm F1 đối với thực thể ngoài cơ sở tri thức (ngoại trừ tập NILK-sample).",
+      "gold_context": [
+        {
+          "page": 3,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 3, 6"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_014",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tại sao chiến lược thiết lập ngưỡng chặn (Threshold-based) lại dễ vướng vào bẫy False Negative (âm tính giả) trên các kiến trúc mã hóa kép (Bi-encoder), và cách thức \"Thay thế ứng viên bét bảng bằng [NIL] linh hoạt\" của BLINKout hóa giải sai lầm kiêu ngạo này của Softmax như thế nào?",
+      "expected_answer": "Phương pháp Threshold-based dễ gây ra âm tính giả vì đôi khi các mô hình có thể tự tin gán điểm gần tuyệt đối cho một ứng viên sai hoàn toàn, khiến ngưỡng chặn vô tác dụng. BLINKout khắc phục bằng cách tự động thay thế ứng viên ở vị trí cuối cùng bằng token [NIL] (nếu bi-encoder không dự đoán được NIL), tạo cơ hội cho mạng Cross-encoder trực tiếp phân tích và đánh bại ứng viên sai lệch đó.",
+      "gold_context": [
+        {
+          "page": 3,
+          "section": "test_paper",
+          "evidence": "2302.07189v4.pdf - Trang 3, 6"
+        }
+      ]
+    },
+    {
+      "id": "test_paper_md_015",
+      "doc_id": "test_paper_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Phân tích nguyên lý bảo vệ chéo (cross-defense) giữa Giai đoạn 1 và Giai đoạn 2 trong hệ thống đường ống (pipeline) tạo lập NILK: Nếu module quét liên kết ẩn bắt nhầm một cụm từ mô tả định nghĩa vĩ mô, cơ chế nào sẽ cô lập sự lan truyền lỗi này vào bảng định danh nhóm?",
+      "expected_answer": "Nếu Giai đoạn 2 trích xuất nhầm một siêu liên kết (hyperlink) hướng tới các trang khái niệm trừu tượng chung chung, thì Giai đoạn 1 đã đóng vai trò màng lọc chặn đứng trước đó bằng cách loại bỏ triệt để mọi thực thể mang quan hệ \"subclass\" và chỉ giữ lại quan hệ \"instance of\". Do vậy, ở bước 5, hệ thống sẽ không tìm thấy ID của khái niệm vĩ mô đó trong danh sách các thực thể ngoài cơ sở tri thức hợp lệ, triệt tiêu việc gán nhãn NIL sai.",
+      "gold_context": [
+        {
+          "page": 2,
+          "section": "test_paper",
+          "evidence": "NIL_ds_CIKM.pdf - Trang 2, 3"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_001",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Thời gian nhận học bổng tối đa đối với sinh viên nhập học năm thứ 2 chương trình Thạc sĩ (M2) của học bổng Eiffel là bao lâu?",
+      "expected_answer": "Học bổng Eiffel hỗ trợ tối đa 12 tháng cho sinh viên nhập học năm thứ 2 của chương trình Thạc sĩ (M2).",
+      "gold_context": [
+        {
+          "page": 5,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 5"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_002",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Chương trình học bổng France Excellence của Đại sứ quán Pháp ưu tiên trao cho những lĩnh vực đào tạo nào?",
+      "expected_answer": "Học bổng France Excellence ưu tiên các lĩnh vực: Khoa học cơ bản, Khoa học kỹ thuật, Khoa học kinh tế, và Khoa học xã hội và nhân văn.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 1"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_003",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Thời gian tài trợ của học bổng Eiffel đối với bậc Tiến sĩ kéo dài trong khoảng bao lâu?",
+      "expected_answer": "Học bổng Eiffel bậc Tiến sĩ được cấp trong khoảng thời gian tối thiểu từ 6 tháng đến tối đa 36 tháng.",
+      "gold_context": [
+        {
+          "page": 3,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 3"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_004",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tiêu chí lựa chọn thí sinh của chương trình học bổng France Excellence bao gồm những gì?",
+      "expected_answer": "Các tiêu chí bao gồm: bảng điểm xuất sắc, chất lượng chương trình học tập (đề cương, cam kết của trường), lý do xin học bổng (đề cương cá nhân, dự định nghề nghiệp), trình độ ngoại ngữ (Pháp/Anh), và ưu tiên các đề cương có nguồn đồng tài trợ.",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 1; France Excellence - Trang 2"
+        },
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 1; France Excellence - Trang 2"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_005",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Học bổng Eiffel có chi trả tiền học phí cho sinh viên bậc Thạc sĩ và Tiến sĩ không?",
+      "expected_answer": "Không, chương trình học bổng Eiffel không chi trả học phí cho cả bậc Thạc sĩ và bậc Tiến sĩ.",
+      "gold_context": [
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_006",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Sinh viên nhận học bổng Eiffel cần làm gì để được hưởng bảo hiểm y tế bổ sung miễn phí, và điều này có giống với quyền lợi bảo hiểm của học bổng France Excellence không?",
+      "expected_answer": "Sinh viên nhận học bổng Eiffel phải gửi giấy chứng nhận đủ điều kiện tham gia hệ thống bảo hiểm quốc gia Pháp cho Campus France trong vòng hai tháng sau khi đến Pháp để được đăng ký bảo hiểm bổ sung miễn phí. Quyền lợi này khá tương đồng với học bổng France Excellence vì sinh viên chương trình này cũng được hưởng bảo hiểm trực tiếp bao gồm bảo hiểm bổ sung và bảo hiểm trách nhiệm dân sự.",
+      "gold_context": [
+        {
+          "page": 9,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 9"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_007",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Thời gian bắt đầu khóa học được tài trợ đối với học bổng Eiffel và France Excellence có điểm gì chung về việc lùi lịch nhập học?",
+      "expected_answer": "Cả hai chương trình đều quy định nghiêm ngặt rằng không được phép lùi thời gian nhận học bổng[cite: 1, 3]. Riêng với học bổng Eiffel, kỳ học được tài trợ bắt buộc phải bắt đầu trong khoảng từ ngày 1 tháng 9 đến ngày 31 tháng 12 của năm cấp học bổng.",
+      "gold_context": [
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; Eiffel (EN) - Trang 5"
+        },
+        {
+          "page": 5,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; Eiffel (EN) - Trang 5"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_008",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu một sinh viên học Thạc sĩ muốn được hỗ trợ tiền vé máy bay khứ hồi quốc tế, sinh viên đó nên chọn học bổng France Excellence hay Eiffel? Tại sao?",
+      "expected_answer": "Sinh viên đó nên chọn học bổng Eiffel vì chương trình này có đài thọ vé máy bay quốc tế khứ hồi cho bậc Thạc sĩ. Trong khi đó, học bổng France Excellence chỉ tặng một vé máy bay quốc tế khứ hồi đối với những sinh viên đi học bậc Tiến sĩ.",
+      "gold_context": [
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; France Excellence - Trang 1; Eiffel (EN) - Trang 5"
+        },
+        {
+          "page": 1,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; France Excellence - Trang 1; Eiffel (EN) - Trang 5"
+        },
+        {
+          "page": 5,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; France Excellence - Trang 1; Eiffel (EN) - Trang 5"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_009",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Sinh viên nhập học năm 2 bậc Thạc sĩ (M2) sẽ nhận được tài trợ tối đa bao nhiêu tháng từ học bổng France Excellence và học bổng Eiffel?",
+      "expected_answer": "Cả chương trình học bổng France Excellence và học bổng Eiffel đều cấp tài trợ trong thời gian tối đa là 12 tháng đối với sinh viên nhập học năm 2 của chương trình Thạc sĩ (M2)[cite: 1, 3].",
+      "gold_context": [
+        {
+          "page": 1,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 1; Eiffel (EN) - Trang 3"
+        },
+        {
+          "page": 3,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 1; Eiffel (EN) - Trang 3"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_010",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nghiên cứu sinh bậc Tiến sĩ nhận học bổng Eiffel có được phép chia nhỏ thời gian lưu trú tại Pháp không, và phải tuân thủ quy định nào?",
+      "expected_answer": "Có, nghiên cứu sinh Tiến sĩ nhận học bổng Eiffel được phép chia nhỏ thời gian lưu trú thành nhiều đợt. Tuy nhiên, thời gian tài trợ không được dưới 6 tháng và không vượt quá 3 năm, đồng thời học viên phải nộp lịch trình các đợt lưu trú cho Campus France ngay trong đợt lưu trú đầu tiên.",
+      "gold_context": [
+        {
+          "page": 5,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 5; Eiffel (EN) - Trang 11"
+        },
+        {
+          "page": 11,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 5; Eiffel (EN) - Trang 11"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_011",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Một ứng viên trúng tuyển Thạc sĩ nhưng cần học dự bị tiếng Pháp. Chi phí học tiếng và sinh hoạt phí của Eiffel đài thọ ra sao? So với quy định ngắt quãng của France Excellence, việc học tiếng này ảnh hưởng thế nào đến quỹ thời gian học bổng?",
+      "expected_answer": "Đối với học bổng Eiffel, sinh viên học tiếng trước khi vào khóa chính có thể nhận được sinh hoạt phí tối đa 1 tháng, nhưng phải ghi rõ yêu cầu này trong hồ sơ ứng tuyển ngay từ đầu. Tuy nhiên, chi phí của khóa học tiếng do sinh viên tự chi trả, không bao gồm trong học bổng. Học bổng France Excellence không tài trợ khóa học tiếng và quy định nghiêm ngặt rằng thời gian học tập trong lúc nhận học bổng không được ngắt quãng.",
+      "gold_context": [
+        {
+          "page": 5,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 5; Eiffel (EN) - Trang 8; France Excellence - Trang 2"
+        },
+        {
+          "page": 8,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 5; Eiffel (EN) - Trang 8; France Excellence - Trang 2"
+        },
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 5; Eiffel (EN) - Trang 8; France Excellence - Trang 2"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_012",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tôi chuẩn bị làm Tiến sĩ dưới dạng đồng hướng dẫn giữa Việt Nam và Pháp. Nếu xin France Excellence, tôi cần nộp giấy tờ đặc thù nào từ giáo viên hướng dẫn? Nếu xin Eiffel (18 tháng), thời gian lưu trú có thể linh hoạt ra sao để làm nghiên cứu ở 2 nước?",
+      "expected_answer": "Đối với France Excellence, bạn bắt buộc phải nộp giấy chứng nhận có chữ ký của giáo viên đồng hướng dẫn tại Pháp và Việt Nam, cam kết đồng ý hướng dẫn nghiên cứu sinh tại cả hai quốc gia. Đối với học bổng Eiffel (nhận tối đa 18 tháng cho năm đầu Tiến sĩ), bạn có thể chia nhỏ thời gian lưu trú tại Pháp (ví dụ thành 3 đợt 6 tháng), miễn là nộp trước lịch trình cho Campus France và báo trước ít nhất 2 tháng nếu lịch trình bị thay đổi.",
+      "gold_context": [
+        {
+          "page": 4,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 4; France Excellence - Trang 2"
+        },
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 4; France Excellence - Trang 2"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_013",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Tôi muốn biết sự khác biệt về chính sách cung cấp và trợ cấp tiền nhà ở giữa sinh viên nhận France Excellence nhập học 2025 và sinh viên nhận Eiffel (từ 2023 trở đi) là gì?",
+      "expected_answer": "Sinh viên nhận France Excellence sẽ được Campus France hỗ trợ tìm nhà ngay khi tới Pháp, nhưng sinh viên phải tự trả toàn bộ hoặc một phần chi phí. Sinh viên Eiffel cũng được Campus France cung cấp chỗ ở tại ký túc xá CROUS hoặc nhà tư nhân; tuy nhiên, từ ngày 1 tháng 1 năm 2023, khoản trợ cấp (subsidy) chi trả cho nhà ở tư nhân của học bổng Eiffel đã bị cắt bỏ (chỉ áp dụng cho những người nhận trước năm 2023).",
+      "gold_context": [
+        {
+          "page": 10,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 10"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_014",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Nếu tôi là sinh viên M1, bị thi trượt phải học lại một năm, hoặc chủ động xin bảo lưu (gap year) đi làm thêm, tình trạng học bổng Eiffel bị xử lý ra sao? Khác biệt pháp lý nếu tôi ký hợp đồng học nghề (apprenticeship)?",
+      "expected_answer": "Nếu bạn thi trượt và phải học lại, học bổng Eiffel sẽ bị đình chỉ. Bạn có thể xin một \"năm giãn cách\" (gap year) để tự túc học lại, nếu đậu thì học bổng được khôi phục năm sau. Nếu chủ động xin \"gap year\" để làm việc/dự án, học bổng và sinh hoạt phí cũng bị tạm dừng. Điểm khác biệt mấu chốt là nếu bạn ký hợp đồng học nghề hoặc đào tạo chuyên nghiệp (apprenticeship/professional training) trong thời gian học bổng, học bổng Eiffel sẽ bị chấm dứt vĩnh viễn (chứ không phải tạm dừng).",
+      "gold_context": [
+        {
+          "page": 2,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; Eiffel (EN) - Trang 7"
+        },
+        {
+          "page": 7,
+          "section": "test_Schorlarships",
+          "evidence": "France Excellence - Trang 2; Eiffel (EN) - Trang 7"
+        }
+      ]
+    },
+    {
+      "id": "test_schorlarships_md_015",
+      "doc_id": "test_schorlarships_md",
+      "difficulty": "medium",
+      "answerability": "answerable",
+      "evidence_type": "text",
+      "hop_type": "single-hop",
+      "explicitness": "explicit",
+      "query_style": "direct",
+      "question": "Một sinh viên quốc tế (không thuộc Liên minh Châu Âu) nhận học bổng Eiffel vừa đến Pháp. Để không bị rủi ro đình chỉ việc chi trả sinh hoạt phí, sinh viên này phải tuân thủ những mốc thời gian nghiêm ngặt nào liên quan đến bảo hiểm y tế? Quy trình này sẽ có điểm gì khác biệt và được rút gọn ra sao nếu sinh viên đó là công dân của một quốc gia thành viên Liên minh Châu Âu (EU)?",
+      "expected_answer": "**Đối với sinh viên ngoài EU:** Ban đầu, sinh viên sẽ được Campus France đăng ký một chương trình bảo hiểm y tế tạm thời cho đến khi bảo hiểm quốc gia có hiệu lực. Sau đó, sinh viên bắt buộc phải gửi giấy chứng nhận đủ điều kiện tham gia hệ thống bảo hiểm y tế quốc gia Pháp (Sécurité Sociale) cho Campus France trong vòng 2 tháng kể từ ngày đến Pháp. Nếu sinh viên không cung cấp được bằng chứng ghi danh vào hệ thống bảo hiểm quốc gia trong vòng 3 tháng kể từ ngày học bổng có hiệu lực, Campus France có quyền đình chỉ việc thanh toán trợ cấp sinh hoạt phí và các dịch vụ liên quan.<br>**Đối với sinh viên thuộc EU:** Quy trình được đơn giản hóa. Sinh viên sở hữu Thẻ Bảo hiểm Y tế Châu Âu (EHIC) không cần thực hiện các bước đăng ký hệ thống quốc gia Pháp vì họ đã có quyền sử dụng dịch vụ chăm sóc sức khỏe tại Pháp như ở quê nhà. Họ chỉ cần gửi bản sao thẻ EHIC cho Campus France để được đăng ký vào chương trình bảo hiểm y tế bổ sung mà không phải chịu thêm chi phí nào.",
+      "gold_context": [
+        {
+          "page": 9,
+          "section": "test_Schorlarships",
+          "evidence": "Eiffel (EN) - Trang 9"
+        }
+      ]
+    }
+  ]
+}

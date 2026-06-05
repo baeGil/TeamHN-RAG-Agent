@@ -1,0 +1,1164 @@
+{
+  "context_retrieval_benchmark_table_md_001_nh": {
+    "relevant_ids": [
+      365,
+      367,
+      368
+    ]
+  },
+  "context_retrieval_benchmark_table_md_001_h": {
+    "relevant_ids": [
+      367,
+      368
+    ]
+  },
+  "context_retrieval_benchmark_table_md_002_nh": {
+    "relevant_ids": [
+      369
+    ]
+  },
+  "context_retrieval_benchmark_table_md_002_h": {
+    "relevant_ids": [
+      369
+    ]
+  },
+  "context_retrieval_benchmark_table_md_003_nh": {
+    "relevant_ids": [
+      393,
+      394
+    ]
+  },
+  "context_retrieval_benchmark_table_md_003_h": {
+    "relevant_ids": [
+      393,
+      394
+    ]
+  },
+  "context_retrieval_benchmark_table_md_004_nh": {
+    "relevant_ids": [
+      397,
+      400
+    ]
+  },
+  "context_retrieval_benchmark_table_md_004_h": {
+    "relevant_ids": [
+      397,
+      400
+    ]
+  },
+  "context_retrieval_benchmark_table_md_005_nh": {
+    "relevant_ids": [
+      375
+    ]
+  },
+  "context_retrieval_benchmark_table_md_005_h": {
+    "relevant_ids": [
+      375
+    ]
+  },
+  "context_retrieval_benchmark_table_md_006_nh": {
+    "relevant_ids": [
+      372
+    ]
+  },
+  "context_retrieval_benchmark_table_md_006_h": {
+    "relevant_ids": [
+      372
+    ]
+  },
+  "context_retrieval_benchmark_table_md_007_nh": {
+    "relevant_ids": [
+      374
+    ]
+  },
+  "context_retrieval_benchmark_table_md_007_h": {
+    "relevant_ids": [
+      374
+    ]
+  },
+  "context_retrieval_benchmark_table_md_008_nh": {
+    "relevant_ids": [
+      372,
+      406
+    ]
+  },
+  "context_retrieval_benchmark_table_md_008_h": {
+    "relevant_ids": [
+      372,
+      406
+    ]
+  },
+  "context_retrieval_benchmark_table_md_009_nh": {
+    "relevant_ids": [
+      370,
+      371
+    ]
+  },
+  "context_retrieval_benchmark_table_md_009_h": {
+    "relevant_ids": [
+      370,
+      371
+    ]
+  },
+  "context_retrieval_benchmark_table_md_010_nh": {
+    "relevant_ids": [
+      400,
+      403
+    ]
+  },
+  "context_retrieval_benchmark_table_md_010_h": {
+    "relevant_ids": [
+      376,
+      403
+    ]
+  },
+  "context_retrieval_benchmark_table_md_011_nh": {
+    "relevant_ids": [
+      374,
+      375,
+      376,
+      386
+    ]
+  },
+  "context_retrieval_benchmark_table_md_011_h": {
+    "relevant_ids": [
+      374,
+      375,
+      376,
+      386
+    ]
+  },
+  "context_retrieval_benchmark_table_md_012_nh": {
+    "relevant_ids": [
+      380,
+      381,
+      384,
+      386,
+      388,
+      376
+    ]
+  },
+  "context_retrieval_benchmark_table_md_012_h": {
+    "relevant_ids": [
+      365,
+      367,
+      376,
+      386,
+      388
+    ]
+  },
+  "context_retrieval_benchmark_table_md_013_nh": {
+    "relevant_ids": [
+      376,
+      388,
+      381,
+      384,
+      382,
+      383,
+      385,
+      380
+    ]
+  },
+  "context_retrieval_benchmark_table_md_013_h": {
+    "relevant_ids": [
+      376,
+      380,
+      381,
+      384,
+      388,
+      371
+    ]
+  },
+  "context_retrieval_benchmark_table_md_014_nh": {
+    "relevant_ids": [
+      400,
+      403,
+      386
+    ]
+  },
+  "context_retrieval_benchmark_table_md_014_h": {
+    "relevant_ids": [
+      400,
+      403,
+      405
+    ]
+  },
+  "context_retrieval_benchmark_table_md_015_nh": {
+    "relevant_ids": [
+      374,
+      375
+    ]
+  },
+  "context_retrieval_benchmark_table_md_015_h": {
+    "relevant_ids": [
+      374,
+      375
+    ]
+  },
+  "context_retrieval_benchmark_table_md_016_nh": {
+    "relevant_ids": [
+      376,
+      378
+    ]
+  },
+  "context_retrieval_benchmark_table_md_016_h": {
+    "relevant_ids": [
+      376,
+      378
+    ]
+  },
+  "context_retrieval_benchmark_table_md_017_nh": {
+    "relevant_ids": [
+      365,
+      367,
+      368,
+      376
+    ]
+  },
+  "context_retrieval_benchmark_table_md_017_h": {
+    "relevant_ids": [
+      365,
+      367,
+      368,
+      376
+    ]
+  },
+  "context_retrieval_benchmark_table_md_018_nh": {
+    "relevant_ids": [
+      177,
+      165,
+      179
+    ]
+  },
+  "context_retrieval_benchmark_table_md_018_h": {
+    "relevant_ids": [
+      177,
+      179,
+      165
+    ]
+  },
+  "context_retrieval_benchmark_table_md_019_nh": {
+    "relevant_ids": [
+      168
+    ]
+  },
+  "context_retrieval_benchmark_table_md_019_h": {
+    "relevant_ids": [
+      168
+    ]
+  },
+  "context_retrieval_benchmark_table_md_020_nh": {
+    "relevant_ids": [
+      181
+    ]
+  },
+  "context_retrieval_benchmark_table_md_020_h": {
+    "relevant_ids": [
+      181
+    ]
+  },
+  "context_retrieval_benchmark_table_md_021_nh": {
+    "relevant_ids": [
+      225
+    ]
+  },
+  "context_retrieval_benchmark_table_md_021_h": {
+    "relevant_ids": [
+      225
+    ]
+  },
+  "context_retrieval_benchmark_table_md_022_nh": {
+    "relevant_ids": [
+      194
+    ]
+  },
+  "context_retrieval_benchmark_table_md_022_h": {
+    "relevant_ids": [
+      171,
+      177
+    ]
+  },
+  "context_retrieval_benchmark_table_md_023_nh": {
+    "relevant_ids": [
+      181
+    ]
+  },
+  "context_retrieval_benchmark_table_md_023_h": {
+    "relevant_ids": [
+      181
+    ]
+  },
+  "context_retrieval_benchmark_table_md_024_nh": {
+    "relevant_ids": [
+      183
+    ]
+  },
+  "context_retrieval_benchmark_table_md_024_h": {
+    "relevant_ids": [
+      183
+    ]
+  },
+  "context_retrieval_benchmark_table_md_025_nh": {
+    "relevant_ids": [
+      185,
+      187
+    ]
+  },
+  "context_retrieval_benchmark_table_md_025_h": {
+    "relevant_ids": [
+      185,
+      187
+    ]
+  },
+  "context_retrieval_benchmark_table_md_026_nh": {
+    "relevant_ids": [
+      194
+    ]
+  },
+  "context_retrieval_benchmark_table_md_026_h": {
+    "relevant_ids": [
+      194
+    ]
+  },
+  "context_retrieval_benchmark_table_md_027_nh": {
+    "relevant_ids": [
+      185,
+      187
+    ]
+  },
+  "context_retrieval_benchmark_table_md_027_h": {
+    "relevant_ids": [
+      185,
+      187
+    ]
+  },
+  "context_retrieval_benchmark_table_md_028_nh": {
+    "relevant_ids": [
+      251
+    ]
+  },
+  "context_retrieval_benchmark_table_md_028_h": {
+    "relevant_ids": [
+      252
+    ]
+  },
+  "context_retrieval_benchmark_table_md_029_nh": {
+    "relevant_ids": [
+      246,
+      249
+    ]
+  },
+  "context_retrieval_benchmark_table_md_029_h": {
+    "relevant_ids": [
+      246
+    ]
+  },
+  "context_retrieval_benchmark_table_md_030_nh": {
+    "relevant_ids": [
+      229,
+      243
+    ]
+  },
+  "context_retrieval_benchmark_table_md_030_h": {
+    "relevant_ids": [
+      229,
+      243,
+      242
+    ]
+  },
+  "context_retrieval_benchmark_table_md_031_nh": {
+    "relevant_ids": [
+      259,
+      260
+    ]
+  },
+  "context_retrieval_benchmark_table_md_031_h": {
+    "relevant_ids": [
+      259,
+      260,
+      258
+    ]
+  },
+  "context_retrieval_benchmark_table_md_032_nh": {
+    "relevant_ids": [
+      271
+    ]
+  },
+  "context_retrieval_benchmark_table_md_032_h": {
+    "relevant_ids": [
+      271
+    ]
+  },
+  "context_retrieval_benchmark_table_md_033_nh": {
+    "relevant_ids": [
+      194,
+      179,
+      178
+    ]
+  },
+  "context_retrieval_benchmark_table_md_033_h": {
+    "relevant_ids": [
+      179
+    ]
+  },
+  "context_retrieval_benchmark_table_md_034_nh": {
+    "relevant_ids": [
+      179,
+      177,
+      178
+    ]
+  },
+  "context_retrieval_benchmark_table_md_034_h": {
+    "relevant_ids": [
+      179,
+      177,
+      178,
+      194,
+      195
+    ]
+  },
+  "golden_dataset_khoa_luan_md_001_nh": {
+    "relevant_ids": [
+      64
+    ]
+  },
+  "golden_dataset_khoa_luan_md_001_h": {
+    "relevant_ids": [
+      64
+    ]
+  },
+  "golden_dataset_khoa_luan_md_002_nh": {
+    "relevant_ids": [
+      105,
+      106,
+      109,
+      66,
+      68,
+      69
+    ]
+  },
+  "golden_dataset_khoa_luan_md_002_h": {
+    "relevant_ids": [
+      105,
+      106
+    ]
+  },
+  "golden_dataset_khoa_luan_md_003_nh": {
+    "relevant_ids": [
+      79,
+      82,
+      84,
+      80
+    ]
+  },
+  "golden_dataset_khoa_luan_md_003_h": {
+    "relevant_ids": [
+      79
+    ]
+  },
+  "golden_dataset_khoa_luan_md_004_nh": {
+    "relevant_ids": [
+      113,
+      114,
+      115
+    ]
+  },
+  "golden_dataset_khoa_luan_md_004_h": {
+    "relevant_ids": [
+      113,
+      115
+    ]
+  },
+  "golden_dataset_khoa_luan_md_005_nh": {
+    "relevant_ids": [
+      147,
+      152
+    ]
+  },
+  "golden_dataset_khoa_luan_md_005_h": {
+    "relevant_ids": [
+      147,
+      152
+    ]
+  },
+  "golden_dataset_khoa_luan_md_006_nh": {
+    "relevant_ids": [
+      109,
+      121,
+      122,
+      124,
+      126,
+      128,
+      129,
+      132,
+      138,
+      140
+    ]
+  },
+  "golden_dataset_khoa_luan_md_006_h": {
+    "relevant_ids": [
+      109,
+      124,
+      138,
+      129,
+      132,
+      133
+    ]
+  },
+  "golden_dataset_khoa_luan_md_007_nh": {
+    "relevant_ids": [
+      116,
+      118,
+      125,
+      126
+    ]
+  },
+  "golden_dataset_khoa_luan_md_007_h": {
+    "relevant_ids": [
+      116,
+      118,
+      125,
+      126
+    ]
+  },
+  "golden_dataset_khoa_luan_md_008_nh": {
+    "relevant_ids": [
+      122,
+      124,
+      125,
+      129,
+      131,
+      132,
+      138
+    ]
+  },
+  "golden_dataset_khoa_luan_md_008_h": {
+    "relevant_ids": [
+      122,
+      124,
+      125,
+      129,
+      131,
+      132,
+      138
+    ]
+  },
+  "golden_dataset_khoa_luan_md_009_nh": {
+    "relevant_ids": [
+      142,
+      109,
+      153,
+      152
+    ]
+  },
+  "golden_dataset_khoa_luan_md_009_h": {
+    "relevant_ids": [
+      142,
+      109,
+      152,
+      153
+    ]
+  },
+  "golden_dataset_khoa_luan_md_010_nh": {
+    "relevant_ids": [
+      148,
+      149,
+      151,
+      154
+    ]
+  },
+  "golden_dataset_khoa_luan_md_010_h": {
+    "relevant_ids": [
+      148,
+      149,
+      151,
+      154
+    ]
+  },
+  "golden_dataset_khoa_luan_md_011_nh": {
+    "relevant_ids": [
+      71,
+      73,
+      76,
+      72
+    ]
+  },
+  "golden_dataset_khoa_luan_md_011_h": {
+    "relevant_ids": [
+      71
+    ]
+  },
+  "golden_dataset_khoa_luan_md_012_nh": {
+    "relevant_ids": [
+      66
+    ]
+  },
+  "golden_dataset_khoa_luan_md_012_h": {
+    "relevant_ids": []
+  },
+  "golden_dataset_khoa_luan_md_013_nh": {
+    "relevant_ids": [
+      151
+    ]
+  },
+  "golden_dataset_khoa_luan_md_013_h": {
+    "relevant_ids": [
+      151
+    ]
+  },
+  "golden_dataset_khoa_luan_md_014_nh": {
+    "relevant_ids": [
+      112,
+      106,
+      107
+    ]
+  },
+  "golden_dataset_khoa_luan_md_014_h": {
+    "relevant_ids": [
+      112
+    ]
+  },
+  "golden_dataset_khoa_luan_md_015_nh": {
+    "relevant_ids": [
+      158,
+      154,
+      155
+    ]
+  },
+  "golden_dataset_khoa_luan_md_015_h": {
+    "relevant_ids": [
+      67,
+      158
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_001_nh": {
+    "relevant_ids": [
+      410,
+      408,
+      454,
+      452,
+      409
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_001_h": {
+    "relevant_ids": [
+      528,
+      410
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_002_nh": {
+    "relevant_ids": [
+      409,
+      407
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_002_h": {
+    "relevant_ids": [
+      407,
+      489
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_003_nh": {
+    "relevant_ids": [
+      414,
+      413
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_003_h": {
+    "relevant_ids": [
+      418,
+      419,
+      414
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_004_nh": {
+    "relevant_ids": [
+      407,
+      410,
+      486,
+      409
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_004_h": {
+    "relevant_ids": [
+      407
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_005_nh": {
+    "relevant_ids": [
+      431,
+      432,
+      519
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_005_h": {
+    "relevant_ids": [
+      431,
+      432,
+      519
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_006_nh": {
+    "relevant_ids": [
+      417,
+      419,
+      418
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_006_h": {
+    "relevant_ids": [
+      417,
+      419,
+      418
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_007_nh": {
+    "relevant_ids": [
+      422,
+      423,
+      442
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_007_h": {
+    "relevant_ids": [
+      424
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_008_nh": {
+    "relevant_ids": [
+      510,
+      432
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_008_h": {
+    "relevant_ids": [
+      432
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_009_nh": {
+    "relevant_ids": [
+      520,
+      510
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_009_h": {
+    "relevant_ids": [
+      520,
+      510
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_010_nh": {
+    "relevant_ids": [
+      472,
+      478,
+      471
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_010_h": {
+    "relevant_ids": [
+      471,
+      472
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_011_nh": {
+    "relevant_ids": [
+      471,
+      516,
+      517,
+      519,
+      521,
+      529
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_011_h": {
+    "relevant_ids": [
+      529,
+      516
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_012_nh": {
+    "relevant_ids": [
+      452,
+      454,
+      449,
+      446
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_012_h": {
+    "relevant_ids": [
+      452,
+      454,
+      514
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_013_nh": {
+    "relevant_ids": [
+      485,
+      525,
+      479
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_013_h": {
+    "relevant_ids": [
+      485,
+      489
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_014_nh": {
+    "relevant_ids": [
+      410,
+      408,
+      409
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_014_h": {
+    "relevant_ids": [
+      410
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_015_nh": {
+    "relevant_ids": [
+      528,
+      529,
+      408
+    ]
+  },
+  "golden_dataset_quang_trung_table_md_015_h": {
+    "relevant_ids": [
+      528,
+      529
+    ]
+  },
+  "test_paper_md_001_nh": {
+    "relevant_ids": [
+      295
+    ]
+  },
+  "test_paper_md_001_h": {
+    "relevant_ids": [
+      295
+    ]
+  },
+  "test_paper_md_002_nh": {
+    "relevant_ids": [
+      300,
+      303
+    ]
+  },
+  "test_paper_md_002_h": {
+    "relevant_ids": []
+  },
+  "test_paper_md_003_nh": {
+    "relevant_ids": []
+  },
+  "test_paper_md_003_h": {
+    "relevant_ids": []
+  },
+  "test_paper_md_004_nh": {
+    "relevant_ids": [
+      308
+    ]
+  },
+  "test_paper_md_004_h": {
+    "relevant_ids": [
+      308
+    ]
+  },
+  "test_paper_md_005_nh": {
+    "relevant_ids": [
+      2,
+      17
+    ]
+  },
+  "test_paper_md_005_h": {
+    "relevant_ids": []
+  },
+  "test_paper_md_006_nh": {
+    "relevant_ids": [
+      295
+    ]
+  },
+  "test_paper_md_006_h": {
+    "relevant_ids": [
+      295
+    ]
+  },
+  "test_paper_md_007_nh": {
+    "relevant_ids": []
+  },
+  "test_paper_md_007_h": {
+    "relevant_ids": []
+  },
+  "test_paper_md_008_nh": {
+    "relevant_ids": []
+  },
+  "test_paper_md_008_h": {
+    "relevant_ids": []
+  },
+  "test_paper_md_009_nh": {
+    "relevant_ids": [
+      35,
+      16
+    ]
+  },
+  "test_paper_md_009_h": {
+    "relevant_ids": [
+      35,
+      16,
+      23
+    ]
+  },
+  "test_paper_md_010_nh": {
+    "relevant_ids": [
+      12,
+      20
+    ]
+  },
+  "test_paper_md_010_h": {
+    "relevant_ids": [
+      20
+    ]
+  },
+  "test_paper_md_011_nh": {
+    "relevant_ids": [
+      295
+    ]
+  },
+  "test_paper_md_011_h": {
+    "relevant_ids": [
+      295,
+      299
+    ]
+  },
+  "test_paper_md_012_nh": {
+    "relevant_ids": [
+      16,
+      35,
+      23,
+      27
+    ]
+  },
+  "test_paper_md_012_h": {
+    "relevant_ids": [
+      16,
+      35,
+      36
+    ]
+  },
+  "test_paper_md_013_nh": {
+    "relevant_ids": [
+      11,
+      13,
+      26
+    ]
+  },
+  "test_paper_md_013_h": {
+    "relevant_ids": [
+      142
+    ]
+  },
+  "test_paper_md_014_nh": {
+    "relevant_ids": []
+  },
+  "test_paper_md_014_h": {
+    "relevant_ids": []
+  },
+  "test_paper_md_015_nh": {
+    "relevant_ids": []
+  },
+  "test_paper_md_015_h": {
+    "relevant_ids": []
+  },
+  "test_schorlarships_md_001_nh": {
+    "relevant_ids": [
+      327,
+      281
+    ]
+  },
+  "test_schorlarships_md_001_h": {
+    "relevant_ids": [
+      327,
+      281
+    ]
+  },
+  "test_schorlarships_md_002_nh": {
+    "relevant_ids": [
+      274
+    ]
+  },
+  "test_schorlarships_md_002_h": {
+    "relevant_ids": [
+      274
+    ]
+  },
+  "test_schorlarships_md_003_nh": {
+    "relevant_ids": [
+      321,
+      328,
+      346
+    ]
+  },
+  "test_schorlarships_md_003_h": {
+    "relevant_ids": [
+      346,
+      321,
+      328
+    ]
+  },
+  "test_schorlarships_md_004_nh": {
+    "relevant_ids": [
+      276,
+      277,
+      278,
+      290
+    ]
+  },
+  "test_schorlarships_md_004_h": {
+    "relevant_ids": [
+      276,
+      289
+    ]
+  },
+  "test_schorlarships_md_005_nh": {
+    "relevant_ids": [
+      330,
+      352
+    ]
+  },
+  "test_schorlarships_md_005_h": {
+    "relevant_ids": [
+      330,
+      352
+    ]
+  },
+  "test_schorlarships_md_006_nh": {
+    "relevant_ids": [
+      283,
+      329,
+      330
+    ]
+  },
+  "test_schorlarships_md_006_h": {
+    "relevant_ids": [
+      283,
+      329,
+      330
+    ]
+  },
+  "test_schorlarships_md_007_nh": {
+    "relevant_ids": [
+      336,
+      326,
+      282
+    ]
+  },
+  "test_schorlarships_md_007_h": {
+    "relevant_ids": [
+      326,
+      336
+    ]
+  },
+  "test_schorlarships_md_008_nh": {
+    "relevant_ids": [
+      283,
+      329,
+      330
+    ]
+  },
+  "test_schorlarships_md_008_h": {
+    "relevant_ids": [
+      283,
+      330
+    ]
+  },
+  "test_schorlarships_md_009_nh": {
+    "relevant_ids": [
+      281,
+      327,
+      337
+    ]
+  },
+  "test_schorlarships_md_009_h": {
+    "relevant_ids": [
+      281,
+      327
+    ]
+  },
+  "test_schorlarships_md_010_nh": {
+    "relevant_ids": [
+      346
+    ]
+  },
+  "test_schorlarships_md_010_h": {
+    "relevant_ids": [
+      346
+    ]
+  },
+  "test_schorlarships_md_011_nh": {
+    "relevant_ids": [
+      282,
+      337,
+      336,
+      349
+    ]
+  },
+  "test_schorlarships_md_011_h": {
+    "relevant_ids": [
+      337,
+      352,
+      282
+    ]
+  },
+  "test_schorlarships_md_012_nh": {
+    "relevant_ids": [
+      284,
+      285,
+      278,
+      328,
+      336,
+      360
+    ]
+  },
+  "test_schorlarships_md_012_h": {
+    "relevant_ids": [
+      284,
+      285,
+      346
+    ]
+  },
+  "test_schorlarships_md_013_nh": {
+    "relevant_ids": [
+      283,
+      357
+    ]
+  },
+  "test_schorlarships_md_013_h": {
+    "relevant_ids": [
+      283,
+      335
+    ]
+  },
+  "test_schorlarships_md_014_nh": {
+    "relevant_ids": [
+      345,
+      360,
+      361
+    ]
+  },
+  "test_schorlarships_md_014_h": {
+    "relevant_ids": [
+      345,
+      360
+    ]
+  },
+  "test_schorlarships_md_015_nh": {
+    "relevant_ids": [
+      335
+    ]
+  },
+  "test_schorlarships_md_015_h": {
+    "relevant_ids": [
+      335
+    ]
+  }
+}

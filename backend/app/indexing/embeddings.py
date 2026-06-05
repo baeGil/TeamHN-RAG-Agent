@@ -15,6 +15,7 @@ class Embedder:
         self.settings = get_settings()
         self._client = None
         self._dim: Optional[int] = self.settings.embed_dim
+        self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0, "calls": 0}
         self._lock = threading.Lock()
         self._cache_path = cache_path
         self._local = threading.local()
@@ -86,6 +87,13 @@ class Embedder:
 
     def _embed_raw(self, texts: list[str]) -> np.ndarray:
         resp = self.client.embeddings.create(model=self.settings.embed_model, input=texts)
+        u = getattr(resp, "usage", None)
+        if u:
+            prompt_tokens = getattr(u, "prompt_tokens", 0) or 0
+            total_tokens = getattr(u, "total_tokens", prompt_tokens) or prompt_tokens
+            self.usage["prompt_tokens"] += prompt_tokens
+            self.usage["total_tokens"] += total_tokens
+        self.usage["calls"] += 1
         arr = np.array([d.embedding for d in resp.data], dtype=np.float32)
         return arr
 

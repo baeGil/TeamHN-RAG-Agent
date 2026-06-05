@@ -11,6 +11,7 @@ const ROUTE_LABEL: Record<string, string> = {
 function Icon({ type }: { type: string }) {
   const map: Record<string, string> = {
     route: "🧭",
+    query_transform: "🔁",
     plan: "🗺️",
     subquestion: "❓",
     retrieved: "🔎",
@@ -81,6 +82,18 @@ export default function AgentTrace({
                 {e.type === "subquestion" && (
                   <div>
                     <b>Bước {e.data.index + 1}:</b> {e.data.subquestion}
+                  </div>
+                )}
+                {e.type === "query_transform" && (
+                  <div>
+                    <b>Tối ưu truy vấn:</b>
+                    <ol className="trace-plan">
+                      {e.data.queries?.map((q: any, j: number) => (
+                        <li key={j}>
+                          <span className="chip">{q.kind}</span> {q.query}
+                        </li>
+                      ))}
+                    </ol>
                   </div>
                 )}
                 {e.type === "retrieved" && (

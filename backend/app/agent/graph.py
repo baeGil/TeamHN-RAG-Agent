@@ -49,6 +49,7 @@ from ..config import get_settings
 from ..indexing.store import KnowledgeBase, RetrievedChunk
 from . import prompts
 from .llm import LLM
+from .query_transform import QueryTransformer, QueryVariant
 
 _CITE_RE = re.compile(r"\[(\d+)\]")
 _GREETING_RE = re.compile(
@@ -81,6 +82,10 @@ class Agent:
         self.kb = kb
         self.llm = LLM()
         self.settings = get_settings()
+        self.query_transformer = QueryTransformer(
+            self.llm,
+            max_variants=self.settings.query_transform_max_variants,
+        )
 
     def summarize_conversation(
         self,
@@ -153,6 +158,11 @@ class Agent:
             return subqs[:4] or [question]
         except Exception as e:
             return [question]
+
+    def _query_variants(self, question: str, route: str) -> list[QueryVariant]:
+        if not self.settings.enable_query_transformation:
+            return [QueryVariant("original", question)]
+        return self.query_transformer.transform(question, route)
 
     def _distill(self, subq: str, chunks: list[dict]) -> str:
         ctx = prompts.build_context(chunks, label_key="label")
@@ -342,15 +352,32 @@ class Agent:
             node_started = time.perf_counter()
             yield emit("thinking", {"node": "retrieve"})
             retrieval_jobs: dict[int, list[dict]] = {}
-            with ThreadPoolExecutor(max_workers=min(4, len(subqs))) as ex:
-                futures = {
-                    ex.submit(self.kb.retrieve, sq, self.settings.final_top_k): i
-                    for i, sq in enumerate(subqs)
-                }
+            query_variants_by_subq: dict[int, list[QueryVariant]] = {
+                i: self._query_variants(sq, route)
+                for i, sq in enumerate(subqs)
+            }
+            n_retrieval_queries = sum(len(v) for v in query_variants_by_subq.values())
+            with ThreadPoolExecutor(max_workers=min(4, max(1, n_retrieval_queries))) as ex:
+                futures = {}
+                for i, variants in query_variants_by_subq.items():
+                    for variant in variants:
+                        fut = ex.submit(self.kb.retrieve, variant.query, self.settings.final_top_k)
+                        futures[fut] = (i, variant)
                 for fut in futures:
-                    i = futures[fut]
+                    i, variant = futures[fut]
                     hits = fut.result()
-                    retrieval_jobs[i] = [_chunk_to_dict(h) for h in hits]
+                    bucket = retrieval_jobs.setdefault(i, [])
+                    seen = {h["chunk_id"] for h in bucket}
+                    for h in hits:
+                        hd = _chunk_to_dict(h)
+                        if hd["chunk_id"] in seen:
+                            continue
+                        hd["query_variant"] = variant.kind
+                        hd["retrieval_query"] = variant.query
+                        bucket.append(hd)
+                        seen.add(hd["chunk_id"])
+                    bucket.sort(key=lambda h: h.get("score", 0.0), reverse=True)
+                    retrieval_jobs[i] = bucket[: self.settings.final_top_k]
             logger.info(
                 "RAG_FLOW node_end node=retrieve iteration=%s duration_ms=%.1f subquestions=%s hits=%s",
                 iteration,
@@ -361,6 +388,19 @@ class Agent:
 
             for i, subq in enumerate(subqs):
                 yield emit("subquestion", {"index": i, "subquestion": subq})
+                variants = query_variants_by_subq.get(i, [QueryVariant("original", subq)])
+                if self.settings.enable_query_transformation:
+                    yield emit(
+                        "query_transform",
+                        {
+                            "subquestion": subq,
+                            "index": i,
+                            "queries": [
+                                {"kind": v.kind, "query": v.query}
+                                for v in variants
+                            ],
+                        },
+                    )
                 hit_dicts = retrieval_jobs.get(i, [])
                 for hd in hit_dicts:
                     pool.setdefault(hd["chunk_id"], hd)
@@ -379,6 +419,18 @@ class Agent:
                                 "bm25_score": h["bm25_score"],
                                 "dense_score": h["dense_score"],
                                 "rerank_score": h["rerank_score"],
+                                "contextual_header": h.get("contextual_header"),
+                                "rse_segment": (
+                                    {
+                                        "start": h.get("rse_segment_start"),
+                                        "end": h.get("rse_segment_end"),
+                                        "score": h.get("rse_segment_score"),
+                                        "seed": h.get("rse_seed", True),
+                                    }
+                                    if h.get("rse_segment_start") is not None
+                                    else None
+                                ),
+                                "query_variant": h.get("query_variant", "original"),
                             }
                             for h in hit_dicts
                         ],
@@ -697,6 +749,10 @@ class Agent:
                     "section": c["section"],
                     "text": c["text"],
                     "score": round(c.get("score", 0.0), 4),
+                    "rse_segment_start": c.get("rse_segment_start"),
+                    "rse_segment_end": c.get("rse_segment_end"),
+                    "rse_segment_score": c.get("rse_segment_score"),
+                    "rse_seed": c.get("rse_seed", True),
                     "cited": c["label"] in cited_labels,
                 }
             )

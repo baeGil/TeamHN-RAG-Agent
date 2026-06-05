@@ -86,8 +86,8 @@ class Repo:
     def all_chunks_with_embeddings(self) -> list[dict[str, Any]]:
         """All chunks (in id order) with their stored float32 embedding bytes and embed_text."""
         rows = self.db.conn.execute(
-            """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding,
-                      c.embed_text, d.title AS doc_title
+            """SELECT c.id, c.chunk_index, c.document_id, c.text, c.page, c.section,
+                      c.embedding, c.embed_text, d.title AS doc_title
                FROM chunks c JOIN documents d ON d.id = c.document_id
                ORDER BY c.id"""
         ).fetchall()
@@ -105,6 +105,22 @@ class Repo:
             chunk_ids,
         ).fetchall()
         return {int(r["id"]): dict(r) for r in rows}
+
+    def get_chunks_by_doc_index_range(
+        self,
+        document_id: int,
+        start_index: int,
+        end_index: int,
+    ) -> list[dict[str, Any]]:
+        rows = self.db.conn.execute(
+            """SELECT c.*, d.title AS doc_title, d.source AS doc_source,
+                      d.source_type AS doc_source_type
+               FROM chunks c JOIN documents d ON d.id = c.document_id
+               WHERE c.document_id=? AND c.chunk_index BETWEEN ? AND ?
+               ORDER BY c.chunk_index""",
+            (document_id, start_index, end_index),
+        ).fetchall()
+        return [dict(r) for r in rows]
 
     def all_chunks(self) -> list[dict[str, Any]]:
         rows = self.db.conn.execute(
