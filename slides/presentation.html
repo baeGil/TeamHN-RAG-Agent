@@ -776,30 +776,6 @@ sequenceDiagram
 <tr><td>Embedding local</td><td>⚠️ <span class="c">Embedder</span> class đã có interface rõ — chỉ cần thêm provider</td></tr></table></div>
 </section>
 
-<!-- SLIDE 33 -->
-<section class="slide" data-title="Deployment">
-<h1>Deployment: Chạy trên CPU, không cần GPU</h1>
-<div class="grid2">
-<div class="card"><h3>Công nghệ sử dụng</h3>
-<table><tr><th>Thành phần</th><th>Công nghệ</th><th>Ghi chú</th></tr>
-<tr><td>Backend API</td><td>FastAPI + Uvicorn</td><td>REST API, async</td></tr>
-<tr><td>Frontend</td><td>React 18 + TypeScript</td><td>Chat UI, SSE, citations</td></tr>
-<tr><td>Database</td><td>SQLite (WAL)</td><td>Metadata, cache</td></tr>
-<tr><td>Vector Index</td><td>Turbovec (in-memory)</td><td>Load từ disk khi khởi động</td></tr>
-<tr><td>Reranker</td><td>HuggingFace (local)</td><td>FP16, CPU-only</td></tr>
-<tr><td>Embedding</td><td>OpenAI API</td><td>Bên ngoài, có cache</td></tr>
-<tr><td>LLM</td><td>OpenAI API</td><td>gpt-4o-mini</td></tr></table></div>
-<div class="card"><h3>Docker Compose</h3><ul><li><strong>1 container duy nhất</strong>: Backend + reranker model (Python 3.11-slim).</li><li><strong>Volume</strong>: <span class="c">./backend/storage:/app/storage</span> — lưu SQLite, vector index, BM25.</li><li><strong>Environment</strong>: <span class="c">backend/.env</span> — chứa OPENAI_API_KEY và config.</li><li><strong>Tài nguyên</strong>: CPU-only, RAM ~2-4GB (reranker ~1GB, index ~MB).</li></ul></div>
-</div>
-<div class="card"><h3>Tương thích phần cứng</h3>
-<table><tr><th>Platform</th><th>Hỗ trợ</th><th>Ghi chú</th></tr>
-<tr><td>x86-64 (Intel/AMD)</td><td>✅</td><td>Docker python:3.11-slim, PyTorch CPU</td></tr>
-<tr><td>ARM64 (Apple Silicon)</td><td>✅</td><td>Turbovec tự động dùng NEON SIMD</td></tr>
-<tr><td>AWS Graviton</td><td>✅</td><td>ARM64 server, tương thích</td></tr>
-<tr><td>GPU (CUDA)</td><td>❌ Không cần</td><td>PyTorch CPU-only build</td></tr></table>
-<p style="margin-top:10px"><strong>Scale sau này</strong>: Hiện tại 1 máy. Để chạy nhiều máy: cần PostgreSQL (thay SQLite), S3 (shared storage), Redis/Celery (message queue).</p></div>
-</section>
-
 <!-- SLIDE 34 -->
 <section class="slide" data-title="Tổng kết">
 <h1>Tổng kết: Đóng góp của dự án</h1>
@@ -813,26 +789,6 @@ sequenceDiagram
 </div>
 <div class="card"><h3>Kết luận</h3><p>Dự án chứng minh rằng <strong>hệ thống RAG tiếng Việt chất lượng cao</strong> có thể xây dựng với:</p><ul><li>Thư viện open-source (PyMuPDF, underthesea, turbovec, FlagEmbedding)</li><li>LLM giá rẻ (gpt-4o-mini)</li><li>Kiến trúc đơn giản, minh bạch, debug được</li><li>Thiết kế bảo mật (index local, reranker local)</li></ul>
 <p style="margin-top:15px;font-size:20px"><strong>Cảm ơn quý hội đồng đã lắng nghe!</strong></p></div>
-</section>
-
-<!-- SLIDE 35 -->
-<section class="slide" data-title="Q&A">
-<h1>Hỏi đáp</h1>
-<div class="card" style="text-align:center;padding:60px 40px">
-<h2 style="font-size:28px;margin-bottom:30px">Q&A</h2>
-<p style="font-size:18px;color:#94a3b8">Quý hội đồng và khán giả đặt câu hỏi</p>
-<div style="margin-top:40px;padding:30px;background:#0f172a;border-radius:8px;text-align:left">
-<h3 style="margin-bottom:15px">Các câu hỏi thường gặp:</h3>
-<ul style="color:#94a3b8;font-size:14px">
-<li>Tại sao chọn Turbovec thay vì FAISS?</li>
-<li>PDF parser xử lý file scan (ảnh) như thế nào?</li>
-<li>Chi phí thực tế cho 1000 câu hỏi/ngày?</li>
-<li>So với RAG dùng LangChain thì hơn/kém gì?</li>
-<li>Hệ thống xử lý nhiều người hỏi cùng lúc ra sao?</li>
-<li>Eval có lặp lại được không (reproducible)?</li>
-</ul>
-</div>
-</div>
 </section>
 
 <!-- SLIDE 36 -->
