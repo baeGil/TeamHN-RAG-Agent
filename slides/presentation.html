@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hệ thống RAG Agent Tiếng Việt — Kiến trúc & Triển khai</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#0b0f19;color:#e2e8f0;line-height:1.65}
+#sidebar{position:fixed;left:0;top:0;width:260px;height:100%;background:#0f172a;border-right:1px solid #1e293b;overflow-y:auto;z-index:1000;padding:16px}
+#sidebar h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;margin-bottom:12px}
+#sidebar ul{list-style:none}
+#sidebar li{padding:8px 10px;margin-bottom:4px;border-radius:6px;cursor:pointer;font-size:13px;color:#cbd5e1;transition:all .15s;border-left:3px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#sidebar li:hover{background:#1e293b}
+#sidebar li.active{background:#1e293b;border-left-color:#3b82f6;color:#fff;font-weight:600}
+#main{margin-left:260px;height:100%;position:relative;overflow:hidden}
+.slide{display:none;width:100%;height:100%;padding:48px 64px;overflow-y:auto;animation:fadeIn .35s ease}
+.slide.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:34px;font-weight:800;margin-bottom:12px;color:#f8fafc;line-height:1.25}
+h2{font-size:22px;font-weight:700;margin:28px 0 12px;color:#93c5fd;border-bottom:1px solid #1e293b;padding-bottom:8px}
+h3{font-size:17px;font-weight:600;margin:20px 0 8px;color:#bfdbfe}
+p{margin-bottom:14px;font-size:15.5px;color:#cbd5e1}
+ul,ol{margin-left:22px;margin-bottom:14px}
+li{margin-bottom:8px;font-size:15px}
+strong{color:#f8fafc;font-weight:600}
+.c{background:#1e293b;padding:2px 8px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;color:#86efac}
+.card{background:#111827;border:1px solid #1e293b;border-radius:10px;padding:18px 22px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th,td{padding:10px 12px;border:1px solid #1e293b;text-align:left}
+th{background:#0f172a;color:#93c5fd;font-weight:600}
+tr:nth-child(even){background:#111827}
+.svg-wrap{margin:16px auto;text-align:center}
+svg{max-width:100%;height:auto}
+#controls{position:fixed;bottom:18px;right:24px;z-index:2000;display:flex;gap:8px}
+#controls button{background:#1e293b;border:1px solid #334155;color:#cbd5e1;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;transition:background .15s}
+#controls button:hover{background:#334155}
+#slideNum{position:fixed;bottom:18px;left:280px;z-index:2000;font-size:12px;color:#64748b}
+@media print{
+  #sidebar,#controls,#slideNum{display:none}
+  #main{margin-left:0}
+  .slide{display:block!important;page-break-after:always;overflow:visible;height:auto;padding:32px 40px}
+  body{background:#fff;color:#111}
+  h1,h2,h3{color:#0f172a}
+  .card,.c{background:#f8fafc;border-color:#e2e8f0}
+}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#0b0f19}
+::-webkit-scrollbar-thumb{background:#334155;border-radius:4px}
+</style>
+</head>
+<body>
+<nav id="sidebar"><h2>Mục lục</h2><ul id="navList"></ul></nav>
+<div id="main">
+
+<!-- SLIDE 1 -->
+<section class="slide active" data-title="Tổng quan">
+<h1>Hệ thống RAG Agent Tiếng Việt</h1>
+<p style="font-size:18px;color:#93c5fd;margin-bottom:24px">Kiến trúc hỏi đáp tài liệu học thuật với kiểm soát suy luận và trích xuất công thức toán từ PDF</p>
+<div class="grid2">
+<div class="card"><h3>Mục tiêu</h3><p>Cho phép người dùng <strong>nạp tài liệu tiếng Việt</strong> (PDF, URL, văn bản) và đặt câu hỏi bằng tiếng Việt. Hệ thống trả lời <strong>chính xác</strong>, trích dẫn nguồn, giữ nguyên công thức toán học.</p></div>
+<div class="card"><h3>Điểm khác biệt</h3><ul><li><strong>Controllable Agent Graph</strong>: 10 node kiểm soát, replanning loop, verify groundedness 2 lần</li><li><strong>Math-aware PDF Parsing</strong>: Font remap, fraction reconstruction, geometric space rebuild</li><li><strong>Section-aware Chunking</strong>: Giữ nguyên công thức, không cắt ngang section</li></ul></div>
+</div>
+<div class="card"><h3>Tech Stack Snapshot</h3>
+<table>
+<tr><th>Lớp</th><th>Công nghệ</th><th>Vai trò</th></tr>
+<tr><td>Frontend</td><td>React 18 + TypeScript + Vite</td><td>Chat UI, SSE streaming, citation popups, AgentGraph SVG real-time</td></tr>
+<tr><td>Backend API</td><td>FastAPI + Uvicorn</td><td>REST endpoints, async SSE streaming, rate limiting (SlowAPI)</td></tr>
+<tr><td>Database</td><td>SQLite (WAL mode)</td><td>Documents, chunks, embeddings BLOB, sessions, messages, summaries</td></tr>
+<tr><td>Embedding</td><td>OpenAI text-embedding-3-small</td><td>1536-dim, L2 normalized, disk cache SHA-256</td></tr>
+<tr><td>Dense Retrieval</td><td>Turbovec (TurboQuant 4-bit)</td><td>Exhaustive SIMD scan, 8× compression, no training</td></tr>
+<tr><td>Sparse Retrieval</td><td>BM25Okapi (rank_bm25)</td><td>Vietnamese tokenized, lazy rebuild</td></tr>
+<tr><td>Hybrid Fusion</td><td>Reciprocal Rank Fusion (RRF)</td><td>Rank-space consensus, k=60</td></tr>
+<tr><td>Reranker</td><td>BAAI/bge-reranker-v2-m3</td><td>Cross-encoder, FP16, local inference</td></tr>
+<tr><td>LLM</td><td>OpenAI gpt-4o-mini</td><td>Fast mode (router/planner/verify) + Strong mode (answer/synthesize)</td></tr>
+<tr><td>Deployment</td><td>Docker Compose</td><td>CPU-only, air-gapped capable</td></tr>
+</table></div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide" data-title="Kiến trúc tổng quan">
+<h1>Kiến trúc Tổng quan</h1>
+<div class="svg-wrap">
+<svg width="800" height="200" viewBox="0 0 800 200">
+<rect x="20" y="30" width="160" height="80" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="100" y="55" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="700">React 18 + TS</text>
+<text x="100" y="72" text-anchor="middle" fill="#cbd5e1" font-size="10">SSE Streaming</text>
+<text x="100" y="88" text-anchor="middle" fill="#cbd5e1" font-size="10">Citation Popups</text>
+<rect x="220" y="30" width="160" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="300" y="55" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="700">FastAPI</text>
+<text x="300" y="72" text-anchor="middle" fill="#cbd5e1" font-size="10">Async SSE /api/chat</text>
+<text x="300" y="88" text-anchor="middle" fill="#cbd5e1" font-size="10">Rate Limit</text>
+<rect x="440" y="30" width="160" height="80" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="520" y="55" text-anchor="middle" fill="#fcd34d" font-size="12" font-weight="700">Agent Graph</text>
+<text x="520" y="72" text-anchor="middle" fill="#cbd5e1" font-size="10">10 nodes, Generator</text>
+<text x="520" y="88" text-anchor="middle" fill="#cbd5e1" font-size="10">Router → Plan → Retrieve</text>
+<rect x="20" y="140" width="160" height="50" rx="6" fill="#0f172a" stroke="#ec4899" stroke-width="2"/>
+<text x="100" y="162" text-anchor="middle" fill="#f9a8d4" font-size="12" font-weight="700">Ingestion</text>
+<text x="100" y="178" text-anchor="middle" fill="#cbd5e1" font-size="10">Parse → Chunk → Index</text>
+<rect x="220" y="140" width="160" height="50" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="2"/>
+<text x="300" y="162" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="700">KnowledgeBase</text>
+<text x="300" y="178" text-anchor="middle" fill="#cbd5e1" font-size="10">BM25 + Turbovec + RRF</text>
+<rect x="440" y="140" width="160" height="50" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+<text x="520" y="162" text-anchor="middle" fill="#67e8f9" font-size="12" font-weight="700">OpenAI API</text>
+<text x="520" y="178" text-anchor="middle" fill="#cbd5e1" font-size="10">gpt-4o-mini + embedding</text>
+<line x1="180" y1="70" x2="220" y2="70" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="380" y1="70" x2="440" y2="70" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="100" y1="140" x2="100" y2="110" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="300" y1="140" x2="300" y2="110" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="520" y1="110" x2="520" y2="140" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="600" y1="70" x2="660" y2="70" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="660" y="30" width="120" height="80" rx="6" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+<text x="720" y="60" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">SQLite</text>
+<text x="720" y="78" text-anchor="middle" fill="#cbd5e1" font-size="10">WAL mode</text>
+<text x="720" y="94" text-anchor="middle" fill="#cbd5e1" font-size="10">+ Embed Cache</text>
+</svg></div>
+<div class="grid2">
+<div class="card"><h3>Tính năng chính</h3><ul><li><strong>3 nguồn đầu vào</strong>: PDF upload, URL, văn bản thuần</li><li><strong>3 parser</strong>: PyMuPDF (local, free), VLM fallback (OpenAI vision), Reducto (premium API)</li><li><strong>Dual-model strategy</strong>: gpt-4o-mini cho mọi node; phân biệt fast (router/planner/distill/verify/sufficiency/replan) và strong (answer/synthesize)</li><li><strong>Real-time streaming</strong>: SSE events gồm thinking, route, plan, retrieved, token, final, error</li><li><strong>Conversation memory</strong>: Tóm tắt khi >12 messages, giữ 4 message gần nhất trong prompt</li></ul></div>
+<div class="card"><h3>Ràng buộc thiết kế</h3><ul><li><strong>Privacy-first</strong>: Không upload data lên vector DB cloud; turbovec chạy local</li><li><strong>CPU-only</strong>: Docker image không CUDA; PyTorch CPU wheel</li><li><strong>Air-gapped capable</strong>: Sau khi index built, không cần internet (trừ khi cần LLM call)</li><li><strong>Vietnamese-native</strong>: Tất cả prompts bằng tiếng Việt; underthesea tokenization</li></ul></div>
+</div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide" data-title="Luồng người dùng">
+<h1>Luồng Người dùng từ Đầu đến Cuối</h1>
+<div class="svg-wrap">
+<svg width="800" height="120" viewBox="0 0 800 120">
+<rect x="20" y="30" width="130" height="60" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="85" y="55" text-anchor="middle" fill="#93c5fd" font-size="13" font-weight="700">1. Upload</text>
+<text x="85" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11">PDF / URL / Text</text>
+<rect x="180" y="30" width="130" height="60" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="245" y="55" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="700">2. Processing</text>
+<text x="245" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11">Parse → Chunk → Index</text>
+<rect x="340" y="30" width="130" height="60" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="405" y="55" text-anchor="middle" fill="#fcd34d" font-size="13" font-weight="700">3. Ready</text>
+<text x="405" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11">Sidebar hiển thị</text>
+<rect x="500" y="30" width="130" height="60" rx="6" fill="#0f172a" stroke="#ec4899" stroke-width="2"/>
+<text x="565" y="55" text-anchor="middle" fill="#f9a8d4" font-size="13" font-weight="700">4. Chat</text>
+<text x="565" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11">Câu hỏi tiếng Việt</text>
+<rect x="660" y="30" width="130" height="60" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+<text x="725" y="55" text-anchor="middle" fill="#67e8f9" font-size="13" font-weight="700">5. Answer</text>
+<text x="725" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11">SSE + Citations</text>
+<line x1="150" y1="60" x2="180" y2="60" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="310" y1="60" x2="340" y2="60" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="470" y1="60" x2="500" y2="60" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="630" y1="60" x2="660" y2="60" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+</svg></div>
+<div class="card">
+  <h3>SSE Events (Event Lifecycle Pipeline)</h3>
+  <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+    <div><code>thinking</code> <small>(UX Loading)</small></div> ➔
+    <div><code>route</code> <small>(Intent Classification)</small></div> ➔
+    <div><code>plan</code> <small>(Sub-query Generation)</small></div> ➔
+    <div><code>retrieved</code> <small>(Context Preview)</small></div> ➔
+    <div><code>token</code> <small>(Inference Streaming)</small></div> ➔
+    <div style="border: 1px solid #0ea5e9; padding: 2px 5px;"><code>final</code> <small>(End-of-Stream)</small></div>
+  </div>
+</div>
+<div class="card"><h3>Chi tiết tương tác</h3><ul><li><strong>Upload</strong>: Người dùng kéo thả PDF hoặc paste URL, giới hạn <span class="c">MAX_UPLOAD_SIZE=5MB</span>.</li><li><strong>Processing</strong>: Backend spawn background thread. Frontend poll <span class="c">/api/documents</span> để check status <span class="c">processing → ready</span>.</li><li><strong>Chat</strong>: Mỗi session là một UUID. Fetch 6 messages từ DB, giữ 4 message gần nhất trong prompt. Nếu > <span class="c">SUMMARY_THRESHOLD=12</span> messages, hệ thống tự tóm tắt conversation.</li><li><strong>Answer</strong>: Câu trả lời streaming token-by-token qua SSE. Citation badges <span class="c">[1]</span> <span class="c">[2]</span> clickable → popup hiển thị text gốc + page + section.</li></ul></div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide" data-title="Ingestion: Vấn đề & Giải pháp">
+<h1>PDF Parsing: Tại sao đọc PDF lại khó?</h1>
+<div class="card"><h3>PDF không phải file văn bản thông thường</h3><p>PDF được thiết kế để <strong>hiển thị giống nhau trên mọi máy</strong>, không phải để <strong>trích xuất nội dung</strong>. Nó lưu từng ký tự ở tọa độ cụ thể trên trang, không lưu cấu trúc như "đoạn văn", "tiêu đề", hay "bảng".</p><p>Giống như bạn có một bức ảnh chụp trang sách — bạn thấy được chữ, nhưng không biết đâu là tiêu đề, đâu là nội dung, đâu là chú thích.</p></div>
+<div class="grid2">
+<div class="card"><h3>5 vấn đề thường gặp</h3><ul><li><strong>Ký hiệu toán học bị sai</strong>: ∑, √, ∏ trong PDF được lưu dưới dạng "hình vẽ" từ font đặc biệt. Khi đọc ra thành ký tự ASCII thường (X, q) — mất nghĩa.</li><li><strong>Mất khoảng trắng</strong>: Font tiếng Việt cũ (VNI, .VnTime) không có ký tự "space" trong bảng mã. Kết quả: "CôngtyABC" thay vì "Công ty ABC".</li><li><strong>Phân số mất cấu trúc</strong>: Đường gạch ngang phân số là "hình vẽ", không phải text. Kết quả: "a + b c + d" thay vì "(a+b)/(c+d)".</li><li><strong>PDF scan</strong>: Trang PDF là ảnh chụp (không có text layer) → không đọc được gì.</li><li><strong>Header/footer lặp</strong>: Số trang, tên trường lặp lại mỗi trang → gây nhiễu khi search.</li></ul></div>
+<div class="card"><h3>3 cách xử lý (fallback chain)</h3>
+<table><tr><th>Cách</th><th>Khi nào dùng</th><th>Chi phí</th></tr>
+<tr><td><strong>PyMuPDF (local)</strong></td><td>Mặc định — đọc trực tiếp từ file PDF</td><td>Miễn phí</td></tr>
+<tr><td><strong>VLM (AI nhìn ảnh)</strong></td><td>Trang trống hoặc không đọc được → dùng AI vision đọc ảnh trang đó</td><td>Trả phí theo token</td></tr>
+<tr><td><strong>Reducto API</strong></td><td>Người dùng bật chế độ cao cấp — API chuyên parse PDF học thuật</td><td>1-2 credits/trang</td></tr></table>
+<p style="margin-top:10px"><strong>Chiến lược:</strong> Thử PyMuPDF trước (free). Nếu trang nào không đọc được → fallback sang VLM. Nếu người dùng muốn chất lượng cao nhất → dùng Reducto API.</p></div>
+</div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide" data-title="PyMuPDF: Font Remap">
+<h1>Font Remap: Sửa ký hiệu toán học bị lỗi</h1>
+<div class="card"><h3>Vấn đề: Ký hiệu toán học trong PDF bị sai</h3><p>Khi bạn viết LaTeX <span class="c">$\sum$</span> và compile thành PDF, ký hiệu ∑ không được lưu dưới dạng Unicode "∑". Thay vào đó, PDF dùng <strong>font toán học đặc biệt</strong> (tên CMEX10) và lưu ∑ dưới dạng glyph ID — một con số nội bộ.</p><p>Khi đọc PDF bằng tool thông thường, glyph ID này được decode thành ký tự ASCII ngẫu nhiên — ∑ thành <span class="c">X</span>, √ thành <span class="c">q</span>, ∏ thành <span class="c">Y</span>. Hoàn toàn mất nghĩa.</p></div>
+<div class="grid2">
+<div class="card"><h3>Giải pháp: Nhận diện font và remap</h3><ol><li>PyMuPDF đọc từng ký tự kèm tên font: <span class="c">{char: 'X', font: 'CMEX10+C0'}</span></li><li>Detect font name chứa <span class="c">"CMEX"</span> → đây là font toán học LaTeX</li><li>Tra bảng remap: font CMEX10, glyph <span class="c">'X'</span> → <span class="c">'∑'</span></li><li>Thay thế: văn bản giờ chứa <span class="c">∑</span> thay vì <span class="c">X</span></li></ol><p><strong>Prose text (Arial, Times)</strong> không bị ảnh hưởng — chỉ remap font toán học.</p></div>
+<div class="card"><h3>Bảng remap</h3>
+<table><tr><th>Ký tự trong PDF</th><th>Remap thành</th><th>Ý nghĩa</th></tr>
+<tr><td><span class="c">X</span></td><td>∑</td><td>Tổng (summation)</td></tr>
+<tr><td><span class="c">q</span></td><td>√</td><td>Căn bậc hai</td></tr>
+<tr><td><span class="c">Y</span></td><td>∏</td><td>Tích (product)</td></tr>
+<tr><td><span class="c">Z</span></td><td>∫</td><td>Tích phân (integral)</td></tr></table></div>
+</div>
+<div class="card"><h3>Tại sao việc này quan trọng?</h3>
+<table><tr><th>Tiêu chí</th><th>Không remap</th><th>Có remap</th></tr>
+<tr><td>Đọc hiểu</td><td>"X_{i=1}^n q(a_i)" — vô nghĩa</td><td>"∑_{i=1}^n √(a_i)" — đúng công thức</td></tr>
+<tr><td>BM25 search</td><td>Query "tổng" không match "X"</td><td>Query "tổng" match ∑ trong context</td></tr>
+<tr><td>Embedding</td><td>Vector embedding của "X q Y" bị nhiễu</td><td>Vector embedding của "∑ √ ∏" chính xác</td></tr>
+<tr><td>LaTeX render</td><td>Broken: $X$ thay vì $\sum$</td><td>Đúng: $\sum$</td></tr></table>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">pdf_extract.py</span> — <span class="c">_remap_char()</span> + <span class="c">_is_math_font()</span> | Deterministic, zero LLM cost.</p></div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide" data-title="PyMuPDF: Fraction Reconstruction">
+<h1>Phân số trong PDF: Khôi phục cấu trúc bị mất</h1>
+<div class="card"><h3>Vấn đề: Phân số trong PDF không phải là text</h3><p>Khi bạn viết <span class="c">\frac{a+b}{c+d}</span> trong LaTeX, kết quả trong PDF là <strong>hình vẽ</strong>: một đường ngang (gạch phân số) với tử số ở trên và mẫu số ở dưới. Đường gạch này <strong>không phải ký tự text</strong> — nó là vector graphics.</p><p>Khi đọc PDF bằng tool thông thường, nó chỉ thấy: <span class="c">a + b</span> rồi <span class="c">c + d</span> — <strong>không biết đây là phân số</strong>. Kết quả: <span class="c">"a + b c + d"</span> — vô nghĩa.</p></div>
+<div class="grid2">
+<div class="card"><h3>Giải pháp: Tìm đường gạch phân số trong "hình vẽ"</h3><ol><li>PDF lưu cả text lẫn hình vẽ (drawings). Quét tất cả drawings trên trang.</li><li>Tìm các <strong>đường ngang</strong>: đường thẳng có độ dốc gần bằng 0, chiều dài từ 14px đến 60% trang.</li><li>Với mỗi đường ngang: tìm chữ nằm <strong>ngay trên</strong> nó (tử số) và <strong>ngay dưới</strong> nó (mẫu số).</li><li>Kiểm tra hợp lệ: khoảng cách giữa tử và mẫu ≥ 6px (không phải chữ bình thường).</li><li>Ghép lại: <span class="c">(a+b)/(c+d)</span></li></ol></div>
+<div class="card"><h3>Ví dụ trực quan</h3>
+<table><tr><th>Không reconstruct</th><th>Có reconstruct</th></tr>
+<tr><td><span class="c">a + b c + d</span></td><td><span class="c">(a+b)/(c+d)</span></td></tr>
+<tr><td>Mất dấu gạch → không biết phân số</td><td>Giữ nguyên cấu trúc phân số</td></tr>
+<tr><td>LaTeX render: sai</td><td>LaTeX render: đúng $\frac{a+b}{c+d}$</td></tr>
+<tr><td>Agent không trích dẫn đúng công thức</td><td>Agent trích dẫn chính xác [1]</td></tr></table></div>
+</div>
+<div class="svg-wrap">
+<svg width="800" height="120" viewBox="0 0 800 120">
+<rect x="30" y="20" width="340" height="80" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+<text x="200" y="45" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="700">Không reconstruct</text>
+<text x="200" y="68" text-anchor="middle" fill="#cbd5e1" font-size="13">a + b   c + d</text>
+<text x="200" y="88" text-anchor="middle" fill="#94a3b8" font-size="11">Mất bar → không biết phân số</text>
+<rect x="430" y="20" width="340" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="600" y="45" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="700">Có reconstruct</text>
+<text x="600" y="68" text-anchor="middle" fill="#cbd5e1" font-size="13">(a+b)/(c+d)</text>
+<text x="600" y="88" text-anchor="middle" fill="#94a3b8" font-size="11">Giữ cấu trúc phân số</text>
+<line x1="370" y1="60" x2="430" y2="60" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr)"/>
+<text x="400" y="50" text-anchor="middle" fill="#fcd34d" font-size="10">fraction_bars()</text>
+<text x="400" y="75" text-anchor="middle" fill="#fcd34d" font-size="10">+ build_fractions()</text>
+</svg></div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">pdf_extract.py</span> — <span class="c">_fraction_bars()</span> + <span class="c">_build_fractions()</span></p>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide" data-title="PyMuPDF: Geometric Space">
+<h1>Geometric Space Rebuild: Thêm khoảng trắng bị mất</h1>
+<div class="card"><h3>Vấn đề: Font tiếng Việt cũ không có ký tự "space"</h3><p>Các font tiếng Việt cũ như VNI, .VnTime <strong>không có ký tự khoảng trắng (space)</strong> trong bảng mã. Khi tạo PDF, chương trình không emit ký tự space — thay vào đó, nó đặt các chữ <strong>cách xa nhau</strong> về mặt tọa độ.</p><p>Tool đọc PDF thông thường chỉ đọc từng ký tự theo thứ tự, không quan tâm đến khoảng cách → <span class="c">"CôngtyABC"</span> thay vì <span class="c">"Công ty ABC"</span>.</p></div>
+<div class="grid2">
+<div class="card"><h3>Giải pháp: Đo khoảng cách giữa các chữ</h3><ol><li>Đọc tất cả ký tự trên trang kèm tọa độ: mỗi chữ có vị trí (x0, y0, x1, y1).</li><li>Tính <strong>khoảng cách trung bình giữa các chữ</strong> trong trang (median space width).</li><li>Sắp xếp các chữ theo thứ tự từ trái sang phải.</li><li>Với mỗi cặp chữ liên tiếp: đo <strong>gap = khoảng cách giữa chúng</strong>.</li><li>Nếu gap lớn hơn 60% khoảng cách trung bình → <strong>thêm space</strong> vào giữa.</li><li>Kết quả: <span class="c">"Công ty ABC"</span></li></ol></div>
+<div class="card"><h3>Tại sao việc này quan trọng?</h3>
+<table><tr><th>Tiêu chí</th><th>Không rebuild</th><th>Có rebuild</th></tr>
+<tr><td>Text đọc được</td><td><span class="c">"CôngtyABC"</span></td><td><span class="c">"Công ty ABC"</span></td></tr>
+<tr><td>Tokenize (Underthesea)</td><td><span class="c">["Côngty", "ABC"]</span> — sai từ</td><td><span class="c">["Công ty", "ABC"]</span> — đúng</td></tr>
+<tr><td>BM25 search</td><td>Query "công ty" không tìm thấy</td><td>Tìm thấy chính xác</td></tr>
+<tr><td>Embedding</td><td>Vector bị nhiễu do từ sai</td><td>Vector đúng ngữ nghĩa</td></tr></table></div>
+</div>
+<div class="svg-wrap">
+<svg width="800" height="100" viewBox="0 0 800 100">
+<rect x="30" y="20" width="200" height="60" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+<text x="130" y="48" text-anchor="middle" fill="#fca5a5" font-size="14">C ô n g t y A B C</text>
+<text x="130" y="70" text-anchor="middle" fill="#94a3b8" font-size="11">Không rebuild</text>
+<rect x="300" y="20" width="200" height="60" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="400" y="48" text-anchor="middle" fill="#6ee7b7" font-size="14">Công ty ABC</text>
+<text x="400" y="70" text-anchor="middle" fill="#94a3b8" font-size="11">Có rebuild</text>
+<line x1="230" y1="50" x2="300" y2="50" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr)"/>
+<text x="265" y="42" text-anchor="middle" fill="#fcd34d" font-size="10">gap &gt; 0.6×space</text>
+<text x="265" y="62" text-anchor="middle" fill="#fcd34d" font-size="10">→ insert SPACE</text>
+</svg></div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">pdf_extract.py</span> — <span class="c">_join_line()</span> | Không cần OCR, không cần font database — chỉ dùng geometry, hoàn toàn deterministic.</p>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide" data-title="PyMuPDF: Heading & Boilerplate">
+<h1>Heading Detection & Boilerplate Removal: Dọn dẹp PDF trước khi index</h1>
+<div class="card"><h3>Tại sao cần phát hiện heading?</h3><p>Heading (tiêu đề chương, mục) là <strong>mốc quan trọng</strong> trong tài liệu. Nếu biết được heading, hệ thống có thể:</p><ul><li>Gán mỗi đoạn text vào đúng mục của nó → khi search, biết kết quả thuộc chương nào.</li><li>Thêm heading vào chunk dưới dạng "header ngữ cảnh": <span class="c">"Đề thi Toán › Chương 3 › Tích phân"</span> → giúp BM25 và embedding hiểu rõ chunk này nói về gì.</li><li>Hiển thị citation popup: người dùng biết đoạn trích dẫn thuộc mục nào, trang nào.</li></ul></div>
+<div class="grid2">
+<div class="card"><h3>Cách phát hiện heading (4 loại)</h3>
+<table><tr><th>Loại</th><th>Dấu hiệu</th><th>Ví dụ</th></tr>
+<tr><td>Đánh số</td><td>Bắt đầu bằng số: 1., 1.2, 3.1.4</td><td><span class="c">"1.2 Giới thiệu"</span></td></tr>
+<tr><td>Số La Mã</td><td>Bắt đầu bằng I, II, III, IV...</td><td><span class="c">"I. Mở đầu"</span></td></tr>
+<tr><td>Bước</td><td>Bắt đầu bằng "Bước"</td><td><span class="c">"Bước 4: Tính toán"</span></td></tr>
+<tr><td>Từ khóa</td><td>Mục lục, Phụ lục, Tài liệu tham khảo</td><td><span class="c">"Mục lục"</span></td></tr></table>
+<p style="margin-top:8px">Heading hợp lệ: chữ lớn hơn bình thường (≥ 1.15×), ngắn (≤ 80 ký tự), <strong>không chứa ký hiệu toán</strong> (tránh nhầm công thức là heading).</p></div>
+<div class="card"><h3>Boilerplate Removal: Loại phần lặp lại</h3><p>Mỗi trang PDF thường có <strong>header, footer, số trang</strong> lặp lại. Nếu không loại bỏ, chúng sẽ gây nhiễu khi search.</p><p><strong>Cách phát hiện:</strong> Line nào xuất hiện trên ≥ 50% số trang và ngắn (≤ 60 ký tự) → boilerplate → loại.</p><p>Ví dụ: <span class="c">"Trang 5"</span>, <span class="c">"Đại học Bách Khoa"</span> lặp lại mọi trang → bị xóa trước khi index.</p></div>
+</div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">pdf_extract.py</span> — <span class="c">_heading_label()</span>, <span class="c">_split_sections()</span>, <span class="c">_boilerplate_lines()</span> | Heuristic, đủ tốt cho 95% tài liệu học thuật Việt Nam.</p>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide" data-title="VLM Fallback">
+<h1>VLM Fallback: Dùng AI vision để đọc PDF scan</h1>
+<div class="card"><h3>Vấn đề: PDF scan không có text layer</h3><p>PyMuPDF chỉ đọc được text từ <strong>PDF sinh ra từ máy tính</strong> (born-digital) — tức là PDF có text layer sẵn. Nhưng nhiều tài liệu là <strong>file scan</strong> (chụp ảnh giấy) — không có text layer, PyMuPDF trả về <strong>rỗng</strong>.</p><p>Giải pháp: Dùng AI có khả năng <strong>nhìn ảnh và đọc chữ</strong> (Vision Language Model) — giống như OCR nhưng thông minh hơn, đọc được cả công thức toán và bảng biểu.</p></div>
+<div class="grid2">
+<div class="card"><h3>Cách hoạt động</h3><ol><li>Thử PyMuPDF trước. Nếu trang nào đọc được <strong>ít hơn 3 ký tự</strong> → đánh dấu "empty".</li><li>Chụp ảnh trang đó thành PNG (độ phân giải 200 DPI).</li><li>Kiểm tra cache: trang này đã từng xử lý chưa? (dùng SHA-256 để tạo key duy nhất)</li><li>Nếu chưa có cache → gửi ảnh cho GPT-4o-mini vision với prompt: <em>"Chuyển ảnh trang tài liệu thành Markdown, công thức toán = LaTeX"</em></li><li>Nhận kết quả Markdown → lưu cache → dùng tiếp.</li></ol></div>
+<div class="card"><h3>So sánh</h3>
+<table><tr><th>Tiêu chí</th><th>PyMuPDF</th><th>+ VLM fallback</th></tr>
+<tr><td>PDF scan</td><td>Hoàn toàn fail (rỗng)</td><td>Đọc được toàn bộ</td></tr>
+<tr><td>Chữ viết tay</td><td>Fail</td><td>Có thể nhận diện</td></tr>
+<tr><td>Bảng phức tạp</td><td>Rời rạc, mất cấu trúc</td><td>Markdown table đúng format</td></tr>
+<tr><td>Chi phí</td><td>Miễn phí</td><td>~3.500đ/trang (gpt-4o-mini)</td></tr>
+<tr><td>Tốc độ</td><td>~100ms/trang</td><td>~2-5s/trang (gọi API)</td></tr></table>
+<p style="margin-top:10px"><strong>Chế độ:</strong> <span class="c">auto</span> = chỉ dùng VLM cho trang empty (tiết kiệm). <span class="c">on</span> = dùng VLM cho mọi trang (PDF scan 100%).</p></div>
+</div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">pdf_vlm.py</span> | <strong>Config</strong>: <span class="c">VLM_PARSE=off|auto|on</span></p>
+</section>
+
+<!-- SLIDE 10 -->
+<section class="slide" data-title="Reducto Integration">
+<h1>Reducto: PDF Parser cao cấp (optional)</h1>
+<div class="card"><h3>Reducto là gì?</h3><p>Reducto là một <strong>dịch vụ API chuyên parse PDF</strong> — đặc biệt giỏi với tài liệu phức tạp: bảng biểu, công thức toán, phân cấp chương mục, ảnh nhúng. Khác với PyMuPDF (dùng heuristic — quy tắc cứng), Reducto dùng AI model + layout analysis nên chất lượng cao hơn.</p><p>Điểm đặc biệt: Reducto trả về <span class="c">embed_text</span> — một bản tóm tắt được tối ưu cho embedding, giúp search chính xác hơn so với raw text.</p></div>
+<div class="grid2">
+<div class="card"><h3>2 chế độ</h3>
+<table><tr><th>Chế độ</th><th>Khác biệt</th><th>Chi phí</th></tr>
+<tr><td><strong>default</strong></td><td>Tự động review bảng biểu</td><td>~250đ/trang</td></tr>
+<tr><td><strong>agentic</strong></td><td>Dùng AI review cả text lẫn bảng</td><td>~500đ/trang</td></tr></table></div>
+<div class="card"><h3>So sánh với PyMuPDF</h3>
+<table><tr><th>Tiêu chí</th><th>PyMuPDF</th><th>Reducto</th></tr>
+<tr><td>Chi phí</td><td>Miễn phí</td><td>250-500đ/trang</td></tr>
+<tr><td>Chất lượng</td><td>Tốt cho PDF LaTeX</td><td>Cao hơn cho scan/layout phức tạp</td></tr>
+<tr><td>Bảng biểu</td><td>Rời rạc, mất cấu trúc</td><td>Markdown/HTML đúng format</td></tr>
+<tr><td>Phụ thuộc</td><td>Open source, không phụ thuộc</td><td>Có API key mới dùng được</td></tr></table>
+<p style="margin-top:10px"><strong>Quan trọng:</strong> Reducto là <strong>optional</strong>. Hệ thống chạy 100% free nếu không bật.</p></div>
+</div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">reducto_parser.py</span> | <strong>Config</strong>: <span class="c">REDUCTO_PARSE=off|default|agentic</span></p>
+</section>
+
+<!-- SLIDE 11 -->
+<section class="slide" data-title="Underthesea: Tokenizer tiếng Việt">
+<h1>Underthesea: Tách từ tiếng Việt đúng cách</h1>
+<div class="card"><h3>Vấn đề: Tiếng Việt không tách từ bằng khoảng trắng</h3><p>Tiếng Anh: <span class="c">"New York"</span> → 2 từ, tách bằng space là đúng. Tiếng Việt: <span class="c">"Công ty"</span> là <strong>1 từ ghép</strong>, nếu tách thành <span class="c">"Công"</span> và <span class="c">"ty"</span> → <strong>mất nghĩa</strong>. Tương tự: <span class="c">"trụ sở"</span>, <span class="c">"hàm số"</span>, <span class="c">"phương trình"</span>.</p><p>Nếu tách sai từ → BM25 search không match, embedding bị nhiễu.</p></div>
+<div class="grid2">
+<div class="card"><h3>Underthesea giải quyết thế nào?</h3><p>Underthesea là thư viện <strong>tách từ tiếng Việt</strong> dùng AI (CRF/BiLSTM) đã được train trên corpus tiếng Việt. Nó biết <span class="c">"Công ty"</span> là 1 từ, <span class="c">"trụ sở"</span> là 1 từ — dựa trên ngữ cảnh xung quanh.</p>
+<table><tr><th>Bước</th><th>Input</th><th>Output</th></tr>
+<tr><td>1. Tách từ</td><td><span class="c">"Công ty ABC"</span></td><td><span class="c">["Công ty", "ABC"]</span></td></tr>
+<tr><td>2. Viết thường</td><td><span class="c">["Công ty", "ABC"]</span></td><td><span class="c">["công ty", "abc"]</span></td></tr>
+<tr><td>3. Lọc từ dừng</td><td><span class="c">["và", "của", "công ty"]</span></td><td><span class="c">["công ty"]</span></td></tr>
+<tr><td>4. Tách compound</td><td><span class="c">"compute_loss"</span></td><td><span class="c">["compute_loss", "compute", "loss"]</span></td></tr></table></div>
+<div class="card"><h3>Tại sao tách compound?</h3><p>Code variable <span class="c">compute_loss</span> có thể được viết trong query là <span class="c">"compute loss"</span> (có space). Nếu chỉ lưu <span class="c">"compute_loss"</span> → không match. Nên hệ thống lưu <strong>cả 3 biến thể</strong>: <span class="c">compute_loss</span>, <span class="c">compute</span>, <span class="c">loss</span> → match được cả 2 cách viết.</p>
+<table><tr><th>Tiêu chí</th><th>Tách bằng space</th><th>Underthesea</th></tr>
+<tr><td>"Công ty" →</td><td><span class="c">["Công", "ty"]</span></td><td><span class="c">["Công ty"]</span></td></tr>
+<tr><td>"trụ sở" →</td><td><span class="c">["trụ", "sở"]</span></td><td><span class="c">["trụ sở"]</span></td></tr>
+<tr><td>BM25 match</td><td>Query "trụ sở" không tìm thấy</td><td>Tìm thấy chính xác</td></tr></table></div>
+</div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">vn_text.py</span> | Cache 4096 entries | 40+ từ dừng tiếng Việt</p>
+</section>
+
+<!-- SLIDE 12 -->
+<section class="slide" data-title="Chunking: Tại sao cần?">
+<h1>Chunking: Tại sao phải chia nhỏ tài liệu?</h1>
+<div class="card"><h3>Vấn đề: Không thể embed cả tài liệu dài vào 1 vector</h3><p>Imagine bạn có 1 cuốn sách 200 trang và muốn tóm tắt nó thành <strong>1 câu duy nhất</strong>. Câu đó sẽ rất mơ hồ — không đại diện cho nội dung nào cụ thể. Tương tự, embedding model tạo <strong>1 vector</strong> cho toàn bộ document → vector đó là "trung bình" của quá nhiều chủ đề → khi search, khó tìm đúng đoạn cần thiết.</p></div>
+<div class="grid2">
+<div class="card"><h3>4 lý do cần chunking</h3><ul><li><strong>Giới hạn model</strong>: Embedding model chỉ nhận tối đa ~8000 tokens. Document dài hơn bị cắt cụt → mất thông tin.</li><li><strong>Vector bị loãng</strong>: Embed cả chương 20 trang → vector là "trung bình" của quá nhiều chủ đề → query khó retrieve đúng đoạn.</li><li><strong>LLM bỏ sót</strong>: Khi đưa context quá dài cho LLM, thông tin ở giữa thường bị bỏ qua ("lost in the middle").</li><li><strong>Chi phí</strong>: Token count tỉ lệ với độ dài → chunk nhỏ = ít token = rẻ hơn.</li></ul></div>
+<div class="card"><h3>Nguyên tắc chunk đúng</h3><p><strong>"Nếu chunk tự nó có nghĩa với người đọc, thì cũng có nghĩa với model"</strong></p><ul><li>Đủ lớn để chứa <strong>1 ý hoàn chỉnh</strong></li><li>Đủ nhỏ để <strong>tập trung</strong> vào 1 chủ đề</li><li><strong>Không cắt ngang</strong> công thức, bảng, đoạn văn liên quan</li><li><strong>Giữ overlap</strong> giữa chunks liên tiếp để không mất context ở ranh giới</li></ul></div>
+</div>
+<div class="card"><h3>3 lớp chunking của dự án</h3>
+<table><tr><th>Lớp</th><th>Tên</th><th>Làm gì</th></tr>
+<tr><td>1</td><td><strong>Structural Split</strong></td><td>Phân biệt văn bản thường vs "atomic" (công thức, bảng). Atomic không bao giờ bị cắt.</td></tr>
+<tr><td>2</td><td><strong>Sentence Segmentation</strong></td><td>Tách văn bản thành câu. Bảo vệ viết tắt như "U.S." khỏi bị tách sai.</td></tr>
+<tr><td>3</td><td><strong>Smart Packing</strong></td><td>Gom câu vào chunk ≤ 1000 ký tự. Giữ overlap 200 ký tự giữa 2 chunks liên tiếp.</td></tr></table></div>
+</section>
+
+<!-- SLIDE 13 -->
+<section class="slide" data-title="Chunking: Structural Split">
+<h1>Structural Split: Không cắt ngang công thức toán</h1>
+<div class="card"><h3>Vấn đề: Công thức toán không thể bị cắt đôi</h3><p>Trong tài liệu học thuật, <strong>công thức toán là đơn vị không thể tách rời</strong>. Nếu cắt ngang công thức <span class="c">S(c) = C1·(24−Nobs(c))/24</span>, chunk sẽ chứa <span class="c">(1−C1)·dmin...</span> — vô nghĩa khi đứng một mình. Tương tự, bảng Markdown cắt ngang sẽ mất header, không còn hiểu được cột nào là gì.</p></div>
+<div class="grid2">
+<div class="card"><h3>Giải pháp: Phát hiện "atomic lines"</h3><ol><li>Duyệt từng dòng trong block text.</li><li>Dòng nào chứa ký hiệu toán (∑, √, ∏, ∫, ≤, ≥, ≠, →, ±, ×, ÷...) hoặc <span class="c">$</span> (LaTeX) hoặc <span class="c">|</span> (bảng Markdown) → đánh dấu <strong>atomic</strong>.</li><li>Atomic lines <strong>không bao giờ bị cắt</strong> — luôn giữ nguyên trong 1 chunk.</li><li>Văn bản thường (prose) được gom vào chunks ≤ 1000 ký tự bình thường.</li></ol></div>
+<div class="card"><h3>So sánh</h3>
+<table><tr><th>Tiêu chí</th><th>Chunking thường</th><th>Structural Split</th></tr>
+<tr><td>Công thức toán</td><td>Cắt ngang → vô nghĩa</td><td>Giữ nguyên</td></tr>
+<tr><td>Bảng Markdown</td><td>Cắt ngang → mất header</td><td>Giữ nguyên bảng</td></tr>
+<tr><td>Section context</td><td>Có thể cắt ngang section</td><td>Không cross section boundary</td></tr></table></div>
+</div>
+<div class="svg-wrap">
+<svg width="800" height="200" viewBox="0 0 800 200">
+<rect x="20" y="30" width="350" height="60" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="40" y="55" fill="#93c5fd" font-size="13">Prose: "Phương pháp tính điểm chuẩn"</text>
+<text x="40" y="75" fill="#cbd5e1" font-size="12">→ Pack vào chunks ≤1000 chars</text>
+<rect x="20" y="110" width="350" height="60" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="40" y="135" fill="#fcd34d" font-size="13">Atomic: "S(c) = C1·(24−Nobs(c))/24"</text>
+<text x="40" y="155" fill="#cbd5e1" font-size="12">→ KHÔNG BAO GIỜ split. Giữ nguyên.</text>
+<rect x="430" y="50" width="340" height="100" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="450" y="80" fill="#6ee7b7" font-size="13">Result: list[(unit, is_atomic)]</text>
+<text x="450" y="105" fill="#cbd5e1" font-size="12">[("Phương pháp...", False),</text>
+<text x="450" y="125" fill="#cbd5e1" font-size="12"> ("S(c) = ...", True)]</text>
+</svg></div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">chunker.py</span> — <span class="c">_split_units()</span>, <span class="c">_is_atomic_line()</span></p>
+</section>
+
+<!-- SLIDE 14 -->
+<section class="slide" data-title="Chunking: Sentence & Packing">
+<h1>Sentence Segmentation & Smart Packing: Gom câu vào chunk</h1>
+<div class="grid2">
+<div class="card"><h3>Tách câu tiếng Việt (Layer 2)</h3><p>Sau khi đã có block text (không chứa công thức), cần <strong>tách thành câu</strong> để gom vào chunk. Tiếng Việt dùng dấu <span class="c">.</span> <span class="c">?</span> <span class="c">!</span> <span class="c">;</span> để kết thúc câu — nhưng có trường hợp đặc biệt:</p><ul><li><strong>Viết tắt</strong>: <span class="c">"U.S."</span>, <span class="c">"e.g."</span> — dấu <span class="c">.</span> không phải kết thúc câu. Giải pháp: tạm thay <span class="c">". "</span> bằng ký tự đặc biệt → tách câu → khôi phục lại.</li><li><strong>Dấu chấm + chữ hoa</strong>: <span class="c">". "</span> theo sau bởi chữ hoa hoặc chữ tiếng Việt → khả năng cao là câu mới.</li></ul></div>
+<div class="card"><h3>Gom câu vào chunk (Layer 3)</h3><ol><li>Tạo chunk rỗng.</li><li>Thêm câu vào chunk cho đến khi đạt <strong>1000 ký tự</strong>.</li><li>Nếu vượt: lưu chunk hiện tại → giữ lại <strong>200 ký tự cuối</strong> làm "mồi" cho chunk tiếp theo (overlap).</li><li>Nếu 1 câu quá dài (> 1000 ký tự): tìm dấu phẩy hoặc ngoặc sau 400 ký tự để cắt — <strong>không cắt giữa chừng</strong>.</li></ol></div>
+</div>
+<div class="card"><h3>Ví dụ: Overlap giữa 2 chunks</h3>
+<div class="svg-wrap">
+<svg width="800" height="160" viewBox="0 0 800 160">
+<rect x="30" y="30" width="350" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="40" y="58" fill="#93c5fd" font-size="13">Chunk 1: [S1] [S2] [S3] [S4] [S5]</text>
+<text x="40" y="75" fill="#94a3b8" font-size="11">length ≈ 1000 chars</text>
+<rect x="30" y="100" width="350" height="50" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="40" y="128" fill="#6ee7b7" font-size="13">Chunk 2: [S4] [S5] [S6] [S7] [S8]</text>
+<text x="40" y="145" fill="#94a3b8" font-size="11">overlap = [S4][S5] ≈ 200 chars</text>
+<text x="420" y="90" fill="#fca5a5" font-size="13">→ Context liên tục</text>
+<text x="420" y="110" fill="#fca5a5" font-size="13">→ Không mất ngữ cảnh</text>
+<text x="420" y="130" fill="#fca5a5" font-size="13">→ Boundary effect giảm</text>
+</svg></div>
+<p style="margin-top:10px"><strong>Tại sao 1000 ký tự?</strong> Đủ chứa 2-3 câu tiếng Việt + 1 công thức ngắn. Không quá dài để vector bị loãng. <strong>Tại sao overlap 200?</strong> Khoảng 1-2 câu — đảm bảo nếu câu hỏi liên quan đến ranh giới giữa 2 chunks, cả 2 đều có đủ context.</p></div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">chunker.py</span> — <span class="c">_split_sentences()</span>, <span class="c">_pack()</span>, <span class="c">_smart_split_long()</span></p>
+</section>
+
+<!-- SLIDE 15 -->
+<section class="slide" data-title="Contextual Chunk Headers">
+<h1>Contextual Chunk Headers: Gán "địa chỉ" cho mỗi chunk</h1>
+<div class="card"><h3>Vấn đề: Chunk bị mất ngữ cảnh khi đứng một mình</h3><p>Khi tách chunk ra khỏi tài liệu, nó có thể <strong>mất thông tin về mình đang ở đâu</strong>. Ví dụ: chunk chỉ chứa <span class="c">"S(c) = C1·(24−Nobs(c))/24"</span> — không biết S(c) là gì, thuộc chương nào, tài liệu nào. Giống như bạn đọc 1 câu trích dẫn mà không biết ai nói, trong sách nào.</p></div>
+<div class="grid2">
+<div class="card"><h3>Giải pháp: Thêm "header ngữ cảnh" cho mỗi chunk</h3><p>Trước khi lưu chunk vào index, hệ thống <strong>thêm tiêu đề tài liệu và tên chương</strong> vào đầu chunk:</p><p style="margin-top:10px"><span class="c">"Đề thi Toán 2024 › Chương 3 › Tích phân"</span></p><p style="margin-top:5px"><span class="c">"S(c) = C1·(24−Nobs(c))/24"</span></p><p style="margin-top:10px">Header này <strong>chỉ dùng cho search</strong> (BM25 + embedding). Khi hiển thị cho người dùng, chỉ hiện text gốc — không hiện header.</p><p><strong>Không tốn LLM call</strong>: Header lấy từ structure mà PDF parser đã extract sẵn (tên file, heading detection). Free.</p></div>
+<div class="card"><h3>Header giúp search tốt hơn như thế nào?</h3>
+<table><tr><th>Retriever</th><th>Hiệu quả</th></tr>
+<tr><td><strong>BM25</strong></td><td>Query "công thức điểm chuẩn" → match chunk có header chứa "Phương pháp điểm chuẩn"</td></tr>
+<tr><td><strong>Dense embedding</strong></td><td>Header được embed cùng text → vector "hiểu" chunk này thuộc chương nào</td></tr>
+<tr><td><strong>Reranker</strong></td><td>Nhìn thấy đầy đủ context → đánh giá relevance chính xác hơn</td></tr></table>
+<p style="margin-top:10px"><strong>So sánh chi phí:</strong></p>
+<table><tr><th>Phương pháp</th><th>Cost</th><th>Quality</th></tr>
+<tr><td>Không header</td><td>Free</td><td>Thấp — chunk mất context</td></tr>
+<tr><td><strong>Structure-based (dự án)</strong></td><td>Free</td><td>Trung bình — dùng title/section có sẵn</td></tr>
+<tr><td>LLM summary cho mỗi chunk</td><td>1 LLM call/chunk</td><td>Cao nhất — nhưng đắt</td></tr></table></div>
+</div>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">store.py</span> — <span class="c">_index_text()</span></p>
+</section>
+
+<!-- SLIDE 16 -->
+<section class="slide" data-title="Embedding: OpenAI + L2 Normalize">
+<h1>Embedding: Chuyển text thành vector số</h1>
+<div class="card"><h3>Embedding là gì?</h3><p><strong>Embedding</strong> là quá trình chuyển一段 văn bản thành một dãy số (vector). Văn bản có ý nghĩa tương tự nhau sẽ có vector gần nhau trong không gian. Ví dụ: "con chó" và "con cún" có vector gần nhau hơn "con chó" và "xe hơi".</p><p>Dự án dùng <strong>OpenAI text-embedding-3-small</strong> — model của OpenAI, tạo vector 1536 số thực cho mỗi đoạn text.</p></div>
+<div class="grid2">
+<div class="card"><h3>Tại sao cần L2 Normalization?</h3><p>Vector từ OpenAI có độ dài khác nhau tùy đoạn text dài hay ngắn. Nếu dùng trực tiếp, đoạn dài sẽ có score cao hơn — <strong>không công bằng</strong>.</p><p><strong>L2 Normalization</strong> chia mỗi vector cho độ dài của nó → tất cả vector có độ dài = 1. Khi đó:</p><p style="text-align:center;font-size:16px;margin:10px 0">Cosine similarity = Dot product</p><p>→ Turbovec có thể dùng dot product (nhanh hơn) mà vẫn cho kết quả giống cosine similarity.</p></div>
+<div class="card"><h3>Quy trình embedding</h3><ol><li>Gửi text lên OpenAI API → nhận vector 1536 số.</li><li>Chuẩn hóa: chia mỗi số cho độ dài vector → độ dài = 1.</li><li>Kiểm tra cache: text này đã từng embed chưa? (dùng SHA-256 tạo key duy nhất)</li><li>Nếu chưa → lưu vector vào SQLite cache. Lần sau gặp lại text tương tự → lấy từ cache, không gọi API.</li><li>Gửi vector cho Turbovec để nén và lưu vào index.</li></ol>
+<p style="margin-top:10px"><strong>Batch size = 128</strong>: Gửi 128 texts cùng lúc để giảm số lần gọi API.</p></div>
+</div>
+<div class="card"><h3>So sánh: Có và không normalize</h3>
+<table><tr><th>Tiêu chí</th><th>Không normalize</th><th>L2 Normalize</th></tr>
+<tr><td>Dot product</td><td>Bị bias — text dài score cao hơn</td><td>Công bằng — mọi text như nhau</td></tr>
+<tr><td>Turbovec search</td><td>Ranking sai</td><td>Ranking chính xác</td></tr></table>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">embeddings.py</span> | <strong>Config</strong>: <span class="c">EMBED_MODEL=text-embedding-3-small</span>, <span class="c">EMBED_DIM=1536</span></p>
+</section>
+
+<!-- SLIDE 17 -->
+<section class="slide" data-title="Turbovec: TurboQuant">
+<h1>Turbovec &amp; TurboQuant: Nén vector để search nhanh hơn</h1>
+<div class="card"><h3>Turbovec là gì?</h3><p><strong>Turbovec</strong> là một thư viện Python (viết bằng Rust) dùng để <strong>lưu vector embedding dưới dạng nén</strong> và <strong>search trực tiếp trên dữ liệu nén</strong> mà không cần giải nén.</p><p>Giống như bạn có thể đọc file ZIP mà không cần unzip — Turbovec tính toán similarity trên vector đã nén, tiết kiệm RAM và tăng tốc độ search.</p></div>
+<div class="grid2">
+<div class="card"><h3>Vấn đề: Vector embedding quá lớn</h3><p>Mỗi vector từ OpenAI có <strong>1536 số thực (float32)</strong>. Mỗi số chiếm 4 bytes → <strong>6144 bytes/vector</strong>.</p><p>Với 10,000 chunks → <strong>61MB RAM</strong> chỉ cho vector. Với 100,000 chunks → <strong>610MB</strong>. Trên CPU-only server, đây là gánh nặng lớn.</p><p>Cách truyền thống: Dùng <strong>Product Quantization (PQ)</strong> — chia vector thành nhóm, cluster mỗi nhóm, lưu index nhóm thay vì giá trị thật. Nhưng PQ có 2 nhược điểm:</p><ul><li><strong>Cần training</strong>: Phải chạy k-means trên data trước khi dùng → cold-start problem</li><li><strong>Concept drift</strong>: Data mới làm codebook cũ lỗi thời → phải retrain</li></ul></div>
+<div class="card"><h3>TurboQuant: Không cần training, vẫn nén tốt</h3><p><strong>Insight toán học:</strong> Trong không gian 1536 chiều, sau khi xoay ngẫu nhiên, mỗi tọa độ tuân theo phân phối Gaussian — <strong>bất kể dữ liệu gốc là gì</strong>.</p><p>→ Không cần nhìn data để biết distribution. Có thể <strong>tính sẵn bucket tối ưu từ toán học</strong>.</p><p><strong>Kết quả:</strong> Nén 4-bit (16 buckets) → <strong>768 bytes/vector</strong> (giảm 8×). Nén 2-bit (4 buckets) → <strong>384 bytes/vector</strong> (giảm 16×). Mà vẫn giữ được recall ~99% so với không nén.</p></div>
+</div>
+<div class="card"><h3>TurboQuant hoạt động như thế nào? (7 bước)</h3>
+<table><tr><th>Bước</th><th>Giải thích đơn giản</th></tr>
+<tr><td>1. Normalize</td><td>Chuẩn hóa vector về độ dài 1. Hướng quan trọng hơn độ dài.</td></tr>
+<tr><td>2. Xoay ngẫu nhiên</td><td>Nhân vector với ma trận xoay ngẫu nhiên. Sau khi xoay, dữ liệu phân bố đều theo Gaussian.</td></tr>
+<tr><td>3. Hiệu chỉnh (TQ+)</td><td>Điều chỉnh mỗi tọa độ dựa trên thống kê thực tế (5% và 95% quantile). Tăng recall thêm ~1.4%.</td></tr>
+<tr><td>4. Lượng tử hóa</td><td>Chia giá trị mỗi tọa độ vào bucket. 4-bit = 16 bucket, 2-bit = 4 bucket. Bucket được tính sẵn từ toán học.</td></tr>
+<tr><td>5. Đóng gói bit</td><td>1536 tọa độ × 4-bit = 768 bytes (thay vì 6144 bytes FP32). Giảm 8× bộ nhớ.</td></tr>
+<tr><td>6. Bù bias</td><td>Lưu thêm thông tin độ dài gốc để bù lỗi do lượng tử hóa. Lấy ý tưởng từ RaBitQ (SIGMOD 2024).</td></tr>
+<tr><td>7. SIMD search</td><td>Tính similarity trực tiếp trên dữ liệu nén (không giải nén). Dùng SIMD (NEON/AVX) để xử lý song song.</td></tr></table></div>
+<div class="card"><h3>So sánh TurboQuant với FAISS PQ</h3>
+<table><tr><th>Tiêu chí</th><th>FAISS IndexPQFastScan</th><th>Turbovec TurboQuant</th></tr>
+<tr><td>Training</td><td>Cần k-means trước khi dùng</td><td><strong>Không cần</strong> — dùng ngay</td></tr>
+<tr><td>Thêm/xóa vector</td><td>Xóa khó, cần rebuild</td><td><strong>Xóa O(1)</strong> — instant</td></tr>
+<tr><td>Bộ nhớ (4-bit)</td><td>~8× compression</td><td>~8× (768 bytes/vector)</td></tr>
+<tr><td>Tốc độ (ARM M3)</td><td>Baseline</td><td><strong>Nhanh hơn 12-20%</strong></td></tr>
+<tr><td>Recall (R@1, 4-bit)</td><td>Baseline</td><td><strong>Cao hơn 0.4-3.4%</strong></td></tr></table>
+<p style="margin-top:10px"><strong>Tại sao dự án chọn TurboQuant</strong>: Không cần training → upload PDF là search được ngay. Chạy local → privacy. Air-gapped capable. Phù hợp CPU-only deployment.</p></div>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide" data-title="Exhaustive SIMD Search">
+<h1>Exhaustive SIMD Search — Duyệt toàn bộ nhưng vẫn nhanh</h1>
+<div class="grid2">
+<div class="card"><h3>ANN (Approximate Nearest Neighbor) là gì?</h3><p>Các thư viện như FAISS, HNSW dùng chiến lược <strong>"đại khái"</strong>: thay vì so sánh query với tất cả vector, chúng xây dựng cấu trúc dữ liệu phức tạp (graph, inverted file) để <strong>bỏ qua 99% candidates</strong>.</p><p><strong>Nhược điểm:</strong> Có thể bỏ sót vector relevant. Cần rebuild cấu trúc khi thêm/xóa dữ liệu. Phức tạp để vận hành.</p></div>
+<div class="card"><h3>Turbovec: Duyệt toàn bộ, nhưng trên dữ liệu nén</h3><p>Thay vì xấp xỉ, Turbovec <strong>so sánh query với 100% vector</strong> — nhưng vì vector đã nén 8× (4-bit), việc duyệt toàn bộ vẫn rất nhanh.</p><p><strong>Không có cấu trúc dữ liệu phức tạp</strong>: Chỉ là một mảng phẳng các vector nén. Thêm/xóa vector = thêm/xóa 1 dòng trong mảng.</p><p><strong>Recall 100%</strong> trên dữ liệu nén — không bỏ sót candidate nào.</p></div>
+</div>
+<div class="card"><h3>Tại sao O(N) vẫn đủ nhanh?</h3>
+<table><tr><th>Số vector</th><th>Thời gian scan</th><th>Đánh giá</th></tr>
+<tr><td>1,000</td><td>~0.1ms</td><td>Tức thì</td></tr>
+<tr><td>10,000</td><td>~0.5ms</td><td>Chấp nhận được</td></tr>
+<tr><td>100,000</td><td>~3ms</td><td>Vẫn OK</td></tr>
+<tr><td>1,000,000</td><td>~30ms</td><td>Bắt đầu chậm</td></tr></table>
+<p style="margin-top:10px">Với corpus PDF đề thi (vài nghìn đến chục nghìn chunks), dense scan chỉ ~0.5ms — <strong>không phải bottleneck</strong>. Bottleneck thực sự là reranker (~50-100ms).</p></div>
+<div class="card"><h3>SIMD: Tại sao nhanh?</h3><p><strong>SIMD</strong> (Single Instruction, Multiple Data) là tính năng của CPU cho phép xử lý nhiều dữ liệu cùng lúc bằng 1 lệnh.</p><ul><li><strong>NEON</strong> (Apple Silicon, ARM): Xử lý 128-bit song song → nhanh hơn FAISS 12-20%.</li><li><strong>AVX-512</strong> (Intel server): Xử lý 512-bit song song → nhanh nhất trên x86.</li><li><strong>AVX2</strong> (CPU thường từ 2013+): Fallback, vẫn nhanh ngang FAISS.</li></ul><p>Query vector được tính similarity <strong>trực tiếp trên dữ liệu nén</strong> — không cần giải nén về float32. Giống như tính tổng các số trong file ZIP mà không cần unzip.</p></div>
+</section>
+
+<!-- SLIDE 19 -->
+<section class="slide" data-title="BM25 Keyword Search">
+<h1>BM25: Search theo từ khóa thông minh</h1>
+<div class="card"><h3>BM25 là gì?</h3><p>BM25 là thuật toán <strong>tính điểm relevance</strong> giữa câu query và document. Nó là phiên bản nâng cấp của TF-IDF — thuật toán kinh điển từ những năm 1970. BM25 được dùng trong Elasticsearch, Lucene và hầu hết các search engine hiện đại.</p></div>
+<div class="grid2">
+<div class="card"><h3>TF-IDF: Nền tảng</h3><p>TF-IDF dựa trên 2 ý tưởng đơn giản:</p><ul><li><strong>TF (Term Frequency)</strong>: Từ xuất hiện càng nhiều trong document → document càng liên quan. Nhưng <strong>tuyến tính</strong> — xuất hiện 10× thì score tăng 10×, không hợp lý.</li><li><strong>IDF (Inverse Document Frequency)</strong>: Từ hiếm (ít document có) thì quan trọng hơn từ phổ biến. "Python" hiếm hơn "là".</li></ul><p><strong>Nhược điểm:</strong> TF tuyến tính không đúng thực tế — sau một ngưỡng, từ xuất hiện thêm không làm document liên quan hơn.</p></div>
+<div class="card"><h3>BM25: Cải tiến 2 điểm</h3><p><strong>1. TF Saturation (k1):</strong> Thay vì tuyến tính, BM25 dùng hàm <strong>bão hòa</strong> — tăng nhanh ở đầu, chậm dần ở tail. Từ xuất hiện 3× thì score cao, nhưng 10× cũng không cao hơn nhiều. Hợp lý hơn thực tế.</p><p><strong>2. Length Normalization (b):</strong> Document dài bị phạt nhẹ hơn TF-IDF. Phân biệt được "dài vì nhiều nội dung" vs "dài vì lặp từ".</p><p style="margin-top:10px"><strong>Dự án dùng:</strong> k1=1.5, b=0.75 (default của BM25Okapi).</p></div>
+</div>
+<div class="card"><h3>Ví dụ: Query "công thức điểm chuẩn"</h3>
+<table><tr><th>Bước</th><th>Giải thích</th></tr>
+<tr><td>1. Tách từ</td><td><span class="c">["công thức", "điểm chuẩn"]</span> (dùng Underthesea)</td></tr>
+<tr><td>2. IDF lookup</td><td>"công thức" có trong 5/100 chunks → IDF ≈ 1.26 (khá quan trọng)</td></tr>
+<tr><td>3. TF scoring</td><td>Chunk A có "công thức" × 3 lần, dài 800 ký tự → tính score theo công thức BM25</td></tr>
+<tr><td>4. Rank</td><td>Tất cả chunks được scoring → lấy top-30</td></tr></table>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">bm25_index.py</span> — wrapper <span class="c">rank_bm25.BM25Okapi</span> | <strong>Config</strong>: <span class="c">BM25_TOP_K=30</span> | Pure Python, đủ nhanh cho corpus nhỏ.</p></div>
+</section>
+
+<!-- SLIDE 20 -->
+<section class="slide" data-title="Hybrid Search & RRF">
+<h1>Hybrid Search: Kết hợp BM25 + Dense bằng RRF</h1>
+<div class="card"><h3>Tại sao cần kết hợp 2 phương pháp?</h3><p>BM25 và Dense embedding <strong>bổ sung cho nhau</strong>:</p><ul><li><strong>BM25</strong>: Giỏi tìm từ khóa chính xác. Query "điểm chuẩn" → match chính xác chunk có từ "điểm chuẩn". Nhưng không hiểu ngữ nghĩa — "điểm chuẩn" và "ngưỡng tuyển sinh" là cùng khái niệm nhưng BM25 không biết.</li><li><strong>Dense embedding</strong>: Hiểu ngữ nghĩa. "điểm chuẩn" và "ngưỡng tuyển sinh" có vector gần nhau. Nhưng có thể bỏ sót từ khóa chính xác.</li></ul><p>Kết hợp cả 2 → <strong>không bỏ sót relevant chunk</strong>.</p></div>
+<div class="grid2">
+<div class="card"><h3>Vấn đề: BM25 và Dense cho score khác thang đo</h3><p>BM25 score từ 0 đến vô cùng. Dense score từ -1 đến 1. Không thể cộng trực tiếp. Nếu dùng weighted sum (α·BM25 + β·Dense) → phải tune α, β — và α tối ưu khác nhau cho mỗi query.</p></div>
+<div class="card"><h3>Giải pháp: RRF — kết hợp theo thứ hạng, không theo score</h3><p>Thay vì cộng score, RRF <strong>cộng thứ hạng</strong>:</p><p style="text-align:center;font-size:16px;margin:10px 0">RRF_score = 1/(60 + rank_BM25) + 1/(60 + rank_Dense)</p><p><strong>Ý nghĩa:</strong> Chunk nào đứng cao ở CẢ 2 phương pháp → score cao nhất. Chunk chỉ đứng cao ở 1 phương pháp → score trung bình. <strong>Không cần tune weight, không cần normalize.</strong></p></div>
+</div>
+<div class="card"><h3>Ví dụ: Consensus preference</h3>
+<table><tr><th>Chunk</th><th>Rank BM25</th><th>Rank Dense</th><th>RRF Score</th></tr>
+<tr><td>A</td><td>#1</td><td>Không có trong top-30</td><td>1/(60+1) = 0.016</td></tr>
+<tr><td><strong>B</strong></td><td><strong>#2</strong></td><td><strong>#2</strong></td><td><strong>2/(60+2) = 0.032</strong></td></tr></table>
+<p>Chunk B đứng #2 ở CẢ 2 → score cao gấp đôi chunk A đứng #1 nhưng chỉ ở 1 phương pháp. <strong>RRF ưu tiên consensus.</strong></p>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">hybrid.py</span> | <strong>Config</strong>: <span class="c">RRF_K=60</span> | Pipeline: BM25 top-30 + Dense top-30 → RRF → top-20 → Reranker | <strong>Tại sao k=60</strong>: Giá trị empirically optimal trên mọi dataset (SIGIR 2009).</p></div>
+</section>
+
+<!-- SLIDE 21 -->
+<section class="slide" data-title="Cross-Encoder Reranker">
+<h1>Cross-Encoder Reranker: Sắp xếp lại kết quả cho chính xác</h1>
+<div class="card"><h3>Tại sao cần reranker?</h3><p>BM25 + Dense + RRF cho ra 30 chunks — nhưng thứ hạng chưa chính xác. Ví dụ: chunk #1 có thể chứa từ khóa nhưng không trả lời đúng câu hỏi, trong khi chunk #5 trả lời đúng nhưng ít từ khóa trùng hơn.</p><p><strong>Reranker</strong> là model đọc kỹ từng cặp (query, chunk) và cho điểm chính xác hơn — giống như giáo viên chấm bài kỹ hơn là máy chấm trắc nghiệm.</p></div>
+<div class="grid2">
+<div class="card"><h3>Bi-Encoder vs Cross-Encoder</h3>
+<table><tr><th></th><th>Bi-Encoder (Embedding)</th><th>Cross-Encoder (Reranker)</th></tr>
+<tr><td>Cách hoạt động</td><td>Convert query và chunk thành 2 vector riêng biệt, so sánh bằng cosine</td><td>Nối query + chunk thành 1 câu, đưa qua Transformer để hiểu mối quan hệ</td></tr>
+<tr><td>Tốc độ</td><td>Rất nhanh — so sánh 2 vector là xong</td><td>Chậm — phải chạy Transformer cho mỗi cặp</td></tr>
+<tr><td>Độ chính xác</td><td>Khá</td><td><strong>Cao hơn đáng kể</strong></td></tr>
+<tr><td>Dùng khi nào</td><td>Filter nhanh từ hàng nghìn chunks → lấy top-30</td><td>Chấm kỹ 20 candidates cuối cùng</td></tr></table></div>
+<div class="card"><h3>2-Stage Retrieval: Nhanh + Chính xác</h3><p><strong>Stage 1 — Filter nhanh (BM25 + Dense + RRF):</strong> Quét toàn bộ corpus, lấy top-30 candidates. Thời gian: ~2ms.</p><p><strong>Stage 2 — Chấm kỹ (Cross-Encoder):</strong> Đọc kỹ từng cặp (query, 20 chunk) và cho điểm chính xác. Thời gian: ~50-100ms.</p><p><strong>Tại sao không dùng Cross-Encoder cho tất cả?</strong> Vì nó chậm — với 10,000 chunks, phải chạy 10,000 lần Transformer → vài giây. Nhưng với chỉ 20 candidates → 100ms là chấp nhận được.</p></div>
+</div>
+<div class="card"><h3>Liên hệ dự án</h3>
+<table><tr><th>Thành phần</th><th>Chi tiết</th></tr>
+<tr><td>Model</td><td><span class="c">BAAI/bge-reranker-v2-m3</span> — hỗ trợ tiếng Việt</td></tr>
+<tr><td>Config</td><td><span class="c">RERANK_TOP_N=20</span> — lấy 20 chunks từ RRF, rerank, lấy top-5</td></tr>
+<tr><td>Thread safety</td><td>Dùng lock vì model không thread-safe — chỉ 1 request xử lý tại 1 thời điểm</td></tr>
+<tr><td>FP16</td><td>Chạy ở độ chính xác 16-bit → giảm VRAM, tăng tốc độ</td></tr></table>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">reranker.py</span></p></div>
+</section>
+
+<!-- SLIDE 22 -->
+<section class="slide" data-title="Agent Graph: Kiến trúc tổng quan">
+<h1>Agent Graph: 10 bước xử lý câu hỏi</h1>
+<div class="card"><h3>Agent Graph là gì?</h3><p>Thay vì đưa câu hỏi thẳng cho LLM và nhận câu trả lời, hệ thống chia quá trình thành <strong>10 bước nhỏ</strong>, mỗi bước có nhiệm vụ riêng. Giống như một dây chuyền sản xuất: mỗi công đoạn kiểm tra một khía cạnh trước khi chuyển sang công đoạn tiếp theo.</p><p><strong>Tại sao không dùng LangChain/LangGraph?</strong> Vì chúng thêm lớp abstraction phức tạp, khó debug. Code tự viết rõ ràng: mỗi node là function, mỗi chuyển tiếp là if-else — dễ hiểu, dễ sửa.</p></div>
+<div class="card"><h3>10 Node trong Graph</h3>
+<table><tr><th>#</th><th>Node</th><th>Làm gì</th><th>Model</th></tr>
+<tr><td>1</td><td><strong>Router</strong></td><td>Phân loại câu hỏi: chào hỏi (trả lời luôn), đơn giản (1 lần search), phức tạp (nhiều bước)</td><td>Fast</td></tr>
+<tr><td>2</td><td><strong>Planner</strong></td><td>Chia câu hỏi phức tạp thành ≤4 câu nhỏ hơn</td><td>Fast</td></tr>
+<tr><td>3</td><td><strong>Retrieve</strong></td><td>BM25 + Dense + RRF + Reranker → lấy chunks liên quan</td><td>—</td></tr>
+<tr><td>4</td><td><strong>Distill</strong></td><td>Trích xuất thông tin liên quan từ chunks, loại bỏ nhiễu</td><td>Fast</td></tr>
+<tr><td>5</td><td><strong>Verify</strong></td><td>Kiểm tra: thông tin trích xuất có đúng với chunk gốc không?</td><td>Fast</td></tr>
+<tr><td>6</td><td><strong>Sufficiency</strong></td><td>Đánh giá: đủ thông tin để trả lời chưa? Nếu chưa → thiếu gì?</td><td>Fast</td></tr>
+<tr><td>7</td><td><strong>Replan</strong></td><td>Nếu chưa đủ: tạo câu search mới, tìm hướng khác</td><td>Strong</td></tr>
+<tr><td>8</td><td><strong>Synthesize</strong></td><td>Tổng hợp câu trả lời cuối cùng từ thông tin đã thu thập</td><td>Strong</td></tr>
+<tr><td>9</td><td><strong>Verify Answer</strong></td><td>Kiểm tra: mọi khẳng định trong câu trả lời có trong context không?</td><td>Fast</td></tr>
+<tr><td>10</td><td><strong>Regenerate</strong></td><td>Nếu verify fail: viết lại câu trả lời, chỉ dùng context</td><td>Fast</td></tr></table>
+<p style="margin-top:10px"><strong>Fast vs Strong:</strong> Fast = gpt-4o-mini temperature thấp (nhanh, rẻ). Strong = gpt-4o-mini temperature cao hơn (sáng tạo hơn). Cùng 1 model, chỉ khác config.</p></div>
+<div class="card"><h3>Config quan trọng</h3>
+<p><span class="c">MAX_REPLAN_ITERS=3</span> — tối đa 3 lần replanning. <span class="c">MAX_ANSWER_REGENERATIONS=1</span> — tối đa 1 lần viết lại câu trả lời.</p>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">graph.py</span> — <span class="c">Agent.run()</span></p></div>
+</section>
+
+<!-- SLIDE 23 -->
+<section class="slide" data-title="Agent Graph: Flow chi tiết">
+<h1>Agent Graph: Flow chi tiết</h1>
+<div class="svg-wrap">
+<svg width="800" height="500" viewBox="0 0 800 500">
+<rect x="300" y="10" width="200" height="50" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="400" y="40" text-anchor="middle" fill="#93c5fd" font-size="14" font-weight="700">Router</text>
+<polyline points="400,60 400,90" stroke="#475569" stroke-width="2" fill="none"/>
+<rect x="300" y="90" width="200" height="50" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="2"/>
+<text x="400" y="120" text-anchor="middle" fill="#c4b5fd" font-size="14" font-weight="700">Planner</text>
+<polyline points="400,140 400,170" stroke="#475569" stroke-width="2" fill="none"/>
+<rect x="300" y="170" width="200" height="50" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="400" y="200" text-anchor="middle" fill="#6ee7b7" font-size="14" font-weight="700">Retrieve</text>
+<polyline points="400,220 400,250" stroke="#475569" stroke-width="2" fill="none"/>
+<rect x="100" y="250" width="180" height="50" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="190" y="280" text-anchor="middle" fill="#fcd34d" font-size="14" font-weight="700">Distill</text>
+<rect x="300" y="250" width="200" height="50" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+<text x="400" y="280" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="700">Verify</text>
+<rect x="520" y="250" width="180" height="50" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+<text x="610" y="280" text-anchor="middle" fill="#67e8f9" font-size="14" font-weight="700">Sufficiency</text>
+<polyline points="280,275 300,275" stroke="#475569" stroke-width="2" fill="none"/>
+<polyline points="500,275 520,275" stroke="#475569" stroke-width="2" fill="none"/>
+<polyline points="610,300 610,340 400,340 400,370" stroke="#475569" stroke-width="2" fill="none"/>
+<text x="620" y="330" fill="#94a3b8" font-size="11">need_more</text>
+<rect x="300" y="370" width="200" height="50" rx="8" fill="#0f172a" stroke="#ec4899" stroke-width="2"/>
+<text x="400" y="400" text-anchor="middle" fill="#f9a8d4" font-size="14" font-weight="700">Replan</text>
+<polyline points="400,370 400,340 610,340 610,300" stroke="#475569" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+<polyline points="400,420 400,450" stroke="#475569" stroke-width="2" fill="none"/>
+<rect x="300" y="450" width="200" height="50" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="400" y="480" text-anchor="middle" fill="#93c5fd" font-size="14" font-weight="700">Synthesize</text>
+</svg></div>
+<div class="card"><h3>Flow chính (3 routes)</h3><ol><li><strong>no_retrieval</strong>: Chào hỏi → trả lời trực tiếp (không retrieve).</li><li><strong>simple</strong>: Retrieve → Synthesize → Verify Answer → (Regenerate nếu hallucinate).</li><li><strong>complex</strong>: Plan → [Retrieve → Distill → Verify → Sufficiency → (Replan loop, max 3)] → Synthesize → Verify Answer → (Regenerate).</li></ol><p style="margin-top:10px"><strong>Lưu ý</strong>: Simple route BỎ QUA distill/verify/sufficiency/replan — chỉ retrieve rồi synthesize.</p></div>
+</section>
+
+<!-- SLIDE 24 -->
+<section class="slide" data-title="Agent Graph: Replanning Loop">
+<h1>Replanning Loop: Tự sửa khi chưa đủ thông tin</h1>
+<div class="card"><h3>Tại sao cần replanning?</h3><p>Một lần search thường <strong>không đủ</strong> để trả lời câu hỏi phức tạp. Ví dụ: hỏi "Điểm chuẩn Y Dược 2024 ngành nào cao nhất?" — lần đầu có thể chỉ tìm được phương pháp tính điểm, không có số liệu cụ thể. Hệ thống cần <strong>tự nhận ra mình thiếu gì</strong> và search lại với từ khóa khác.</p></div>
+<div class="grid2">
+<div class="card"><h3>Ví dụ: Replanning trong thực tế</h3>
+<table><tr><th>Lần</th><th>Làm gì</th><th>Kết quả</th></tr>
+<tr><td>1</td><td>Search: "điểm chuẩn Y Dược 2024"</td><td>Chunks về phương pháp tính điểm, không có số liệu</td></tr>
+<tr><td></td><td>Sufficiency: Chưa đủ → Replan</td><td>Tạo query mới: "bảng điểm chuẩn Y Dược 2024 ngành nào cao nhất"</td></tr>
+<tr><td>2</td><td>Search với query mới</td><td>Chunks chứa bảng điểm chuẩn cụ thể</td></tr>
+<tr><td></td><td>Sufficiency: Đủ → Synthesize</td><td>Trả lời với số liệu từ bảng</td></tr></table></div>
+<div class="card"><h3>Quản lý history: Không để context phình to</h3><p>Mỗi lần replanning thêm messages vào hội thoại → context window tăng. Giải pháp:</p><ul><li><strong>Giữ 4 messages gần nhất</strong> trong prompt (dù fetch 6 từ DB).</li><li><strong>Khi tổng ≥ 12 messages</strong>: Gọi LLM tóm tắt toàn bộ hội thoại → thay thế messages cũ bằng summary.</li><li><strong>Dừng sớm</strong>: Nếu số bước failed không giảm so với vòng trước → dừng (không cải thiện được nữa).</li></ul></div>
+</div>
+<div class="card"><h3>3 điều kiện dừng replanning</h3>
+<table><tr><th>Điều kiện</th><th>Giải thích</th></tr>
+<tr><td>Đạt max iterations (3)</td><td>Đã thử 3 lần vẫn chưa đủ → trả lời với thông tin tốt nhất + disclaimer</td></tr>
+<tr><td>Failed count không giảm</td><td>Vòng trước 3 bước failed, vòng này vẫn 3 → không cải thiện → dừng</td></tr>
+<tr><td>Không có failed steps</td><td>Tất cả steps đều success → đủ thông tin → chuyển sang Synthesize</td></tr></table>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">graph.py</span> — <span class="c">_replan()</span>, <span class="c">_check_sufficiency()</span>, <span class="c">_history_msgs()</span></p></div>
+</section>
+
+<!-- SLIDE 25 -->
+<section class="slide" data-title="System Prompts">
+<h1>System Prompts: Hướng dẫn AI cách hành xử</h1>
+<div class="card"><h3>System Prompt là gì?</h3><p>Mỗi node trong Agent Graph cần một <strong>lời hướng dẫn</strong> (system prompt) để LLM biết mình cần làm gì. Ví dụ: Router prompt = "Hãy phân loại câu hỏi này thành: chào hỏi, đơn giản, hay phức tạp. Trả về JSON."</p></div>
+<div class="grid2">
+<div class="card"><h3>2 loại prompt</h3><p><strong>JSON prompts</strong> (6 nodes): Router, Planner, Verify, Sufficiency, Replan, Verify Answer. Các node này cần output có cấu trúc để code parse được → prompt yêu cầu trả về JSON.</p><p><strong>Text prompts</strong> (4 nodes): Answer, Regenerate, Distill, Summarize. Các node này trả lời bằng văn bản tự do (Markdown cho Answer, plain text cho Distill/Summarize).</p></div>
+<div class="card"><h3>Chain-of-Thought (CoT)</h3><p>Answer và Regenerate prompt yêu cầu LLM <strong>"lập luận theo từng bước"</strong> trước khi đưa ra câu trả lời cuối cùng. Giống như yêu cầu học sinh trình bày cách giải trước khi ghi đáp số → giảm hallucination, tăng độ tin cậy.</p><p><strong>Nhược điểm:</strong> CoT tăng số tokens → tốn hơn. Nên chỉ dùng cho 2 node quan trọng nhất.</p></div>
+</div>
+<div class="card"><h3>9 Prompts + 1 Template</h3>
+<table><tr><th>Node</th><th>Output</th><th>CoT?</th><th>Giải thích</th></tr>
+<tr><td>Router</td><td>JSON: route, reason</td><td>Không</td><td>Chỉ cần phân loại nhanh</td></tr>
+<tr><td>Planner</td><td>JSON: danh sách sub-questions</td><td>Không</td><td>Chia câu hỏi thành phần nhỏ</td></tr>
+<tr><td>Distill</td><td>Text: facts hoặc "KHÔNG_LIÊN_QUAN"</td><td>Không</td><td>Trích xuất thông tin từ chunks</td></tr>
+<tr><td>Verify</td><td>JSON: grounded (true/false), reason</td><td>Không</td><td>Kiểm tra thông tin có trong chunk không</td></tr>
+<tr><td>Sufficiency</td><td>JSON: sufficient, missing_aspects</td><td>Không</td><td>Đánh giá đã đủ thông tin chưa</td></tr>
+<tr><td>Replan</td><td>JSON: sub-questions mới</td><td>Không</td><td>Tạo hướng search mới</td></tr>
+<tr><td>Answer</td><td>Markdown + LaTeX + citations</td><td><strong>Có</strong></td><td>Viết câu trả lời cuối cùng</td></tr>
+<tr><td>Verify Answer</td><td>JSON: grounded, ungrounded_claims</td><td>Không</td><td>Kiểm tra câu trả lời có dựa trên context không</td></tr>
+<tr><td>Regenerate</td><td>Markdown (template + verify_reason)</td><td><strong>Có</strong></td><td>Viết lại nếu verify fail</td></tr>
+<tr><td>Summarize</td><td>Text: tóm tắt hội thoại</td><td>Không</td><td>Nén history khi quá dài</td></tr></table>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">prompts.py</span> | Tất cả prompts viết bằng tiếng Việt.</p></div>
+</section>
+
+<!-- SLIDE 26 -->
+<section class="slide" data-title="Evaluation Framework">
+<h1>Evaluation: Đo lường chất lượng search</h1>
+<div class="card"><h3>Tại sao cần eval?</h3><p>Không có đo lường = không biết hệ thống có hoạt động tốt không. Eval giúp trả lời: BM25 hay Dense tốt hơn? Có reranker thì cải thiện bao nhiêu? Câu hỏi khó có được trả lời đúng không?</p></div>
+<div class="grid2">
+<div class="card"><h3>Cách eval hoạt động</h3><ol><li><strong>Chuẩn bị bộ câu hỏi</strong>: Mỗi câu hỏi có đáp án đúng (expected answer) và độ khó (easy/medium/hard).</li><li><strong>Chạy 4 phương pháp</strong>: BM25, Dense, Hybrid (RRF), Hybrid + Rerank — mỗi method lấy top-20 chunks.</li><li><strong>LLM-as-judge</strong>: Dùng LLM đọc 40 chunks (10 từ mỗi method) và xác định chunk nào thực sự liên quan.</li><li><strong>Tính điểm</strong>: So sánh kết quả mỗi method với "đáp án đúng" từ judge.</li></ol></div>
+<div class="card"><h3>3 metrics chính</h3>
+<table><tr><th>Metric</th><th>Đo gì</th><th>Ý nghĩa</th></tr>
+<tr><td><strong>Recall@5</strong></td><td>% chunks liên quan có trong top-5</td><td>Có bỏ sót thông tin quan trọng không?</td></tr>
+<tr><td><strong>MRR@5</strong></td><td>Trung bình nghịch đảo rank của chunk relevant đầu tiên</td><td>Chunk relevant có ở đầu bảng không?</td></tr>
+<tr><td><strong>Hit@5</strong></td><td>% câu hỏi có ít nhất 1 chunk relevant trong top-5</td><td>Có tìm được gì không?</td></tr></table>
+<p style="margin-top:10px"><strong>LLM-as-judge</strong>: Ưu điểm = không cần người chấm tay, scale được. Nhược điểm = có thể biased, không consistent 100%. Nên cache kết quả judge để không chạy lại.</p></div>
+</div>
+<div class="card"><h3>Output eval</h3>
+<p>Kết quả ghi ra <span class="c">eval_results.json</span>, <span class="c">eval_report.md</span>, <span class="c">eval_comparison.md</span>. Có flag <span class="c">--baseline</span> để so sánh trước/sau khi tối ưu.</p>
+<p style="margin-top:10px"><strong>File</strong>: <span class="c">eval/run_eval.py</span>, <span class="c">eval/metrics.py</span></p></div>
+</section>
+
+<!-- SLIDE: A/B Test Retrieval Quality -->
+<section class="slide" data-title="A/B Test: Retrieval & Context Quality">
+<h1>A/B Test: Retrieval &amp; Context Quality</h1>
+<p style="color:#94a3b8;margin-bottom:6px">n=94 câu hỏi · 5 variants: Baseline, T1 Query Transform, T4 Contextual Headers, T8 RSE, T10 Hierarchical · <strong style="color:#93c5fd">Có reranker</strong></p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0">
+  <div class="card" style="padding:12px">
+    <h3 style="margin-top:0;margin-bottom:8px">Retrieval Quality @5</h3>
+    <img src="../data/ab_golden5_imported8_resumable/01_retrieval_quality_k5.png" alt="Retrieval Quality @5" style="width:100%;border-radius:6px;display:block">
+    <p style="font-size:13px;color:#94a3b8;margin:8px 0 0">T4 Ctxt Headers dẫn đầu: Recall@5 <strong style="color:#6ee7b7">0.77</strong>, Hit@5 <strong style="color:#6ee7b7">0.88</strong>, NDCG@5 <strong style="color:#6ee7b7">0.68</strong>. T1 &amp; T8 RSE thấp hơn Baseline.</p>
+  </div>
+  <div class="card" style="padding:12px">
+    <h3 style="margin-top:0;margin-bottom:8px">Precision @5 &amp; @10</h3>
+    <img src="../data/ab_golden5_imported8_resumable/04_precision.png" alt="Precision" style="width:100%;border-radius:6px;display:block">
+    <p style="font-size:13px;color:#94a3b8;margin:8px 0 0">T8 RSE nổi bật: Precision@5 <strong style="color:#fcd34d">0.46</strong> (gấp ~2× Baseline 0.29). Ghép segment liên tiếp giúp giảm chunk thừa.</p>
+  </div>
+  <div class="card" style="padding:12px">
+    <h3 style="margin-top:0;margin-bottom:8px">Context Quality</h3>
+    <img src="../data/ab_golden5_imported8_resumable/05_context_quality.png" alt="Context Quality" style="width:100%;border-radius:6px;display:block">
+    <p style="font-size:13px;color:#94a3b8;margin:8px 0 0">T4 dẫn Context Precision <strong style="color:#6ee7b7">0.61</strong>. T8 RSE: Context Recall <strong style="color:#fca5a5">0.13</strong> — trả ít chunk nhưng chính xác hơn.</p>
+  </div>
+</div>
+<div class="card">
+  <h3>Tổng hợp kết quả — Retrieval Quality</h3>
+  <table>
+    <tr><th>Technique</th><th>Recall@5</th><th>MRR@5</th><th>Hit@5</th><th>NDCG@5</th><th>Precision@5</th><th>Ctx Precision</th><th>Nhận xét</th></tr>
+    <tr><td><strong>Baseline</strong></td><td>0.64</td><td>0.67</td><td>0.83</td><td>0.59</td><td>0.29</td><td>0.52</td><td>Baseline tham chiếu</td></tr>
+    <tr><td><strong>T1 Query Transform</strong></td><td>0.54</td><td>0.59</td><td>0.70</td><td>0.52</td><td>0.26</td><td>0.45</td><td style="color:#fca5a5">Thấp hơn Baseline ở mọi metric retrieval</td></tr>
+    <tr><td><strong>T4 Ctxt Headers</strong></td><td style="color:#6ee7b7">0.77</td><td style="color:#6ee7b7">0.71</td><td style="color:#6ee7b7">0.88</td><td style="color:#6ee7b7">0.68</td><td>0.30</td><td style="color:#6ee7b7">0.61</td><td style="color:#6ee7b7">Tốt nhất toàn diện</td></tr>
+    <tr><td><strong>T8 RSE</strong></td><td>0.41</td><td>0.55</td><td>0.61</td><td>0.43</td><td style="color:#fcd34d">0.46</td><td>0.38</td><td style="color:#fcd34d">Recall thấp, Precision cao nhất</td></tr>
+    <tr><td><strong>T10 Hierarchical</strong></td><td>0.68</td><td>0.70</td><td>0.84</td><td>0.64</td><td>0.30</td><td>0.57</td><td>Gần T4, latency thấp nhất</td></tr>
+  </table>
+</div>
+</section>
+
+<!-- SLIDE: A/B Test Latency -->
+<section class="slide" data-title="A/B Test: Latency">
+<h1>A/B Test: Latency</h1>
+<p style="color:#94a3b8;margin-bottom:6px">n=94 câu hỏi · Đo <strong style="color:#93c5fd">không có reranker</strong> để tách tín hiệu latency thuần của từng technique</p>
+<div class="grid2" style="margin:14px 0">
+  <div class="card" style="padding:12px">
+    <h3 style="margin-top:0;margin-bottom:8px">Retrieval Latency per Method</h3>
+    <img src="../data/ab_golden5_imported8_resumable_no_rerranker/06_latency_box.png" alt="Retrieval Latency Box" style="width:100%;border-radius:6px;display:block">
+    <p style="font-size:13px;color:#94a3b8;margin:8px 0 0">T1 Query Transform: median <strong style="color:#fca5a5">~1.3s</strong>, outlier lên <strong style="color:#fca5a5">5.5s</strong>. Các technique còn lại gần bằng Baseline (~0ms).</p>
+  </div>
+  <div class="card" style="padding:12px">
+    <h3 style="margin-top:0;margin-bottom:8px">Latency Breakdown (avg ms)</h3>
+    <img src="../data/ab_golden5_imported8_resumable_no_rerranker/07_latency_breakdown.png" alt="Latency Breakdown" style="width:100%;border-radius:6px;display:block">
+    <p style="font-size:13px;color:#94a3b8;margin:8px 0 0">T1: <strong style="color:#fca5a5">193ms</strong> (183ms Dense+Embed = gọi LLM). Baseline: 13ms · T4: 12ms · T8: 5ms · T10: <strong style="color:#6ee7b7">4ms</strong>.</p>
+  </div>
+</div>
+<div class="card">
+  <h3>Tổng hợp kết quả — Latency</h3>
+  <table>
+    <tr><th>Technique</th><th>Avg Latency</th><th>BM25</th><th>Dense+Embed</th><th>So với Baseline</th><th>Nhận xét</th></tr>
+    <tr><td><strong>Baseline</strong></td><td>13ms</td><td>6ms</td><td>7ms</td><td>—</td><td>Baseline tham chiếu</td></tr>
+    <tr><td><strong>T1 Query Transform</strong></td><td style="color:#fca5a5">193ms</td><td>7ms</td><td style="color:#fca5a5">183ms</td><td style="color:#fca5a5">+15×</td><td style="color:#fca5a5">Gọi thêm LLM ở query-time → đắt nhất</td></tr>
+    <tr><td><strong>T4 Ctxt Headers</strong></td><td>12ms</td><td>—</td><td>8ms</td><td>≈ Baseline</td><td style="color:#6ee7b7">Quality cao, latency gần Baseline</td></tr>
+    <tr><td><strong>T8 RSE</strong></td><td>5ms</td><td>—</td><td>—</td><td style="color:#6ee7b7">–62%</td><td>Nhanh hơn Baseline, ít chunk hơn</td></tr>
+    <tr><td><strong>T10 Hierarchical</strong></td><td style="color:#6ee7b7">4ms</td><td>—</td><td>—</td><td style="color:#6ee7b7">–69%</td><td style="color:#6ee7b7">Nhanh nhất, quality tốt thứ 2</td></tr>
+  </table>
+  <p style="margin-top:12px"><strong style="color:#fcd34d">Kết luận:</strong> T4 Contextual Headers là lựa chọn tốt nhất — quality cao nhất, latency gần Baseline. T1 Query Transform: cải thiện chưa đủ bù cho chi phí ~15× so với Baseline. T10 Hierarchical: nhanh nhất &amp; quality tốt — phù hợp production.</p>
+</div>
+</section>
+
+<!-- SLIDE 27 -->
+<section class="slide" data-title="Performance & Cost Analysis">
+<h1>Performance & Cost: Hệ thống nhanh/chậm thế nào?</h1>
+<div class="grid2">
+<div class="card"><h3>Thời gian xử lý 1 câu hỏi</h3>
+<table><tr><th>Thành phần</th><th>Thời gian</th><th>Ghi chú</th></tr>
+<tr><td>BM25 search</td><td>~1ms</td><td>Rất nhanh, pure Python</td></tr>
+<tr><td>Dense search</td><td>~0.5ms</td><td>Turbovec SIMD, dữ liệu nén</td></tr>
+<tr><td>RRF fusion</td><td>~0.1ms</td><td>Dict merge đơn giản</td></tr>
+<tr><td>Reranker</td><td>~50-100ms</td><td>Chậm nhất trong retrieval</td></tr>
+<tr><td>LLM calls (agent)</td><td>~500-2000ms</td><td>Phụ thuộc số lần replanning</td></tr>
+<tr><td><strong>Tổng</strong></td><td><strong>~0.6-2.2 giây</strong></td><td>Từ query đến câu trả lời</td></tr></table>
+<p style="margin-top:10px"><strong>Nhận xét:</strong> Reranker chiếm 80-90% thời gian retrieval. LLM calls chiếm phần lớn tổng thời gian.</p></div>
+<div class="card"><h3>Chi phí tokens (gpt-4o-mini)</h3>
+<table><tr><th>Node</th><th>Input</th><th>Output</th></tr>
+<tr><td>Router</td><td>~200</td><td>~50</td></tr>
+<tr><td>Planner</td><td>~400</td><td>~200</td></tr>
+<tr><td>Distill</td><td>~3000 (20 chunks)</td><td>~500</td></tr>
+<tr><td>Verify</td><td>~700</td><td>~100</td></tr>
+<tr><td>Sufficiency</td><td>~700</td><td>~50</td></tr>
+<tr><td>Synthesize</td><td>~1500</td><td>~500</td></tr>
+<tr><td><strong>Tổng/lần</strong></td><td><strong>~6500</strong></td><td><strong>~1400</strong></td></tr></table>
+<p style="margin-top:10px">Với tối đa 3 lần replanning: worst case ~26K input + 5.6K output tokens. Giá gpt-4o-mini: $0.150/1M input, $0.600/1M output → ~$0.005/câu hỏi đơn giản, ~$0.015/câu hỏi phức tạp.</p></div>
+</div>
+<div class="card"><h3>Bộ nhớ & Storage</h3>
+<table><tr><th>Thành phần</th><th>Kích thước</th><th>Ghi chú</th></tr>
+<tr><td>Turbovec index (4-bit)</td><td>768 bytes/vector</td><td>1536 chiều × 4-bit</td></tr>
+<tr><td>BM25 index</td><td>~KB</td><td>Rất nhỏ, pure Python dict</td></tr>
+<tr><td>Embedding cache</td><td>SQLite BLOB</td><td>Cache để không gọi API lại</td></tr>
+<tr><td>Reranker model</td><td>~1GB</td><td>Load 1 lần lúc startup</td></tr>
+<tr><td>SQLite database</td><td>~MB</td><td>Metadata, sessions, messages</td></tr></table>
+<p style="margin-top:10px"><strong>Deployment:</strong> CPU-only, không cần GPU. Docker image Python 3.11-slim.</p></div>
+</section>
+
+<!-- SLIDE 28 -->
+<section class="slide" data-title="Software Architecture">
+<h1>Interrupt & Recovery: Tại sao reload không mất tiến trình?</h1>
+<div class="card"><h3>Nguyên lý cốt lõi: State nằm ở DB, không nằm ở SSE connection</h3><p>Khi user reload trang hoặc chuyển session, SSE connection bị đứt — nhưng <strong>background thread vẫn chạy</strong> và <strong>tiếp tục ghi kết quả vào DB</strong>. SSE chỉ là "cửa sổ xem trực tiếp", không phải nơi lưu trữ state.</p></div>
+<div class="grid2">
+<div class="card"><h3>Chat: Incremental Persistence</h3><p>Mỗi agent event (trừ token streaming) được <strong>lưu ngay vào DB</strong> sau khi emit:</p><ol><li><span class="c">agent.run()</span> yield event (route, plan, retrieved, verify, ...)</li><li>Event được đẩy vào <span class="c">asyncio.Queue</span> để SSE stream.</li><li><strong>Cùng lúc đó</strong>: Event được append vào <span class="c">trace_snapshot</span> và <span class="c">update_message(msg_id, trace=...)</span> lưu vào SQLite.</li><li>Khi <span class="c">final</span> event đến → lưu answer, citations, status=<span class="c">complete</span>.</li></ol><p><strong>Nếu user reload</strong>: Frontend gọi <span class="c">getSession()</span> → lấy messages từ DB → thấy <span class="c">status=processing</span> → poll mỗi 2s cho đến khi <span class="c">status=complete</span>.</p></div>
+<div class="card"><h3>Upload: Background Thread độc lập</h3><p>Upload chạy trong background thread qua <span class="c">run_in_executor()</span>:</p><ol><li>User upload PDF → backend tạo record <span class="c">status=processing</span> trong DB.</li><li>Background thread bắt đầu ingest (parse → chunk → embed → index).</li><li><strong>Nếu user reload hoặc đóng tab</strong>: Thread vẫn chạy — nó không biết frontend đã disconnect.</li><li>Khi ingest xong → <span class="c">update_document_status(doc_id, "ready")</span>.</li><li>Frontend poll <span class="c">/api/documents</span> mỗi 2s → thấy status chuyển từ <span class="c">processing</span> → <span class="c">ready</span>.</li></ol></div>
+</div>
+<div class="card"><h3>Tại sao SSE disconnect không kill thread?</h3><p>SSE stream là async generator đọc từ <span class="c">asyncio.Queue</span>. Khi client disconnect, FastAPI raise <span class="c">CancelledError</span> → generator exit. Nhưng background thread (<span class="c">_run_agent_sync</span>) là <strong>thread riêng biệt</strong>, không phụ thuộc vào SSE connection. Nó tiếp tục chạy cho đến khi:</p><ul><li>Agent run hoàn tất (StopIteration)</li><li>User gọi <span class="c">POST /api/chat/cancel</span> → <span class="c">_cancelled_sessions.add(sid)</span> → cooperative check break loop</li></ul></div>
+</section>
+
+<!-- SLIDE 29 -->
+<section class="slide" data-title="Upload & Chat Flow">
+<h1>Upload & Chat: Luồng xử lý đồng thời</h1>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant FE as Frontend
+    participant API as FastAPI
+    participant T1 as Thread Upload
+    participant T2 as Thread Agent
+    participant DB as SQLite DB
+    U->>FE: Upload PDF + Ask question
+    FE->>API: POST /api/documents/upload
+    FE->>API: POST /api/chat (parallel)
+    API->>DB: add_document status=processing
+    API->>DB: add_message status=processing
+    API->>T1: run_in_executor(_ingest_bg)
+    API->>T2: run_in_executor(agent.run)
+    T1->>DB: save chunks + embeddings
+    T2->>DB: update_message trace=...
+    T2->>API: queue.put_nowait(event)
+    API-->>FE: SSE event
+    T1->>DB: update_document_status ready
+    T2->>DB: update_message status=complete
+    Note over FE,DB: Frontend disconnect (reload)
+    Note over T1,T2: Threads continue running
+    FE->>API: GET /sessions/:id (after reload)
+    API-->>FE: messages with trace + status
+    Note over FE: Poll every 2s until complete
+</pre></div>
+<div class="card"><h3>Key points</h3><ul><li><strong>State persistence</strong>: Mỗi event được lưu vào DB ngay khi emit. SSE chỉ là live view, không phải source of truth.</li><li><strong>Thread độc lập</strong>: Background thread không biết frontend đã disconnect. Nó chạy đến khi hoàn tất hoặc bị cancel.</li><li><strong>Frontend recovery</strong>: Sau reload, <span class="c">getSession()</span> lấy messages từ DB. Nếu <span class="c">status=processing</span> → poll mỗi 2s.</li><li><strong>Upload recovery</strong>: Poll <span class="c">/api/documents</span> mỗi 2s khi có document <span class="c">status=processing</span>.</li><li><strong>Không conflict</strong>: Ingestion dùng lock khi ghi. Chat chỉ đọc index — không cần lock.</li></ul></div>
+</section>
+
+<!-- SLIDE 30 -->
+<section class="slide" data-title="Cancel Flow">
+<h1>Cancel Flow: Hủy upload và chat như thế nào?</h1>
+<div class="grid2">
+<div class="card"><h3>Hủy upload file (xóa document)</h3><ol><li>User click "Xóa" trên document đang xử lý.</li><li>Backend xóa document khỏi DB → rebuild lại index từ các document còn lại.</li><li>Background thread đang ingest: trước khi làm gì cũng check — document còn tồn tại không? Nếu không → dừng lặng lẽ.</li></ol><p><strong>Thread không bị kill</strong>: Nó tự kiểm tra và tự dừng. Giống như bạn đang nấu ăn nhưng nguyên liệu đã hết → bạn tự dừng, không ai đuổi.</p></div>
+<div class="card"><h3>Hủy chat (dừng trả lời)</h3><ol><li>User click "Stop" hoặc chuyển sang tab khác.</li><li>Frontend hủy HTTP request (abort).</li><li>Hoặc gọi API cancel → backend đánh dấu session "đã hủy".</li><li>Background thread đang chạy agent: mỗi bước check — session có bị hủy không? Nếu có → dừng.</li><li>Messages đang xử lý → đánh dấu "cancelled". Trace đã lưu vẫn còn trong DB.</li></ol><p><strong>Nếu user reload trang</strong>: Frontend poll DB mỗi 2s → thấy trace + answer đã lưu → hiển thị lại.</p></div>
+</div>
+<div class="card"><h3>Code locations</h3>
+<table><tr><th>Chức năng</th><th>File</th><th>Cách hoạt động</th></tr>
+<tr><td>Xóa document</td><td><span class="c">main.py:245</span></td><td>Xóa khỏi DB → rebuild index</td></tr>
+<tr><td>Upload check</td><td><span class="c">store.py:193</span></td><td>Nếu document không còn → return (cooperative)</td></tr>
+<tr><td>Cancel chat API</td><td><span class="c">main.py:448</span></td><td>Thêm session vào set _cancelled_sessions</td></tr>
+<tr><td>Chat check</td><td><span class="c">main.py:305</span></td><td>Nếu session trong set → break loop</td></tr>
+<tr><td>Frontend abort</td><td><span class="c">ChatPanel.tsx</span></td><td>AbortController.abort() — hủy HTTP request</td></tr>
+<tr><td>Frontend poll</td><td><span class="c">ChatPanel.tsx</span></td><td>setInterval(getSession, 2000) — lấy trace từ DB</td></tr></table></div>
+</section>
+
+<!-- SLIDE 31 -->
+<section class="slide" data-title="Limitations">
+<h1>Limitations: 7 Hạn chế cần lưu ý</h1>
+<div class="grid2">
+<div class="card"><h3>1. Chỉ dùng cho 1 người</h3><p>SQLite chỉ chạy trên 1 máy. Mọi người dùng chung 1 kho tài liệu — không phân biệt ai upload cái gì. Không có phân quyền.</p><h3>2. Bảo mật cơ bản</h3><p>Không lọc input (user có thể inject query đặc biệt). API key lưu trong file .env — không tự động xoay. Có chống spam (10 upload/phút, 30 chat/phút) nhưng áp dụng cho tất cả, không theo từng user.</p><h3>3. Chi phí khi dùng nhiều</h3><p>OpenAI API: ~$0.005-0.015/câu hỏi. Agent replanning (tối đa 3 lần) tăng gấp 3 chi phí. Cache embedding giúp giảm nhưng không loại bỏ hoàn toàn.</p></div>
+<div class="card"><h3>4. Không tự khôi phục khi lỗi</h3><p>Nếu OpenAI API timeout → không retry. Không có circuit breaker (tự ngắt khi API liên tục lỗi). Nếu SQLite hỏng → mất toàn bộ index.</p><h3>5. Đánh giá chưa chuẩn</h3><p>Dùng LLM làm giám khảo — có thể thiên vị. Chưa có bộ câu hỏi chuẩn tiếng Việt để so sánh. Gán nhãn thủ công tốn thời gian.</p><h3>6. Chưa so sánh với đối thủ</h3><p>Chưa benchmark với LangChain, LlamaIndex, hoặc RAG cơ bản (chỉ embedding, không reranker).</p><h3>7. Đã hoàn thành</h3><ul><li>✅ Streaming (SSE) — đã hoạt động</li><li>✅ Chống spam (SlowAPI) — đã có</li><li>⚠️ Đa phương tiện — chưa (chỉ xử lý trang trống bằng VLM)</li></ul></div>
+</div>
+<div class="card"><h3>Ưu tiên khắc phục</h3>
+<table><tr><th>Mức</th><th>Cần làm</th></tr>
+<tr><td><strong>Cao</strong></td><td>Lọc input, xoay API key, retry khi lỗi, circuit breaker</td></tr>
+<tr><td><strong>Trung bình</strong></td><td>Phân quyền theo user, bộ eval chuẩn, so sánh đối thủ</td></tr>
+<tr><td><strong>Thấp</strong></td><td>Đa phương tiện, feedback từ user</td></tr></table></div>
+</section>
+
+<!-- SLIDE 32 -->
+<section class="slide" data-title="Future Roadmap">
+<h1>Future Roadmap: Hướng phát triển</h1>
+<div class="grid2">
+<div class="card"><h3>Sắp làm (1-3 tháng)</h3><ul><li><strong>Bảo mật</strong>: Lọc input, xoay API key tự động, retry khi API lỗi</li><li><strong>Multi-user</strong>: Mỗi người có kho tài liệu riêng, phân quyền</li><li><strong>Eval chuẩn</strong>: Bộ câu hỏi tiếng Việt mẫu, so sánh với cách làm cơ bản</li></ul><h3>Giữa hạn (3-6 tháng)</h3><ul><li><strong>Feedback</strong>: User đánh giá câu trả lời → điều chỉnh reranker</li><li><strong>Chunk thông minh</strong>: Không cắt theo ký tự nữa — cắt theo ngữ nghĩa (câu cùng chủ đề nhóm lại)</li><li><strong>So sánh đối thủ</strong>: Benchmark với LangChain, LlamaIndex, RAG cơ bản</li></ul></div>
+<div class="card"><h3>Dài hạn (6-12 tháng)</h3><ul><li><strong>Đa phương tiện</strong>: Extract hình ảnh, biểu đồ từ PDF → tìm kiếm bằng hình ảnh</li><li><strong>Embedding local</strong>: Thay OpenAI bằng model chạy trên máy → giảm chi phí, tăng bảo mật</li><li><strong>Scale lớn</strong>: Chuyển sang Elasticsearch/Weaviate khi dữ liệu quá nhiều</li><li><strong>Bộ nhớ dài hạn</strong>: Nhớ sở thích user qua nhiều phiên chat</li></ul></div>
+</div>
+<div class="card"><h3>Codebase hiện tại đã chuẩn bị gì?</h3>
+<table><tr><th>Tính năng</th><th>Trạng thái</th></tr>
+<tr><td>Streaming (SSE)</td><td>✅ Đã có — <span class="c">main.py</span> dùng <span class="c">StreamingResponse</span></td></tr>
+<tr><td>Feedback</td><td>❌ Chưa có bảng trong SQLite — cần migration</td></tr>
+<tr><td>Đa phương tiện</td><td>⚠️ PyMuPDF có thể extract images — chưa implement</td></tr>
+<tr><td>Embedding local</td><td>⚠️ <span class="c">Embedder</span> class đã có interface rõ — chỉ cần thêm provider</td></tr></table></div>
+</section>
+
+<!-- SLIDE 33 -->
+<section class="slide" data-title="Deployment">
+<h1>Deployment: Chạy trên CPU, không cần GPU</h1>
+<div class="grid2">
+<div class="card"><h3>Công nghệ sử dụng</h3>
+<table><tr><th>Thành phần</th><th>Công nghệ</th><th>Ghi chú</th></tr>
+<tr><td>Backend API</td><td>FastAPI + Uvicorn</td><td>REST API, async</td></tr>
+<tr><td>Frontend</td><td>React 18 + TypeScript</td><td>Chat UI, SSE, citations</td></tr>
+<tr><td>Database</td><td>SQLite (WAL)</td><td>Metadata, cache</td></tr>
+<tr><td>Vector Index</td><td>Turbovec (in-memory)</td><td>Load từ disk khi khởi động</td></tr>
+<tr><td>Reranker</td><td>HuggingFace (local)</td><td>FP16, CPU-only</td></tr>
+<tr><td>Embedding</td><td>OpenAI API</td><td>Bên ngoài, có cache</td></tr>
+<tr><td>LLM</td><td>OpenAI API</td><td>gpt-4o-mini</td></tr></table></div>
+<div class="card"><h3>Docker Compose</h3><ul><li><strong>1 container duy nhất</strong>: Backend + reranker model (Python 3.11-slim).</li><li><strong>Volume</strong>: <span class="c">./backend/storage:/app/storage</span> — lưu SQLite, vector index, BM25.</li><li><strong>Environment</strong>: <span class="c">backend/.env</span> — chứa OPENAI_API_KEY và config.</li><li><strong>Tài nguyên</strong>: CPU-only, RAM ~2-4GB (reranker ~1GB, index ~MB).</li></ul></div>
+</div>
+<div class="card"><h3>Tương thích phần cứng</h3>
+<table><tr><th>Platform</th><th>Hỗ trợ</th><th>Ghi chú</th></tr>
+<tr><td>x86-64 (Intel/AMD)</td><td>✅</td><td>Docker python:3.11-slim, PyTorch CPU</td></tr>
+<tr><td>ARM64 (Apple Silicon)</td><td>✅</td><td>Turbovec tự động dùng NEON SIMD</td></tr>
+<tr><td>AWS Graviton</td><td>✅</td><td>ARM64 server, tương thích</td></tr>
+<tr><td>GPU (CUDA)</td><td>❌ Không cần</td><td>PyTorch CPU-only build</td></tr></table>
+<p style="margin-top:10px"><strong>Scale sau này</strong>: Hiện tại 1 máy. Để chạy nhiều máy: cần PostgreSQL (thay SQLite), S3 (shared storage), Redis/Celery (message queue).</p></div>
+</section>
+
+<!-- SLIDE 34 -->
+<section class="slide" data-title="Tổng kết">
+<h1>Tổng kết: Đóng góp của dự án</h1>
+<div class="grid2">
+<div class="card"><h3>3 Đóng góp chính</h3>
+<table><tr><th>#</th><th>Đóng góp</th><th>Giá trị</th></tr>
+<tr><td>1</td><td><strong>PDF Parser cho toán học</strong></td><td>Extract công thức toán từ PDF — vấn đề chưa có giải pháp open-source tốt cho tiếng Việt.</td></tr>
+<tr><td>2</td><td><strong>Agent suy nghĩ có kiểm soát</strong></td><td>10-node graph, deterministic, có replanning. Minh bạch, debug được, không phải hộp đen.</td></tr>
+<tr><td>3</td><td><strong>Tìm kiếm bảo mật</strong></td><td>Turbovec chạy local, tìm toàn bộ (không xấp xỉ). Dữ liệu không rời server. Có thể chạy offline.</td></tr></table></div>
+<div class="card"><h3>Triết lý thiết kế</h3><ul><li><strong>Minh bạch hơn là tiện</strong>: Tự viết graph thay vì dùng LangGraph. Code rõ ràng, dễ debug.</li><li><strong>Bảo mật hơn là nhanh</strong>: Vector index local, reranker local. Chỉ embedding + LLM là gọi API ngoài.</li><li><strong>Đơn giản hơn là phức tạp</strong>: SQLite thay vì PostgreSQL. rank_bm25 thay vì Elasticsearch. Đủ cho nhu cầu hiện tại.</li><li><strong>Đúng hơn là nhanh</strong>: Tìm toàn bộ (exhaustive) thay vì xấp xỉ (ANN). Không bỏ sót tài liệu liên quan.</li></ul></div>
+</div>
+<div class="card"><h3>Kết luận</h3><p>Dự án chứng minh rằng <strong>hệ thống RAG tiếng Việt chất lượng cao</strong> có thể xây dựng với:</p><ul><li>Thư viện open-source (PyMuPDF, underthesea, turbovec, FlagEmbedding)</li><li>LLM giá rẻ (gpt-4o-mini)</li><li>Kiến trúc đơn giản, minh bạch, debug được</li><li>Thiết kế bảo mật (index local, reranker local)</li></ul>
+<p style="margin-top:15px;font-size:20px"><strong>Cảm ơn quý hội đồng đã lắng nghe!</strong></p></div>
+</section>
+
+<!-- SLIDE 35 -->
+<section class="slide" data-title="Q&A">
+<h1>Hỏi đáp</h1>
+<div class="card" style="text-align:center;padding:60px 40px">
+<h2 style="font-size:28px;margin-bottom:30px">Q&A</h2>
+<p style="font-size:18px;color:#94a3b8">Quý hội đồng và khán giả đặt câu hỏi</p>
+<div style="margin-top:40px;padding:30px;background:#0f172a;border-radius:8px;text-align:left">
+<h3 style="margin-bottom:15px">Các câu hỏi thường gặp:</h3>
+<ul style="color:#94a3b8;font-size:14px">
+<li>Tại sao chọn Turbovec thay vì FAISS?</li>
+<li>PDF parser xử lý file scan (ảnh) như thế nào?</li>
+<li>Chi phí thực tế cho 1000 câu hỏi/ngày?</li>
+<li>So với RAG dùng LangChain thì hơn/kém gì?</li>
+<li>Hệ thống xử lý nhiều người hỏi cùng lúc ra sao?</li>
+<li>Eval có lặp lại được không (reproducible)?</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- SLIDE 36 -->
+<section class="slide" data-title="Sequence Diagram: Ingestion Pipeline">
+<h1>Sequence Diagram: Quy trình ingest file PDF</h1>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+sequenceDiagram
+    participant F as Frontend
+    participant A as FastAPI
+    participant KB as KnowledgeBase
+    participant O as OpenAI
+    F->>A: POST upload PDF
+    A->>A: Validate PDF, max 5MB
+    A->>KB: Them document, status=processing
+    A->>A: Chay background thread
+    A-->>F: 200 OK, doc_id
+    Note over A,KB: Background thread bat dau
+    KB->>KB: Parse PDF + chunk blocks
+    KB->>KB: Danh dau chunk voi headers
+    KB->>O: Embed documents, batch=128
+    O-->>KB: Vectors 1536 chieu
+    KB->>KB: Them vao BM25 + VectorIndex
+    KB->>KB: Luu ra disk (.tvim .pkl .json)
+    KB->>KB: Cap nhat status=ready
+</pre></div>
+<div class="card"><h3>Điểm quan trọng</h3><ul><li><strong>Background thread</strong>: API trả về ngay cho user, việc ingest chạy ngầm — user không phải chờ.</li><li><strong>Thread lock</strong>: <span class="c">self._lock</span> trong <span class="c">KnowledgeBase</span> — chỉ 1 file ingest tại 1 thời điểm, tránh xung đột.</li><li><strong>Embedding cache</strong>: SHA-256(<span class="c">model::text</span>) → lưu SQLite. Nếu chunk trùng lặp → không gọi API lại.</li><li><strong>Lưu ra disk</strong>: <span class="c">vector.tvim</span> (Turbovec), <span class="c">bm25.pkl</span> (BM25), <span class="c">index_meta.json</span> (metadata). Lần sau khởi động → load lại, không cần ingest lại.</li></ul></div>
+</section>
+
+<!-- SLIDE 37 -->
+<section class="slide" data-title="Sequence Diagram: Retrieval Pipeline">
+<h1>Sequence Diagram: Quy trình tìm kiếm tài liệu</h1>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+sequenceDiagram
+    participant AG as AgentGraph
+    participant KB as KnowledgeBase
+    participant B as BM25
+    participant V as VectorIndex
+    AG->>KB: retrieve query, top_k=5
+    KB->>B: bm25.search k=30
+    B-->>KB: cid, score ~1ms
+    KB->>V: vector.search k=30
+    V-->>KB: cid, score ~0.5ms
+    KB->>KB: RRF fusion k=60
+    KB->>KB: reranker top-20
+    KB-->>AG: RetrievedChunk x 5
+</pre></div>
+<div class="card"><h3>Điểm quan trọng</h3><ul><li><strong>Tuần tự, không song song</strong>: BM25 chạy trước, rồi Dense search. Nhưng cả 2 đều rất nhanh (~1.5ms tổng) nên không cần parallel.</li><li><strong>RRF</strong>: Gộp 2 danh sách kết quả — pure Python dict merge, ~0.1ms. Không cần thư viện đặc biệt.</li><li><strong>Reranker là chậm nhất</strong>: ~50-100ms cho 20 cặp. Chiếm 80-90% thời gian retrieval. Nhưng đáng giá vì lọc nhiễu tốt.</li><li><strong>Điểm số cuối</strong>: Nếu reranker có → dùng điểm reranker. Nếu không → dùng điểm RRF. Fallback an toàn.</li></ul></div>
+</section>
+
+<!-- SLIDE 38 -->
+<section class="slide" data-title="Sequence Diagram: Agent Flow">
+<h1>Sequence Diagram: Quy trình agent xử lý câu hỏi phức tạp</h1>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant FE as Frontend
+    participant API as FastAPI
+    participant AG as AgentGraph
+    participant LLM as OpenAI
+    U->>FE: Nhap cau hoi, Enter
+    FE->>API: POST chat, session_id
+    API->>API: Kiem tra dang busy? (409 neu co)
+    API->>API: Tao asyncio.Queue
+    API->>API: Chay agent.run() trong thread
+    API-->>FE: SSE stream bat dau
+    Note over API,FE: Generator yield events
+    loop Moi agent event
+        AG->>API: queue.put(event)
+        API-->>FE: SSE: thinking, token, final
+        FE->>FE: Render token, trace, citations
+    end
+    AG->>API: Ket thuc hoac bi huy
+    API-->>FE: Stream ket thuc
+    FE->>U: Hien thi cau tra loi + citations
+</pre></div>
+<div class="card"><h3>Điểm quan trọng</h3><ul><li><strong>Generator pattern</strong>: <span class="c">agent.run()</span> là generator — <span class="c">yield</span> từng event cho SSE streaming. User thấy response từ từ, không phải chờ xong hết.</li><li><strong>ThreadPoolExecutor</strong>: Distill + Verify chạy <strong>song song</strong> cho mỗi sub-question (tối đa 4 workers).</li><li><strong>Dừng sớm</strong>: Nếu số lỗi không giảm → dừng sớm. Nếu vượt quá số lần tối đa → force synthesize (trả lời dù chưa hoàn hảo).</li><li><strong>Kiểm tra lại</strong>: Nếu câu trả lời không có nguồn (grounded=False) → tự sinh lại với cảnh báo. Tối đa 1 lần.</li></ul></div>
+</section>
+
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const navList=document.getElementById('navList');
+let current=0;
+slides.forEach((s,i)=>{
+  const li=document.createElement('li');
+  li.textContent=s.dataset.title||('Slide '+(i+1));
+  li.onclick=()=>showSlide(i);
+  navList.appendChild(li);
+});
+function showSlide(n){
+  slides[current].classList.remove('active');
+  navList.children[current].classList.remove('active');
+  current=n;
+  slides[current].classList.add('active');
+  navList.children[current].classList.add('active');
+  slides[current].scrollTop=0;
+  navList.children[current].scrollIntoView({block:'nearest'});
+  document.getElementById('slideNum').textContent=(current+1)+' / '+slides.length;
+  localStorage.setItem('slidePos',current);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();showSlide(Math.min(current+1,slides.length-1))}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();showSlide(Math.max(current-1,0))}
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].screenX});
+document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].screenX;if(d>50)showSlide(Math.min(current+1,slides.length-1));if(d<-50)showSlide(Math.max(current-1,0))});
+const saved=localStorage.getItem('slidePos');
+showSlide(saved!==null?parseInt(saved):0);
+</script>
+<div id="controls"><button onclick="showSlide(Math.max(current-1,0))">◀ Trước</button><button onclick="showSlide(Math.min(current+1,slides.length-1))">Tiếp ▶</button></div>
+<div id="slideNum"></div>
+</body>
+</html>
