@@ -28,14 +28,12 @@ Mỗi tài liệu được chọn phải đáp ứng đủ các điều kiện s
 
 | Tổ chức / Nguồn | Số tài liệu | Loại tài liệu |
 |---|---:|---|
-| UNDP Việt Nam | 24 | Báo cáo chính sách, khảo sát, hướng dẫn, đề xuất dự án |
-| UNICEF Việt Nam | 6 | Báo cáo nghiên cứu, tóm lược SDG, tổng kết xã hội |
-| WHO IRIS | 3 | Báo cáo nhân lực y tế, tài liệu truyền thông sức khỏe |
-| World Bank | 3 | Báo cáo kinh tế vĩ mô, tài liệu chính sách thương mại |
-| ADB Legal | 3 | Văn bản pháp luật (Hiến pháp, Luật tố tụng dân sự, Luật phòng chống thiên tai) |
-| VinFast | 4 | Brochure sản phẩm xe điện (VF 3, VF 5, VF 9, VF e34) |
-| MobiFone / Công ty khác | 2 | Bảng giá dịch vụ, chiến lược quốc gia AI |
-| Công báo Chính phủ | 1 | Thông tư quy định về dạy thêm học thêm (PDF scan) |
+| UNDP / UN Việt Nam | 7 | Báo cáo tóm tắt, kế hoạch môi trường - xã hội, khí hậu và phát triển con người |
+| UNICEF / UNFPA / WHO | 10 | Tờ tin, báo cáo tóm tắt, tài liệu sức khỏe và xã hội |
+| World Bank / JICA / ADB | 8 | Policy note, hồ sơ đầu tư, giao thông, tăng trưởng xanh và trái phiếu bền vững |
+| VinFast / MobiFone / Manulife | 6 | Brochure, bảng giá, tài liệu sản phẩm - dịch vụ |
+| PwC / FPT / CSIRO-Aus4Innovation | 6 | Legal brief, công nghệ, blockchain, an ninh mạng và AI |
+| Cổng Công báo / ADB Legal / Bộ GDĐT / ILO và nguồn khác | 13 | Văn bản chính sách, giáo dục, lao động và an sinh |
 
 Tất cả PDF được tải trực tiếp từ URL gốc. URL được ghi lại đầy đủ trong cột `nguon_url` của `master_documents.csv`.
 
@@ -47,22 +45,22 @@ Bộ dữ liệu trải đều 8 chủ đề nhằm kiểm tra RAG trên nhiều
 
 | Chủ đề | Số tài liệu | Ví dụ tài liệu tiêu biểu |
 |---|---:|---|
-| Môi trường - năng lượng - giao thông | 11 | Điện gió ngoài khơi, phục hồi sau bão Yagi, kế hoạch thích ứng khí hậu |
-| Pháp luật - chính sách | 9 | Hiến pháp 2013, PAPI 2023-2024, Luật phòng chống thiên tai |
-| Lịch sử - văn hóa - xã hội | 7 | Người khuyết tật, già hóa dân số, di cư nội địa, 50 năm vì trẻ em |
-| Sản phẩm - dịch vụ - bảng giá | 5 | Brochure VF 3/5/9/e34, bảng giá MobiCloud |
-| Khoa học - công nghệ - AI | 5 | AI trong cơ quan nhà nước, đánh giá DVC, chiến lược AI 2030 |
-| Y tế - sức khỏe cộng đồng | 5 | Nhân lực y tế, viêm gan vi rút, tác hại rượu bia, sức khỏe trẻ em |
-| Tài chính - kinh tế - doanh nghiệp | 5 | FTA thế hệ mới, kinh tế vĩ mô 2025, SIB, kinh doanh có trách nhiệm |
-| Giáo dục - đào tạo | 3 | Trẻ em ngoài nhà trường, giáo dục trẻ khuyết tật, SDGCW giáo dục |
+| Môi trường - năng lượng - giao thông | 9 | NDC, VITRANSS 3, giảm nhựa dùng một lần, SREX, trái phiếu xanh |
+| Pháp luật - chính sách | 8 | Thông tư 29/2024, Hiến pháp 2013, Luật phòng chống thiên tai, Bộ quy tắc bảo vệ trẻ em trên mạng |
+| Lịch sử - văn hóa - xã hội | 7 | Lao động trẻ em, mức sinh, di cư nội địa, HDI, bảo hiểm xã hội |
+| Sản phẩm - dịch vụ - bảng giá | 6 | Brochure VF 3/5/9/e34, MobiCloud, Manulife Sống Khỏe Mỗi Ngày |
+| Khoa học - công nghệ - AI | 6 | Chuyển đổi số quốc gia, Decree 53, dữ liệu cá nhân, blockchain, chiến lược AI 2030 |
+| Y tế - sức khỏe cộng đồng | 6 | Sức khỏe bà mẹ COVID-19, chăm sóc thai sản, tác hại rượu bia, SDGCW sức khỏe |
+| Tài chính - kinh tế - doanh nghiệp | 5 | Enterprise Survey, chính sách đầu tư, kinh doanh có trách nhiệm, kinh tế vĩ mô 2025 |
+| Giáo dục - đào tạo | 3 | SDGCW giáo dục, chương trình giáo dục phổ thông tổng thể, tài chính giáo dục đại học |
 
 ---
 
 ## 5. Đặc điểm bộ tài liệu
 
-- **Độ dài tài liệu**: từ 1 trang (hướng dẫn sử dụng thiết bị y tế) đến 258 trang (báo cáo phục hồi sau bão Yagi, xã hội già hóa World Bank).
+- **Độ dài tài liệu**: từ 1 trang đến 48 trang; toàn bộ 50 PDF đều dưới 50 trang theo yêu cầu lọc lại.
 - **Định dạng nội dung đa dạng**: bao gồm báo cáo tự sự, bảng số liệu, văn bản pháp luật có điều khoản, brochure sản phẩm có thông số kỹ thuật, tài liệu khảo sát có biểu đồ và phụ lục.
-- **Gần như toàn bộ là text-based PDF** (49/50); duy nhất DOC002 là PDF scan từ Công báo Chính phủ.
+- **Toàn bộ metadata hiện đánh dấu text-based**; DOC002 là văn bản Công báo dạng scan nhưng vẫn giữ được nguồn chính thức.
 - **Thời gian xuất bản**: từ 2013 (văn bản pháp luật ADB) đến 2025–2026 (báo cáo UNDP mới nhất), đảm bảo bộ dữ liệu không lỗi thời.
 
 ---
@@ -102,9 +100,9 @@ Mỗi tài liệu có đúng 5 câu, phân bố 2–2–1:
 
 | Answerability | Số câu |
 |---|---:|
-| `answerable` | 234 |
-| `unanswerable` | 9 |
-| `clarification_needed` | 7 |
+| `answerable` | 237 |
+| `unanswerable` | 5 |
+| `clarification_needed` | 8 |
 
 Câu `unanswerable` kiểm tra khả năng chống hallucination. Câu `clarification_needed` kiểm tra hành vi hỏi lại khi câu hỏi người dùng thiếu thông tin bối cảnh.
 
@@ -114,19 +112,19 @@ Mỗi câu có thể gắn nhiều nhãn. Bảng dưới đây đếm số lần
 
 | Question type | Số lần xuất hiện | Năng lực RAG được kiểm tra |
 |---|---:|---|
-| `single_hop` | 174 | Truy hồi một đoạn/trang duy nhất |
-| `specific` | 166 | Câu hỏi hẹp, nhắm thông tin cụ thể |
+| `single_hop` | 150 | Truy hồi một đoạn/trang duy nhất |
+| `specific` | 127 | Câu hỏi hẹp, nhắm thông tin cụ thể |
 | `factoid` | 76 | Trả lời ngắn: số, tên, ngày, giá trị |
-| `list` | 73 | Liệt kê nhiều mục cùng loại |
-| `abstract` | 72 | Tổng hợp, diễn giải, rút ý chính |
-| `multi_hop` | 52 | Kết hợp nhiều đoạn/trang/bảng |
-| `comparison` | 37 | Đối chiếu hai hoặc nhiều đối tượng |
-| `definition` | 31 | Hỏi định nghĩa hoặc khái niệm |
-| `condition` | 29 | Hiểu điều kiện, ngoại lệ, phạm vi áp dụng |
-| `table_lookup` | 18 | Đọc đúng dòng/cột/ô trong bảng |
-| `unanswerable` | 10 | Từ chối khi tài liệu không đủ thông tin |
-| `calculation` | 10 | Tính toán từ số liệu trong tài liệu |
-| `clarification_needed` | 8 | Nhận diện câu hỏi mơ hồ, hỏi lại |
+| `definition` | 75 | Hỏi định nghĩa hoặc khái niệm |
+| `comparison` | 67 | Đối chiếu hai hoặc nhiều đối tượng |
+| `abstract` | 58 | Tổng hợp, diễn giải, rút ý chính |
+| `condition` | 55 | Hiểu điều kiện, ngoại lệ, phạm vi áp dụng |
+| `multi_hop` | 50 | Kết hợp nhiều đoạn/trang/bảng |
+| `list` | 26 | Liệt kê nhiều mục cùng loại |
+| `table_lookup` | 26 | Đọc đúng dòng/cột/ô trong bảng |
+| `calculation` | 19 | Tính toán từ số liệu trong tài liệu |
+| `clarification_needed` | 16 | Nhận diện câu hỏi mơ hồ, hỏi lại |
+| `unanswerable` | 5 | Từ chối khi tài liệu không đủ thông tin |
 
 ---
 
@@ -145,7 +143,8 @@ data/50_files/
 
 ## 8. Kiểm tra chất lượng
 
-- Toàn bộ 50 PDF mở được và trích xuất text được.
+- Toàn bộ 50 PDF mở được bằng PyMuPDF.
+- Toàn bộ 50 PDF có số trang dưới 50; tài liệu dài nhất hiện là 48 trang.
 - 50 file `*_qa.md` khớp 1-1 với 50 file PDF theo `doc_id`.
 - Không có câu hỏi nào thiếu trường bắt buộc.
 - URL nguồn ghi trong metadata có thể truy cập lại để xác minh tài liệu gốc.
