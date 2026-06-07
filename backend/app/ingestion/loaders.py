@@ -40,11 +40,10 @@ def load_pdf(
 ) -> tuple[str, list[Block]]:
     """Load PDF using the configured parser.
 
-    Parser selection (via REDUCTO_PARSE env var):
-
-    - "off":     PyMuPDF + optional VLM fallback (local, free)
-    - "default": Reducto default parse (1 credit/page, good quality)
-    - "agentic": Reducto agentic parse (2 credits/page, best quality)
+    Parser selection priority:
+      1. Reducto (REDUCTO_PARSE != "off" and API key present)
+      2. MinerU  (MINERU_PARSE = "on" | "auto")
+      3. Local PyMuPDF + optional VLM fallback (default)
     """
     settings = get_settings()
 
@@ -58,8 +57,49 @@ def load_pdf(
         logger.warning("[Reducto] REDUCTO_PARSE=%s but no API key, falling back to local",
                         settings.reducto_parse)
 
+    # --- MinerU path ---
+    if settings.mineru_parse in ("on", "auto"):
+        try:
+            return _load_pdf_mineru(data, filename, settings)
+        except Exception as exc:
+            if settings.mineru_parse == "on":
+                raise
+            logger.warning("[MinerU] parse failed (%s), falling back to PyMuPDF", exc)
+
     # --- Local PyMuPDF + VLM path ---
     return _load_pdf_local(data, filename, cache_dir, settings)
+
+
+def _load_pdf_mineru(
+    data: bytes, filename: str, settings
+) -> tuple[str, list[Block]]:
+    """Parse PDF via MinerU CLI (local, subprocess)."""
+    import tempfile
+
+    from .mineru_parser import parse_pdf_mineru
+
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+        tmp.write(data)
+        tmp_path = Path(tmp.name)
+
+    try:
+        blocks, meta = parse_pdf_mineru(
+            pdf_path=tmp_path,
+            mineru_cmd=settings.mineru_cmd,
+        )
+    finally:
+        tmp_path.unlink(missing_ok=True)
+
+    for b in blocks:
+        b.text = normalize_structure(b.text)
+
+    logger.info(
+        "[MinerU] Parsed %s: %d blocks",
+        filename, len(blocks),
+    )
+
+    title = re.sub(r"\.pdf$", "", filename, flags=re.IGNORECASE)
+    return title, blocks
 
 
 def _load_pdf_local(

@@ -18,7 +18,7 @@ from contextlib import asynccontextmanager
 from .agent.graph import Agent
 from .config import get_settings
 from .indexing.store import KnowledgeBase
-from .schemas import CancelChatIn, ChatIn, SessionIn, TextIn, UrlIn
+from .schemas import CancelChatIn, ChatIn, SessionIn, SettingsIn, TextIn, UrlIn
 
 settings = get_settings()
 
@@ -136,6 +136,237 @@ def config():
 @app.get("/api/stats")
 def stats():
     return kb.stats()
+
+
+# ─── Settings read/write ──────────────────────────────────────────────────────
+
+def _mask(value: str) -> str:
+    """Show first 6 chars then asterisks."""
+    if not value:
+        return ""
+    return value[:6] + "***" if len(value) > 6 else "***"
+
+
+def _bool_str(v: bool) -> str:
+    return "true" if v else "false"
+
+
+@app.get("/api/settings")
+def get_settings_endpoint():
+    s = settings
+    # Derive virtual "parser" field from the three parser flags
+    if s.reducto_parse != "off":
+        parser = "reducto"
+    elif s.mineru_parse != "off":
+        parser = "mineru"
+    else:
+        parser = "pymupdf"
+    return {
+        "connection": {
+            "openai_api_key": _mask(s.openai_api_key),
+            "openai_base_url": s.openai_base_url or "",
+        },
+        "parsing": {
+            "parser": parser,
+            "vlm_parse": s.vlm_parse,
+            "vlm_model": s.vlm_model,
+            "mineru_cmd": s.mineru_cmd,
+            "reducto_parse": s.reducto_parse,
+            "reducto_api_key": _mask(s.reducto_api_key),
+            "reducto_chunk_mode": s.reducto_chunk_mode,
+            "reducto_chunk_size": s.reducto_chunk_size,
+            "reducto_filter_blocks": ",".join(s.reducto_filter_blocks),
+            "reducto_table_format": s.reducto_table_format,
+            "chunk_max_chars": s.chunk_max_chars,
+            "chunk_overlap": s.chunk_overlap,
+        },
+        "indexing": {
+            "embed_model": s.embed_model,
+            "embed_dim": str(s.embed_dim) if s.embed_dim else "",
+            "enable_doc_summary": s.enable_doc_summary,
+            "doc_summary_chars": s.doc_summary_chars,
+            "doc_summary_model": s.doc_summary_model if s.doc_summary_model != s.llm_model_fast else "",
+            "enable_section_summary": s.enable_section_summary,
+            "section_summary_chars": s.section_summary_chars,
+        },
+        "retrieval": {
+            "bm25_top_k": s.bm25_top_k,
+            "dense_top_k": s.dense_top_k,
+            "rrf_k": s.rrf_k,
+            "use_reranker": s.use_reranker,
+            "reranker_model": s.reranker_model,
+            "rerank_top_n": s.rerank_top_n,
+            "final_top_k": s.final_top_k,
+            "use_hyde": s.use_hyde,
+            "use_rse": s.use_rse,
+            "rse_irrelevant_penalty": s.rse_irrelevant_penalty,
+            "rse_max_segment_chunks": s.rse_max_segment_chunks,
+            "rse_overall_max_chunks": s.rse_overall_max_chunks,
+        },
+        "generation": {
+            "llm_model": s.llm_model,
+            "llm_model_fast": s.llm_model_fast,
+            "enable_replan": s.enable_replan,
+            "max_replan_iters": s.max_replan_iters,
+            "enable_sufficiency": s.enable_sufficiency,
+            "enable_answer_verify": s.enable_answer_verify,
+            "max_answer_regenerations": s.max_answer_regenerations,
+        },
+        "memory": {
+            "enable_summarization": s.enable_summarization,
+            "summary_threshold": s.summary_threshold,
+            "history_window": s.history_window,
+            "summary_model": s.summary_model if s.summary_model != s.llm_model_fast else "",
+        },
+    }
+
+
+# Settings that require re-indexing if changed
+_REINDEX_KEYS = {"EMBED_MODEL", "EMBED_DIM", "CHUNK_MAX_CHARS", "CHUNK_OVERLAP"}
+
+
+@app.put("/api/settings")
+def update_settings_endpoint(body: SettingsIn):
+    from dotenv import set_key as dotenv_set_key
+    from pathlib import Path as _Path
+    from .config import BASE_DIR
+
+    env_path = BASE_DIR / ".env"
+    if not env_path.exists():
+        env_path.touch()
+
+    changed: dict[str, str] = {}
+    needs_reindex = False
+
+    def _write(env_key: str, value: str) -> None:
+        nonlocal needs_reindex
+        dotenv_set_key(str(env_path), env_key, value, quote_mode="never")
+        changed[env_key] = value
+        if env_key in _REINDEX_KEYS:
+            needs_reindex = True
+
+    # ── Connection ────────────────────────────────────────────────────────────
+    if body.openai_api_key is not None and not body.openai_api_key.endswith("***"):
+        _write("OPENAI_API_KEY", body.openai_api_key)
+    if body.openai_base_url is not None:
+        _write("OPENAI_BASE_URL", body.openai_base_url)
+
+    # ── Parsing ───────────────────────────────────────────────────────────────
+    if body.parser is not None:
+        if body.parser == "mineru":
+            _write("MINERU_PARSE", "on")
+            _write("REDUCTO_PARSE", "off")
+        elif body.parser == "reducto":
+            _write("MINERU_PARSE", "off")
+            _write("REDUCTO_PARSE", body.reducto_parse or "default")
+        else:  # pymupdf
+            _write("MINERU_PARSE", "off")
+            _write("REDUCTO_PARSE", "off")
+    if body.vlm_parse is not None:
+        _write("VLM_PARSE", body.vlm_parse)
+    if body.vlm_model is not None:
+        _write("VLM_MODEL", body.vlm_model)
+    if body.mineru_cmd is not None:
+        _write("MINERU_CMD", body.mineru_cmd)
+    if body.reducto_api_key is not None and not body.reducto_api_key.endswith("***"):
+        _write("REDUCTO_API_KEY", body.reducto_api_key)
+    if body.reducto_parse is not None:
+        _write("REDUCTO_PARSE", body.reducto_parse)
+    if body.reducto_chunk_mode is not None:
+        _write("REDUCTO_CHUNK_MODE", body.reducto_chunk_mode)
+    if body.reducto_chunk_size is not None:
+        _write("REDUCTO_CHUNK_SIZE", str(body.reducto_chunk_size))
+    if body.reducto_filter_blocks is not None:
+        _write("REDUCTO_FILTER_BLOCKS", body.reducto_filter_blocks)
+    if body.reducto_table_format is not None:
+        _write("REDUCTO_TABLE_FORMAT", body.reducto_table_format)
+    if body.chunk_max_chars is not None:
+        _write("CHUNK_MAX_CHARS", str(body.chunk_max_chars))
+    if body.chunk_overlap is not None:
+        _write("CHUNK_OVERLAP", str(body.chunk_overlap))
+
+    # ── Indexing ──────────────────────────────────────────────────────────────
+    if body.embed_model is not None:
+        _write("EMBED_MODEL", body.embed_model)
+    if body.embed_dim is not None:
+        _write("EMBED_DIM", body.embed_dim)
+    if body.enable_doc_summary is not None:
+        _write("ENABLE_DOC_SUMMARY", _bool_str(body.enable_doc_summary))
+    if body.doc_summary_chars is not None:
+        _write("DOC_SUMMARY_CHARS", str(body.doc_summary_chars))
+    if body.doc_summary_model is not None:
+        _write("DOC_SUMMARY_MODEL", body.doc_summary_model)
+    if body.enable_section_summary is not None:
+        _write("ENABLE_SECTION_SUMMARY", _bool_str(body.enable_section_summary))
+    if body.section_summary_chars is not None:
+        _write("SECTION_SUMMARY_CHARS", str(body.section_summary_chars))
+
+    # ── Retrieval ─────────────────────────────────────────────────────────────
+    if body.bm25_top_k is not None:
+        _write("BM25_TOP_K", str(body.bm25_top_k))
+    if body.dense_top_k is not None:
+        _write("DENSE_TOP_K", str(body.dense_top_k))
+    if body.rrf_k is not None:
+        _write("RRF_K", str(body.rrf_k))
+    if body.use_reranker is not None:
+        _write("USE_RERANKER", _bool_str(body.use_reranker))
+    if body.reranker_model is not None:
+        _write("RERANKER_MODEL", body.reranker_model)
+    if body.rerank_top_n is not None:
+        _write("RERANK_TOP_N", str(body.rerank_top_n))
+    if body.final_top_k is not None:
+        _write("FINAL_TOP_K", str(body.final_top_k))
+    if body.use_hyde is not None:
+        _write("USE_HYDE", _bool_str(body.use_hyde))
+    if body.use_rse is not None:
+        _write("USE_RSE", _bool_str(body.use_rse))
+    if body.rse_irrelevant_penalty is not None:
+        _write("RSE_IRRELEVANT_PENALTY", str(body.rse_irrelevant_penalty))
+    if body.rse_max_segment_chunks is not None:
+        _write("RSE_MAX_SEGMENT_CHUNKS", str(body.rse_max_segment_chunks))
+    if body.rse_overall_max_chunks is not None:
+        _write("RSE_OVERALL_MAX_CHUNKS", str(body.rse_overall_max_chunks))
+
+    # ── Generation ────────────────────────────────────────────────────────────
+    if body.llm_model is not None:
+        _write("LLM_MODEL", body.llm_model)
+    if body.llm_model_fast is not None:
+        _write("LLM_MODEL_FAST", body.llm_model_fast)
+    if body.enable_replan is not None:
+        _write("ENABLE_REPLAN", _bool_str(body.enable_replan))
+    if body.max_replan_iters is not None:
+        _write("MAX_REPLAN_ITERS", str(body.max_replan_iters))
+    if body.enable_sufficiency is not None:
+        _write("ENABLE_SUFFICIENCY", _bool_str(body.enable_sufficiency))
+    if body.enable_answer_verify is not None:
+        _write("ENABLE_ANSWER_VERIFY", _bool_str(body.enable_answer_verify))
+    if body.max_answer_regenerations is not None:
+        _write("MAX_ANSWER_REGENERATIONS", str(body.max_answer_regenerations))
+
+    # ── Memory ────────────────────────────────────────────────────────────────
+    if body.enable_summarization is not None:
+        _write("ENABLE_SUMMARIZATION", _bool_str(body.enable_summarization))
+    if body.summary_threshold is not None:
+        _write("SUMMARY_THRESHOLD", str(body.summary_threshold))
+    if body.history_window is not None:
+        _write("HISTORY_WINDOW", str(body.history_window))
+    if body.summary_model is not None:
+        _write("SUMMARY_MODEL", body.summary_model)
+
+    # ── Hot-reload Settings singleton ─────────────────────────────────────────
+    if changed:
+        import importlib
+        from dotenv import load_dotenv
+        load_dotenv(str(env_path), override=True)
+        get_settings.cache_clear()
+        new_settings = get_settings()
+        # Update module-level references
+        import sys
+        this_module = sys.modules[__name__]
+        this_module.settings = new_settings
+        kb.settings = new_settings
+
+    return {"updated": list(changed.keys()), "needs_reindex": needs_reindex}
 
 
 # ---------------- documents ----------------

@@ -1,5 +1,6 @@
 import type {
   AppConfig,
+  AppSettings,
   DocumentItem,
   Message,
   SessionItem,
@@ -23,9 +24,21 @@ async function jpost<T>(path: string, body?: any): Promise<T> {
   return r.json();
 }
 
+async function jput<T>(path: string, body?: any): Promise<T> {
+  const r = await fetch(`${BASE}${path}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
 export const api = {
   config: () => jget<AppConfig>("/config"),
   stats: () => jget<any>("/stats"),
+  getSettings: () => jget<AppSettings>("/settings"),
+  updateSettings: (body: Partial<Record<string, any>>) => jput<{ updated: string[]; needs_reindex: boolean }>("/settings", body),
 
   listDocuments: () => jget<DocumentItem[]>("/documents"),
   documentPdfUrl: (id: number) => `${BASE}/documents/${id}/pdf`,

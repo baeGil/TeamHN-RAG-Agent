@@ -9,6 +9,7 @@ import type {
 } from "./lib/types";
 import Sidebar from "./components/Sidebar";
 import ChatPanel from "./components/ChatPanel";
+import SettingsPanel from "./components/SettingsPanel";
 
 const LS_KEY = "vnrag.session";
 
@@ -24,6 +25,7 @@ export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(() => !!localStorage.getItem(LS_KEY));
   const [citation, setCitation] = useState<Citation | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const refreshDocs = useCallback(() => {
     api.listDocuments().then(setDocuments).catch(() => {});
@@ -133,7 +135,17 @@ export default function App() {
                 (config.use_reranker ? " · reranker bật" : "")
               : "Đang tải…"}
           </div>
-          <div className="muted small">Hybrid: BM25 + turbovec (TurboQuant) + RRF</div>
+          <div className="topbar-right">
+            <div className="muted small">Hybrid: BM25 + turbovec (TurboQuant) + RRF</div>
+            <button
+              className="icon-btn topbar-settings-btn"
+              title="Cài đặt"
+              aria-label="Mở cài đặt"
+              onClick={() => setSettingsOpen(true)}
+            >
+              ⚙️
+            </button>
+          </div>
         </header>
         <ChatPanel
           sessionId={sessionId}
@@ -147,6 +159,10 @@ export default function App() {
           messagesLoading={messagesLoading}
         />
       </main>
+
+      {settingsOpen && (
+        <SettingsPanel onClose={() => setSettingsOpen(false)} />
+      )}
 
       {citation && (
         <div className="drawer-overlay" onClick={() => setCitation(null)}>

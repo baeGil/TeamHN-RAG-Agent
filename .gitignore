@@ -38,3 +38,5 @@ data/eval_ab/
 .opencode/
 openspec/
 slide_generate_prompt.md
+mineru.ipynb
+output/

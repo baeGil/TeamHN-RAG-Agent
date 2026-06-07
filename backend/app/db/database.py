@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS documents (
     n_chunks    INTEGER NOT NULL DEFAULT 0,
     status      TEXT NOT NULL DEFAULT 'ready',  -- ready | processing | failed
     error_message TEXT,
+    summary     TEXT,                  -- LLM-generated document summary (for full CCH)
     created_at  TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -47,6 +48,15 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id);
+
+CREATE TABLE IF NOT EXISTS section_summaries (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    document_id INTEGER NOT NULL,
+    section     TEXT NOT NULL,
+    summary     TEXT NOT NULL,
+    FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_section_summaries_uniq ON section_summaries(document_id, section);
 
 CREATE TABLE IF NOT EXISTS conversation_summaries (
     id                INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -98,6 +108,25 @@ class Database:
             conn.execute("ALTER TABLE documents ADD COLUMN status TEXT NOT NULL DEFAULT 'ready'")
         if "error_message" not in doc_cols:
             conn.execute("ALTER TABLE documents ADD COLUMN error_message TEXT")
+        if "summary" not in doc_cols:
+            conn.execute("ALTER TABLE documents ADD COLUMN summary TEXT")
+
+        # section_summaries table (for 4-tier CCH)
+        tables = {r["name"] for r in conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'"
+        ).fetchall()}
+        if "section_summaries" not in tables:
+            conn.executescript("""
+                CREATE TABLE IF NOT EXISTS section_summaries (
+                    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                    document_id INTEGER NOT NULL,
+                    section     TEXT NOT NULL,
+                    summary     TEXT NOT NULL,
+                    FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
+                );
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_section_summaries_uniq
+                    ON section_summaries(document_id, section);
+            """)
 
         msg_cols = {r["name"] for r in conn.execute("PRAGMA table_info(messages)").fetchall()}
         if "status" not in msg_cols:

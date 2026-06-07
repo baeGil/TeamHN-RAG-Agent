@@ -84,11 +84,16 @@ class Repo:
         self.db.conn.commit()
 
     def all_chunks_with_embeddings(self) -> list[dict[str, Any]]:
-        """All chunks (in id order) with their stored float32 embedding bytes and embed_text."""
+        """All chunks (in id order) with embeddings, embed_text, doc summary and section summary."""
         rows = self.db.conn.execute(
-            """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding,
-                      c.embed_text, d.title AS doc_title
-               FROM chunks c JOIN documents d ON d.id = c.document_id
+            """SELECT c.id, c.document_id, c.chunk_index, c.text, c.page, c.section,
+                      c.embedding, c.embed_text,
+                      d.title AS doc_title, d.summary AS doc_summary,
+                      ss.summary AS section_summary
+               FROM chunks c
+               JOIN documents d ON d.id = c.document_id
+               LEFT JOIN section_summaries ss
+                 ON ss.document_id = c.document_id AND ss.section = c.section
                ORDER BY c.id"""
         ).fetchall()
         return [dict(r) for r in rows]
@@ -98,17 +103,82 @@ class Repo:
             return {}
         placeholders = ",".join("?" * len(chunk_ids))
         rows = self.db.conn.execute(
-            f"""SELECT c.*, d.title AS doc_title, d.source AS doc_source,
-                       d.source_type AS doc_source_type
-                FROM chunks c JOIN documents d ON d.id = c.document_id
+            f"""SELECT c.id, c.document_id, c.chunk_index, c.text, c.page, c.section,
+                       c.embed_text,
+                       d.title AS doc_title, d.source AS doc_source,
+                       d.source_type AS doc_source_type, d.summary AS doc_summary,
+                       ss.summary AS section_summary
+                FROM chunks c
+                JOIN documents d ON d.id = c.document_id
+                LEFT JOIN section_summaries ss
+                  ON ss.document_id = c.document_id AND ss.section = c.section
                 WHERE c.id IN ({placeholders})""",
             chunk_ids,
         ).fetchall()
         return {int(r["id"]): dict(r) for r in rows}
 
+    def get_chunks_by_doc_range(
+        self, doc_id: int, start_idx: int, end_idx: int
+    ) -> list[dict[str, Any]]:
+        """Fetch chunks for a document in chunk_index range [start_idx, end_idx].
+
+        Returns rows ordered by chunk_index (ascending).  Used by RSE to fetch
+        the bridge chunks between retrieved hits.
+        """
+        rows = self.db.conn.execute(
+            """SELECT c.id, c.document_id, c.chunk_index, c.text, c.page, c.section
+               FROM chunks c
+               WHERE c.document_id = ?
+                 AND c.chunk_index >= ?
+                 AND c.chunk_index <= ?
+               ORDER BY c.chunk_index ASC""",
+            (doc_id, start_idx, end_idx),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    def set_document_summary(self, doc_id: int, summary: str) -> None:
+        self.db.conn.execute(
+            "UPDATE documents SET summary=? WHERE id=?", (summary, doc_id)
+        )
+        self.db.conn.commit()
+
+    def get_document_summary(self, doc_id: int) -> Optional[str]:
+        row = self.db.conn.execute(
+            "SELECT summary FROM documents WHERE id=?", (doc_id,)
+        ).fetchone()
+        return row["summary"] if row else None
+
+    # ---------- section summaries (4-tier CCH) ----------
+    def set_section_summaries(self, doc_id: int, summaries: dict[str, str]) -> None:
+        """Upsert section → summary mapping for a document."""
+        rows = [(doc_id, section, summary) for section, summary in summaries.items()]
+        self.db.conn.executemany(
+            """INSERT INTO section_summaries(document_id, section, summary)
+               VALUES (?,?,?)
+               ON CONFLICT(document_id, section) DO UPDATE SET summary=excluded.summary""",
+            rows,
+        )
+        self.db.conn.commit()
+
+    def get_section_summaries(self, doc_id: int) -> dict[str, str]:
+        """Return {section: summary} for a document."""
+        rows = self.db.conn.execute(
+            "SELECT section, summary FROM section_summaries WHERE document_id=?", (doc_id,)
+        ).fetchall()
+        return {r["section"]: r["summary"] for r in rows}
+
+    def get_all_section_summaries(self) -> dict[tuple[int, str], str]:
+        """Return {(doc_id, section): summary} for all documents."""
+        rows = self.db.conn.execute(
+            "SELECT document_id, section, summary FROM section_summaries"
+        ).fetchall()
+        return {(int(r["document_id"]), r["section"]): r["summary"] for r in rows}
+
     def all_chunks(self) -> list[dict[str, Any]]:
         rows = self.db.conn.execute(
-            """SELECT c.*, d.title AS doc_title, d.source AS doc_source,
+            """SELECT c.id, c.document_id, c.chunk_index, c.text, c.page, c.section,
+                      c.embed_text,
+                      d.title AS doc_title, d.source AS doc_source,
                       d.source_type AS doc_source_type
                FROM chunks c JOIN documents d ON d.id = c.document_id
                ORDER BY c.id"""

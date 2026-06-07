@@ -82,6 +82,30 @@ class Settings:
 
         self.max_upload_size = _get_int("MAX_UPLOAD_SIZE", 5 * 1024 * 1024)
 
+        # MinerU parser
+        # MINERU_PARSE: "off" (default), "on" (always), "auto" (try, fallback to PyMuPDF)
+        self.mineru_parse = (os.getenv("MINERU_PARSE", "off") or "off").strip().lower()
+        # MINERU_CMD: path to MinerU binary. Empty = auto-detect (.venv_parser → PATH)
+        self.mineru_cmd = os.getenv("MINERU_CMD", "").strip()
+
+        # Full CCH: LLM-generated document summary prepended to every chunk embed text
+        self.enable_doc_summary = _get_bool("ENABLE_DOC_SUMMARY", True)
+        # ~24000 chars ≈ 6000 tokens; enough to see full 30-50 page docs
+        self.doc_summary_chars = _get_int("DOC_SUMMARY_CHARS", 24000)
+        self.doc_summary_model = os.getenv("DOC_SUMMARY_MODEL", "") or self.llm_model_fast
+
+        # Section summaries (4th tier of dsRAG-style CCH)
+        # 1 LLM call per unique section, parallelized. Cost ~$0.001/doc for 10-20 sections.
+        self.enable_section_summary = _get_bool("ENABLE_SECTION_SUMMARY", True)
+        # Max chars of section text to send for summarization
+        self.section_summary_chars = _get_int("SECTION_SUMMARY_CHARS", 2000)
+
+        # Relevant Segment Extraction (RSE)
+        self.use_rse = _get_bool("USE_RSE", True)
+        self.rse_irrelevant_penalty = float(os.getenv("RSE_IRRELEVANT_PENALTY", "0.2") or "0.2")
+        self.rse_max_segment_chunks = _get_int("RSE_MAX_SEGMENT_CHUNKS", 15)
+        self.rse_overall_max_chunks = _get_int("RSE_OVERALL_MAX_CHUNKS", 30)
+
         storage = os.getenv("STORAGE_DIR", "storage")
         self.storage_dir = (BASE_DIR / storage) if not os.path.isabs(storage) else Path(storage)
         self.storage_dir.mkdir(parents=True, exist_ok=True)
