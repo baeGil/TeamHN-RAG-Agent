@@ -128,7 +128,9 @@ def config():
         "llm_model_fast": settings.llm_model_fast,
         "embed_model": settings.embed_model,
         "use_reranker": settings.use_reranker,
+        "reranker_type": settings.reranker_type,
         "reranker_model": settings.reranker_model,
+        "jina_api_key": _mask(settings.jina_api_key) if settings.jina_api_key else "",
         "max_upload_size": settings.max_upload_size,
     }
 
@@ -194,7 +196,9 @@ def get_settings_endpoint():
             "dense_top_k": s.dense_top_k,
             "rrf_k": s.rrf_k,
             "use_reranker": s.use_reranker,
+            "reranker_type": s.reranker_type,
             "reranker_model": s.reranker_model,
+            "jina_api_key": _mask(s.jina_api_key) if s.jina_api_key else "",
             "rerank_top_n": s.rerank_top_n,
             "final_top_k": s.final_top_k,
             "use_hyde": s.use_hyde,
@@ -202,6 +206,10 @@ def get_settings_endpoint():
             "rse_irrelevant_penalty": s.rse_irrelevant_penalty,
             "rse_max_segment_chunks": s.rse_max_segment_chunks,
             "rse_overall_max_chunks": s.rse_overall_max_chunks,
+            "rse_window_extension": s.rse_window_extension,
+            "rse_chunk_length_adjustment": s.rse_chunk_length_adjustment,
+            "complex_ctx_limit": s.complex_ctx_limit,
+            "min_chunk_chars": s.min_chunk_chars,
         },
         "generation": {
             "llm_model": s.llm_model,
@@ -210,6 +218,8 @@ def get_settings_endpoint():
             "max_replan_iters": s.max_replan_iters,
             "enable_sufficiency": s.enable_sufficiency,
             "enable_answer_verify": s.enable_answer_verify,
+            "enable_answer_verify_simple": s.enable_answer_verify_simple,
+            "enable_answer_verify_complex": s.enable_answer_verify_complex,
             "max_answer_regenerations": s.max_answer_regenerations,
         },
         "memory": {
@@ -310,8 +320,12 @@ def update_settings_endpoint(body: SettingsIn):
         _write("RRF_K", str(body.rrf_k))
     if body.use_reranker is not None:
         _write("USE_RERANKER", _bool_str(body.use_reranker))
+    if body.reranker_type is not None:
+        _write("RERANKER_TYPE", body.reranker_type)
     if body.reranker_model is not None:
         _write("RERANKER_MODEL", body.reranker_model)
+    if body.jina_api_key is not None and not _is_masked(body.jina_api_key):
+        _write("JINA_API_KEY", body.jina_api_key)
     if body.rerank_top_n is not None:
         _write("RERANK_TOP_N", str(body.rerank_top_n))
     if body.final_top_k is not None:
@@ -326,6 +340,14 @@ def update_settings_endpoint(body: SettingsIn):
         _write("RSE_MAX_SEGMENT_CHUNKS", str(body.rse_max_segment_chunks))
     if body.rse_overall_max_chunks is not None:
         _write("RSE_OVERALL_MAX_CHUNKS", str(body.rse_overall_max_chunks))
+    if body.rse_window_extension is not None:
+        _write("RSE_WINDOW_EXTENSION", str(body.rse_window_extension))
+    if body.rse_chunk_length_adjustment is not None:
+        _write("RSE_CHUNK_LENGTH_ADJUSTMENT", _bool_str(body.rse_chunk_length_adjustment))
+    if body.complex_ctx_limit is not None:
+        _write("COMPLEX_CTX_LIMIT", str(body.complex_ctx_limit))
+    if body.min_chunk_chars is not None:
+        _write("MIN_CHUNK_CHARS", str(body.min_chunk_chars))
 
     # ── Generation ────────────────────────────────────────────────────────────
     if body.llm_model is not None:
@@ -340,6 +362,10 @@ def update_settings_endpoint(body: SettingsIn):
         _write("ENABLE_SUFFICIENCY", _bool_str(body.enable_sufficiency))
     if body.enable_answer_verify is not None:
         _write("ENABLE_ANSWER_VERIFY", _bool_str(body.enable_answer_verify))
+    if body.enable_answer_verify_simple is not None:
+        _write("ENABLE_ANSWER_VERIFY_SIMPLE", _bool_str(body.enable_answer_verify_simple))
+    if body.enable_answer_verify_complex is not None:
+        _write("ENABLE_ANSWER_VERIFY_COMPLEX", _bool_str(body.enable_answer_verify_complex))
     if body.max_answer_regenerations is not None:
         _write("MAX_ANSWER_REGENERATIONS", str(body.max_answer_regenerations))
 

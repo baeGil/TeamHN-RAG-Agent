@@ -82,10 +82,15 @@ def _load_pdf_mineru(
         tmp.write(data)
         tmp_path = Path(tmp.name)
 
+    # Preserve MinerU output in storage/mineru/<stem>/ for debugging.
+    # If the same filename is re-uploaded, the old output is overwritten.
+    output_dir = settings.storage_dir / "mineru" / Path(filename).stem
+
     try:
         blocks, meta = parse_pdf_mineru(
             pdf_path=tmp_path,
             mineru_cmd=settings.mineru_cmd,
+            output_dir=output_dir,
         )
     finally:
         tmp_path.unlink(missing_ok=True)

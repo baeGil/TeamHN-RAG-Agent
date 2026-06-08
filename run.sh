@@ -9,7 +9,7 @@ if [ ! -f "$ROOT/backend/.env" ]; then
 fi
 
 echo "▶ Backend: http://localhost:8000"
-( cd "$ROOT/backend" && uvicorn app.main:app --reload --port 8000 ) &
+( cd "$ROOT/backend" && uv run uvicorn app.main:app --reload --port 8000 ) &
 BACK_PID=$!
 
 echo "▶ Frontend: http://localhost:5173"

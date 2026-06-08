@@ -45,6 +45,10 @@ const DEFAULTS: Record<string, Record<string, any>> = {
     rse_irrelevant_penalty: 0.2,
     rse_max_segment_chunks: 15,
     rse_overall_max_chunks: 30,
+    rse_window_extension: 2,
+    rse_chunk_length_adjustment: true,
+    min_chunk_chars: 50,
+    complex_ctx_limit: 8,
   },
   generation: {
     llm_model: "gpt-4o-mini",
@@ -53,6 +57,8 @@ const DEFAULTS: Record<string, Record<string, any>> = {
     max_replan_iters: 3,
     enable_sufficiency: true,
     enable_answer_verify: true,
+    enable_answer_verify_simple: false,
+    enable_answer_verify_complex: true,
     max_answer_regenerations: 1,
   },
   memory: {
@@ -742,7 +748,41 @@ export default function SettingsPanel({ onClose }: Props) {
                   max={60}
                   onChange={(v) => set("retrieval", "rse_overall_max_chunks", v)}
                 />
+                <Slider
+                  label="Window Extension"
+                  tip="Mở rộng cửa sổ tìm kiếm RSE về phía trước min_idx. Ví dụ: extension=2 sẽ thêm 2 chunk trước hit đầu tiên làm bridge, giúp không bỏ sót câu mở đầu section."
+                  value={ret.rse_window_extension}
+                  min={0}
+                  max={5}
+                  onChange={(v) => set("retrieval", "rse_window_extension", v)}
+                />
+                <Toggle
+                  label="Chunk Length Adjustment"
+                  tip="Nhân score RSE theo độ dài chunk tương đối. Bật: chunk ngắn (header 19 chars) sẽ có weight rất thấp, chunk dài (thuật toán 1758 chars) có weight cao. Giảm nhiễu từ tiny header chunks."
+                  value={ret.rse_chunk_length_adjustment}
+                  onChange={(v) => set("retrieval", "rse_chunk_length_adjustment", v)}
+                />
               </Toggle>
+
+              <Slider
+                label="Min Chunk Chars (index)"
+                tip="Chunk có ít ký tự hơn ngưỡng này sẽ KHÔNG được index vào BM25/vector (vẫn lưu DB cho RSE bridge). Tăng để loại bỏ tiny header chunks khỏi search. 50 là mặc định tốt."
+                value={ret.min_chunk_chars}
+                min={0}
+                max={200}
+                step={10}
+                unit="chars"
+                onChange={(v) => set("retrieval", "min_chunk_chars", v)}
+              />
+
+              <Slider
+                label="Complex Context Limit"
+                tip="Số chunk/segment tối đa gửi LLM cho câu hỏi phức tạp (multi-hop). Mỗi segment có thể gom nhiều chunk nên giá trị nhỏ hơn Final Top-K là bình thường. 8 là mặc định."
+                value={ret.complex_ctx_limit}
+                min={3}
+                max={20}
+                onChange={(v) => set("retrieval", "complex_ctx_limit", v)}
+              />
             </div>
           )}
 
@@ -793,10 +833,25 @@ export default function SettingsPanel({ onClose }: Props) {
 
               <Toggle
                 label="Kiểm tra câu trả lời (Verify)"
-                tip="Sau khi sinh câu trả lời, agent tự review và đánh giá chất lượng. Nếu không đạt, regenerate. Cải thiện chất lượng, đặc biệt cho câu hỏi khó. Chi phí: 1-2 LLM calls thêm."
+                tip="Sau khi sinh câu trả lời, agent tự review và đánh giá chất lượng. Nếu không đạt, regenerate. Cải thiện chất lượng, đặc biệt cho câu hỏi khó. Chi phí: 1-2 LLM calls thêm. Bật tổng tại đây, tinh chỉnh per-route bên dưới."
                 value={gen.enable_answer_verify}
                 onChange={(v) => set("generation", "enable_answer_verify", v)}
               >
+                <div className="sp-hint" style={{ marginTop: 4, marginBottom: 8 }}>
+                  Khi bật tổng, chọn route nào cần verify:
+                </div>
+                <Toggle
+                  label="Verify cho câu hỏi đơn giản (simple)"
+                  tip="Simple route: câu hỏi trực tiếp, ít nguy cơ hallucination. Mặc định TẮT để stream ngay, giảm TTFT. Bật nếu cần đảm bảo grounding 100%."
+                  value={gen.enable_answer_verify_simple}
+                  onChange={(v) => set("generation", "enable_answer_verify_simple", v)}
+                />
+                <Toggle
+                  label="Verify cho câu hỏi phức tạp (complex)"
+                  tip="Complex route: multi-hop synthesis, dễ hallucination hơn. Mặc định BẬT để kiểm chứng. Tắt nếu ưu tiên tốc độ hơn chất lượng."
+                  value={gen.enable_answer_verify_complex}
+                  onChange={(v) => set("generation", "enable_answer_verify_complex", v)}
+                />
                 <Slider
                   label="Max tái sinh câu trả lời"
                   tip="Số lần tối đa tái sinh câu trả lời nếu verify thất bại. 1 thường là đủ. Tăng → chất lượng hơn nhưng chậm hơn."

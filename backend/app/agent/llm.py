@@ -37,7 +37,9 @@ class LLM:
                 )
             self._client = OpenAI(
                 api_key=self.settings.openai_api_key,
-                base_url=self.settings.openai_base_url,
+                base_url=self.settings.openai_base_url or "https://api.openai.com/v1",
+                timeout=60.0,
+                max_retries=2,
             )
         return self._client
 

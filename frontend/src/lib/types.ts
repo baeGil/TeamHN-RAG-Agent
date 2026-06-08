@@ -1,14 +1,18 @@
 export interface Citation {
   label: number;
   chunk_id: number;
+  chunk_ids?: number[];      // RSE segment: all constituent chunk IDs
   document_id: number;
   doc_title: string;
   doc_source: string;
-  page: number | null;
+  page: number | string | null;
+  pages?: number[];          // RSE segment: all page numbers in segment
   section: string | null;
   text: string;
+  n_chunks?: number;         // RSE segment: how many chunks are merged
   score: number;
   cited: boolean;
+  is_segment?: boolean;     // true if this is an RSE segment (merged chunks)
 }
 
 export interface TraceEvent {
@@ -50,7 +54,9 @@ export interface AppConfig {
   llm_model_fast: string;
   embed_model: string;
   use_reranker: boolean;
+  reranker_type: string;
   reranker_model: string;
+  jina_api_key: string;
   max_upload_size: number;
 }
 
@@ -95,6 +101,10 @@ export interface AppSettings {
     rse_irrelevant_penalty: number;
     rse_max_segment_chunks: number;
     rse_overall_max_chunks: number;
+    rse_window_extension: number;
+    rse_chunk_length_adjustment: boolean;
+    min_chunk_chars: number;
+    complex_ctx_limit: number;
   };
   generation: {
     llm_model: string;
@@ -103,6 +113,8 @@ export interface AppSettings {
     max_replan_iters: number;
     enable_sufficiency: boolean;
     enable_answer_verify: boolean;
+    enable_answer_verify_simple: boolean;
+    enable_answer_verify_complex: boolean;
     max_answer_regenerations: number;
   };
   memory: {

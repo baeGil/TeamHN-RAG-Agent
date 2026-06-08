@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS chunks (
     page        INTEGER,
     section     TEXT,
     embedding   BLOB,                  -- float32 vector; lets us rebuild the dense index from the DB
-    embed_text  TEXT,                   -- optimized text for embedding (from Reducto embed field)
+    embed_text  TEXT,                  -- optimized text for embedding (from Reducto embed field)
+    cch_text    TEXT,                  -- 4-tier CCH text used for reranking (doc_summary + section_summary + chunk)
     FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_chunks_doc ON chunks(document_id);
@@ -102,6 +103,8 @@ class Database:
             conn.execute("ALTER TABLE chunks ADD COLUMN embedding BLOB")
         if "embed_text" not in cols:
             conn.execute("ALTER TABLE chunks ADD COLUMN embed_text TEXT")
+        if "cch_text" not in cols:
+            conn.execute("ALTER TABLE chunks ADD COLUMN cch_text TEXT")
 
         doc_cols = {r["name"] for r in conn.execute("PRAGMA table_info(documents)").fetchall()}
         if "status" not in doc_cols:

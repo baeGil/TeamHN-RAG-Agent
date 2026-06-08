@@ -101,6 +101,8 @@ def relevant_segment_extraction(
     irrelevant_penalty: float = 0.2,
     max_segment_chunks: int = 15,
     overall_max_chunks: int = 30,
+    window_extension: int = 2,
+    chunk_length_adjustment: bool = True,
 ) -> list[RseSegment]:
     """Run RSE on a list of reranked chunks and return assembled segments.
 
@@ -115,6 +117,10 @@ def relevant_segment_extraction(
                             Set higher to prefer tighter, more focused segments.
         max_segment_chunks: Maximum number of chunks in a single segment.
         overall_max_chunks: Soft cap on total chunks across all segments returned.
+        window_extension: Extend RSE window this many positions before min_idx
+                          so intro/context chunks are visible as bridge candidates.
+        chunk_length_adjustment: Scale each chunk's score by its relative length
+                                  (penalises tiny section-header chunks, mirrors dsRAG).
 
     Returns:
         list[RseSegment] ordered by segment value (descending).
@@ -151,16 +157,23 @@ def relevant_segment_extraction(
         min_idx = min(idx_map)
         max_idx = max(idx_map)
 
-        # Extend the window a bit to allow bridging gaps
-        window_start = max(0, min_idx)
+        # Extend window backward to capture intro context before the first hit
+        window_start = max(0, min_idx - window_extension)
         window_end = max_idx  # fetch_range_fn will handle out-of-bounds
 
+        # Optionally scale scores by relative chunk length (penalises tiny header chunks)
+        avg_text_len = sum(len(c.text) for c in chunks) / len(chunks) if chunks else 1.0
+
         # Build score array over [window_start, window_end]
-        n = window_end - window_start + 1
         score_arr: list[float] = []
         for abs_idx in range(window_start, window_end + 1):
             if abs_idx in idx_map:
                 raw_score, _, _, _ = idx_map[abs_idx]
+                if chunk_length_adjustment:
+                    chunk_obj = next((c for c in chunks if c.chunk_index == abs_idx), None)
+                    text_len = len(chunk_obj.text) if chunk_obj else avg_text_len
+                    length_factor = min(text_len / max(avg_text_len, 1.0), 2.0)
+                    raw_score = raw_score * length_factor
                 score_arr.append(raw_score - irrelevant_penalty)
             else:
                 score_arr.append(-irrelevant_penalty)

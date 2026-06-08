@@ -67,10 +67,11 @@ class Repo:
         page: Optional[int],
         section: Optional[str],
         embed_text: Optional[str] = None,
+        cch_text: Optional[str] = None,
     ) -> int:
         cur = self.db.conn.execute(
-            "INSERT INTO chunks(document_id, chunk_index, text, page, section, embed_text) VALUES (?,?,?,?,?,?)",
-            (document_id, chunk_index, text, page, section, embed_text),
+            "INSERT INTO chunks(document_id, chunk_index, text, page, section, embed_text, cch_text) VALUES (?,?,?,?,?,?,?)",
+            (document_id, chunk_index, text, page, section, embed_text, cch_text),
         )
         self.db.conn.commit()
         return int(cur.lastrowid)
@@ -87,7 +88,7 @@ class Repo:
         """All chunks (in id order) with embeddings, embed_text, doc summary and section summary."""
         rows = self.db.conn.execute(
             """SELECT c.id, c.document_id, c.chunk_index, c.text, c.page, c.section,
-                      c.embedding, c.embed_text,
+                      c.embedding, c.embed_text, c.cch_text,
                       d.title AS doc_title, d.summary AS doc_summary,
                       ss.summary AS section_summary
                FROM chunks c
@@ -104,7 +105,7 @@ class Repo:
         placeholders = ",".join("?" * len(chunk_ids))
         rows = self.db.conn.execute(
             f"""SELECT c.id, c.document_id, c.chunk_index, c.text, c.page, c.section,
-                       c.embed_text,
+                       c.embed_text, c.cch_text,
                        d.title AS doc_title, d.source AS doc_source,
                        d.source_type AS doc_source_type, d.summary AS doc_summary,
                        ss.summary AS section_summary

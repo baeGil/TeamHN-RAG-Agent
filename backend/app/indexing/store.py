@@ -2,6 +2,7 @@
 import concurrent.futures
 import json
 import logging
+import math
 import threading
 import time
 from dataclasses import dataclass, field
@@ -16,7 +17,7 @@ from ..db.repo import Repo
 from ..ingestion import loaders
 from ..ingestion.chunker import Chunk, chunk_blocks
 from ..retrieval.hybrid import FusedHit, reciprocal_rank_fusion
-from ..retrieval.reranker import Reranker
+from ..retrieval.reranker import create_reranker
 from .bm25_index import BM25Index
 from .embeddings import Embedder
 from .vector_index import VectorIndex
@@ -25,8 +26,8 @@ logger = logging.getLogger("rag.flow")
 
 # Bump when tokenization or index_text formatting changes, to force a rebuild of
 # persisted indexes on next load (otherwise stale tokens silently degrade recall).
-# Bumped to 6: 4-tier CCH (doc_summary + section_summary) changes embed text format.
-_INDEX_VERSION = 6
+# Bumped to 7: store cch_text in DB for reranker; RSE window_extension + length_adjustment.
+_INDEX_VERSION = 7
 
 
 def _index_text(
@@ -104,7 +105,11 @@ class KnowledgeBase:
         self.db = Database(self.settings.db_path)
         self.repo = Repo(self.db)
         self.embedder = Embedder(cache_path=self.settings.storage_dir / "emb_cache.db")
-        self.reranker = Reranker(self.settings.reranker_model)
+        self.reranker = create_reranker(
+            reranker_type=self.settings.reranker_type,
+            model_name=self.settings.reranker_model,
+            jina_api_key=self.settings.jina_api_key,
+        )
         self._lock = threading.Lock()
         self.vector = VectorIndex(bit_width=self.settings.turbovec_bit_width)
         self.bm25 = BM25Index()
@@ -159,7 +164,8 @@ class KnowledgeBase:
     def rebuild_indexes(self) -> None:
         """Rebuild BM25 + dense index from the DB so they always match stored chunks.
         Embeddings are read from the DB; any missing ones are (re)computed and saved.
-        Uses embed_text for dense embedding when available (Reducto-optimized text)."""
+        Uses embed_text for dense embedding when available (Reducto-optimized text).
+        Also backfills cch_text column if missing."""
         rows = self.repo.all_chunks_with_embeddings()
         if not rows:
             self.bm25 = BM25Index()
@@ -174,6 +180,14 @@ class KnowledgeBase:
                         section_summary=r.get("section_summary"))
             for r in rows
         ]
+        # Backfill cch_text for chunks that are missing it
+        for r, cch in zip(rows, index_texts):
+            if not r.get("cch_text"):
+                self.repo.db.conn.execute(
+                    "UPDATE chunks SET cch_text=? WHERE id=?",
+                    (cch, int(r["id"])),
+                )
+        self.repo.db.conn.commit()
         dense_texts = [
             _index_text(r.get("doc_title"), r.get("section"), r["embed_text"],
                         summary=r.get("doc_summary"),
@@ -258,7 +272,7 @@ class KnowledgeBase:
             from openai import OpenAI
             client = OpenAI(
                 api_key=self.settings.openai_api_key,
-                base_url=self.settings.openai_base_url,
+                base_url=self.settings.openai_base_url or "https://api.openai.com/v1",
             )
             full_text = " ".join(ch.text for ch in chunks)
             sample = full_text[: self.settings.doc_summary_chars]
@@ -312,7 +326,7 @@ class KnowledgeBase:
                 from openai import OpenAI
                 client = OpenAI(
                     api_key=self.settings.openai_api_key,
-                    base_url=self.settings.openai_base_url,
+                    base_url=self.settings.openai_base_url or "https://api.openai.com/v1",
                 )
                 resp = client.chat.completions.create(
                     model=self.settings.doc_summary_model,
@@ -390,18 +404,27 @@ class KnowledgeBase:
             chunk_ids: list[int] = []
             index_texts: list[str] = []
             embed_texts: list[Optional[str]] = []
+            cch_texts: list[str] = []
+            min_chars = self.settings.min_chunk_chars
             for i, ch in enumerate(chunks):
+                sec_sum = section_summaries.get(ch.section) if ch.section else None
+                cch = _index_text(title, ch.section, ch.text,
+                                  summary=doc_summary, section_summary=sec_sum)
                 cid = self.repo.add_chunk(
                     doc_id, i, ch.text, ch.page, ch.section,
                     embed_text=ch.embed_text,
+                    cch_text=cch,
                 )
                 chunk_ids.append(cid)
-                sec_sum = section_summaries.get(ch.section) if ch.section else None
-                itext = _index_text(title, ch.section, ch.text,
-                                    summary=doc_summary, section_summary=sec_sum)
-                index_texts.append(itext)
+                index_texts.append(cch)
                 embed_texts.append(ch.embed_text)
-                self.bm25.add(cid, itext)
+                cch_texts.append(cch)
+                # Skip tiny chunks (section headers) from BM25/vector — they still
+                # exist in DB for RSE bridge fetching but pollute keyword retrieval.
+                if len(ch.text.strip()) >= min_chars:
+                    self.bm25.add(cid, cch)
+            # Explicit BM25 rebuild after all adds (avoids lazy rebuild on next search)
+            self.bm25._rebuild()
             self.repo.set_document_chunk_count(doc_id, len(chunks))
 
             dense_texts = [
@@ -411,9 +434,19 @@ class KnowledgeBase:
                             section_summary=section_summaries.get(ch.section) if ch.section else None)
                 for ch, et in zip(chunks, embed_texts)
             ]
-            vectors = self.embedder.embed_documents(dense_texts)
-            self.repo.set_embeddings(chunk_ids, vectors)
-            self.vector.add(vectors, chunk_ids)
+            # Only embed chunks that meet the min_chunk_chars threshold
+            embed_chunk_ids = [
+                cid for cid, ch in zip(chunk_ids, chunks)
+                if len(ch.text.strip()) >= min_chars
+            ]
+            embed_dense_texts = [
+                dt for dt, ch in zip(dense_texts, chunks)
+                if len(ch.text.strip()) >= min_chars
+            ]
+            if embed_chunk_ids:
+                vectors = self.embedder.embed_documents(embed_dense_texts)
+                self.repo.set_embeddings(embed_chunk_ids, vectors)
+                self.vector.add(vectors, embed_chunk_ids)
             self._persist()
         return {
             "document_id": doc_id,
@@ -427,11 +460,18 @@ class KnowledgeBase:
 
     def delete_document(self, doc_id: int) -> None:
         with self._lock:
-            self.repo.delete_document(doc_id)
+            chunk_ids = self.repo.delete_document(doc_id)
             self.pdf_path(doc_id).unlink(missing_ok=True)
-            # Rebuild from the remaining DB chunks (embeddings are stored, so this
-            # needs no API calls) to keep both indexes exactly in sync with the DB.
-            self.rebuild_indexes()
+            # Incremental removal is much faster than a full rebuild — both indexes
+            # already support remove(ids).  Fall back to full rebuild only on error.
+            try:
+                if chunk_ids:
+                    self.bm25.remove(set(chunk_ids))
+                    self.vector.remove(chunk_ids)
+                self._persist()
+            except Exception:
+                logger.exception("[KB] Incremental remove failed, falling back to full rebuild")
+                self.rebuild_indexes()
 
     # ---------------- retrieval ----------------
     def retrieve(self, query: str, top_k: Optional[int] = None) -> list[RetrievedChunk]:
@@ -474,8 +514,10 @@ class KnowledgeBase:
         rerank_map: dict[int, float] = {}
         rerank_ms = 0.0
         if s.use_reranker:
+            # Use cch_text (CCH-enriched) for reranking when available so reranker
+            # sees the same enriched text that the embeddings were built on.
             pairs = [
-                (h.chunk_id, meta[h.chunk_id]["text"])
+                (h.chunk_id, meta[h.chunk_id].get("cch_text") or meta[h.chunk_id]["text"])
                 for h in candidates
                 if h.chunk_id in meta
             ]
@@ -485,16 +527,26 @@ class KnowledgeBase:
             if reranked is not None:
                 rerank_map = {cid: sc for cid, sc in reranked}
 
-        def _final_score(h: FusedHit) -> float:
-            return rerank_map.get(h.chunk_id, h.rrf_score)
+        def _final_score(h: FusedHit, rank: int) -> float:
+            if h.chunk_id in rerank_map:
+                return rerank_map[h.chunk_id]
+            if s.use_rse:
+                # When reranker is OFF and RSE is ON, RRF scores (~0.03) are far
+                # below the default irrelevant_penalty (0.2) so every score_arr
+                # entry goes negative and RSE returns nothing.  Use rank-decay
+                # (mirroring dsRAG) so scores live in a sensible [0,1] range.
+                return math.exp(-rank / 20.0)
+            return h.rrf_score
 
         # Pass ALL reranked candidates to RSE (not pre-sliced to top_k).
         # RSE needs the full scored pool to correctly score "bridge" chunks relative
         # to retrieved ones; rse_overall_max_chunks controls the final context window.
         # Without RSE, fall back to a simple top_k slice.
-        all_scored = sorted(candidates, key=_final_score, reverse=True)
+        all_scored = sorted(
+            enumerate(candidates), key=lambda ri: _final_score(ri[1], ri[0]), reverse=True
+        )
         pre_rse: list[RetrievedChunk] = []
-        for h in all_scored:
+        for rank, h in all_scored:
             m = meta.get(h.chunk_id)
             if not m:
                 continue
@@ -511,7 +563,7 @@ class KnowledgeBase:
                     bm25_score=h.bm25_score,
                     dense_score=h.dense_score,
                     rerank_score=rerank_map.get(h.chunk_id),
-                    score=_final_score(h),
+                    score=_final_score(h, rank),
                     chunk_index=m.get("chunk_index", 0),
                 )
             )
@@ -553,9 +605,24 @@ class KnowledgeBase:
         The returned list has the same interface as individual chunks so the
         rest of the pipeline (agent, citations) needs no changes.
         """
-        from ..retrieval.rse import relevant_segment_extraction
+        from ..retrieval.rse import relevant_segment_extraction, RseSegment
 
         s = self.settings
+        penalty = s.rse_irrelevant_penalty
+
+        # Adaptive penalty: if reranker scores are all low (common for Vietnamese
+        # with multilingual rerankers), reduce penalty so RSE can still form segments.
+        # Otherwise, only 1 chunk exceeds 0.2 → RSE returns 1 useless segment.
+        above = sum(1 for c in chunks if c.score > penalty)
+        if above < 3 and len(chunks) >= 5:
+            # Auto-reduce penalty to 10th-percentile of scores so ~30% of chunks qualify
+            sorted_scores = sorted(c.score for c in chunks)
+            adaptive = sorted_scores[max(0, len(sorted_scores) // 10)]
+            penalty = min(penalty, adaptive)
+            logger.info(
+                "RAG_FLOW rse_adaptive_penalty original=%.2f adaptive=%.4f above_original=%d/%d",
+                s.rse_irrelevant_penalty, penalty, above, len(chunks),
+            )
 
         def _fetch_range(doc_id: int, start_idx: int, end_idx: int) -> list[dict]:
             return self.repo.get_chunks_by_doc_range(doc_id, start_idx, end_idx)
@@ -563,9 +630,11 @@ class KnowledgeBase:
         segments = relevant_segment_extraction(
             scored_chunks=chunks,
             fetch_range_fn=_fetch_range,
-            irrelevant_penalty=s.rse_irrelevant_penalty,
+            irrelevant_penalty=penalty,
             max_segment_chunks=s.rse_max_segment_chunks,
             overall_max_chunks=s.rse_overall_max_chunks,
+            window_extension=s.rse_window_extension,
+            chunk_length_adjustment=s.rse_chunk_length_adjustment,
         )
 
         if not segments:
@@ -597,6 +666,119 @@ class KnowledgeBase:
                 )
             )
         return out
+
+    # ---------------- batch retrieval (for multi-hop) ----------------
+
+    def retrieve_candidates(self, query: str) -> tuple[str, list[FusedHit], dict[int, dict]]:
+        """BM25 + Dense + RRF only — no reranking or RSE.
+
+        Returns (query, fused_hits, meta_dict) so graph.py can collect candidates
+        from all sub-queries and then call batch_rerank_and_rse() once.
+        """
+        s = self.settings
+        bm25_hits = self.bm25.search(query, s.bm25_top_k)
+        dense_hits: list[tuple[int, float]] = []
+        if self.vector.ready:
+            qv = self.embedder.embed_query(query)
+            dense_hits = self.vector.search(qv, s.dense_top_k)
+        fused = reciprocal_rank_fusion(bm25_hits, dense_hits, k=s.rrf_k)
+        candidates = fused[: s.rerank_top_n]
+        meta = self.repo.get_chunks([h.chunk_id for h in candidates])
+        return query, candidates, meta
+
+    def batch_rerank_and_rse(
+        self,
+        queries_candidates: list[tuple[str, list[FusedHit], dict[int, dict]]],
+    ) -> dict[int, list[RetrievedChunk]]:
+        """Rerank all sub-query candidates in a single reranker call, then apply RSE per sub-query.
+
+        Args:
+            queries_candidates: list of (query, candidates, meta) from retrieve_candidates()
+
+        Returns:
+            dict mapping sub-query index → list[RetrievedChunk]
+        """
+        s = self.settings
+        started = time.perf_counter()
+
+        # --- Build flat list of (sub_query_idx, chunk_id, text) for batch rerank ---
+        all_pairs: list[tuple[int, int, str]] = []  # (sq_idx, chunk_id, text)
+        for sq_idx, (query, candidates, meta) in enumerate(queries_candidates):
+            for h in candidates:
+                m = meta.get(h.chunk_id)
+                if m:
+                    text = m.get("cch_text") or m["text"]
+                    all_pairs.append((sq_idx, h.chunk_id, text))
+
+        # Build per-sub-query rerank input: (chunk_id, text) keyed by sq_idx
+        sq_pairs: dict[int, list[tuple[int, str]]] = {}
+        for sq_idx, chunk_id, text in all_pairs:
+            sq_pairs.setdefault(sq_idx, []).append((chunk_id, text))
+
+        # --- Single reranker call per sub-query BUT serialized only once each ---
+        # We call reranker.rerank() once per sub-query (not per query×candidate).
+        # If use_reranker=False, fall back to rank-decay for RSE score compatibility.
+        rerank_maps: dict[int, dict[int, float]] = {}
+        rerank_ms = 0.0
+        if s.use_reranker:
+            rerank_started = time.perf_counter()
+            for sq_idx, (query, candidates, meta) in enumerate(queries_candidates):
+                pairs = sq_pairs.get(sq_idx, [])
+                if pairs:
+                    reranked = self.reranker.rerank(query, pairs, top_k=len(pairs))
+                    if reranked:
+                        rerank_maps[sq_idx] = {cid: sc for cid, sc in reranked}
+            rerank_ms = (time.perf_counter() - rerank_started) * 1000
+
+        # --- Build pre_rse list per sub-query ---
+        results: dict[int, list[RetrievedChunk]] = {}
+        for sq_idx, (query, candidates, meta) in enumerate(queries_candidates):
+            rmap = rerank_maps.get(sq_idx, {})
+
+            def _score(h: FusedHit, rank: int) -> float:
+                if h.chunk_id in rmap:
+                    return rmap[h.chunk_id]
+                if s.use_rse:
+                    return math.exp(-rank / 20.0)
+                return h.rrf_score
+
+            all_scored = sorted(
+                enumerate(candidates), key=lambda ri: _score(ri[1], ri[0]), reverse=True
+            )
+            pre_rse: list[RetrievedChunk] = []
+            for rank, h in all_scored:
+                m = meta.get(h.chunk_id)
+                if not m:
+                    continue
+                pre_rse.append(RetrievedChunk(
+                    chunk_id=h.chunk_id,
+                    text=m["text"],
+                    document_id=m["document_id"],
+                    doc_title=m["doc_title"],
+                    doc_source=m["doc_source"],
+                    page=m["page"],
+                    section=m["section"],
+                    rrf_score=h.rrf_score,
+                    bm25_score=h.bm25_score,
+                    dense_score=h.dense_score,
+                    rerank_score=rmap.get(h.chunk_id),
+                    score=_score(h, rank),
+                    chunk_index=m.get("chunk_index", 0),
+                ))
+
+            if s.use_rse and pre_rse:
+                results[sq_idx] = self._apply_rse(pre_rse)
+            else:
+                results[sq_idx] = pre_rse[:s.final_top_k]
+
+        logger.info(
+            "RAG_FLOW batch_rerank_rse duration_ms=%.1f subqueries=%s reranker_ms=%.1f rse=%s",
+            (time.perf_counter() - started) * 1000,
+            len(queries_candidates),
+            rerank_ms,
+            s.use_rse,
+        )
+        return results
 
     def stats(self) -> dict[str, Any]:
         docs = self.repo.list_documents()

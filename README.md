@@ -57,15 +57,16 @@ Mỗi node phát một sự kiện qua **SSE** để UI theo dõi realtime; câu
 ### Backend
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate      # tuỳ chọn
-pip install -r requirements.txt
+uv sync
 
 cp .env.example .env
 # Mở .env và điền:
 #   OPENAI_API_KEY=sk-...
-#   LLM_MODEL=...          (vd: gpt-4o-mini)
-#   LLM_MODEL_FAST=...     (vd: gpt-4o-mini)
-#   EMBED_MODEL=...        (vd: text-embedding-3-small)
+#   JINA_API_KEY=jina_...     (cho reranker nhanh)
+#   REDUCTO_API_KEY=...       (cho parser Reducto)
+#   LLM_MODEL=...            (vd: gpt-4o-mini)
+#   LLM_MODEL_FAST=...       (vd: gpt-4o-mini)
+#   EMBED_MODEL=...           (vd: text-embedding-3-small)
 ```
 
 ### Frontend

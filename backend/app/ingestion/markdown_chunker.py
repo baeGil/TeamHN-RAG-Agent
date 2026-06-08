@@ -46,7 +46,11 @@ def _extract_page_map(content_list: list) -> dict[str, int]:
 
     Supports two formats from MinerU:
       - doc_content_list.json: flat list of dicts with {type, text/content, page_idx}
-      - doc_content_list_v2.json: list of pages, each page is a list of block dicts
+      - doc_content_list_v2.json: list of pages, each page is a list of block dicts.
+        In this format, the outer list index IS the page number (0-based).
+
+    Returns:
+        dict mapping lowercase section title → 1-based page number.
     """
     page_map: dict[str, int] = {}
 
@@ -77,11 +81,35 @@ def _extract_page_map(content_list: list) -> dict[str, int]:
             for block in page_or_item:
                 if isinstance(block, dict):
                     _process_item(block, page_idx)
+                    # Also map text content → page for non-title blocks
+                    _extract_text_page(block, page_idx, page_map)
         elif isinstance(page_or_item, dict):
             # flat format
             _process_item(page_or_item, None)
 
     return page_map
+
+
+def _extract_text_page(item: dict, page_no: int, page_map: dict[str, int]) -> None:
+    """Map first N chars of each text block → page number.
+
+    This provides page info for non-title blocks when page markers
+    are absent (e.g. pipeline backend doesn't emit <!-- Page --> markers).
+    """
+    tp = item.get("type", "")
+    if tp in ("title", "section_title", "heading"):
+        return  # already handled by _process_item
+    content = item.get("content", "")
+    if isinstance(content, dict):
+        parts = content.get("text_content") or content.get("title_content") or []
+        text = " ".join(p.get("content", "") for p in parts if isinstance(p, dict))
+    elif isinstance(content, str):
+        text = content
+    else:
+        text = item.get("text", "")
+    text = text.strip()[:60].lower()
+    if text:
+        page_map.setdefault(text, page_no + 1)  # 1-based
 
 
 def _section_page(section: Optional[str], page_map: dict[str, int]) -> Optional[int]:
@@ -246,6 +274,12 @@ def parse_mineru_markdown(
             continue
 
         # --- Regular prose ---
+        # Try to infer page from content_list text map if no page markers
+        if current_page is None and page_map and stripped:
+            key = stripped[:60].lower()
+            pg = page_map.get(key)
+            if pg is not None:
+                current_page = pg
         prose_lines.append(stripped)
 
     # Flush anything remaining

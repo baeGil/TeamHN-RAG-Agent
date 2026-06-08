@@ -1,0 +1,53 @@
+[project]
+name = "rag-backend"
+version = "0.7.0"
+description = "RAG pipeline with Reducto/MinerU OCR, 4-tier CCH, RSE, Jina reranker, and agent graph"
+requires-python = ">=3.11"
+dependencies = [
+    # Core RAG + agent
+    "openai>=1.40",
+    "langgraph>=0.2",
+    "tiktoken>=0.7",
+    # Vector index (TurboQuant)
+    "turbovec>=0.6.0",
+    "numpy>=1.24",
+    # Hybrid search
+    "rank-bm25>=0.2.2",
+    # Vietnamese NLP
+    "underthesea>=6.0",
+    # Reranker: local (FlagEmbedding) + Jina API
+    "FlagEmbedding>=1.2",
+    "transformers<5",
+    "torch>=2.0",
+    "httpx>=0.27",
+    # Ingestion
+    "PyMuPDF>=1.24",
+    "pypdf>=4.0",
+    "pdfplumber>=0.11",
+    "trafilatura>=1.8",
+    "beautifulsoup4>=4.12",
+    "reductoai>=0.22.0",
+    # MinerU OCR (local pipeline with torch)
+    "mineru[pipeline]>=3.2",
+    # API
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "sse-starlette>=2.0",
+    "python-multipart>=0.0.9",
+    "pydantic>=2.6",
+    "python-dotenv>=1.0",
+    "slowapi>=0.1.9",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

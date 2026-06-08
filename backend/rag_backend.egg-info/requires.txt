@@ -1,36 +1,20 @@
-# DEPRECATED: Use pyproject.toml + uv instead.
-# This file is kept for reference only.
-# Install with: uv pip install -e ".[dev]"
-#
-# Core RAG + agent
 openai>=1.40
 langgraph>=0.2
 tiktoken>=0.7
-
-# Vector index (TurboQuant)
 turbovec>=0.6.0
 numpy>=1.24
-
-# Hybrid search
 rank-bm25>=0.2.2
-
-# Vietnamese NLP
 underthesea>=6.0
-
-# Reranker (cross-encoder, local, no token cost)
 FlagEmbedding>=1.2
 transformers<5
 torch>=2.0
-
-# Ingestion
 PyMuPDF>=1.24
 pypdf>=4.0
 pdfplumber>=0.11
 trafilatura>=1.8
 beautifulsoup4>=4.12
-reductoai >= 0.22.0
-
-# API
+reductoai>=0.22.0
+mineru[pipeline]>=3.2
 fastapi>=0.110
 uvicorn[standard]>=0.27
 sse-starlette>=2.0
@@ -38,3 +22,8 @@ python-multipart>=0.0.9
 pydantic>=2.6
 python-dotenv>=1.0
 slowapi>=0.1.9
+
+[dev]
+pytest>=8.0
+pytest-asyncio>=0.23
+httpx>=0.27

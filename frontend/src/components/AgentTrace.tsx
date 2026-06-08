@@ -14,6 +14,7 @@ function Icon({ type }: { type: string }) {
     plan: "🗺️",
     subquestion: "❓",
     retrieved: "🔎",
+    distill_verify: "⚗️",
     distill: "⚗️",
     verify: "✓",
     synthesize: "🧩",
@@ -96,6 +97,21 @@ export default function AgentTrace({
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+                {e.type === "distill_verify" && (
+                  <div>
+                    <b>Chắt lọc & kiểm chứng:</b>{" "}
+                    {e.data.relevant ? (
+                      <span>{e.data.note}</span>
+                    ) : (
+                      <span className="muted">Không liên quan</span>
+                    )}
+                    {" · "}
+                    <span className={e.data.grounded ? "ok" : "warn"}>
+                      {e.data.grounded ? "Bám nguồn ✓" : "Chưa chắc chắn ⚠"}
+                    </span>
+                    {e.data.reason ? <span className="trace-sub"> {e.data.reason}</span> : null}
                   </div>
                 )}
                 {e.type === "distill" && (

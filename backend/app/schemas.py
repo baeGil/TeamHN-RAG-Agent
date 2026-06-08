@@ -39,7 +39,9 @@ class SettingsIn(BaseModel):
     dense_top_k: Optional[int] = None
     rrf_k: Optional[int] = None
     use_reranker: Optional[bool] = None
+    reranker_type: Optional[str] = None
     reranker_model: Optional[str] = None
+    jina_api_key: Optional[str] = None
     rerank_top_n: Optional[int] = None
     final_top_k: Optional[int] = None
     use_hyde: Optional[bool] = None
@@ -47,6 +49,10 @@ class SettingsIn(BaseModel):
     rse_irrelevant_penalty: Optional[float] = None
     rse_max_segment_chunks: Optional[int] = None
     rse_overall_max_chunks: Optional[int] = None
+    rse_window_extension: Optional[int] = None
+    rse_chunk_length_adjustment: Optional[bool] = None
+    complex_ctx_limit: Optional[int] = None
+    min_chunk_chars: Optional[int] = None
     # Generation
     llm_model: Optional[str] = None
     llm_model_fast: Optional[str] = None
@@ -54,6 +60,8 @@ class SettingsIn(BaseModel):
     max_replan_iters: Optional[int] = None
     enable_sufficiency: Optional[bool] = None
     enable_answer_verify: Optional[bool] = None
+    enable_answer_verify_simple: Optional[bool] = None
+    enable_answer_verify_complex: Optional[bool] = None
     max_answer_regenerations: Optional[int] = None
     # Memory
     enable_summarization: Optional[bool] = None

@@ -127,9 +127,15 @@ class Agent:
             return "no_retrieval", "Chưa có tài liệu nào được nạp."
         if _GREETING_RE.match(question.strip()):
             return "no_retrieval", "Câu chào hỏi — không cần tra cứu."
+        # Include last 2 turns of history so router can detect follow-up questions
+        user_content = question
+        if history:
+            recent = history[-2:]
+            ctx = "\n".join(f"{m['role']}: {m['content'][:200]}" for m in recent)
+            user_content = f"Lịch sử gần nhất:\n{ctx}\n\nCâu hỏi hiện tại: {question}"
         msgs = [
             {"role": "system", "content": prompts.ROUTER_SYSTEM},
-            {"role": "user", "content": question},
+            {"role": "user", "content": user_content},
         ]
         try:
             data = self.llm.chat_json(msgs, fast=True, node="router")
@@ -153,14 +159,6 @@ class Agent:
             return subqs[:4] or [question]
         except Exception as e:
             return [question]
-
-    def _distill(self, subq: str, chunks: list[dict]) -> str:
-        ctx = prompts.build_context(chunks, label_key="label")
-        msgs = [
-            {"role": "system", "content": prompts.DISTILL_SYSTEM},
-            {"role": "user", "content": f"CÂU HỎI CON:\n{subq}\n\nĐOẠN TRÍCH:\n{ctx}"},
-        ]
-        return self.llm.chat(msgs, fast=True, node="distill").strip()
 
     def _generate_and_verify(
         self, question, history, context_chunks, steps, route, summary=None,
@@ -189,18 +187,6 @@ class Agent:
         answer_text = self.llm.chat(msgs, fast=False, node="synthesize").strip()
         grounded, reason = self._verify_answer(answer_text, context_chunks)
         return answer_text, grounded, reason
-
-    def _verify(self, claim: str, chunks: list[dict]) -> tuple[bool, str]:
-        ctx = prompts.build_context(chunks, label_key="label")
-        msgs = [
-            {"role": "system", "content": prompts.VERIFY_SYSTEM},
-            {"role": "user", "content": f"NHẬN ĐỊNH:\n{claim}\n\nNGỮ CẢNH:\n{ctx}"},
-        ]
-        try:
-            data = self.llm.chat_json(msgs, fast=True, node="verify")
-            return bool(data.get("grounded", False)), data.get("reason", "")
-        except Exception:
-            return True, "Bỏ qua kiểm tra."
 
     def _check_sufficiency(self, question: str, grounded_notes: list[str]) -> tuple[bool, str]:
         if not grounded_notes:
@@ -261,10 +247,15 @@ class Agent:
         return merged[:4]
 
     def _verify_answer(self, answer: str, context_chunks: list[dict]) -> tuple[bool, str]:
-        ctx = prompts.build_context(context_chunks, label_key="label")
+        # Use compact context (label + first 120 chars) instead of full text
+        # to reduce token cost by ~80% while preserving enough signal for grounding check.
+        compact = "\n".join(
+            f"[{c['label']}] {c['text'][:120]}{'...' if len(c['text']) > 120 else ''}"
+            for c in context_chunks
+        )
         msgs = [
             {"role": "system", "content": prompts.ANSWER_VERIFY_SYSTEM},
-            {"role": "user", "content": f"CÂU TRẢ LỜI:\n{answer}\n\nNGỮ CẢNH:\n{ctx}"},
+            {"role": "user", "content": f"CÂU TRẢ LỜI:\n{answer}\n\nNGỮ CẢNH (tóm tắt):\n{compact}"},
         ]
         try:
             data = self.llm.chat_json(msgs, fast=True, node="verify_answer")
@@ -342,15 +333,28 @@ class Agent:
             node_started = time.perf_counter()
             yield emit("thinking", {"node": "retrieve"})
             retrieval_jobs: dict[int, list[dict]] = {}
-            with ThreadPoolExecutor(max_workers=min(4, len(subqs))) as ex:
-                futures = {
-                    ex.submit(self.kb.retrieve, sq, self.settings.final_top_k): i
-                    for i, sq in enumerate(subqs)
-                }
-                for fut in futures:
-                    i = futures[fut]
-                    hits = fut.result()
+
+            if route == "complex" and len(subqs) > 1:
+                # Batch retrieval: collect candidates from all sub-queries in parallel,
+                # then call reranker + RSE once per sub-query (serialized reranker internally
+                # but avoid N separate reranker model loads via batch_rerank_and_rse).
+                with ThreadPoolExecutor(max_workers=min(4, len(subqs))) as ex:
+                    cand_futures = {
+                        ex.submit(self.kb.retrieve_candidates, sq): i
+                        for i, sq in enumerate(subqs)
+                    }
+                    queries_candidates = {}
+                    for fut, i in [(f, cand_futures[f]) for f in cand_futures]:
+                        queries_candidates[i] = fut.result()
+                ordered = [queries_candidates[i] for i in range(len(subqs))]
+                batch_results = self.kb.batch_rerank_and_rse(ordered)
+                for i, hits in batch_results.items():
                     retrieval_jobs[i] = [_chunk_to_dict(h) for h in hits]
+            else:
+                # Simple route: single retrieve() call as before
+                hits = self.kb.retrieve(subqs[0], self.settings.final_top_k)
+                retrieval_jobs[0] = [_chunk_to_dict(h) for h in hits]
+
             logger.info(
                 "RAG_FLOW node_end node=retrieve iteration=%s duration_ms=%.1f subquestions=%s hits=%s",
                 iteration,
@@ -379,6 +383,8 @@ class Agent:
                                 "bm25_score": h["bm25_score"],
                                 "dense_score": h["dense_score"],
                                 "rerank_score": h["rerank_score"],
+                                "is_segment": h.get("is_segment", False),
+                                "segment_chunk_ids": h.get("segment_chunk_ids"),
                             }
                             for h in hit_dicts
                         ],
@@ -388,7 +394,7 @@ class Agent:
             # --- Distill + Verify (complex only) ---
             if route == "complex":
                 node_started = time.perf_counter()
-                yield emit("thinking", {"node": "distill"})
+                yield emit("thinking", {"node": "distill_verify"})
                 distill_results: dict[int, dict] = {}
 
                 def _distill_and_verify(idx_subq):
@@ -397,13 +403,19 @@ class Agent:
                     if not hit_dicts:
                         return i, {"note": "", "relevant": False, "grounded": False, "reason": ""}
                     labeled = self._with_labels(hit_dicts)
+                    ctx = prompts.build_context(labeled, label_key="label")
                     try:
-                        note = self._distill(subq, labeled)
-                        rel = note != "KHÔNG_LIÊN_QUAN" and bool(note)
-                        grounded, vreason = (True, "")
-                        if rel:
-                            grounded, vreason = self._verify(note, labeled)
-                        return i, {"note": note, "relevant": rel, "grounded": grounded, "reason": vreason}
+                        # Single merged call: distill + verify in one JSON response
+                        msgs = [
+                            {"role": "system", "content": prompts.DISTILL_VERIFY_SYSTEM},
+                            {"role": "user", "content": f"CÂU HỎI CON:\n{subq}\n\nĐOẠN TRÍCH:\n{ctx}"},
+                        ]
+                        data = self.llm.chat_json(msgs, fast=True, node="distill_verify")
+                        note = data.get("note", "").strip()
+                        rel = note != "KHÔNG_LIÊN_QUAN" and bool(note) and data.get("relevant", True)
+                        grounded = bool(data.get("grounded", True)) if rel else False
+                        reason = data.get("reason", "")
+                        return i, {"note": note, "relevant": rel, "grounded": grounded, "reason": reason}
                     except Exception as e:
                         return i, {"note": f"Lỗi: {e}", "relevant": False, "grounded": False, "reason": str(e), "error": True}
 
@@ -417,21 +429,21 @@ class Agent:
                     len(subqs),
                 )
 
-                yield emit("thinking", {"node": "verify"})
                 for i, subq in enumerate(subqs):
                     r = distill_results.get(i, {})
                     is_error = r.get("error", False)
                     if is_error:
-                        yield emit("error", {"node": "distill", "message": r.get("reason", "Lỗi chắt lọc")})
+                        yield emit("error", {"node": "distill_verify", "message": r.get("reason", "Lỗi chắt lọc & kiểm chứng")})
                     yield emit(
-                        "distill",
-                        {"subquestion": subq, "index": i, "note": r.get("note", ""), "relevant": r.get("relevant", False)},
-                    )
-                    if is_error:
-                        yield emit("error", {"node": "verify", "message": r.get("reason", "Lỗi kiểm chứng")})
-                    yield emit(
-                        "verify",
-                        {"subquestion": subq, "index": i, "grounded": r.get("grounded", True), "reason": r.get("reason", "")},
+                        "distill_verify",
+                        {
+                            "subquestion": subq,
+                            "index": i,
+                            "note": r.get("note", ""),
+                            "relevant": r.get("relevant", False),
+                            "grounded": r.get("grounded", True),
+                            "reason": r.get("reason", ""),
+                        },
                     )
                     steps.append({"subquestion": subq, **r})
 
@@ -532,6 +544,9 @@ class Agent:
         # --- Synthesize ---
         node_started = time.perf_counter()
         yield emit("thinking", {"node": "synthesize"})
+        # n_context = number of context entries (labels), not constituent chunks.
+        # A segment with 4 chunks is 1 context entry, not 4 — the user sees
+        # "N ngữ cảnh" on the graph and expects N = number of citation labels.
         yield emit(
             "synthesize",
             {"n_context": len(context_chunks), "labels": [c["label"] for c in context_chunks]},
@@ -542,9 +557,20 @@ class Agent:
             len(context_chunks),
         )
 
-        # If answer verification is enabled, generate internally first to check grounding,
-        # then stream the final answer (original or regenerated).
-        if self.settings.enable_answer_verify and route != "no_retrieval":
+        # Determine whether to run answer verification for this route.
+        # ENABLE_ANSWER_VERIFY is a global kill-switch; per-route flags fine-tune:
+        #   simple route → default off (stream directly, lower hallucination risk)
+        #   complex route → default on (multi-hop synthesis more prone to hallucination)
+        s = self.settings
+        _do_verify = (
+            s.enable_answer_verify
+            and route != "no_retrieval"
+            and (
+                (route == "complex" and s.enable_answer_verify_complex)
+                or (route == "simple" and s.enable_answer_verify_simple)
+            )
+        )
+        if _do_verify:
             # Generate internally (no streaming) and verify grounding
             answer_text, is_grounded, v_reason = self._generate_and_verify(
                 question, history, context_chunks, steps, route, summary=summary,
@@ -679,27 +705,107 @@ class Agent:
 
     def _select_context(self, pool, steps, route) -> list[dict]:
         chunks = sorted(pool.values(), key=lambda c: c.get("score", 0.0), reverse=True)
-        limit = 8 if route == "complex" else self.settings.final_top_k
-        chunks = chunks[:limit]
-        return self._with_labels(chunks)
+        limit = self.settings.complex_ctx_limit if route == "complex" else self.settings.final_top_k
+        # Skip entries with score < 1% of top entry — they are noise that
+        # wastes context tokens and produces uncited citations.
+        score_threshold = 0.0
+        if chunks:
+            score_threshold = chunks[0].get("score", 0.0) * 0.01
+        # Deduplicate RSE segments: if two entries share overlapping chunk_ids, keep
+        # only the higher-scoring one to avoid sending duplicate content to the LLM.
+        selected: list[dict] = []
+        used_chunk_ids: set[int] = set()
+        # Count by constituent chunks, not by segments.  A segment with 15
+        # chunk_ids should consume 15 slots of the limit, not 1 — otherwise
+        # RSE collapses a rich 10-chunk context into a single citation.
+        total_chunks = 0
+        # Cap per-segment constituent chunks so we always get at least 2-3
+        # different citation labels.  Without this, one 8-chunk segment fills
+        # the entire limit and the answer only gets 1 label.
+        per_segment_cap = max(limit // 2, 3)
+        for c in chunks:
+            if c.get("score", 0.0) < score_threshold:
+                continue
+            seg_ids = set(c.get("segment_chunk_ids") or [])
+            if not seg_ids:
+                seg_ids = {c["chunk_id"]}
+            if seg_ids & used_chunk_ids:
+                continue
+            # Truncate segment to cap so we leave room for other segments
+            if len(seg_ids) > per_segment_cap:
+                capped_ids = sorted(seg_ids)[:per_segment_cap]
+                seg_ids = set(capped_ids)
+                # Fetch text for the capped subset so text matches chunk_ids
+                capped_rows = self.kb.repo.get_chunks(capped_ids)
+                capped_text = "\n\n".join(
+                    (capped_rows[cid].get("text") or "").strip()
+                    for cid in sorted(capped_rows)
+                    if capped_rows[cid].get("text")
+                )
+                # Create a new entry with truncated data
+                c = dict(c)
+                c["segment_chunk_ids"] = capped_ids
+                c["text"] = capped_text
+                c["is_segment"] = True
+            selected.append(c)
+            used_chunk_ids |= seg_ids
+            total_chunks += len(seg_ids)
+            if total_chunks >= limit:
+                break
+        return self._with_labels(selected)
 
     def _build_citations(self, context_chunks: list[dict], cited_labels: set[int]) -> list[dict]:
         cits = []
         for c in context_chunks:
-            cits.append(
-                {
-                    "label": c["label"],
-                    "chunk_id": c["chunk_id"],
-                    "document_id": c["document_id"],
-                    "doc_title": c["doc_title"],
-                    "doc_source": c["doc_source"],
-                    "page": c["page"],
-                    "section": c["section"],
-                    "text": c["text"],
-                    "score": round(c.get("score", 0.0), 4),
-                    "cited": c["label"] in cited_labels,
-                }
-            )
+            seg_ids = c.get("segment_chunk_ids") or []
+            if seg_ids and c.get("is_segment"):
+                # RSE segment: fetch constituent chunks for page/section metadata only
+                seg_chunk_dicts = self.kb.repo.get_chunks(seg_ids)
+                pages = set()
+                sections = set()
+                for cid, chunk_data in sorted(seg_chunk_dicts.items()):
+                    if chunk_data.get("page") is not None:
+                        pages.add(chunk_data["page"])
+                    if chunk_data.get("section"):
+                        sections.add(chunk_data["section"])
+                # Use first chunk's page as primary page, list all pages
+                primary_page = min(pages) if pages else c["page"]
+                page_str = str(primary_page) if primary_page is not None else None
+                # Use c["text"] directly (already capped by _select_context)
+                # rather than re-fetching to avoid text/segment_chunk_ids mismatch
+                cits.append(
+                    {
+                        "label": c["label"],
+                        "chunk_id": c["chunk_id"],
+                        "chunk_ids": sorted(seg_chunk_dicts.keys()),
+                        "document_id": c["document_id"],
+                        "doc_title": c["doc_title"],
+                        "doc_source": c["doc_source"],
+                        "page": page_str,
+                        "pages": sorted(pages) if pages else None,
+                        "section": ", ".join(sections) if sections else c.get("section"),
+                        "text": c["text"],
+                        "n_chunks": len(seg_ids),
+                        "score": round(c.get("score", 0.0), 4),
+                        "cited": c["label"] in cited_labels,
+                        "is_segment": True,
+                    }
+                )
+            else:
+                cits.append(
+                    {
+                        "label": c["label"],
+                        "chunk_id": c["chunk_id"],
+                        "document_id": c["document_id"],
+                        "doc_title": c["doc_title"],
+                        "doc_source": c["doc_source"],
+                        "page": c["page"],
+                        "text": c["text"],
+                        "score": round(c.get("score", 0.0), 4),
+                        "cited": c["label"] in cited_labels,
+                        "is_segment": False,
+                    }
+                )
         return cits
 
     def _synthesize(

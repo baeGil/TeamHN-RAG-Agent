@@ -331,19 +331,24 @@ export default function ChatPanel({
                     ) : m.role === "assistant" ? null : (
                       <div className="user-text">{m.content}</div>
                     )}
+                    {m.role === "assistant" && m.trace && m.trace.length > 0 && m.status === "complete" && (
+                      <AgentTrace events={m.trace} />
+                    )}
                     {m.role === "assistant" && m.citations && m.citations.length > 0 && m.status === "complete" && (
                       <div className="sources">
                         <div className="sources-title">Nguồn trích dẫn</div>
                         <div className="sources-list">
-                          {m.citations.map((c) => (
+                          {m.citations.map((c, ci) => (
                             <button
-                              key={c.label}
+                              key={`${c.label}-${c.chunk_id || ci}`}
                               className={`source-chip ${c.cited ? "used" : ""}`}
                               onClick={() => onOpenCitation(c)}
-                              title={c.text.slice(0, 120)}
+                              title={c.text.slice(0, 200)}
                             >
                               [{c.label}] {c.doc_title}
-                              {c.page ? ` · tr.${c.page}` : ""}
+                              {c.is_segment && c.n_chunks ? ` · ${c.n_chunks} đoạn` : ""}
+                              {c.page != null ? ` · tr.${c.page}` : ""}
+                              {c.pages && c.pages.length > 1 ? `–${c.pages[c.pages.length - 1]}` : ""}
                             </button>
                           ))}
                         </div>

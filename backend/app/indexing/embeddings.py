@@ -33,6 +33,7 @@ class Embedder:
 
     def _init_cache(self) -> None:
         conn = self._cache_conn()
+        conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("CREATE TABLE IF NOT EXISTS emb (k TEXT PRIMARY KEY, v BLOB)")
         conn.commit()
 
@@ -53,11 +54,14 @@ class Embedder:
         conn = self._cache_conn()
         if conn is None:
             return
-        conn.execute(
-            "INSERT OR REPLACE INTO emb(k, v) VALUES (?, ?)",
-            (self._key(text), vec.astype(np.float32).tobytes()),
-        )
-        conn.commit()
+        try:
+            conn.execute(
+                "INSERT OR REPLACE INTO emb(k, v) VALUES (?, ?)",
+                (self._key(text), vec.astype(np.float32).tobytes()),
+            )
+            conn.commit()
+        except Exception:
+            pass  # Cache write failure is non-fatal
 
     @property
     def client(self):
@@ -70,7 +74,7 @@ class Embedder:
                 )
             self._client = OpenAI(
                 api_key=self.settings.openai_api_key,
-                base_url=self.settings.openai_base_url,
+                base_url=self.settings.openai_base_url or "https://api.openai.com/v1",
             )
         return self._client
 

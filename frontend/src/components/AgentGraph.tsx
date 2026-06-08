@@ -26,16 +26,15 @@ interface EdgeDef {
 const NODES: NodeDef[] = [
   { id: "router",        label: "Router",         sub: "Phân loại câu hỏi",      x: 180, y: 10,  w: 140, h: 56 },
   { id: "simple",        label: "Single-hop",     sub: "Đường nhanh",            x: 30,  y: 110, w: 130, h: 56 },
-  { id: "complex",       label: "Multi-hop",      sub: "Agent đầy đủ",           x: 330, y: 110, w: 140, h: 56 },
-  { id: "planner",       label: "Planner",        sub: "Tách câu hỏi con",       x: 330, y: 200, w: 140, h: 56 },
-  { id: "retrieve",      label: "Retrieve",       sub: "BM25 + Dense + Rerank",  x: 180, y: 300, w: 140, h: 60 },
-  { id: "distill",       label: "Distill",        sub: "Chắt lọc ngữ cảnh",      x: 180, y: 390, w: 140, h: 56 },
-  { id: "verify",        label: "Verify",         sub: "Bám nguồn (Self-RAG)",   x: 180, y: 470, w: 140, h: 56 },
-  { id: "sufficiency",   label: "Sufficiency",    sub: "Đủ thông tin?",          x: 330, y: 550, w: 140, h: 56 },
-  { id: "replan",        label: "Replan",         sub: "Lập lại kế hoạch",       x: 330, y: 640, w: 140, h: 56 },
-  { id: "synthesize",    label: "Synthesize",     sub: "Sinh câu trả lời",       x: 180, y: 640, w: 140, h: 56 },
-  { id: "verify_answer", label: "Verify Answer",  sub: "Kiểm chứng trả lời",     x: 180, y: 730, w: 140, h: 56 },
-  { id: "answer",        label: "Answer",         sub: "Stream + Citations",     x: 180, y: 820, w: 140, h: 56 },
+  { id: "complex",        label: "Multi-hop",       sub: "Agent đầy đủ",            x: 330, y: 110, w: 140, h: 56 },
+  { id: "planner",        label: "Planner",         sub: "Tách câu hỏi con",        x: 330, y: 200, w: 140, h: 56 },
+  { id: "retrieve",       label: "Retrieve",        sub: "BM25 + Dense + Rerank",   x: 180, y: 300, w: 140, h: 60 },
+  { id: "distill_verify", label: "Distill+Verify",  sub: "Chắt lọc & bám nguồn (1 call)", x: 180, y: 400, w: 170, h: 56 },
+  { id: "sufficiency",    label: "Sufficiency",     sub: "Đủ thông tin?",           x: 330, y: 490, w: 140, h: 56 },
+  { id: "replan",         label: "Replan",          sub: "Lập lại kế hoạch",        x: 330, y: 580, w: 140, h: 56 },
+  { id: "synthesize",     label: "Synthesize",      sub: "Sinh câu trả lời",        x: 180, y: 580, w: 140, h: 56 },
+  { id: "verify_answer",  label: "Verify Answer",   sub: "Kiểm chứng trả lời",      x: 180, y: 670, w: 140, h: 56 },
+  { id: "answer",         label: "Answer",          sub: "Stream + Citations",      x: 180, y: 760, w: 140, h: 56 },
 ];
 
 // Every edge has a short Vietnamese label + absolute label position.
@@ -54,26 +53,26 @@ const EDGES: EdgeDef[] = [
   { from: "simple", to: "retrieve",  label: "",             lx: 0,   ly: 0 },
 
   // ── Retrieve outputs ──
-  { from: "retrieve", to: "distill",    label: "multi-hop",  lx: 260, ly: 345 },
-  { from: "retrieve", to: "synthesize", label: "single-hop", lx: 255, ly: 475 },
+  { from: "retrieve", to: "distill_verify", label: "multi-hop",  lx: 260, ly: 350 },
+  { from: "retrieve", to: "synthesize",     label: "single-hop", lx: 255, ly: 475 },
 
   // ── Complex verification chain ──
-  { from: "distill", to: "verify",     label: "",            lx: 0,   ly: 0 },
-  { from: "verify", to: "sufficiency",  label: "",           lx: 280, ly: 505 },
+  { from: "distill_verify", to: "sufficiency", label: "",         lx: 280, ly: 445 },
 
   // ── Sufficiency exits ──
-  { from: "sufficiency", to: "synthesize", label: "đủ",     lx: 280, ly: 598 },
-  { from: "sufficiency", to: "replan",     label: "chưa đủ", lx: 415, ly: 598 },
+  { from: "sufficiency", to: "synthesize", label: "đủ",          lx: 280, ly: 538 },
+  { from: "sufficiency", to: "replan",     label: "chưa đủ",      lx: 415, ly: 538 },
 
   // ── Replan loop ──
-  { from: "replan", to: "retrieve",       label: "lặp lại",  lx: 488, ly: 465, anchor: "start" },
+  { from: "replan", to: "retrieve",       label: "lặp lại",  lx: 488, ly: 440, anchor: "start" },
 
   // ── Post-retrieval convergence ──
   { from: "synthesize", to: "verify_answer", label: "",     lx: 0,   ly: 0 },
+  { from: "synthesize", to: "answer",          label: "stream", lx: 120, ly: 620 },
 
   // ── Verify Answer exits ──
-  { from: "verify_answer", to: "answer",     label: "bám nguồn", lx: 258, ly: 778 },
-  { from: "verify_answer", to: "synthesize", label: "tái tạo",  lx: 35,  ly: 688, anchor: "middle" },
+  { from: "verify_answer", to: "answer",     label: "bám nguồn", lx: 258, ly: 718 },
+  { from: "verify_answer", to: "synthesize", label: "tái tạo",  lx: 35,  ly: 628, anchor: "middle" },
 ];
 
 const NODE_MAP: Record<string, NodeDef> = Object.fromEntries(NODES.map((n) => [n.id, n]));
@@ -145,8 +144,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         markDone("simple");
         states["complex"] = "skipped";
         states["planner"] = "skipped";
-        states["distill"] = "skipped";
-        states["verify"] = "skipped";
+        states["distill_verify"] = "skipped";
         states["sufficiency"] = "skipped";
         states["replan"] = "skipped";
         markSkippedEdges();
@@ -163,8 +161,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         states["complex"] = "skipped";
         states["planner"] = "skipped";
         states["retrieve"] = "skipped";
-        states["distill"] = "skipped";
-        states["verify"] = "skipped";
+        states["distill_verify"] = "skipped";
         states["sufficiency"] = "skipped";
         states["replan"] = "skipped";
         states["synthesize"] = "skipped";
@@ -183,27 +180,44 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
       if (states["complex"] !== "skipped") markDone("complex");
     } else if (ev.type === "retrieved") {
       markDone("retrieve");
-      const n = ev.data.chunks?.length || 0;
-      meta["retrieve"] = `${n} đoạn`;
+      const chunks = ev.data.chunks || [];
+      // Count context entries (segments count as 1 each, not their constituent chunks)
+      const nEntries = chunks.length;
+      meta["retrieve"] = `${nEntries} đoạn`;
       if (route === "simple") {
         traverseEdge("simple", "retrieve");
         traverseEdge("retrieve", "synthesize");
         setActive("synthesize");
       } else {
-        traverseEdge("retrieve", "distill");
-        setActive("distill");
+        traverseEdge("retrieve", "distill_verify");
+        setActive("distill_verify");
       }
-    } else if (ev.type === "distill") {
-      traverseEdge("distill", "verify");
-      markDone("distill");
-      meta["distill"] = ev.data.relevant ? "✓ liên quan" : "✗ không liên quan";
-      setActive("verify");
-    } else if (ev.type === "verify") {
-      markDone("verify");
-      if (ev.data.grounded === false) meta["verify"] = "⚠ chưa chắc";
-      else if (ev.data.grounded === true) meta["verify"] = "✓ bám nguồn";
-      traverseEdge("verify", "sufficiency");
+    } else if (ev.type === "distill_verify") {
+      markDone("distill_verify");
+      const parts: string[] = [];
+      if (ev.data.relevant) parts.push("✓ liên quan");
+      else parts.push("✗ không liên quan");
+      if (ev.data.grounded === false) parts.push("⚠ chưa chắc");
+      else if (ev.data.grounded === true) parts.push("✓ bám nguồn");
+      meta["distill_verify"] = parts.join(" · ");
+      traverseEdge("distill_verify", "sufficiency");
       setActive("sufficiency");
+    } else if (ev.type === "distill" || ev.type === "verify") {
+      // Legacy: still handle old separate events, map to distill_verify node
+      if (ev.type === "distill") {
+        meta["distill_verify"] = ev.data.relevant ? "✓ liên quan" : "✗ không liên quan";
+        if (states["distill_verify"] === "idle" || states["distill_verify"] === "active") {
+          setActive("distill_verify");
+        }
+      } else if (ev.type === "verify") {
+        let prev = meta["distill_verify"] || "";
+        if (ev.data.grounded === false) prev += " · ⚠ chưa chắc";
+        else if (ev.data.grounded === true) prev += " · ✓ bám nguồn";
+        meta["distill_verify"] = prev.trim();
+        markDone("distill_verify");
+        traverseEdge("distill_verify", "sufficiency");
+        setActive("sufficiency");
+      }
     } else if (ev.type === "sufficiency") {
       markDone("sufficiency");
       const suf = ev.data.sufficient;
@@ -216,7 +230,8 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         setActive("replan");
       }
     } else if (ev.type === "converged") {
-      traverseEdge("verify", "sufficiency");
+      markDone("distill_verify");
+      traverseEdge("distill_verify", "sufficiency");
       markDone("sufficiency");
       meta["sufficiency"] = "✓ tất cả bám nguồn";
       traverseEdge("sufficiency", "synthesize");
@@ -236,11 +251,14 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
       meta["replan"] = `🔄 vòng ${iteration}`;
       setActive("retrieve");
     } else if (ev.type === "synthesize") {
-      traverseEdge("synthesize", "verify_answer");
       markDone("synthesize");
       meta["synthesize"] = `${ev.data.n_context || 0} ngữ cảnh`;
+      // Will be followed by verify_answer event if verify is ON for this route.
+      // If no verify_answer event comes (verify OFF), the "final" event will
+      // traverse synthesize→answer directly.
       setActive("verify_answer");
     } else if (ev.type === "verify_answer") {
+      traverseEdge("synthesize", "verify_answer");
       markDone("verify_answer");
       if (ev.data.grounded) {
         traverseEdge("verify_answer", "answer");
@@ -261,6 +279,16 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
   }
 
   markSkippedEdges();
+
+  // If synthesize is done but verify_answer was skipped (verify OFF for simple route),
+  // traverse synthesize→answer directly.
+  if (states["synthesize"] === "done" && states["verify_answer"] !== "done" && states["verify_answer"] !== "active") {
+    if (states["verify_answer"] !== "skipped") states["verify_answer"] = "skipped";
+    edgeStates["synthesize→verify_answer"] = "skipped";
+    if (hasAnswer) {
+      edgeStates["synthesize→answer"] = "traversed";
+    }
+  }
 
   if (hasAnswer) {
     for (const n of NODES) {

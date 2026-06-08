@@ -26,7 +26,8 @@ def _get_int(name: str, default: int) -> int:
 class Settings:
     def __init__(self) -> None:
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "")
-        self.openai_base_url = os.getenv("OPENAI_BASE_URL") or None
+        _base = (os.getenv("OPENAI_BASE_URL") or "").strip()
+        self.openai_base_url = _base if _base else None
 
         self.llm_model = os.getenv("LLM_MODEL", "gpt-4o-mini")
         self.llm_model_fast = os.getenv("LLM_MODEL_FAST", "gpt-4o-mini")
@@ -40,7 +41,10 @@ class Settings:
         self.rerank_top_n = _get_int("RERANK_TOP_N", 20)
         self.final_top_k = _get_int("FINAL_TOP_K", 5)
         self.use_reranker = _get_bool("USE_RERANKER", True)
-        self.reranker_model = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
+        # RERANKER_TYPE: "auto" (jina if key, else local), "jina", "local"
+        self.reranker_type = (os.getenv("RERANKER_TYPE", "auto") or "auto").strip().lower()
+        self.reranker_model = os.getenv("RERANKER_MODEL", "jina-reranker-v3")
+        self.jina_api_key = os.getenv("JINA_API_KEY", "").strip()
         self.use_hyde = _get_bool("USE_HYDE", False)
 
         self.max_replan_iters = _get_int("MAX_REPLAN_ITERS", 3)
@@ -85,7 +89,7 @@ class Settings:
         # MinerU parser
         # MINERU_PARSE: "off" (default), "on" (always), "auto" (try, fallback to PyMuPDF)
         self.mineru_parse = (os.getenv("MINERU_PARSE", "off") or "off").strip().lower()
-        # MINERU_CMD: path to MinerU binary. Empty = auto-detect (.venv_parser → PATH)
+        # MINERU_CMD: path to MinerU binary. Empty = auto-detect (.venv/bin/mineru → PATH)
         self.mineru_cmd = os.getenv("MINERU_CMD", "").strip()
 
         # Full CCH: LLM-generated document summary prepended to every chunk embed text
@@ -105,6 +109,23 @@ class Settings:
         self.rse_irrelevant_penalty = float(os.getenv("RSE_IRRELEVANT_PENALTY", "0.2") or "0.2")
         self.rse_max_segment_chunks = _get_int("RSE_MAX_SEGMENT_CHUNKS", 15)
         self.rse_overall_max_chunks = _get_int("RSE_OVERALL_MAX_CHUNKS", 30)
+        # Extend RSE window N chunks before min retrieved index (captures intro context)
+        self.rse_window_extension = _get_int("RSE_WINDOW_EXTENSION", 2)
+        # Scale RSE chunk score by relative chunk length (penalises tiny section-header chunks)
+        self.rse_chunk_length_adjustment = _get_bool("RSE_CHUNK_LENGTH_ADJUSTMENT", True)
+
+        # Answer verification: split simple/complex so simple route streams directly
+        # ENABLE_ANSWER_VERIFY is kept as a global override (false disables both)
+        self.enable_answer_verify = _get_bool("ENABLE_ANSWER_VERIFY", True)
+        self.enable_answer_verify_simple = _get_bool("ENABLE_ANSWER_VERIFY_SIMPLE", False)
+        self.enable_answer_verify_complex = _get_bool("ENABLE_ANSWER_VERIFY_COMPLEX", True)
+
+        # Context selection limits
+        # Number of chunks/segments fed to LLM for complex vs simple queries
+        self.complex_ctx_limit = _get_int("COMPLEX_CTX_LIMIT", 8)
+
+        # Minimum chunk size to index in BM25/vector (still stored in DB for RSE bridge)
+        self.min_chunk_chars = _get_int("MIN_CHUNK_CHARS", 50)
 
         storage = os.getenv("STORAGE_DIR", "storage")
         self.storage_dir = (BASE_DIR / storage) if not os.path.isabs(storage) else Path(storage)

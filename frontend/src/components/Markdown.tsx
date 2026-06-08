@@ -61,9 +61,14 @@ function CitationBadge({ label, c, onCite }: { label: number; c: Citation | unde
         >
           <span className="cite-pop-head">
             {c.doc_title}
-            {c.page ? ` · trang ${c.page}` : ""}
+            {c.page != null ? ` · trang ${c.page}` : ""}
+            {c.is_segment && c.n_chunks ? ` (${c.n_chunks} đoạn)` : ""}
           </span>
-          <span className="cite-pop-body">{c.text}</span>
+          <span className="cite-pop-body">
+            {c.is_segment && c.n_chunks
+              ? c.text.slice(0, 600) + (c.text.length > 600 ? "…" : "")
+              : c.text}
+          </span>
         </span>
       )}
     </span>
