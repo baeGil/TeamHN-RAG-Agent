@@ -1,0 +1,4942 @@
+{
+  "ingest_stats": {
+    "Baseline": {
+      "latency_ms": 19.27665500011244,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "HyPE": {
+      "latency_ms": 19.95375299998159,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "HyDE": {
+      "latency_ms": 0.0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "Window Enrichment": {
+      "latency_ms": 0.0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "Context Compression": {
+      "latency_ms": 0.0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    }
+  },
+  "overall": {
+    "Baseline": {
+      "BM25": {
+        "recall@5": 0.5083333333333333,
+        "mrr@5": 0.9111111111111111,
+        "hit@5": 1.0,
+        "latency_ms": 244.6339278667286,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.29629629629629634,
+        "mrr@5": 0.6,
+        "hit@5": 0.6,
+        "latency_ms": 19.26114326665811,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.5529894179894179,
+        "mrr@5": 1.0,
+        "hit@5": 1.0,
+        "latency_ms": 2.8533921332382306,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      }
+    },
+    "HyDE": {
+      "BM25": {
+        "recall@5": 0.5083333333333333,
+        "mrr@5": 0.9111111111111111,
+        "hit@5": 1.0,
+        "latency_ms": 3.1907935333795954,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.22962962962962966,
+        "mrr@5": 0.6,
+        "hit@5": 0.6,
+        "latency_ms": 2053.3294366000214,
+        "avg_query_prompt_tokens": 74.0,
+        "avg_query_completion_tokens": 58.93333333333333,
+        "avg_query_calls": 1.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.35894179894179895,
+        "mrr@5": 0.8666666666666667,
+        "hit@5": 0.8666666666666667,
+        "latency_ms": 2064.3257968667212,
+        "avg_query_prompt_tokens": 74.0,
+        "avg_query_completion_tokens": 58.06666666666667,
+        "avg_query_calls": 1.0
+      }
+    },
+    "HyPE": {
+      "BM25": {
+        "recall@5": 0.5083333333333333,
+        "mrr@5": 0.9111111111111111,
+        "hit@5": 1.0,
+        "latency_ms": 3.1355724666203364,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.29537037037037034,
+        "mrr@5": 0.6,
+        "hit@5": 0.6,
+        "latency_ms": 21.24564733326224,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.5492857142857143,
+        "mrr@5": 1.0,
+        "hit@5": 1.0,
+        "latency_ms": 2.356085799980671,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      }
+    },
+    "Window Enrichment": {
+      "BM25": {
+        "recall@5": 0.5,
+        "mrr@5": 1.0,
+        "hit@5": 1.0,
+        "latency_ms": 4.295440733343033,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.6666666666666666,
+        "hit@5": 0.6666666666666666,
+        "latency_ms": 20.200864266659362,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.5463227513227513,
+        "mrr@5": 1.0,
+        "hit@5": 1.0,
+        "latency_ms": 3.7136474666416084,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      }
+    },
+    "Context Compression": {
+      "BM25": {
+        "recall@5": 0.5083333333333333,
+        "mrr@5": 0.9111111111111111,
+        "hit@5": 1.0,
+        "latency_ms": 2346.277665066661,
+        "avg_query_prompt_tokens": 6241.933333333333,
+        "avg_query_completion_tokens": 170.86666666666667,
+        "avg_query_calls": 1.0
+      },
+      "Dense": {
+        "recall@5": 0.29629629629629634,
+        "mrr@5": 0.6,
+        "hit@5": 0.6,
+        "latency_ms": 2209.5808346666067,
+        "avg_query_prompt_tokens": 6878.066666666667,
+        "avg_query_completion_tokens": 130.26666666666668,
+        "avg_query_calls": 1.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.5529894179894179,
+        "mrr@5": 1.0,
+        "hit@5": 1.0,
+        "latency_ms": 2027.9317048000546,
+        "avg_query_prompt_tokens": 6011.266666666666,
+        "avg_query_completion_tokens": 101.73333333333333,
+        "avg_query_calls": 1.0
+      }
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "Baseline": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.7333333333333333,
+          "hit@5": 1.0,
+          "latency_ms": 729.6593528000358,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.48888888888888893,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 55.752899399931266,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5111111111111111,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.8072649999558053,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "HyDE": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.7333333333333333,
+          "hit@5": 1.0,
+          "latency_ms": 6.6847495999809325,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.40888888888888886,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1874.623696800063,
+          "avg_query_prompt_tokens": 72.6,
+          "avg_query_completion_tokens": 59.8,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.45111111111111113,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1667.8386488000342,
+          "avg_query_prompt_tokens": 72.6,
+          "avg_query_completion_tokens": 56.0,
+          "avg_query_calls": 1.0
+        }
+      },
+      "HyPE": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.7333333333333333,
+          "hit@5": 1.0,
+          "latency_ms": 6.218389600007868,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.48611111111111105,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 61.3100115999714,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.48888888888888893,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.2799460000442195,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Window Enrichment": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 6.607583000004524,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 55.29706560005252,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 3.466932799983624,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Context Compression": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.7333333333333333,
+          "hit@5": 1.0,
+          "latency_ms": 2551.8299782000668,
+          "avg_query_prompt_tokens": 5660.6,
+          "avg_query_completion_tokens": 230.6,
+          "avg_query_calls": 1.0
+        },
+        "Dense": {
+          "recall@5": 0.48888888888888893,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2101.8496401999073,
+          "avg_query_prompt_tokens": 5719.6,
+          "avg_query_completion_tokens": 92.2,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5111111111111111,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1841.2766624000142,
+          "avg_query_prompt_tokens": 5624.8,
+          "avg_query_completion_tokens": 93.2,
+          "avg_query_calls": 1.0
+        }
+      }
+    },
+    "medium": {
+      "Baseline": {
+        "BM25": {
+          "recall@5": 0.525,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.8254240000023856,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.4,
+          "mrr@5": 0.8,
+          "hit@5": 0.8,
+          "latency_ms": 0.9797509999771137,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5428571428571429,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 3.63831399990886,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "HyDE": {
+        "BM25": {
+          "recall@5": 0.525,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1.994662000106473,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.27999999999999997,
+          "mrr@5": 0.8,
+          "hit@5": 0.8,
+          "latency_ms": 2123.2019642000523,
+          "avg_query_prompt_tokens": 80.6,
+          "avg_query_completion_tokens": 64.6,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.38571428571428573,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2165.2522142000635,
+          "avg_query_prompt_tokens": 80.6,
+          "avg_query_completion_tokens": 66.4,
+          "avg_query_calls": 1.0
+        }
+      },
+      "HyPE": {
+        "BM25": {
+          "recall@5": 0.525,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.186038799936796,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.4,
+          "mrr@5": 0.8,
+          "hit@5": 0.8,
+          "latency_ms": 1.1685099998430815,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.553968253968254,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.8808583999307302,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Window Enrichment": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 3.6777464000806503,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.4,
+          "mrr@5": 0.8,
+          "hit@5": 0.8,
+          "latency_ms": 2.5942459998987033,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5428571428571429,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 4.538293800032989,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Context Compression": {
+        "BM25": {
+          "recall@5": 0.525,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2202.6827705999494,
+          "avg_query_prompt_tokens": 6258.8,
+          "avg_query_completion_tokens": 129.6,
+          "avg_query_calls": 1.0
+        },
+        "Dense": {
+          "recall@5": 0.4,
+          "mrr@5": 0.8,
+          "hit@5": 0.8,
+          "latency_ms": 2180.1189657999203,
+          "avg_query_prompt_tokens": 6179.6,
+          "avg_query_completion_tokens": 113.4,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5428571428571429,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2331.761342000027,
+          "avg_query_prompt_tokens": 5992.6,
+          "avg_query_completion_tokens": 150.2,
+          "avg_query_calls": 1.0
+        }
+      }
+    },
+    "hard": {
+      "Baseline": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1.4170068001476466,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1.0507794000659487,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.605,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.1145973998500267,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "HyDE": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 0.8929690000513801,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2162.1626487999492,
+          "avg_query_prompt_tokens": 68.8,
+          "avg_query_completion_tokens": 52.4,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.24,
+          "mrr@5": 0.6,
+          "hit@5": 0.6,
+          "latency_ms": 2359.886527600065,
+          "avg_query_prompt_tokens": 68.8,
+          "avg_query_completion_tokens": 51.8,
+          "avg_query_calls": 1.0
+        }
+      },
+      "HyPE": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1.0022889999163453,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1.2584203999722376,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.605,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1.907452999967063,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Window Enrichment": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2.600992799943924,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.1,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 2.7112812000268605,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.5961111111111111,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 3.135715799908212,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Context Compression": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 2284.320246399966,
+          "avg_query_prompt_tokens": 6806.4,
+          "avg_query_completion_tokens": 152.4,
+          "avg_query_calls": 1.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2346.773897999992,
+          "avg_query_prompt_tokens": 8735.0,
+          "avg_query_completion_tokens": 185.2,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.605,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 1910.7571100001223,
+          "avg_query_prompt_tokens": 6416.4,
+          "avg_query_completion_tokens": 61.8,
+          "avg_query_calls": 1.0
+        }
+      }
+    }
+  },
+  "per_question": [
+    {
+      "qid": "hb3",
+      "difficulty": "easy",
+      "question": "Deepfake là gì theo khóa luận?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 3640.0928510001904,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              47,
+              72,
+              67
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 274.4937239999672,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              64,
+              63,
+              69,
+              105,
+              121
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.0297930000197084,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              67,
+              121,
+              154,
+              63,
+              51
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 27.98034300008112,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              47,
+              72,
+              67
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3130.7959519999713,
+            "tokens": {
+              "prompt_tokens": 67,
+              "completion_tokens": 66,
+              "calls": 1
+            },
+            "top5": [
+              63,
+              64,
+              155,
+              105,
+              69
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2189.027802000055,
+            "tokens": {
+              "prompt_tokens": 67,
+              "completion_tokens": 69,
+              "calls": 1
+            },
+            "top5": [
+              67,
+              121,
+              63,
+              158,
+              155
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 24.91409799995381,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              47,
+              72,
+              67
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 301.8781709999985,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              60,
+              55,
+              64,
+              103,
+              51
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.1915320000971406,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              51,
+              72,
+              63,
+              64,
+              121
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 21.57936300000074,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              47,
+              72,
+              67
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 267.1313620001001,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              64,
+              63,
+              69,
+              105,
+              121
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.7529879998601245,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              67,
+              121,
+              154,
+              63,
+              51
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 3692.9487140000674,
+            "tokens": {
+              "prompt_tokens": 5139,
+              "completion_tokens": 538,
+              "calls": 1
+            },
+            "top5": [
+              41,
+              44,
+              47,
+              72,
+              67
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1603.872926999884,
+            "tokens": {
+              "prompt_tokens": 7588,
+              "completion_tokens": 95,
+              "calls": 1
+            },
+            "top5": [
+              64,
+              63,
+              69,
+              105,
+              121
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2389.657859999943,
+            "tokens": {
+              "prompt_tokens": 5901,
+              "completion_tokens": 98,
+              "calls": 1
+            },
+            "top5": [
+              67,
+              121,
+              154,
+              63,
+              51
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb4",
+      "difficulty": "easy",
+      "question": "Bộ dữ liệu FaceForensics++ trong khóa luận gồm những gì?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.956492000090293,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              68,
+              69,
+              66,
+              159
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9519239999917772,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              66,
+              106,
+              69,
+              52
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.3404739999932644,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              66,
+              69,
+              68,
+              159
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.3192449998769007,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              68,
+              69,
+              66,
+              159
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1421.885414000144,
+            "tokens": {
+              "prompt_tokens": 73,
+              "completion_tokens": 49,
+              "calls": 1
+            },
+            "top5": [
+              105,
+              66,
+              69,
+              106,
+              68
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1007.4520910000047,
+            "tokens": {
+              "prompt_tokens": 73,
+              "completion_tokens": 51,
+              "calls": 1
+            },
+            "top5": [
+              105,
+              66,
+              68,
+              69,
+              106
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.5829660001145385,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              68,
+              69,
+              66,
+              159
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.197673999968174,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              68,
+              105,
+              66,
+              159,
+              106
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.2390060000816447,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              68,
+              66,
+              69,
+              159
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.8455839999423915,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              68,
+              69,
+              66,
+              159
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.197563999970953,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              66,
+              106,
+              69,
+              52
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.182959000014307,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              105,
+              66,
+              69,
+              68,
+              159
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1850.4250420000972,
+            "tokens": {
+              "prompt_tokens": 4654,
+              "completion_tokens": 113,
+              "calls": 1
+            },
+            "top5": [
+              105,
+              68,
+              69,
+              66,
+              159
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2662.653511999906,
+            "tokens": {
+              "prompt_tokens": 7365,
+              "completion_tokens": 113,
+              "calls": 1
+            },
+            "top5": [
+              105,
+              66,
+              106,
+              69,
+              52
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1741.8950359999599,
+            "tokens": {
+              "prompt_tokens": 6587,
+              "completion_tokens": 129,
+              "calls": 1
+            },
+            "top5": [
+              105,
+              66,
+              69,
+              68,
+              159
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb5",
+      "difficulty": "easy",
+      "question": "Xception là gì và dùng loại tích chập nào thay cho tích chập tiêu chuẩn?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.3384769999665878,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              81,
+              87,
+              90,
+              82
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4444444444444444,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.4355399998748908,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              137,
+              80,
+              135,
+              131
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 5.4765339998539275,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              82,
+              143,
+              134,
+              129
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.481385000033697,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              81,
+              87,
+              90,
+              82
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4444444444444444,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1212.1750009998777,
+            "tokens": {
+              "prompt_tokens": 78,
+              "completion_tokens": 85,
+              "calls": 1
+            },
+            "top5": [
+              79,
+              80,
+              129,
+              131,
+              82
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.3,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2174.2617590000464,
+            "tokens": {
+              "prompt_tokens": 78,
+              "completion_tokens": 61,
+              "calls": 1
+            },
+            "top5": [
+              79,
+              82,
+              87,
+              100,
+              102
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.8405179998808308,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              81,
+              87,
+              90,
+              82
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.375,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.2252439998974296,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              135,
+              80,
+              160,
+              130
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.4444444444444444,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.503982999996879,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              82,
+              143,
+              130,
+              129
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.206710999847928,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              81,
+              87,
+              90,
+              82
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.275680000138891,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              137,
+              80,
+              135,
+              131
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.7250200000471523,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              79,
+              82,
+              143,
+              134,
+              129
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2525.2784350000184,
+            "tokens": {
+              "prompt_tokens": 7869,
+              "completion_tokens": 190,
+              "calls": 1
+            },
+            "top5": [
+              79,
+              81,
+              87,
+              90,
+              82
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4444444444444444,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1536.6558099999565,
+            "tokens": {
+              "prompt_tokens": 4501,
+              "completion_tokens": 61,
+              "calls": 1
+            },
+            "top5": [
+              79,
+              137,
+              80,
+              135,
+              131
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1791.8561819999468,
+            "tokens": {
+              "prompt_tokens": 6638,
+              "completion_tokens": 107,
+              "calls": 1
+            },
+            "top5": [
+              79,
+              82,
+              143,
+              134,
+              129
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb6",
+      "difficulty": "easy",
+      "question": "MTCNN dùng để làm gì trong khóa luận?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 1.5339990000029502,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              71,
+              47,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9405379998952412,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              85,
+              164,
+              86,
+              84,
+              71
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.7795429998841428,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              71,
+              85,
+              86,
+              115,
+              121
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 1.0333649997846805,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              71,
+              47,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.3,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1776.321353000185,
+            "tokens": {
+              "prompt_tokens": 70,
+              "completion_tokens": 52,
+              "calls": 1
+            },
+            "top5": [
+              85,
+              113,
+              115,
+              86,
+              66
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1844.60336799998,
+            "tokens": {
+              "prompt_tokens": 70,
+              "completion_tokens": 52,
+              "calls": 1
+            },
+            "top5": [
+              85,
+              115,
+              121,
+              86,
+              113
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 1.0493499999029154,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              71,
+              47,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.134907000050589,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              113,
+              85,
+              55,
+              164,
+              86
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.9142940000165254,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              71,
+              85,
+              86,
+              115,
+              113
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.5310880000688485,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              41,
+              44,
+              71,
+              47,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.5026200000866083,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              85,
+              164,
+              86,
+              84,
+              71
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.2193909999023163,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              71,
+              85,
+              86,
+              115,
+              121
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.375,
+            "mrr@5": 0.3333333333333333,
+            "hit@5": 1.0,
+            "latency_ms": 2140.025982999987,
+            "tokens": {
+              "prompt_tokens": 5895,
+              "completion_tokens": 127,
+              "calls": 1
+            },
+            "top5": [
+              41,
+              44,
+              71,
+              47,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2866.906020999977,
+            "tokens": {
+              "prompt_tokens": 5831,
+              "completion_tokens": 95,
+              "calls": 1
+            },
+            "top5": [
+              85,
+              164,
+              86,
+              84,
+              71
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2049.0641320000123,
+            "tokens": {
+              "prompt_tokens": 4943,
+              "completion_tokens": 87,
+              "calls": 1
+            },
+            "top5": [
+              71,
+              85,
+              86,
+              115,
+              121
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb7",
+      "difficulty": "easy",
+      "question": "Khóa luận dùng những chỉ số nào để đánh giá hiệu suất mô hình?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.37494499992863,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              71,
+              148,
+              66,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9427709999272338,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              142,
+              143,
+              152,
+              150
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.409981000027983,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              152,
+              142,
+              108,
+              148
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.609410000128264,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              71,
+              148,
+              66,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1831.9407640001373,
+            "tokens": {
+              "prompt_tokens": 75,
+              "completion_tokens": 47,
+              "calls": 1
+            },
+            "top5": [
+              147,
+              151,
+              152,
+              148,
+              142
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1123.8482240000849,
+            "tokens": {
+              "prompt_tokens": 75,
+              "completion_tokens": 47,
+              "calls": 1
+            },
+            "top5": [
+              147,
+              148,
+              152,
+              71,
+              142
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.7050160001872428,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              71,
+              148,
+              66,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.1140619999423507,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              150,
+              66,
+              108,
+              67
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.5509150000289083,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              66,
+              158,
+              108,
+              150
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.875169000162714,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              71,
+              148,
+              66,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.3781019999660202,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              142,
+              143,
+              152,
+              150
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.4543060000942205,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              147,
+              152,
+              142,
+              108,
+              148
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2550.471717000164,
+            "tokens": {
+              "prompt_tokens": 4746,
+              "completion_tokens": 185,
+              "calls": 1
+            },
+            "top5": [
+              147,
+              71,
+              148,
+              66,
+              72
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1839.1599309998128,
+            "tokens": {
+              "prompt_tokens": 3313,
+              "completion_tokens": 97,
+              "calls": 1
+            },
+            "top5": [
+              147,
+              142,
+              143,
+              152,
+              150
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1233.910102000209,
+            "tokens": {
+              "prompt_tokens": 4055,
+              "completion_tokens": 45,
+              "calls": 1
+            },
+            "top5": [
+              147,
+              152,
+              142,
+              108,
+              148
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb8",
+      "difficulty": "medium",
+      "question": "Từ một video ban đầu, hệ thống đi qua những biến đổi nào trước khi ra nhãn?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.4058570002125634,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              121,
+              94,
+              106,
+              124
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9704069998406339,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              140,
+              138,
+              136,
+              126
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.3659660000703298,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              124,
+              140,
+              138,
+              129
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.5547640000477259,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              121,
+              94,
+              106,
+              124
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1729.560370999934,
+            "tokens": {
+              "prompt_tokens": 80,
+              "completion_tokens": 48,
+              "calls": 1
+            },
+            "top5": [
+              140,
+              128,
+              133,
+              136,
+              112
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1739.6119109998835,
+            "tokens": {
+              "prompt_tokens": 80,
+              "completion_tokens": 43,
+              "calls": 1
+            },
+            "top5": [
+              109,
+              140,
+              124,
+              121,
+              138
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.637448000110453,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              121,
+              94,
+              106,
+              124
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.1282339996796509,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              140,
+              112,
+              138,
+              136
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.504690000023402,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              140,
+              138,
+              124,
+              132
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.725898000084271,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              121,
+              94,
+              106,
+              124
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.4624129996482225,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              140,
+              138,
+              136,
+              126
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.035293000015372,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              109,
+              124,
+              140,
+              138,
+              129
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1994.766061000064,
+            "tokens": {
+              "prompt_tokens": 6497,
+              "completion_tokens": 66,
+              "calls": 1
+            },
+            "top5": [
+              109,
+              121,
+              94,
+              106,
+              124
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1988.2671889999983,
+            "tokens": {
+              "prompt_tokens": 5389,
+              "completion_tokens": 96,
+              "calls": 1
+            },
+            "top5": [
+              109,
+              140,
+              138,
+              136,
+              126
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2148.6860009999873,
+            "tokens": {
+              "prompt_tokens": 6661,
+              "completion_tokens": 94,
+              "calls": 1
+            },
+            "top5": [
+              109,
+              124,
+              140,
+              138,
+              129
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb9",
+      "difficulty": "medium",
+      "question": "Các công thức biến đổi ảnh khác gì với công thức chọn khung hình quan trọng?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.9828060000909318,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              126,
+              129,
+              76,
+              121,
+              461
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.0331650000807713,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              118,
+              119,
+              116,
+              140,
+              131
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.188869999779854,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              126,
+              116,
+              140,
+              122,
+              118
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.9978489999630256,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              126,
+              129,
+              76,
+              121,
+              461
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.3,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2137.7826339999046,
+            "tokens": {
+              "prompt_tokens": 77,
+              "completion_tokens": 55,
+              "calls": 1
+            },
+            "top5": [
+              116,
+              118,
+              119,
+              125,
+              114
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1842.8767039999912,
+            "tokens": {
+              "prompt_tokens": 77,
+              "completion_tokens": 59,
+              "calls": 1
+            },
+            "top5": [
+              116,
+              126,
+              122,
+              118,
+              121
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.751745999830746,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              126,
+              129,
+              76,
+              121,
+              461
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.4444444444444444,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.2458699998205702,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              129,
+              131,
+              33,
+              118,
+              119
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.0182659997990413,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              129,
+              116,
+              99,
+              118,
+              140
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.855557999941084,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              126,
+              129,
+              76,
+              121,
+              461
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.595046999886108,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              118,
+              119,
+              116,
+              140,
+              131
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.158960000040679,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              126,
+              116,
+              140,
+              122,
+              118
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2650.313793999885,
+            "tokens": {
+              "prompt_tokens": 7213,
+              "completion_tokens": 197,
+              "calls": 1
+            },
+            "top5": [
+              126,
+              129,
+              76,
+              121,
+              461
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1983.3222049996948,
+            "tokens": {
+              "prompt_tokens": 6539,
+              "completion_tokens": 10,
+              "calls": 1
+            },
+            "top5": [
+              118,
+              119,
+              116,
+              140,
+              131
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2132.372092999958,
+            "tokens": {
+              "prompt_tokens": 7047,
+              "completion_tokens": 101,
+              "calls": 1
+            },
+            "top5": [
+              126,
+              116,
+              140,
+              122,
+              118
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb10",
+      "difficulty": "medium",
+      "question": "Ba mô hình được thử nghiệm khác nhau như thế nào về cách xử lý đặc trưng không gian và thời gian?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.903286999753618,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              136,
+              129,
+              122,
+              125,
+              138
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9397939998052607,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              138,
+              125,
+              59,
+              158,
+              132
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.7952350001214654,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              138,
+              125,
+              124,
+              132,
+              122
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.307113000370009,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              136,
+              129,
+              122,
+              125,
+              138
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.2,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2116.9398289998753,
+            "tokens": {
+              "prompt_tokens": 83,
+              "completion_tokens": 82,
+              "calls": 1
+            },
+            "top5": [
+              158,
+              108,
+              122,
+              132,
+              66
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.2,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2519.849972999964,
+            "tokens": {
+              "prompt_tokens": 83,
+              "completion_tokens": 94,
+              "calls": 1
+            },
+            "top5": [
+              125,
+              122,
+              66,
+              108,
+              67
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.2300900000118418,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              136,
+              129,
+              122,
+              125,
+              138
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.0870800001612224,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              137,
+              131,
+              138,
+              150,
+              108
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.938410999831831,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              129,
+              138,
+              131,
+              137,
+              52
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.8020490001144935,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              136,
+              129,
+              122,
+              125,
+              138
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.741476000210241,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              138,
+              125,
+              59,
+              158,
+              132
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 6.274755000049481,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              138,
+              125,
+              124,
+              132,
+              122
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2236.3681949996135,
+            "tokens": {
+              "prompt_tokens": 6518,
+              "completion_tokens": 147,
+              "calls": 1
+            },
+            "top5": [
+              136,
+              129,
+              122,
+              125,
+              138
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2985.126464000132,
+            "tokens": {
+              "prompt_tokens": 4971,
+              "completion_tokens": 291,
+              "calls": 1
+            },
+            "top5": [
+              138,
+              125,
+              59,
+              158,
+              132
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2808.7609629997132,
+            "tokens": {
+              "prompt_tokens": 6373,
+              "completion_tokens": 318,
+              "calls": 1
+            },
+            "top5": [
+              138,
+              125,
+              124,
+              132,
+              122
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb11",
+      "difficulty": "medium",
+      "question": "Vì sao khóa luận dùng class weighting/pos_weight và việc này liên quan gì đến mất cân bằng dữ liệu?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.0640840000160097,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              158,
+              60,
+              153,
+              121
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9823730001699005,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              94,
+              108,
+              84,
+              81
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.9639399999723537,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              153,
+              158,
+              152,
+              116
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.0869750001111242,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              158,
+              60,
+              153,
+              121
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2221.3041480003994,
+            "tokens": {
+              "prompt_tokens": 82,
+              "completion_tokens": 73,
+              "calls": 1
+            },
+            "top5": [
+              142,
+              108,
+              116,
+              94,
+              84
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2354.440655000417,
+            "tokens": {
+              "prompt_tokens": 82,
+              "completion_tokens": 74,
+              "calls": 1
+            },
+            "top5": [
+              142,
+              116,
+              153,
+              152,
+              108
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.1540399998229987,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              158,
+              60,
+              153,
+              121
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.207898999837198,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              153,
+              152,
+              94,
+              26
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.99520799990205,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              153,
+              152,
+              60,
+              158
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.573929000140197,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              158,
+              60,
+              153,
+              121
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.7155130001119687,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              94,
+              108,
+              84,
+              81
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.5124190000933595,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              142,
+              153,
+              158,
+              152,
+              116
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2440.125124000133,
+            "tokens": {
+              "prompt_tokens": 5783,
+              "completion_tokens": 95,
+              "calls": 1
+            },
+            "top5": [
+              142,
+              158,
+              60,
+              153,
+              121
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1535.383623999678,
+            "tokens": {
+              "prompt_tokens": 5252,
+              "completion_tokens": 101,
+              "calls": 1
+            },
+            "top5": [
+              142,
+              94,
+              108,
+              84,
+              81
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1753.3540900003572,
+            "tokens": {
+              "prompt_tokens": 5385,
+              "completion_tokens": 93,
+              "calls": 1
+            },
+            "top5": [
+              142,
+              153,
+              158,
+              152,
+              116
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb12",
+      "difficulty": "medium",
+      "question": "Mô hình nào đạt kết quả tốt nhất và vì sao khóa luận cho rằng kết quả đó hợp lý?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.771085999938805,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              149,
+              47,
+              148,
+              151,
+              71
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.973015999989002,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.7142857142857143,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 5.877558999600296,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              47,
+              41,
+              44,
+              49,
+              149
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.02660900004048,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              149,
+              47,
+              148,
+              151,
+              71
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2410.422839000148,
+            "tokens": {
+              "prompt_tokens": 81,
+              "completion_tokens": 65,
+              "calls": 1
+            },
+            "top5": [
+              148,
+              151,
+              149,
+              147,
+              158
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.42857142857142855,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2369.481828000062,
+            "tokens": {
+              "prompt_tokens": 81,
+              "completion_tokens": 62,
+              "calls": 1
+            },
+            "top5": [
+              149,
+              148,
+              151,
+              154,
+              153
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.15686999990794,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              149,
+              47,
+              148,
+              151,
+              71
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1734669997167657,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.7142857142857143,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.9477170000973274,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              47,
+              41,
+              44,
+              49,
+              149
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.4312980001232063,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              149,
+              47,
+              148,
+              151,
+              71
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.456780999636976,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.7142857142857143,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.7100419999660517,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              47,
+              41,
+              44,
+              49,
+              149
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1691.8406790000518,
+            "tokens": {
+              "prompt_tokens": 5283,
+              "completion_tokens": 143,
+              "calls": 1
+            },
+            "top5": [
+              149,
+              47,
+              148,
+              151,
+              71
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2408.4953470000983,
+            "tokens": {
+              "prompt_tokens": 8747,
+              "completion_tokens": 69,
+              "calls": 1
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.7142857142857143,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2815.6335630001195,
+            "tokens": {
+              "prompt_tokens": 4497,
+              "completion_tokens": 145,
+              "calls": 1
+            },
+            "top5": [
+              47,
+              41,
+              44,
+              49,
+              149
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb13",
+      "difficulty": "hard",
+      "question": "Chương 2 nói về gì?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.2047979998897063,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              531,
+              450,
+              495,
+              516
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9657440000410134,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.8926909999427153,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              1,
+              531,
+              2,
+              450
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.8359059997928853,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              531,
+              450,
+              495,
+              516
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1781.031503000122,
+            "tokens": {
+              "prompt_tokens": 67,
+              "completion_tokens": 50,
+              "calls": 1
+            },
+            "top5": [
+              373,
+              71,
+              540,
+              369,
+              537
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2345.1280569997834,
+            "tokens": {
+              "prompt_tokens": 67,
+              "completion_tokens": 50,
+              "calls": 1
+            },
+            "top5": [
+              369,
+              71,
+              319,
+              370,
+              541
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.840252999751101,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              531,
+              450,
+              495,
+              516
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.8433400000503752,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.252193999993324,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              1,
+              531,
+              2,
+              450
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.3873439999988477,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              531,
+              450,
+              495,
+              516
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.3901079998722707,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.7158059997418604,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              434,
+              1,
+              531,
+              2,
+              450
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2242.654594999749,
+            "tokens": {
+              "prompt_tokens": 6057,
+              "completion_tokens": 13,
+              "calls": 1
+            },
+            "top5": [
+              434,
+              531,
+              450,
+              495,
+              516
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1788.413951000166,
+            "tokens": {
+              "prompt_tokens": 8733,
+              "completion_tokens": 78,
+              "calls": 1
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1600.6528290004098,
+            "tokens": {
+              "prompt_tokens": 7074,
+              "completion_tokens": 13,
+              "calls": 1
+            },
+            "top5": [
+              434,
+              1,
+              531,
+              2,
+              450
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb14",
+      "difficulty": "hard",
+      "question": "Vì sao phải làm đề tài này?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.381322000270302,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              111,
+              158,
+              49,
+              488
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9680580001258932,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.6190319997804181,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              49,
+              290,
+              1,
+              111,
+              2
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.8313420003105421,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              111,
+              158,
+              49,
+              488
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2446.2705779997123,
+            "tokens": {
+              "prompt_tokens": 67,
+              "completion_tokens": 47,
+              "calls": 1
+            },
+            "top5": [
+              47,
+              128,
+              107,
+              369,
+              375
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2640.3211810002176,
+            "tokens": {
+              "prompt_tokens": 67,
+              "completion_tokens": 47,
+              "calls": 1
+            },
+            "top5": [
+              111,
+              158,
+              290,
+              47,
+              128
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9014800002660195,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              111,
+              158,
+              49,
+              488
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.0251529997731268,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.7661699998825497,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              49,
+              290,
+              1,
+              111,
+              2
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.409103999980289,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              111,
+              158,
+              49,
+              488
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.603662000183249,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.038231000118685,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              49,
+              290,
+              1,
+              111,
+              2
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1849.016044000109,
+            "tokens": {
+              "prompt_tokens": 7369,
+              "completion_tokens": 13,
+              "calls": 1
+            },
+            "top5": [
+              290,
+              111,
+              158,
+              49,
+              488
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2150.49873199996,
+            "tokens": {
+              "prompt_tokens": 8734,
+              "completion_tokens": 171,
+              "calls": 1
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1638.3740880000914,
+            "tokens": {
+              "prompt_tokens": 6564,
+              "completion_tokens": 67,
+              "calls": 1
+            },
+            "top5": [
+              49,
+              290,
+              1,
+              111,
+              2
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb15",
+      "difficulty": "hard",
+      "question": "Nhìn các con số thì có nên tin không?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.4617500000895234,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              536,
+              76,
+              189,
+              194
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.3905679998060805,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.4802499997349514,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              1,
+              536,
+              2,
+              76
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9456620000491966,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              536,
+              76,
+              189,
+              194
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1934.170475999963,
+            "tokens": {
+              "prompt_tokens": 70,
+              "completion_tokens": 34,
+              "calls": 1
+            },
+            "top5": [
+              108,
+              147,
+              128,
+              117,
+              107
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.2,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2052.841386000182,
+            "tokens": {
+              "prompt_tokens": 70,
+              "completion_tokens": 45,
+              "calls": 1
+            },
+            "top5": [
+              128,
+              60,
+              93,
+              155,
+              116
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.1345299999447889,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              536,
+              76,
+              189,
+              194
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.2027210000269406,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.0465910001803422,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              1,
+              536,
+              2,
+              76
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.833636999639566,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              536,
+              76,
+              189,
+              194
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.6915629998475197,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.8590349998012243,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              128,
+              1,
+              536,
+              2,
+              76
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1521.2140759999784,
+            "tokens": {
+              "prompt_tokens": 8723,
+              "completion_tokens": 10,
+              "calls": 1
+            },
+            "top5": [
+              128,
+              536,
+              76,
+              189,
+              194
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2969.970920999913,
+            "tokens": {
+              "prompt_tokens": 8736,
+              "completion_tokens": 259,
+              "calls": 1
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2252.367707999838,
+            "tokens": {
+              "prompt_tokens": 7536,
+              "completion_tokens": 63,
+              "calls": 1
+            },
+            "top5": [
+              128,
+              1,
+              536,
+              2,
+              76
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb16",
+      "difficulty": "hard",
+      "question": "Nếu làm tiếp thì nên sửa gì trước?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.339060000191239,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              511,
+              106,
+              444,
+              155
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9458310000809433,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.6343829997822468,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              1,
+              511,
+              2,
+              106
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.8286920001410181,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              511,
+              106,
+              444,
+              155
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2092.62965500011,
+            "tokens": {
+              "prompt_tokens": 68,
+              "completion_tokens": 52,
+              "calls": 1
+            },
+            "top5": [
+              107,
+              71,
+              53,
+              108,
+              152
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.4,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2310.9411790001104,
+            "tokens": {
+              "prompt_tokens": 68,
+              "completion_tokens": 41,
+              "calls": 1
+            },
+            "top5": [
+              155,
+              81,
+              112,
+              450,
+              108
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.8919929996409337,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              511,
+              106,
+              444,
+              155
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1466129999462282,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.701252999737335,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              1,
+              511,
+              2,
+              106
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.503717999843502,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              511,
+              106,
+              444,
+              155
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.4837000000843545,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.7605209998000646,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              450,
+              1,
+              511,
+              2,
+              106
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3157.0571659999587,
+            "tokens": {
+              "prompt_tokens": 6985,
+              "completion_tokens": 491,
+              "calls": 1
+            },
+            "top5": [
+              450,
+              511,
+              106,
+              444,
+              155
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2866.9194869999046,
+            "tokens": {
+              "prompt_tokens": 8734,
+              "completion_tokens": 349,
+              "calls": 1
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1740.6450150001547,
+            "tokens": {
+              "prompt_tokens": 6978,
+              "completion_tokens": 10,
+              "calls": 1
+            },
+            "top5": [
+              450,
+              1,
+              511,
+              2,
+              106
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb17",
+      "difficulty": "hard",
+      "question": "Từ nghiên cứu đến dùng thật, đã đi tới đâu?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.6981040002974623,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              65,
+              285,
+              475,
+              68,
+              70
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9836960002758133,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.946631000009802,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              46,
+              48,
+              50,
+              45,
+              42
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.0232429999632586,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              65,
+              285,
+              475,
+              68,
+              70
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2556.711031999839,
+            "tokens": {
+              "prompt_tokens": 72,
+              "completion_tokens": 79,
+              "calls": 1
+            },
+            "top5": [
+              67,
+              63,
+              158,
+              159,
+              71
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2450.2008350000324,
+            "tokens": {
+              "prompt_tokens": 72,
+              "completion_tokens": 76,
+              "calls": 1
+            },
+            "top5": [
+              155,
+              67,
+              63,
+              158,
+              70
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.2431889999788837,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              65,
+              285,
+              475,
+              68,
+              70
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.0742750000645174,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.7710570000417647,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              46,
+              48,
+              50,
+              42,
+              43
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.871161000257416,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              65,
+              285,
+              475,
+              68,
+              70
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.3873730001469085,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.304986000079225,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              46,
+              48,
+              50,
+              45,
+              42
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2651.659351000035,
+            "tokens": {
+              "prompt_tokens": 4898,
+              "completion_tokens": 235,
+              "calls": 1
+            },
+            "top5": [
+              65,
+              285,
+              475,
+              68,
+              70
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1958.0663990000176,
+            "tokens": {
+              "prompt_tokens": 8738,
+              "completion_tokens": 69,
+              "calls": 1
+            },
+            "top5": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2321.745910000118,
+            "tokens": {
+              "prompt_tokens": 3930,
+              "completion_tokens": 156,
+              "calls": 1
+            },
+            "top5": [
+              46,
+              48,
+              50,
+              45,
+              42
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "n_questions": 15
+}

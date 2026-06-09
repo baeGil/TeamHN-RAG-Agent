@@ -1,0 +1,530 @@
+[
+    {
+        "query_id": "001",
+        "domain": "customer_support",
+        "query_type": "Simple",
+        "user_query": "Số điện thoại tổng đài hotline hỗ trợ khách hàng của VinFast là số mấy?",
+        "ground_truth": "Số điện thoại hotline hỗ trợ khách hàng của VinFast là 1900 23 23 89.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "warranty_manuals"
+        }
+    },
+    {
+        "query_id": "002",
+        "domain": "warranty_policy",
+        "query_type": "Simple w. condition",
+        "user_query": "Thời hạn bảo hành đối với dòng xe buýt điện VinFast EB 6 là bao lâu?",
+        "ground_truth": "Thời hạn bảo hành đối với xe buýt điện EB 6 của VinFast là 5 năm kể từ ngày giao xe tới chủ sở hữu đầu tiên và không giới hạn quãng đường sử dụng.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "250909_wb_ebus6m_vi_v1-svc43000000aa.pdf"
+        }
+    },
+    {
+        "query_id": "003",
+        "domain": "emergency_response",
+        "query_type": "Set",
+        "user_query": "Kể tên các dòng xe ô tô điện VinFast có cung cấp tài liệu Hướng dẫn ứng phó khẩn cấp (Emergency Response Guide) trong bộ dữ liệu hiện tại.",
+        "ground_truth": "Các dòng xe ô tô điện VinFast có Hướng dẫn ứng phó khẩn cấp bao gồm: VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9 và VF e34.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "erg_manuals"
+        }
+    },
+    {
+        "query_id": "004",
+        "domain": "technical_specifications",
+        "query_type": "Comparison",
+        "user_query": "Định nghĩa về hệ thống điện áp cao (HV) trên xe điện VinFast VF 8 và VF 9 có giống nhau không, và cụ thể mức điện áp dòng điện một chiều (DC) được quy định là bao nhiêu?",
+        "ground_truth": "Định nghĩa này hoàn toàn giống nhau. Trên cả VinFast VF 8 và VF 9, hệ thống điện áp cao được định nghĩa là những hệ thống có điện áp DC trên 60V (hoặc điện áp AC trên 30V).",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "VF8_FRG_VI_1690188048.pdf, VF9_FRG_VI_1690188066.pdf"
+        }
+    },
+    {
+        "query_id": "005",
+        "domain": "emergency_response",
+        "query_type": "Aggregation",
+        "user_query": "Có tổng cộng bao nhiêu mẫu xe SUV thuần điện của VinFast được cung cấp sổ tay Hướng dẫn ứng phó khẩn cấp dành cho lực lượng cứu hộ trong tài liệu?",
+        "ground_truth": "Có tổng cộng 7 mẫu xe SUV thuần điện được cung cấp tài liệu này (bao gồm VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9 và VF e34).",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "erg_manuals_collection"
+        }
+    },
+    {
+        "query_id": "006",
+        "domain": "warranty_and_maintenance",
+        "query_type": "Multi-hop",
+        "user_query": "Để kiểm tra và bảo dưỡng hệ thống phanh hoặc ổ bi bánh xe cho xe máy điện VinFast Amio, tôi nên mang xe đến địa điểm nào theo khuyến cáo, và có thể tìm thông tin về trạm dịch vụ ở đâu?",
+        "ground_truth": "Theo khuyến cáo trong sách Hướng dẫn sử dụng, bạn nên mang xe đến các Đại lý phân phối (ĐLPP) và Xưởng dịch vụ (XDV) của VinFast. Bạn có thể tìm thấy thông tin và địa chỉ của các trạm dịch vụ này trên website chính thức: https://vinfastauto.com.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "espcnf1bol00201-hs_bol_owner_manual_ver02_0.pdf, So bao Hanh"
+        }
+    },
+    {
+        "query_id": "007",
+        "domain": "warranty_policy",
+        "query_type": "Post-processing heavy",
+        "user_query": "Một công ty vận tải mua và nhận bàn giao xe buýt điện VinFast EB 6 vào ngày 01/01/2024. Giả sử xe này hoạt động liên tục 24/7 và đạt mức ODO là 1,000,000 km vào ngày 01/01/2028. Hỏi vào thời điểm đó xe còn được bảo hành chính hãng không?",
+        "ground_truth": "Có, xe vẫn còn trong thời hạn bảo hành. Theo quy định bảo hành, xe buýt điện EB 6 được bảo hành 5 năm kể từ ngày giao xe và đặc biệt là 'không giới hạn quãng đường sử dụng'. Do khoảng thời gian từ 01/01/2024 đến 01/01/2028 mới chỉ là 4 năm (dưới 5 năm), việc xe đã đi được 1 triệu km không làm mất hiệu lực bảo hành.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "250909_wb_ebus6m_vi_v1-svc43000000aa.pdf"
+        }
+    },
+    {
+        "query_id": "008",
+        "domain": "maintenance",
+        "query_type": "False premise",
+        "user_query": "Theo lịch bảo dưỡng định kỳ, tôi cần mang chiếc ô tô VinFast VF 8 của mình đi thay dầu nhớt động cơ đốt trong (dầu máy) sau mỗi bao nhiêu km để đảm bảo quyền lợi bảo hành?",
+        "ground_truth": "Câu hỏi này dựa trên một giả định sai. VinFast VF 8 là một dòng xe SUV thuần điện (EV), sử dụng động cơ điện và pin điện áp cao. Xe hoàn toàn không có động cơ đốt trong, do đó không sử dụng dầu nhớt động cơ đốt trong (dầu máy) và không có hạng mục bảo dưỡng thay loại dầu này.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "VF8_FRG_VI_1690188048.pdf"
+        }
+    },
+    {
+        "query_id": "009",
+        "domain": "technical_specifications",
+        "query_type": "Simple",
+        "user_query": "Dung lượng khả dụng của bộ pin LFP được trang bị trên mẫu xe ô tô điện VinFast VF 3 là bao nhiêu kWh?",
+        "ground_truth": "Dung lượng pin khả dụng của VinFast VF 3 là 18.64 kWh.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vf3_spec_sheet_2024"
+        }
+    },
+    {
+        "query_id": "010",
+        "domain": "warranty_policy",
+        "query_type": "Simple",
+        "user_query": "Chính sách bảo hành chính hãng tiêu chuẩn dành cho thân xe ô tô VinFast VF 9 (áp dụng cho khách hàng cá nhân) là bao nhiêu năm hoặc bao nhiêu km?",
+        "ground_truth": "Chính sách bảo hành tiêu chuẩn cho xe VinFast VF 9 là 10 năm hoặc 200.000 km, tùy điều kiện nào đến trước.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "warranty_policy_core_2026"
+        }
+    },
+    {
+        "query_id": "011",
+        "domain": "infotainment_system",
+        "query_type": "Simple",
+        "user_query": "Tên gọi của trợ lý ảo điều khiển bằng giọng nói tiếng Việt được tích hợp trên các dòng xe ô tô điện thông minh của VinFast là gì?",
+        "ground_truth": "Trợ lý ảo trên các dòng xe ô tô điện VinFast có tên gọi là ViVi.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "infotainment_user_guide"
+        }
+    },
+    {
+        "query_id": "012",
+        "domain": "charging_infrastructure",
+        "query_type": "Simple",
+        "user_query": "Các trạm sạc nhanh DC công cộng của VinFast tại thị trường Việt Nam hiện nay đang sử dụng chuẩn cổng sạc tiêu chuẩn nào?",
+        "ground_truth": "Các trạm sạc nhanh DC của VinFast tại Việt Nam sử dụng chuẩn cổng sạc CCS2 (Combined Charging System 2).",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "charging_station_network_manual"
+        }
+    },
+    {
+        "query_id": "013",
+        "domain": "dashboard_indicators",
+        "query_type": "Simple",
+        "user_query": "Khi biểu tượng hình viên pin màu đỏ nhấp nháy xuất hiện trên màn hình xe máy điện VinFast Evo200, điều đó cảnh báo trạng thái gì của xe?",
+        "ground_truth": "Biểu tượng viên pin màu đỏ nhấp nháy cảnh báo dung lượng pin của xe đã xuống mức cực thấp (thường dưới 10%) hoặc hệ thống pin đang gặp lỗi kỹ thuật cần kiểm tra.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "evo200_owner_manual_v2"
+        }
+    },
+    {
+        "query_id": "014",
+        "domain": "warranty_policy",
+        "query_type": "Simple w. condition",
+        "user_query": "Đối với xe ô tô điện VinFast VF 8 được sử dụng làm xe taxi (kinh doanh vận tải), bình ắc quy 12V trợ lực kèm theo xe sẽ được bảo hành trong thời gian bao lâu?",
+        "ground_truth": "Đối với xe kinh doanh vận tải thương mại, bình ắc quy 12V của VF 8 được bảo hành trong thời hạn 1 năm hoặc 20.000 km kể từ ngày bàn giao, tùy điều kiện nào đến trước.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "commercial_warranty_appendix_v4"
+        }
+    },
+    {
+        "query_id": "015",
+        "domain": "charging_infrastructure",
+        "query_type": "Simple w. condition",
+        "user_query": "Trong điều kiện nhiệt độ môi trường lý tưởng và sử dụng trụ sạc siêu nhanh DC 250kW, thời gian sạc pin từ mức 10% lên 70% của xe VinFast VF 6 là khoảng bao nhiêu phút?",
+        "ground_truth": "Trong điều kiện lý tưởng tại trụ sạc nhanh DC 250kW, xe VinFast VF 6 mất khoảng 24 đến 26 phút để sạc từ 10% lên 70% dung lượng pin.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf6_charging_test_report"
+        }
+    },
+    {
+        "query_id": "016",
+        "domain": "technical_specifications",
+        "query_type": "Simple w. condition",
+        "user_query": "Vận tốc tối đa (Max Speed) được giới hạn phần mềm của dòng xe máy điện VinFast Evo200 Lite (phiên bản dành cho học sinh không cần bằng lái) là bao nhiêu km/h?",
+        "ground_truth": "Vận tốc tối đa của phiên bản VinFast Evo200 Lite được giới hạn nghiêm ngặt ở mức 49 km/h.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "evo200_lite_specifications"
+        }
+    },
+    {
+        "query_id": "017",
+        "domain": "technical_specifications",
+        "query_type": "Simple w. condition",
+        "user_query": "Trọng lượng kéo tối đa có phanh (Towing Capacity with brakes) của VinFast VF 9 là bao nhiêu kg khi xe được lắp thêm gói phụ kiện móc kéo chính hãng?",
+        "ground_truth": "Khi được trang bị gói móc kéo chính hãng, VinFast VF 9 có khả năng kéo tối tải có phanh lên tới 1.800 kg.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "vf9_manual_chassis_section"
+        }
+    },
+    {
+        "query_id": "018",
+        "domain": "maintenance",
+        "query_type": "Simple w. condition",
+        "user_query": "Mức áp suất lốp khuyến nghị (đo ở trạng thái lốp nguội) cho bánh trước và bánh sau của xe VinFast VF 5 Plus khi tải đủ 5 người và hành lý là bao nhiêu PSI?",
+        "ground_truth": "Mức áp suất lốp khuyến nghị khi chở toàn tải cho VinFast VF 5 Plus là 36 PSI (khoảng 2.5 bar) cho cả bánh trước và bánh sau.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf5_tire_pressure_sticker_data"
+        }
+    },
+    {
+        "query_id": "019",
+        "domain": "adas_features",
+        "query_type": "Set",
+        "user_query": "Hãy liệt kê các tính năng hỗ trợ lái thuộc nhóm 'Hỗ trợ di chuyển trong ùn tắc' và 'Hỗ trợ lái trên đường cao tốc' thuộc hệ thống ADAS trên xe VinFast VF 8.",
+        "ground_truth": "Các tính năng bao gồm: Hỗ trợ tự động lái trong ùn tắc (Traffic Jam Assist - TJA) và Hỗ trợ lái trên đường cao tốc (Highway Assist - HWA).",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf8_adas_deepdive_manual.pdf"
+        }
+    },
+    {
+        "query_id": "020",
+        "domain": "technical_specifications",
+        "query_type": "Set",
+        "user_query": "Người lái xe VinFast VF 7 Eco có thể tùy chọn những chế độ lái (Driving Modes) nào trực tiếp trên màn hình trung tâm?",
+        "ground_truth": "Mẫu xe VinFast VF 7 phiên bản Eco cung cấp 3 chế độ lái bao gồm: Eco (Tiết kiệm), Normal (Tiêu chuẩn), và Sport (Thể thao).",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vf7_infotainment_system_v1.pdf"
+        }
+    },
+    {
+        "query_id": "021",
+        "domain": "warranty_policy",
+        "query_type": "Set",
+        "user_query": "Theo chính sách bảo hành linh kiện, những bộ phận nào thuộc hệ thống truyền động chính (Drivetrain) của xe điện VinFast được áp dụng cùng thời hạn bảo hành với động cơ?",
+        "ground_truth": "Các bộ phận thuộc hệ thống truyền động được bảo hành cùng thời hạn bao gồm: Bộ giảm tốc/Hộp số (Gearbox), Trục truyền động (Drive shaft), Bộ biến tần (Inverter) và Motor điện điều khiển cấu trúc truyền động.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "powertrain_warranty_details_2025"
+        }
+    },
+    {
+        "query_id": "022",
+        "domain": "technical_specifications",
+        "query_type": "Set",
+        "user_query": "Hãy cho biết danh sách các tùy chọn màu sắc ngoại thất thuộc nhóm màu cơ bản (Standard Colors) được VinFast công bố khi mở bán mẫu xe VF 5 Plus.",
+        "ground_truth": "Các màu sắc ngoại thất cơ bản của VF 5 Plus bao gồm: Trắng (Bramasole White), Bạc (Desat Silver), Xám (Neptune Grey), Đen (Jet Black), Xanh dương (VinFast Blue), Đỏ (Mystique Red).",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf5_marketing_spec_sheet"
+        }
+    },
+    {
+        "query_id": "023",
+        "domain": "warranty_policy",
+        "query_type": "Set",
+        "user_query": "Các loại chất lỏng và vật tư hao mòn nào trên xe ô tô điện VinFast hoàn toàn không thuộc phạm vi bảo hành miễn phí của nhà sản xuất?",
+        "ground_truth": "Các hạng mục hao mòn không thuộc phạm vi bảo hành bao gồm: Nước làm mát pin/động cơ, nước rửa kính, má phanh, đĩa phanh (mòn tự nhiên), lưỡi gạt mưa, lọc gió điều hòa, dầu phanh và lốp xe.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "non_warranty_wear_items_list"
+        }
+    },
+    {
+        "query_id": "024",
+        "domain": "technical_specifications",
+        "query_type": "Comparison",
+        "user_query": "So sánh quãng đường di chuyển tối đa sau một lần sạc đầy theo tiêu chuẩn WLTP giữa hai phiên bản VinFast VF 8 Eco và VinFast VF 8 Plus sử dụng cùng loại pin CATL.",
+        "ground_truth": "Phiên bản VF 8 Eco đạt quãng đường di chuyển tối đa lên tới 471 km (WLTP), trong khi phiên bản VF 8 Plus có quãng đường di chuyển thấp hơn một chút, đạt tối đa 457 km (WLTP) do trọng lượng xe lớn hơn và mâm xe lớn hơn.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf8_catl_spec_sheet_official"
+        }
+    },
+    {
+        "query_id": "025",
+        "domain": "technical_specifications",
+        "query_type": "Comparison",
+        "user_query": "Giữa hai dòng xe SUV điện VinFast VF 6 và VinFast VF 7, mẫu xe nào có chiều dài cơ sở (Wheelbase) lớn hơn và chênh lệch cụ thể là bao nhiêu milimét?",
+        "ground_truth": "VinFast VF 7 có chiều dài cơ sở lớn hơn (2.840 mm) so với VinFast VF 6 (2.730 mm). Mức chênh lệch cụ thể là 110 mm.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf6_vf7_brochure_compare"
+        }
+    },
+    {
+        "query_id": "026",
+        "domain": "technical_specifications",
+        "query_type": "Comparison",
+        "user_query": "Hệ thống truyền động và cấu hình mô-tơ điện của xe VinFast VF 5 Plus khác biệt như thế nào so với phiên bản cao cấp VinFast VF 9 Plus?",
+        "ground_truth": "VinFast VF 5 Plus sử dụng cấu hình 1 mô-tơ điện đặt ở cầu trước, hệ dẫn động cầu trước (FWD) với công suất 100 kW. Trong khi đó, VF 9 Plus sử dụng cấu hình 2 mô-tơ điện chia đều cho cả cầu trước và cầu sau, hệ dẫn động bốn bánh toàn thời gian (AWD) với tổng công suất lên đến 300 kW.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "technical_comparison_ev_vinfast_2024"
+        }
+    },
+    {
+        "query_id": "027",
+        "domain": "technical_specifications",
+        "query_type": "Comparison",
+        "user_query": "So sánh thể tích cốp chứa đồ dưới yên của hai mẫu xe máy điện VinFast Klara S (sử dụng pin LFP) và VinFast Feliz S. Xe nào tối ưu không gian chứa đồ rộng hơn?",
+        "ground_truth": "VinFast Feliz S có thể tích cốp chứa đồ rộng hơn, đạt 25 lít. Trong khi đó, VinFast Klara S phiên bản pin LFP có thể tích cốp chỉ đạt 22 lít. Feliz S tối ưu hơn 3 lít.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "e_scooter_lineup_specs_2025"
+        }
+    },
+    {
+        "query_id": "028",
+        "domain": "charging_infrastructure",
+        "query_type": "Comparison",
+        "user_query": "Công suất nhận sạc tối đa (Peak Charging Power) qua cổng sạc nhanh DC của VinFast VF 9 nâng cấp dòng pin mới có gì khác biệt so với dòng xe VinFast VF 3?",
+        "ground_truth": "VinFast VF 9 dòng pin mới có khả năng nhận dòng sạc nhanh DC công suất tối đa lên đến hơn 150 kW, giúp sạc pin dung lượng lớn nhanh chóng. Trong khi đó, VinFast VF 3 được tối ưu dòng sạc nhỏ hơn với công suất nhận sạc nhanh DC tối đa giới hạn ở mức khoảng 30 kW.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "bms_charging_profile_matrix"
+        }
+    },
+    {
+        "query_id": "029",
+        "domain": "adas_features",
+        "query_type": "Aggregation",
+        "user_query": "Tính tổng số lượng cảm biến siêu âm (Ultrasonic Sensors) được trang bị quanh thân xe VinFast VF 8 phiên bản Plus phục vụ cho các tính năng ADAS và hỗ trợ đỗ xe nâng cao.",
+        "ground_truth": "VinFast VF 8 Plus được trang bị tổng cộng 12 cảm biến siêu âm (gồm 6 cảm biến phía trước và 6 cảm biến phía sau).",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf8_adas_hardware_component_map"
+        }
+    },
+    {
+        "query_id": "030",
+        "domain": "safety_features",
+        "query_type": "Aggregation",
+        "user_query": "Nếu tính tổng số lượng túi khí an toàn được lắp đặt bên trong khoang cabin của cả 3 mẫu xe VF 5 Plus, VF 6 Plus và VF 7 Plus thì tổng cộng là bao nhiêu túi khí?",
+        "ground_truth": "VF 5 Plus có 6 túi khí, VF 6 Plus có 8 túi khí, và VF 7 Plus có 8 túi khí. Tổng cộng số lượng túi khí của cả 3 xe là 22 túi khí.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "safety_spec_summary_all_ev"
+        }
+    },
+    {
+        "query_id": "031",
+        "domain": "technical_specifications",
+        "query_type": "Aggregation",
+        "user_query": "Trong dải sản phẩm ô tô điện hiện tại của VinFast bao gồm các dòng từ VF 3 đến VF 9, có bao nhiêu dòng xe được thiết kế với cấu hình mặc định hoặc tùy chọn từ 6 đến 7 chỗ ngồi?",
+        "ground_truth": "Chỉ có duy nhất 1 dòng xe là VinFast VF 9 hỗ trợ cấu hình 6 chỗ ngồi (ghế cơ trưởng) hoặc 7 chỗ ngồi. Các dòng xe còn lại (VF 3, VF 5, VF 6, VF 7, VF 8, VF e34) đều có cấu hình 4 hoặc 5 chỗ ngồi.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vinfast_suv_lineup_matrix"
+        }
+    },
+    {
+        "query_id": "032",
+        "domain": "warranty_policy",
+        "query_type": "Aggregation",
+        "user_query": "Tổng thời gian bảo hành chính hãng gộp lại của khối pin cao áp trên xe VF 8 (không giới hạn số km) và khối bộ pin LFP đi kèm xe máy điện Klara S là bao nhiêu năm?",
+        "ground_truth": "Pin cao áp xe ô tô VF 8 được bảo hành chính hãng là 10 năm không giới hạn số km. Pin LFP đi kèm xe máy điện Klara S được bảo hành chính hãng là 3 năm không giới hạn số km. Tổng cộng thời gian bảo hành gộp lại là 13 năm.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "battery_warranty_terms_2026"
+        }
+    },
+    {
+        "query_id": "033",
+        "domain": "safety_features",
+        "query_type": "Aggregation",
+        "user_query": "Hệ thống camera giám sát xung quanh (Around View Monitor - AVM) hỗ trợ góc nhìn 360 độ trên xe VinFast VF 7 Plus sử dụng dữ liệu hình ảnh tổng hợp từ bao nhiêu mắt camera ngoại thất?",
+        "ground_truth": "Hệ thống AVM 360 độ trên VF 7 Plus sử dụng tổng cộng 4 mắt camera (gồm 1 camera trước, 1 camera sau tại cửa cốp, và 2 camera tích hợp dưới hai gương chiếu hoạt bên hông).",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "vf7_camera_hardware_installation"
+        }
+    },
+    {
+        "query_id": "034",
+        "domain": "technical_specifications",
+        "query_type": "Multi-hop",
+        "user_query": "Khối pin SDI lắp đặt trên dòng xe VinFast VF 8 phiên bản cũ được sản xuất bởi đối tác quốc tế nào, và trụ sở chính của tập đoàn công nghệ năng lượng đó nằm ở quốc gia nào?",
+        "ground_truth": "Khối pin SDI trên dòng xe VF 8 trước đây sử dụng các cell pin được cung cấp bởi đối tác Samsung SDI. Trụ sở chính của tập đoàn Samsung SDI nằm tại quốc gia Hàn Quốc.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "partner_supply_chain_report_2023"
+        }
+    },
+    {
+        "query_id": "035",
+        "domain": "emergency_response",
+        "query_type": "Multi-hop",
+        "user_query": "Trong trường hợp chìa khóa thông minh (Smartkey) của xe VinFast VF 9 bị hết pin đột ngột, người lái cần đặt chìa khóa vào vị trí cảm biến dự phòng cụ thể nào ở đâu để hệ thống Immobilizer nhận diện và cho phép bấm nút khởi động xe?",
+        "ground_truth": "Người lái cần mở hộc chứa đồ bệ tỳ tay trung tâm (hộc để đồ giữa hai ghế trước). Vị trí cảm biến nhận diện chìa khóa dự phòng nằm ở phần đáy hoặc thành trước bên trong hộc chứa đồ này.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "vf9_owner_manual_interior_module.pdf"
+        }
+    },
+    {
+        "query_id": "036",
+        "domain": "infotainment_system",
+        "query_type": "Multi-hop",
+        "user_query": "Để thực hiện nâng cấp phần mềm điều khiển xe qua mạng (FOTA) cho xe VinFast VF 8, dung lượng pin cao áp tối thiểu yêu cầu phải đạt mức bao nhiêu phần trăm, và hệ thống có cho phép kích hoạt tiến trình này khi xe đang cắm sạc tại trụ sạc nhanh hay không?",
+        "ground_truth": "Yêu cầu dung lượng pin cao áp (SoC) tối thiểu của VF 8 phải từ 30% trở lên để bắt đầu nâng cấp FOTA. Đồng thời, hệ thống an toàn quy định nghiêm ngặt KHÔNG cho phép xe tiến hành cập nhật phần mềm FOTA khi đang trong quá trình cắm sạc pin.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "fota_update_requirement_protocol_v3.pdf"
+        }
+    },
+    {
+        "query_id": "037",
+        "domain": "maintenance",
+        "query_type": "Multi-hop",
+        "user_query": "Nếu màn hình giải trí trung tâm của xe VinFast VF 6 đột ngột mất nguồn, kỹ thuật viên cần kiểm tra vị trí hộp cầu chì nằm ở khu vực nào trong xe, và cầu chì phụ trách màn hình thông tin giải trí này có thông số dòng điện định mức là bao nhiêu Ampere?",
+        "ground_truth": "Hộp cầu chì khoang hành khách của VF 6 nằm ở phía dưới bảng taplo bên phía ghế người lái. Theo sơ đồ mạch điện, cầu chì phụ trách hệ thống màn hình thông tin giải trí (Infotainment) có ký hiệu định mức dòng điện là 15A.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "vf6_electrical_schematics_fusebox_guide"
+        }
+    },
+    {
+        "query_id": "038",
+        "domain": "emergency_response",
+        "query_type": "Multi-hop",
+        "user_query": "Theo sách hướng dẫn xử lý khẩn cấp (ERG) của VinFast VF 5 Plus, trước khi thực hiện cắt dây cứu hộ vòng lặp điện áp cao (HV Rescue Loop) để ngắt nguồn pin chính, người cứu hộ bắt buộc phải thực hiện thao tác tắt hệ thống khóa điện nào và kéo bộ phận nào ở vị trí người lái?",
+        "ground_truth": "Người cứu hộ bắt buộc phải thực hiện thao tác chuyển công tắc khởi động xe về chế độ Tắt (OFF), di chuyển chìa khóa thông minh ra xa khỏi xe tối thiểu 5 mét, đồng thời kéo chặt phanh tay điện tử (hoặc phanh đỗ cơ khí) để cố định phương tiện.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "VF5_Plus_ERG_Emergency_Guide_VI.pdf"
+        }
+    },
+    {
+        "query_id": "039",
+        "domain": "battery_policy",
+        "query_type": "Post-processing heavy",
+        "user_query": "Một khách hàng sở hữu xe VinFast VF 7 Plus lựa chọn gói thuê pin Cố định với giá 2.900.000 VNĐ/tháng (không giới hạn quãng đường). Trong tháng đó, họ di chuyển tổng cộng 2.500 km. Biết định mức tiêu thụ năng lượng trung bình của xe là 17 kWh/100km và giá điện tại trạm sạc VinFast là 3.858 VNĐ/kWh. Tính tổng chi phí vận hành cố định (gồm tiền thuê pin và tiền sạc điện phát sinh tại trạm sạc) mà khách hàng phải chi trả cho quãng đường trên.",
+        "ground_truth": "Tổng điện năng tiêu thụ cho 2.500 km là: (2.500 * 17) / 100 = 425 kWh. Tổng tiền sạc điện là: 425 * 3.858 = 1.639.650 VNĐ. Tổng chi phí vận hành trong tháng bao gồm tiền thuê pin cố định và tiền sạc điện: 2.900.000 + 1.639.650 = 4.539.650 VNĐ.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "billing_calculator_rules_2026"
+        }
+    },
+    {
+        "query_id": "040",
+        "domain": "battery_policy",
+        "query_type": "Post-processing heavy",
+        "user_query": "Khách hàng sử dụng xe VinFast VF 5 Plus đăng ký gói thuê pin Linh hoạt với mức phí cơ bản là 900.000 VNĐ/tháng cho quãng đường tối đa 1.500 km. Nếu đi quá giới hạn này, chi phí phụ trội được tính là 1.200 VNĐ/km. Tính toán tổng số tiền thuê pin mà khách hàng phải trả nếu trong tháng 4 họ lái xe đi du lịch nhiều và tổng ODO tăng thêm 2.150 km.",
+        "ground_truth": "Quãng đường vượt giới hạn cho phép là: 2.150 - 1.500 = 650 km. Chi phí phụ trội phát sinh do đi quá giới hạn: 650 * 1.200 = 780.000 VNĐ. Tổng số tiền thuê pin khách hàng phải thanh toán trong tháng là: 900.000 + 780.000 = 1.680.000 VNĐ.",
+        "metadata": {
+            "difficulty": "medium",
+            "source": "battery_rental_flex_policy_vf5"
+        }
+    },
+    {
+        "query_id": "041",
+        "domain": "technical_specifications",
+        "query_type": "Post-processing heavy",
+        "user_query": "Giả sử hệ thống điều hòa trên xe VinFast VF 8 tiêu thụ trung bình một lượng năng lượng ổn định làm sụt giảm dung lượng pin cao áp khoảng 1,5% SoC cho mỗi 1 giờ hoạt động liên tục khi xe đỗ tại chỗ. Nếu xe đang có mức pin ban đầu là 85% SoC, hỏi xe có thể đỗ bật điều hòa mát liên tục tối đa bao nhiêu tiếng đồng hồ trước khi pin tụt chạm ngưỡng giới hạn an toàn 20% SoC?",
+        "ground_truth": "Phần trăm dung lượng pin được phép tiêu thụ từ 85% xuống 20% là: 85% - 20% = 65% SoC. Thời gian tối đa xe có thể duy trì bật điều hòa liên tục tại chỗ là: 65 / 1,5 = 43,33 giờ (tương đương khoảng 43 tiếng 20 phút).",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "hvac_power_consumption_simulation"
+        }
+    },
+    {
+        "query_id": "042",
+        "domain": "maintenance",
+        "query_type": "Post-processing heavy",
+        "user_query": "Theo lịch bảo dưỡng định kỳ xe ô tô điện VinFast quy định các mốc bảo dưỡng diễn ra mỗi 12.000 km hoặc sau mỗi 1 năm sử dụng tùy điều kiện nào đến trước. Một chiếc xe VF 6 đăng ký lăn bánh vào ngày 15/05/2024. Đến ngày 15/05/2026, xe có chỉ số ODO ghi nhận là 20.000 km. Hãy xác định chiếc xe này đã đến hạn thực hiện kỳ bảo dưỡng ở mốc khuyến nghị nào, và dựa trên tiêu chí nào (thời gian hay quãng đường)?",
+        "ground_truth": "Dựa trên mốc thời gian, tính từ 15/05/2024 đến 15/05/2026 là tròn 2 năm sử dụng, tương ứng với điều kiện thời gian của mốc bảo dưỡng lần 2 (Mốc 24.000 km hoặc 2 năm). Do điều kiện thời gian (2 năm) đến trước điều kiện quãng đường (ODO hiện tại mới đạt 20.000 km, chưa tới 24.000 km), xe bắt buộc phải làm bảo dưỡng định kỳ theo mốc 2 năm/24.000 km ngay lập tức.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "vinfast_ev_maintenance_intervals"
+        }
+    },
+    {
+        "query_id": "043",
+        "domain": "warranty_policy",
+        "query_type": "Post-processing heavy",
+        "user_query": "Chính sách cam kết của VinFast nêu rõ sẽ thay thế hoặc sửa chữa miễn phí cụm pin cao áp nếu dung lượng tối đa của pin (State of Health - SOH) tụt xuống dưới mức 70% trong thời hạn bảo hành. Một xe VF e34 chạy dịch vụ sau 3 năm có chỉ số SOH đo được tại xưởng dịch vụ là 68%, nhưng xe đã di chuyển được quãng đường tổng cộng là 185.000 km. Hỏi chủ xe có được áp dụng chính sách thay pin miễn phí này hay không?",
+        "ground_truth": "Có, chủ xe được thay pin miễn phí. Lý do là vì chính sách bảo hành đối với pin cao áp của dòng xe VinFast VF e34 mua kèm pin hoặc thuê pin áp dụng thời hạn là 10 năm và đặc biệt là 'không giới hạn số km di chuyển'. Mặc dù xe đi nhiều (185.000 km) nhưng thời gian mới 3 năm (dưới 10 năm) và SOH đã giảm xuống 68% (dưới mức 70%), xe hoàn toàn đủ điều kiện bảo hành đổi pin.",
+        "metadata": {
+            "difficulty": "hard",
+            "source": "battery_warranty_core_v2"
+        }
+    },
+    {
+        "query_id": "044",
+        "domain": "technical_specifications",
+        "query_type": "False premise",
+        "user_query": "Nắp bình chứa dung dịch xử lý khí thải động cơ diesel AdBlue trên mẫu xe SUV điện VinFast VF 7 nằm ở vị trí nào cạnh cổng sạc điện?",
+        "ground_truth": "Câu hỏi chứa một giả định sai. VinFast VF 7 là dòng xe ô tô thuần điện (Battery Electric Vehicle), vận hành hoàn toàn bằng motor điện và pin cao áp. Xe không sử dụng động cơ diesel, không phát thải khí xả động cơ đốt trong, do đó hoàn toàn không có bình chứa hay hệ thống xử lý khí thải AdBlue.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vf7_powertrain_architecture"
+        }
+    },
+    {
+        "query_id": "045",
+        "domain": "maintenance",
+        "query_type": "False premise",
+        "user_query": "Theo sách hướng dẫn bảo dưỡng, người dùng cần điều chỉnh khe hở đánh lửa của bugi (Spark Plug Gap) trên xe máy điện VinFast Klara S định kỳ sau bao nhiêu km di chuyển?",
+        "ground_truth": "Câu hỏi dựa trên một giả định sai. VinFast Klara S là xe máy điện, sử dụng khối động cơ điện một chiều không chổi than (BLDC) kết hợp cùng pin năng lượng. Xe không có động cơ xăng đốt trong nên hoàn toàn không sử dụng hệ thống đánh lửa hay linh kiện bugi.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "klara_s_maintenance_schedule"
+        }
+    },
+    {
+        "query_id": "046",
+        "domain": "infotainment_system",
+        "query_type": "False premise",
+        "user_query": "Làm cách nào để chuyển đổi thủ công từ cấp số tiến số 4 lên cấp số tiến số 5 bằng lẫy chuyển số sau vô lăng trên xe VinFast VF 5 Plus khi chạy trên đường cao tốc?",
+        "ground_truth": "Câu hỏi dựa trên một tiền đề sai. Xe ô tô điện VinFast VF 5 Plus sử dụng hộp số giảm tốc đơn cấp (hộp số 1 cấp số duy nhất thẳng tới cầu chủ động). Xe không có các cấp số chia nhỏ như số 4 hay số 5, đồng thời không trang bị hệ thống lẫy chuyển số giả lập trên vô lăng.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vf5_gearbox_technical_data"
+        }
+    },
+    {
+        "query_id": "047",
+        "domain": "technical_specifications",
+        "query_type": "False premise",
+        "user_query": "Để khắc phục hiện tượng trễ tăng áp (Turbo Lag) của hệ thống tăng áp động cơ trên dòng xe mini EV VinFast VF 3 khi tăng tốc đột ngột, hãng đã khuyến nghị cập nhật cấu hình phần mềm nào?",
+        "ground_truth": "Câu hỏi dựa trên một giả định sai. VinFast VF 3 là dòng xe ô tô điện đô thị cỡ nhỏ sử dụng động cơ điện truyền động trực tiếp. Xe hoàn toàn không sử dụng động cơ đốt trong nên không trang bị hệ thống tăng áp (Turbocharger), vì vậy không tồn tại hiện tượng trễ tăng áp (Turbo Lag).",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vf3_motor_drive_system"
+        }
+    },
+    {
+        "query_id": "048",
+        "domain": "technical_specifications",
+        "query_type": "False premise",
+        "user_query": "Bình xăng dự phòng cấp nhiên liệu cho động cơ xăng phát điện mở rộng lộ trình (Range Extender) của xe VinFast VF 9 có dung tích chứa được tối đa bao nhiêu lít xăng?",
+        "ground_truth": "Câu hỏi chứa giả định sai thực tế. VinFast VF 9 là dòng xe SUV thuần điện 100% (BEV), chỉ hoạt động dựa trên năng lượng tích trữ trong khối pin cao áp cung cấp cho các motor điện. Xe không phải là cấu hình xe lai điện mở rộng lộ trình (EREV), hoàn toàn không tích hợp động cơ xăng đốt trong làm máy phát điện và không có bình xăng.",
+        "metadata": {
+            "difficulty": "easy",
+            "source": "vf9_battery_system_description"
+        }
+    }
+]

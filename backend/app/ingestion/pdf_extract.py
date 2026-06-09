@@ -236,7 +236,7 @@ def _page_lines(page: "fitz.Page") -> tuple[list[tuple[str, float]], float]:
     chars = _collect_chars(page)
     if not chars:
         return [], 12.0
-    bars = _fraction_bars(page)
+    bars = [] #_fraction_bars(page) - DISABLED TO PREVENT HANGS ON CAD VECTOR GRAPHICS
     fracs = _build_fractions(chars, bars)
     space_w = _space_width(chars)
     remaining = [c for c in chars if not c["used"]]

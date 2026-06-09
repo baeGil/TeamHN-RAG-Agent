@@ -83,14 +83,29 @@ class Repo:
         self.db.conn.executemany("UPDATE chunks SET embedding=? WHERE id=?", rows)
         self.db.conn.commit()
 
+    def set_hype_questions(self, chunk_id: int, questions: list[str]) -> None:
+        import json
+        self.db.conn.execute(
+            "UPDATE chunks SET hype_questions=? WHERE id=?",
+            (json.dumps(questions, ensure_ascii=False), chunk_id),
+        )
+        self.db.conn.commit()
+
+    def get_neighboring_chunks(self, document_id: int, start_index: int, end_index: int) -> list[dict[str, Any]]:
+        rows = self.db.conn.execute(
+            "SELECT chunk_index, text FROM chunks WHERE document_id = ? AND chunk_index BETWEEN ? AND ? ORDER BY chunk_index",
+            (document_id, start_index, end_index),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
     def all_chunks_with_embeddings(self) -> list[dict[str, Any]]:
         """All chunks (in id order) with their stored float32 embedding bytes and embed_text."""
         rows = self.db.conn.execute(
             """SELECT c.id, c.document_id, c.text, c.page, c.section, c.embedding,
-                      c.embed_text, d.title AS doc_title
+                      c.embed_text, c.hype_questions, d.title AS doc_title
                FROM chunks c JOIN documents d ON d.id = c.document_id
                ORDER BY c.id"""
-        ).fetchall()
+         ).fetchall()
         return [dict(r) for r in rows]
 
     def get_chunks(self, chunk_ids: list[int]) -> dict[int, dict[str, Any]]:
@@ -105,6 +120,13 @@ class Repo:
             chunk_ids,
         ).fetchall()
         return {int(r["id"]): dict(r) for r in rows}
+
+    def get_neighboring_chunks(self, document_id: int, start_index: int, end_index: int) -> list[dict[str, Any]]:
+        rows = self.db.conn.execute(
+            "SELECT chunk_index, text FROM chunks WHERE document_id = ? AND chunk_index BETWEEN ? AND ? ORDER BY chunk_index",
+            (document_id, start_index, end_index),
+        ).fetchall()
+        return [dict(r) for r in rows]
 
     def all_chunks(self) -> list[dict[str, Any]]:
         rows = self.db.conn.execute(

@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đánh giá A/B Test RAG: Cấu hình Retrieval & Generation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Theme Colors */
+  --bg: #07111f;
+  --bg2: #0c1727;
+  --bg3: #111f33;
+  --panel: #13263d;
+  --panel2: #182c47;
+  --text: #eaf2ff;
+  --muted: #9db0c9;
+  --cyan: #43d9ff;
+  --mint: #5ef0b0;
+  --amber: #ffcb6b;
+  --rose: #ff7a90;
+  --violet: #9ca8ff;
+  --line: rgba(255,255,255,0.10);
+  --shadow: 0 18px 60px rgba(0,0,0,0.32);
+
+  /* Typography & Viewport */
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --title-size: clamp(2rem, 5vw, 4.5rem);
+  --h2-size: clamp(1.4rem, 3.2vw, 2.2rem);
+  --h3-size: clamp(1rem, 2.2vw, 1.4rem);
+  --body-size: clamp(0.78rem, 1.4vw, 1rem);
+  --small-size: clamp(0.68rem, 1.1vw, 0.85rem);
+
+  --slide-padding: clamp(1.2rem, 3vw, 3.5rem);
+  --content-gap: clamp(0.8rem, 2vw, 2rem);
+  --element-gap: clamp(0.4rem, 1.2vw, 1.2rem);
+}
+
+/* ===========================================
+   VIEWPORT FITTING BASE STYLES
+   =========================================== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+.deck {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(67,217,255,0.12), transparent 26%),
+    radial-gradient(circle at 85% 20%, rgba(94,240,176,0.08), transparent 24%),
+    radial-gradient(circle at 72% 82%, rgba(156,168,255,0.08), transparent 22%),
+    linear-gradient(180deg, var(--bg), var(--bg2) 65%, #050b14);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding: var(--slide-padding) var(--slide-padding) calc(var(--slide-padding) + 30px);
+  overflow: hidden;
+  animation: slideFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide.active {
+  display: flex;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100%;
+  gap: var(--content-gap);
+}
+
+/* ===========================================
+   TYPOGRAPHY & ELEMENTS
+   =========================================== */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--title-size);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--h2-size);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+h3 {
+  font-size: var(--h3-size);
+  color: var(--cyan);
+}
+
+p, li, td, th {
+  font-size: var(--body-size);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.highlight-text {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+/* ===========================================
+   CONTAINERS & CARDS
+   =========================================== */
+.grid {
+  display: grid;
+  gap: var(--element-gap);
+  width: 100%;
+}
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+.panel, .callout, .metric-card {
+  background: linear-gradient(180deg, rgba(19,38,61,0.9), rgba(12,23,39,0.9));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: clamp(0.8rem, 1.8vw, 1.5rem);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.callout {
+  border-left: 5px solid var(--cyan);
+  background: linear-gradient(90deg, rgba(67,217,255,0.06), transparent);
+}
+.callout.mint {
+  border-left-color: var(--mint);
+  background: linear-gradient(90deg, rgba(94,240,176,0.06), transparent);
+}
+.callout.amber {
+  border-left-color: var(--amber);
+  background: linear-gradient(90deg, rgba(255,203,107,0.06), transparent);
+}
+.callout.rose {
+  border-left-color: var(--rose);
+  background: linear-gradient(90deg, rgba(255,122,144,0.06), transparent);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: var(--small-size);
+  font-weight: 600;
+  border: 1px solid rgba(67,217,255,0.24);
+  background: rgba(67,217,255,0.08);
+  color: var(--cyan);
+}
+.chip.mint {
+  border-color: rgba(94,240,176,0.24);
+  background: rgba(94,240,176,0.08);
+  color: var(--mint);
+}
+.chip.amber {
+  border-color: rgba(255,203,107,0.24);
+  background: rgba(255,203,107,0.08);
+  color: var(--amber);
+}
+.chip.rose {
+  border-color: rgba(255,122,144,0.24);
+  background: rgba(255,122,144,0.08);
+  color: var(--rose);
+}
+
+.metric-card {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100px;
+  border-radius: 12px;
+}
+.metric-card .value {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--mint);
+}
+.metric-card .label {
+  font-size: var(--small-size);
+  color: var(--muted);
+}
+
+/* ===========================================
+   TABLES
+   =========================================== */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(10,19,33,0.7);
+  text-align: left;
+}
+
+th, td {
+  padding: clamp(6px, 1vh, 12px) clamp(8px, 1.2vw, 16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: var(--body-size);
+}
+
+th {
+  background: rgba(255,255,255,0.03);
+  color: var(--cyan);
+  font-weight: 600;
+  font-size: var(--small-size);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr.highlight-row {
+  background: rgba(94,240,176,0.05);
+}
+tr.highlight-row td {
+  border-bottom-color: rgba(94,240,176,0.2);
+}
+
+td.weak {
+  color: var(--rose);
+  opacity: 0.6;
+}
+
+/* ===========================================
+   ANIMATIONS STAGGER
+   =========================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slide.visible .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-1 { transition-delay: 0.1s; }
+.reveal-2 { transition-delay: 0.2s; }
+.reveal-3 { transition-delay: 0.3s; }
+.reveal-4 { transition-delay: 0.4s; }
+
+/* ===========================================
+   CONTROLS & HUD
+   =========================================== */
+.slide-counter {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  background: rgba(7,17,31,0.6);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  font-size: var(--small-size);
+  font-weight: 600;
+}
+
+.progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--mint), var(--amber));
+  z-index: 90;
+  transition: width 0.2s ease;
+}
+
+.nav-controls {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+}
+
+.nav-controls button {
+  border: 1px solid var(--line);
+  background: rgba(19,38,61,0.9);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: var(--small-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-controls button:hover {
+  border-color: rgba(67,217,255,0.5);
+  background: rgba(25,50,80,0.9);
+}
+
+.nav-controls button.primary {
+  background: linear-gradient(135deg, rgba(67,217,255,0.15), rgba(94,240,176,0.12));
+  border-color: rgba(67,217,255,0.3);
+}
+
+/* ===========================================
+   RESPONSIVE DESIGN ADAPTATIONS
+   =========================================== */
+@media (max-height: 700px) {
+  .deck {
+    --slide-padding: 1rem;
+    --content-gap: 0.6rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-5 {
+    grid-template-columns: 1fr;
+  }
+  .nav-controls button {
+    padding: 6px 12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="slide-counter" id="counter">1 / 10</div>
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: COVER -->
+  <section class="slide active visible">
+    <div class="slide-content" style="align-items: center; justify-content: center; text-align: center; height: 100%;">
+      <div class="chip-row reveal reveal-1" style="justify-content: center; margin-bottom: 12px;">
+        <span class="chip">A/B Test Report</span>
+        <span class="chip mint">Retrieval Evaluation</span>
+        <span class="chip amber">RAG Pipeline</span>
+      </div>
+      <h1 class="reveal reveal-2" style="background: linear-gradient(135deg, var(--cyan), var(--mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px;">
+        Đánh Giá A/B Test RAG
+      </h1>
+      <p class="reveal reveal-3 muted" style="max-width: 70ch; font-size: clamp(1rem, 2vw, 1.25rem); margin-bottom: 30px;">
+        So sánh hiệu năng, chi phí và latency của 5 cấu hình Retrieval & Generation phục vụ tập dữ liệu học bổng.
+      </p>
+      
+      <div class="grid grid-3 reveal reveal-4" style="max-width: 800px; margin-top: 10px;">
+        <div class="panel" style="padding: 14px;">
+          <h3 style="font-size: 1.1rem; color: var(--cyan);">34 Câu Hỏi</h3>
+          <p class="muted" style="font-size: var(--small-size);">Phân phối đều Dễ, Trung bình, Khó</p>
+        </div>
+        <div class="panel" style="padding: 14px;">
+          <h3 style="font-size: 1.1rem; color: var(--mint);">Recall@5</h3>
+          <p class="muted" style="font-size: var(--small-size);">Chỉ số đánh giá chính (LLM-as-judge)</p>
+        </div>
+        <div class="panel" style="padding: 14px;">
+          <h3 style="font-size: 1.1rem; color: var(--amber);">3 Tài Liệu Gốc</h3>
+          <p class="muted" style="font-size: var(--small-size);">Quy chế Eiffel 2024 & Excellence 2025</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: OVERALL PERFORMANCE -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>📊 Hiệu năng truy hồi tổng thể (Overall)</h2>
+        <span class="chip mint">Primary Metric: Recall@5</span>
+      </div>
+
+      <div class="table-wrap reveal reveal-1">
+        <table>
+          <thead>
+            <tr>
+              <th>Cấu hình</th>
+              <th>Phương pháp</th>
+              <th>Recall@5</th>
+              <th>MRR@5</th>
+              <th>Hit@5</th>
+              <th>Latency (Query)</th>
+              <th>Avg Query Tokens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td><strong>Baseline</strong></td>
+              <td><strong>Hybrid (RRF)</strong></td>
+              <td><strong>0.568</strong></td>
+              <td>1.000</td>
+              <td>1.000</td>
+              <td>3.8ms</td>
+              <td>0.0 tokens</td>
+            </tr>
+            <tr>
+              <td>HyDE</td>
+              <td>Hybrid (RRF)</td>
+              <td>0.544</td>
+              <td>0.882</td>
+              <td>0.971</td>
+              <td class="weak">2020.1ms</td>
+              <td class="weak">145.1 tokens</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>HyPE</strong></td>
+              <td><strong>Hybrid (RRF)</strong></td>
+              <td><strong>0.568</strong></td>
+              <td>1.000</td>
+              <td>1.000</td>
+              <td>3.2ms</td>
+              <td>0.0 tokens</td>
+            </tr>
+            <tr>
+              <td>Window Enrichment</td>
+              <td>Hybrid (RRF)</td>
+              <td>0.562</td>
+              <td>1.000</td>
+              <td>1.000</td>
+              <td>4.3ms</td>
+              <td>0.0 tokens</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Context Compression</strong></td>
+              <td><strong>Hybrid (RRF)</strong></td>
+              <td><strong>0.568</strong></td>
+              <td>1.000</td>
+              <td>1.000</td>
+              <td class="weak">2268.5ms</td>
+              <td class="weak">6140.5 tokens</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-2">
+        <div class="callout">
+          <strong>Nhận xét chính:</strong>
+          <p class="muted" style="font-size: var(--small-size);">
+            Phương pháp <span class="highlight-text">Hybrid (RRF)</span> luôn đạt Recall@5 tốt nhất trong mọi cấu hình. BM25 ổn định (0.498), còn Dense cực kỳ kém (~0.012 - 0.054) do nhiễu tài liệu song ngữ.
+          </p>
+        </div>
+        <div class="callout mint">
+          <strong>Thắng thế của cấu hình nhẹ:</strong>
+          <p class="muted" style="font-size: var(--small-size);">
+            Baseline, HyPE và Window Enrichment duy trì latency cực kỳ ấn tượng (<span class="highlight-text">&lt; 5ms</span>) và tốn <span class="highlight-text">0 tokens</span> LLM ở query-time.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: DIFFICULTY BREAKDOWN -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>📈 So sánh hiệu năng theo độ khó</h2>
+        <span class="chip amber">Difficulty Breakdown</span>
+      </div>
+
+      <div class="grid grid-3 reveal reveal-1" style="flex: 1;">
+        <!-- EASY -->
+        <div class="panel">
+          <h3 style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;">🟢 Dễ</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; font-size: var(--small-size);">
+            <li><strong>Baseline (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.555</span> (3.3ms)</li>
+            <li><strong>HyPE (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.555</span> (2.7ms)</li>
+            <li><strong>Window Enrichment (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.555</span> (4.1ms)</li>
+            <li class="muted" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">Tất cả cấu hình Hybrid (trừ HyDE) đều đạt hiệu năng tối đa đồng đều.</li>
+          </ul>
+        </div>
+
+        <!-- MEDIUM -->
+        <div class="panel" style="border-color: rgba(67,217,255,0.25);">
+          <h3 style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px; color: var(--mint);">🟡 Trung bình</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; font-size: var(--small-size);">
+            <li><strong>HyDE (Hybrid):</strong> Recall@5 = <span style="color: var(--mint); font-weight: 700;">0.610</span> (2052ms)</li>
+            <li><strong>Baseline (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.567</span> (3.8ms)</li>
+            <li><strong>HyPE (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.567</span> (3.5ms)</li>
+            <li class="muted" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">HyDE vượt trội về chất lượng (+8%) nhờ sinh câu trả lời giả định, nhưng latency cao gấp 500 lần.</li>
+          </ul>
+        </div>
+
+        <!-- HARD -->
+        <div class="panel">
+          <h3 style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px; color: var(--rose);">🔴 Khó</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; font-size: var(--small-size);">
+            <li><strong>Baseline (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.587</span> (4.4ms)</li>
+            <li><strong>HyPE (Hybrid):</strong> Recall@5 = <span class="highlight-text">0.587</span> (3.4ms)</li>
+            <li><strong>Window Enrichment:</strong> Recall@5 = <span class="highlight-text">0.573</span> (4.5ms)</li>
+            <li class="muted" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">Window Enrichment (Dense) tăng Recall đáng kể lên <span class="highlight-text">0.075</span> (so với 0.000 của Baseline Dense) giúp tăng sự ổn định.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout mint reveal reveal-2" style="margin-top: 8px; padding: 10px 14px;">
+        <strong>Phân tích Dense Retrieval:</strong> Window Enrichment Dense nổi bật khi đạt Recall <strong>0.092</strong> (câu Trung bình) và <strong>0.075</strong> (câu Khó), khẳng định hiệu quả của việc bổ sung ngữ cảnh xung quanh chunk.
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: HyDE EXPLANATION -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>🔍 Kỹ thuật HyDE (Hypothetical Document Embeddings)</h2>
+        <span class="chip">Query-Time Transformation</span>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-1">
+        <div class="panel">
+          <h3>⚙️ Cơ chế hoạt động</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span class="highlight-text">Bước 1:</span> Nhận câu hỏi thực tế (Query) từ người dùng.</li>
+            <li><span class="highlight-text">Bước 2:</span> Gọi LLM sinh một <strong>câu trả lời giả định</strong> (Hypothetical Answer) mang tính chất phác thảo, không cần chính xác tuyệt đối.</li>
+            <li><span class="highlight-text">Bước 3:</span> Chuyển câu trả lời giả định đó thành vector nhúng (Embedding).</li>
+            <li><span class="highlight-text">Bước 4:</span> Sử dụng vector nhúng này để so khớp khoảng cách cosine và tìm các chunks tài liệu thực tế tương đồng nhất.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>⚖️ Đánh giá & Thử nghiệm</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span style="color: var(--mint); font-weight: 600;">Ưu điểm:</span> Vượt qua khoảng cách ngôn ngữ/từ khóa (rất hiệu quả với tài liệu song ngữ). Tăng Recall@5 ở câu hỏi trung bình lên <span class="highlight-text">0.610</span> (cao nhất).</li>
+            <li><span style="color: var(--rose); font-weight: 600;">Nhược điểm:</span> Latency vọt lên <span style="color: var(--rose);">~2020.1ms</span>. Nguy cơ <strong>ảo giác</strong> sinh ra số liệu hoặc điều khoản không tồn tại làm vector search bị lệch hướng.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="callout amber reveal reveal-2">
+        <strong>Trường hợp sử dụng:</strong> Thích hợp cho các câu hỏi mang tính khái niệm, ngữ nghĩa cao. Tránh dùng cho câu hỏi tra cứu dữ liệu số, ngày tháng hoặc bảng biểu chính xác của học bổng.
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: HyPE EXPLANATION -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>⚡ Kỹ thuật HyPE (Hypothetical Prompt Embeddings)</h2>
+        <span class="chip mint">Index-Time Augmentation</span>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-1">
+        <div class="panel">
+          <h3>⚙️ Cơ chế hoạt động</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span class="highlight-text">Bước 1:</span> Trong quá trình Ingestion (offline), duyệt qua từng chunk tài liệu.</li>
+            <li><span class="highlight-text">Bước 2:</span> LLM dự đoán và sinh ra tập hợp các <strong>câu hỏi giả định</strong> mà chunk đó có thể trả lời.</li>
+            <li><span class="highlight-text">Bước 3:</span> Lưu trữ embedding của các câu hỏi giả định này song song với nội dung chunk gốc trong database.</li>
+            <li><span class="highlight-text">Bước 4:</span> Tại query-time (online), so khớp trực tiếp embedding của query thực tế với các embedding câu hỏi giả định đã sinh sẵn.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>⚖️ Đánh giá & Thử nghiệm</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span style="color: var(--mint); font-weight: 600;">Ưu điểm:</span> Latency online tối thiểu (<span class="highlight-text">3.2ms</span>, 0 tokens) vì việc sinh câu hỏi đã thực hiện hoàn toàn offline khi nạp tài liệu.</li>
+            <li><span style="color: var(--rose); font-weight: 600;">Nhược điểm:</span> Tăng thời gian và chi phí token ingestion offline. Nếu tài liệu chứa bảng số liệu học bổng phức tạp, LLM dễ bỏ sót các chi tiết nhỏ khi đặt câu hỏi giả định.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout mint reveal reveal-2">
+        <strong>Kết quả thực tế:</strong> HyPE Hybrid đạt Recall@5 tương đương <span style="white-space: nowrap;">Baseline (<span class="highlight-text">0.568</span>)</span> và <span style="white-space: nowrap;">latency thấp nhất (<span class="highlight-text">3.2ms</span>)</span>. Là phương pháp tối ưu về mặt chi phí vận hành thời gian thực.
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: WINDOW ENRICHMENT EXPLANATION -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>🪟 Kỹ thuật Window Enrichment (Bổ dung cửa sổ ngữ cảnh)</h2>
+        <span class="chip amber">Retrieval-Time Assembly</span>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-1">
+        <div class="panel">
+          <h3>⚙️ Cơ chế hoạt động</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span class="highlight-text">Bước 1:</span> Cắt nhỏ tài liệu thành các chunk nhỏ độc lập để so khớp vector chính xác hơn.</li>
+            <li><span class="highlight-text">Bước 2:</span> Khi truy hồi được một chunk khớp, hệ thống tự động dùng SQLite truy vấn thêm các chunk lân cận liền trước/sau trong tài liệu.</li>
+            <li><span class="highlight-text">Bước 3:</span> Gộp các chunk lân cận này để khôi phục lại ngữ cảnh bị đứt gãy.</li>
+            <li><span class="highlight-text">Bước 4:</span> Gửi toàn bộ cửa sổ ngữ cảnh đầy đủ này đến LLM để trả lời câu hỏi.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>⚖️ Đánh giá & Thử nghiệm</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span style="color: var(--mint); font-weight: 600;">Ưu điểm:</span> Khắc phục hiệu quả tình trạng mất ngữ cảnh. Recall của riêng Dense tăng vọt lên <span class="highlight-text">0.054</span> (so với 0.012 của Baseline). Latency tăng không đáng kể (<span class="highlight-text">&lt;1ms</span>).</li>
+            <li><span style="color: var(--rose); font-weight: 600;">Nhược điểm:</span> Nếu kích thước cửa sổ quá lớn sẽ mang thêm nhiều thông tin không liên quan (noise) làm loãng prompt gửi lên LLM ở khâu sinh câu trả lời.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout amber reveal reveal-2">
+        <strong>Điểm sáng kỹ thuật:</strong> Giúp tăng sự ổn định cho các câu hỏi mang tính tổng hợp thông tin liền mạch mà không tốn chi phí token phát sinh ở giai đoạn truy hồi.
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: CONTEXT COMPRESSION EXPLANATION -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>🗜️ Kỹ thuật Context Compression (Nén ngữ cảnh)</h2>
+        <span class="chip rose">Post-Retrieval Refinement</span>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-1">
+        <div class="panel">
+          <h3>⚙️ Cơ chế hoạt động</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span class="highlight-text">Bước 1:</span> Thực hiện truy hồi thô (Retrieve) thu được danh sách các chunks tài liệu liên quan.</li>
+            <li><span class="highlight-text">Bước 2:</span> Chuyển các chunk này qua một module nén (LLM Compressor) để trích xuất chỉ những câu, mệnh đề chứa thông tin thực sự giá trị cho query.</li>
+            <li><span class="highlight-text">Bước 3:</span> Loại bỏ toàn bộ phần rườm rà và các ký tự nhiễu.</li>
+            <li><span class="highlight-text">Bước 4:</span> Gửi nội dung đã nén tối giản đến LLM sinh câu trả lời.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>⚖️ Đánh giá & Thử nghiệm</h3>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <li><span style="color: var(--mint); font-weight: 600;">Ưu điểm:</span> Recall@5 đạt tối đa <span class="highlight-text">0.568</span>. Tránh hiện tượng LLM bị phân tâm do văn bản chứa nhiều bảng biểu và điều khoản học bổng rác.</li>
+            <li><span style="color: var(--rose); font-weight: 600;">Nhược điểm:</span> Tiêu tốn cực kỳ nhiều token runtime (<span style="color: var(--rose); font-weight: 600;">6140.5 tokens</span> trung bình). Làm chậm hệ thống đáng kể (<span style="color: var(--rose);">Latency = 2268.5ms</span>).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout rose reveal reveal-2">
+        <strong>Đánh giá thực tế:</strong> Cho kết quả chính xác và sạch sẽ, tuy nhiên chi phí token và độ trễ quá lớn khiến kỹ thuật này khó đưa vào sử dụng thực tế.
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: RESOURCE & LATENCY -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>💸 Chi phí tài nguyên & Latency runtime</h2>
+        <span class="chip rose">Resource & Speed Analysis</span>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-1">
+        <div class="panel">
+          <h3>Giai đoạn Ingestion (Offline)</h3>
+          <p class="muted" style="margin-bottom: 10px; font-size: var(--small-size);">Tải & nạp dữ liệu một lần duy nhất:</p>
+          <div class="grid grid-2" style="gap: 10px;">
+            <div class="metric-card">
+              <div class="value" style="color: var(--cyan);">0.0s</div>
+              <div class="label">Thời gian nạp</div>
+            </div>
+            <div class="metric-card">
+              <div class="value" style="color: var(--cyan);">0</div>
+              <div class="label">Tokens/LLM Calls</div>
+            </div>
+          </div>
+          <p class="muted" style="font-size: var(--small-size); margin-top: 8px;">
+            → Tất cả 5 cấu hình đều không tốn chi phí LLM ở giai đoạn nạp dữ liệu (offline).
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Giai đoạn Query (Online)</h3>
+          <p class="muted" style="margin-bottom: 10px; font-size: var(--small-size);">Chi phí trung bình trên mỗi truy vấn thời gian thực:</p>
+          <div class="table-wrap">
+            <table style="font-size: var(--small-size);">
+              <thead>
+                <tr>
+                  <th>Cấu hình</th>
+                  <th>LLM Calls</th>
+                  <th>Tokens tăng thêm</th>
+                  <th>Latency phát sinh</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Baseline / Window</strong></td>
+                  <td>0</td>
+                  <td style="color: var(--mint);">0 tokens</td>
+                  <td style="color: var(--mint);">&lt; 1ms (SQLite)</td>
+                </tr>
+                <tr>
+                  <td><strong>HyDE</strong></td>
+                  <td>1 (sinh giả định)</td>
+                  <td style="color: var(--amber);">250 - 450 tokens</td>
+                  <td style="color: var(--rose);">+ ~1.5s</td>
+                </tr>
+                <tr>
+                  <td><strong>Context Compression</strong></td>
+                  <td>1 (nén văn bản)</td>
+                  <td style="color: var(--rose);">300 - 500 tokens</td>
+                  <td style="color: var(--rose);">+ ~2.0s</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout rose reveal reveal-2" style="margin-top: 8px;">
+        <strong>Cảnh báo Latency:</strong> HyDE và Context Compression đẩy thời gian phản hồi của hệ thống lên hơn <span style="color: var(--rose); font-weight: 700;">2 giây</span>, làm giảm trải nghiệm tương tác thời gian thực của người dùng.
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: CONFIGURATION ANALYSIS -->
+  <section class="slide">
+    <div class="slide-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px;">
+        <h2>💡 Phân tích chi tiết 5 cấu hình kỹ thuật</h2>
+        <span class="chip violet">Technical Trade-offs</span>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-1">
+        <div class="panel">
+          <h4 style="color: var(--cyan); margin-bottom: 6px;">1. Baseline & Window Enrichment</h4>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 6px;">
+            <li><strong>Baseline:</strong> Đạt hiệu năng ổn định, latency thấp nhất. Nhưng dễ trượt ở câu hỏi ngữ cảnh rộng do chunk bị chia cắt.</li>
+            <li><strong>Window Enrichment:</strong> Tăng Recall đáng kể cho các câu hỏi tổng hợp bằng cách kết hợp chunk liền trước/sau qua SQLite. <span class="highlight-text">Tăng rất ít latency (&lt;1ms) và 0 token cost</span>.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h4 style="color: var(--amber); margin-bottom: 6px;">2. HyDE & HyPE</h4>
+          <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 6px;">
+            <li><strong>HyDE:</strong> Rất tốt để tăng Recall ngữ nghĩa trên tài liệu song ngữ, nhưng có nguy cơ <span style="color: var(--rose);">hallucination số liệu/ngày tháng</span> làm sai lệch vector search và làm chậm hệ thống.</li>
+            <li><strong>HyPE:</strong> Tạo câu hỏi giả định từ giai đoạn Index giúp giữ latency online thấp (0 token runtime) nhưng dễ bỏ sót thông tin trong bảng số liệu phức tạp.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel reveal reveal-2">
+        <h4 style="color: var(--rose); margin-bottom: 6px;">3. Context Compression</h4>
+        <ul style="font-size: var(--small-size); padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+          <li>Giảm thiểu nhiễu và số lượng token gửi lên LLM khi sinh câu trả lời cuối cùng.</li>
+          <li>Tuy nhiên, việc gọi LLM để nén văn bản trực tiếp ở query-time làm <span style="color: var(--rose);">tăng vọt latency runtime (~2.2s)</span> và tốn lượng lớn token trên mỗi query.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: RECOMMENDATIONS -->
+  <section class="slide">
+    <div class="slide-content" style="justify-content: center; height: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 16px;">
+        <h2>🌟 Lời khuyên áp dụng (Recommendations)</h2>
+        <span class="chip mint">Strategic Action Plan</span>
+      </div>
+
+      <div class="callout mint reveal reveal-1" style="padding: 24px; border-left-width: 6px;">
+        <h3 style="color: var(--mint); font-size: 1.6rem; margin-bottom: 8px;">👉 Khuyến nghị chọn Baseline</h3>
+        <p style="font-size: 1.05rem; line-height: 1.6;">
+          Cấu hình <strong>Baseline Hybrid</strong> hiện tại đã đạt hiệu năng tối ưu nhất trên tập dữ liệu học bổng này (<span class="highlight-text">Recall@5 = 0.568</span>), đồng thời giữ chi phí vận hành ở mức thấp nhất (<span class="highlight-text">0 token runtime</span>) và latency tối thiểu (<span class="highlight-text">3.8ms</span>).
+        </p>
+      </div>
+
+      <div class="grid grid-2 reveal reveal-2" style="margin-top: 12px;">
+        <div class="panel">
+          <h4 style="color: var(--cyan); margin-bottom: 6px;">💡 Giải pháp thay thế tiềm năng</h4>
+          <p class="muted" style="font-size: var(--small-size);">
+            Tích hợp thêm <strong>Window Enrichment</strong> làm tùy chọn nâng cao khi cần độ phủ thông tin rộng, do phương pháp này cải thiện Recall của Dense ở câu khó mà hầu như không tăng latency hay chi phí token.
+          </p>
+        </div>
+        <div class="panel">
+          <h4 style="color: var(--rose); margin-bottom: 6px;">⚠️ Cảnh báo cấu hình nặng</h4>
+          <p class="muted" style="font-size: var(--small-size);">
+            Tránh triển khai mặc định <strong>HyDE</strong> và <strong>Context Compression</strong> ở query-time cho môi trường sản phẩm chịu tải thực tế do nguy cơ nghẽn latency (&gt;1.5s) và chi phí tài nguyên/token tăng vọt.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button id="prevBtn" type="button">← Prev</button>
+  <button id="fullscreenBtn" type="button" class="primary">⛶ Fullscreen</button>
+  <button id="nextBtn" type="button">Next →</button>
+</div>
+
+<script>
+class SlidePresentation {
+  constructor() {
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.total = this.slides.length;
+    this.idx = 0;
+
+    this.counter = document.getElementById('counter');
+    this.progress = document.getElementById('progress');
+    this.prevBtn = document.getElementById('prevBtn');
+    this.nextBtn = document.getElementById('nextBtn');
+    this.fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    this.init();
+  }
+
+  init() {
+    if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.show(this.idx - 1));
+    if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.show(this.idx + 1));
+    if (this.fullscreenBtn) {
+      this.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+      document.addEventListener('fullscreenchange', () => this.syncFullscreenLabel());
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        this.show(this.idx + 1);
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        this.show(this.idx - 1);
+      }
+      if (e.key === 'Home') {
+        e.preventDefault();
+        this.show(0);
+      }
+      if (e.key === 'End') {
+        e.preventDefault();
+        this.show(this.total - 1);
+      }
+      if (e.key.toLowerCase() === 'f') {
+        this.toggleFullscreen();
+      }
+    });
+
+    // Touch/swipe navigation
+    let startX = 0;
+    let startY = 0;
+    window.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      const diffX = e.changedTouches[0].clientX - startX;
+      const diffY = e.changedTouches[0].clientY - startY;
+      
+      // Check horizontal swipe
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < -50) this.show(this.idx + 1);
+        else if (diffX > 50) this.show(this.idx - 1);
+      } else {
+        if (diffY < -50) this.show(this.idx + 1);
+        else if (diffY > 50) this.show(this.idx - 1);
+      }
+    }, { passive: true });
+
+    // Wheel navigation (throttled)
+    let lastWheel = 0;
+    window.addEventListener('wheel', (e) => {
+      const now = Date.now();
+      if (now - lastWheel < 1000) return;
+      if (Math.abs(e.deltaY) > 30) {
+        lastWheel = now;
+        if (e.deltaY > 0) this.show(this.idx + 1);
+        else this.show(this.idx - 1);
+      }
+    }, { passive: true });
+
+    this.show(0);
+  }
+
+  show(n) {
+    this.idx = Math.max(0, Math.min(this.total - 1, n));
+    this.slides.forEach((s, i) => {
+      s.classList.toggle('active', i === this.idx);
+      s.classList.toggle('visible', i === this.idx);
+    });
+    if (this.counter) this.counter.textContent = `${this.idx + 1} / ${this.total}`;
+    if (this.progress) this.progress.style.width = `${((this.idx + 1) / this.total) * 100}%`;
+  }
+
+  async toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (err) {
+      console.warn('Fullscreen toggle failed:', err);
+    }
+  }
+
+  syncFullscreenLabel() {
+    if (this.fullscreenBtn) {
+      this.fullscreenBtn.textContent = document.fullscreenElement ? '⤫ Exit' : '⛶ Fullscreen';
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  new SlidePresentation();
+});
+</script>
+</body>
+</html>

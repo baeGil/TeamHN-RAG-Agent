@@ -42,7 +42,7 @@ def load_pdf(
 
     Parser selection (via REDUCTO_PARSE env var):
 
-    - "off":     PyMuPDF + optional VLM fallback (local, free)
+    - "off":     markitdown (fast, local) with PyMuPDF fallback
     - "default": Reducto default parse (1 credit/page, good quality)
     - "agentic": Reducto agentic parse (2 credits/page, best quality)
     """
@@ -55,11 +55,56 @@ def load_pdf(
         except Exception as exc:
             logger.warning("[Reducto] parse failed (%s), falling back to local", exc)
     elif settings.reducto_parse not in ("off",) and not settings.reducto_api_key:
-        logger.warning("[Reducto] REDUCTO_PARSE=%s but no API key, falling back to local",
+        logger.warning("[Reducto] REDUCTO_PARSE=%s but no API key, falling back to markitdown",
                         settings.reducto_parse)
 
-    # --- Local PyMuPDF + VLM path ---
-    return _load_pdf_local(data, filename, cache_dir, settings)
+    # --- markitdown fast path (primary local parser) ---
+    try:
+        return _load_pdf_markitdown(data, filename)
+    except Exception as exc:
+        logger.warning("[markitdown] parse failed (%s), raising exception", exc)
+        raise exc
+
+
+def _load_pdf_markitdown(
+    data: bytes, filename: str
+) -> tuple[str, list[Block]]:
+    """Fast local PDF parsing via microsoft/markitdown → Markdown text."""
+    import tempfile
+
+    from markitdown import MarkItDown
+
+    md = MarkItDown()
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+        tmp.write(data)
+        tmp_path = Path(tmp.name)
+    try:
+        result = md.convert(str(tmp_path))
+        text = (result.text_content or "").strip()
+    finally:
+        tmp_path.unlink(missing_ok=True)
+
+    if not text:
+        raise ValueError("markitdown returned empty content")
+
+    from .vn_text import normalize_structure
+    text = normalize_structure(text)
+
+    # Split into page-sized blocks (~3000-char chunks) so the embedder
+    # doesn't receive one massive string.
+    _BLOCK_CHARS = 3000
+    raw_blocks: list[Block] = []
+    for i in range(0, len(text), _BLOCK_CHARS):
+        chunk = text[i : i + _BLOCK_CHARS].strip()
+        if chunk:
+            raw_blocks.append(Block(text=chunk))
+
+    if not raw_blocks:
+        raise ValueError("markitdown: no blocks after chunking")
+
+    title = re.sub(r"\.pdf$", "", filename, flags=re.IGNORECASE)
+    logger.info("[markitdown] Parsed %s → %d blocks", filename, len(raw_blocks))
+    return title, raw_blocks
 
 
 def _load_pdf_local(

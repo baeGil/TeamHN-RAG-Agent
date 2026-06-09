@@ -35,6 +35,15 @@ def _index_text(title: Optional[str], section: Optional[str], text: str) -> str:
     return f"{head}\n{text}" if head else text
 
 
+def merge_overlapping_texts(text1: str, text2: str, max_overlap: int = 500) -> str:
+    """Merge text1 and text2 smoothly by identifying the longest common overlap."""
+    max_len = min(len(text1), len(text2), max_overlap)
+    for l in range(max_len, 0, -1):
+        if text1[-l:] == text2[:l]:
+            return text1 + text2[l:]
+    return text1 + "\n\n" + text2
+
+
 @dataclass
 class RetrievedChunk:
     chunk_id: int
@@ -109,6 +118,64 @@ class KnowledgeBase:
         else:
             self.rebuild_indexes()
 
+    def _generate_hype_questions(self, text: str, num_q: Optional[int] = None) -> list[str]:
+        if not self.settings.has_openai:
+            return []
+        num_q = num_q or self.settings.hype_num_questions
+        from ..agent.llm import LLM
+        llm = LLM()
+        prompt = [
+            {
+                "role": "system",
+                "content": (
+                    "Bạn là chuyên gia về RAG. Hãy tạo ra các câu hỏi giả định bằng tiếng Việt "
+                    "cho đoạn văn bản được cung cấp. Phản hồi của bạn phải là một danh sách JSON "
+                    "hợp lệ chứa các chuỗi câu hỏi ngắn, ví dụ: [\"Câu hỏi 1?\", \"Câu hỏi 2?\"]."
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"Văn bản:\n---\n{text}\n---\nTạo đúng {num_q} câu hỏi giả định bằng tiếng Việt dưới dạng JSON list.",
+            },
+        ]
+        try:
+            res = llm.chat_json(prompt, fast=True)
+            if isinstance(res, dict):
+                for k in ["questions", "queries", "list"]:
+                    if k in res and isinstance(res[k], list):
+                        return [str(q).strip() for q in res[k] if q]
+                for val in res.values():
+                    if isinstance(val, list):
+                        return [str(q).strip() for q in val if q]
+            elif isinstance(res, list):
+                return [str(q).strip() for q in res if q]
+        except Exception as e:
+            logger.warning("Error generating HyPE questions: %s", e)
+        return []
+
+    def embed_query(self, query: str) -> np.ndarray:
+        s = self.settings
+        if s.use_hyde:
+            from ..agent.llm import LLM
+            llm = LLM()
+            prompt = [
+                {
+                    "role": "system",
+                    "content": (
+                        "Bạn là một chuyên gia. Hãy viết một câu trả lời giả định ngắn gọn "
+                        "(2-3 câu) bằng tiếng Việt cho câu hỏi của người dùng. "
+                        "Không thêm lời mở đầu hay kết luận."
+                    ),
+                },
+                {"role": "user", "content": f"Câu hỏi: {query}"},
+            ]
+            try:
+                hyde_answer = llm.chat(prompt, fast=True)
+                return self.embedder.embed_query(hyde_answer)
+            except Exception as e:
+                logger.warning("Error generating HyDE answer: %s", e)
+        return self.embedder.embed_query(query)
+
     def rebuild_indexes(self) -> None:
         """Rebuild BM25 + dense index from the DB so they always match stored chunks.
         Embeddings are read from the DB; any missing ones are (re)computed and saved.
@@ -152,13 +219,46 @@ class KnowledgeBase:
                 vecs[i] = fresh[j]
             self.repo.set_embeddings([ids[i] for i in missing], fresh)
 
-        matrix = np.vstack(vecs).astype(np.float32)
+        # Handle HyPe questions
+        hype_texts = []
+        hype_ids = []
+
+        if self.settings.use_hype:
+            for r in rows:
+                cid = int(r["id"])
+                hqs = []
+                if r.get("hype_questions"):
+                    try:
+                        hqs = json.loads(r["hype_questions"])
+                    except Exception:
+                        hqs = []
+                if not hqs:
+                    hqs = self._generate_hype_questions(r["text"])
+                    if hqs:
+                        self.repo.set_hype_questions(cid, hqs)
+                for q in hqs:
+                    hype_texts.append(q)
+                    hype_ids.append(cid)
+
+        if hype_texts:
+            hype_vecs = self.embedder.embed_documents(hype_texts)
+            all_vecs = list(vecs) + [hype_vecs[i] for i in range(len(hype_texts))]
+            all_ids = [cid * 10 for cid in ids]
+            hype_idx_map = {}
+            for cid in hype_ids:
+                idx = hype_idx_map.get(cid, 1)
+                hype_idx_map[cid] = idx + 1
+                all_ids.append(cid * 10 + idx)
+            matrix = np.vstack(all_vecs).astype(np.float32)
+        else:
+            matrix = np.vstack(vecs).astype(np.float32)
+            all_ids = [cid * 10 for cid in ids]
 
         self.bm25 = BM25Index()
         for cid, itext in zip(ids, index_texts):
             self.bm25.add(cid, itext)
         self.vector = VectorIndex(bit_width=self.settings.turbovec_bit_width)
-        self.vector.rebuild(matrix, ids)
+        self.vector.rebuild(matrix, all_ids)
         self._persist()
 
     def _persist(self) -> None:
@@ -231,9 +331,31 @@ class KnowledgeBase:
                 _index_text(title, ch.section, et) if et else index_texts[i]
                 for i, (ch, et) in enumerate(zip(chunks, embed_texts))
             ]
-            vectors = self.embedder.embed_documents(dense_texts)
-            self.repo.set_embeddings(chunk_ids, vectors)
-            self.vector.add(vectors, chunk_ids)
+            to_embed_texts = list(dense_texts)
+            to_embed_ids = [cid * 10 for cid in chunk_ids]
+
+            if self.settings.use_hype:
+                from concurrent.futures import ThreadPoolExecutor
+                def _gen_hype(pair):
+                    cid, ch = pair
+                    hqs = self._generate_hype_questions(ch.text)
+                    return cid, hqs
+
+                with ThreadPoolExecutor(max_workers=10) as executor:
+                    results = list(executor.map(_gen_hype, zip(chunk_ids, chunks)))
+
+                for cid, hqs in results:
+                    if hqs:
+                        self.repo.set_hype_questions(cid, hqs)
+                        for idx, q in enumerate(hqs, start=1):
+                            to_embed_texts.append(q)
+                            to_embed_ids.append(cid * 10 + idx)
+
+
+            vectors = self.embedder.embed_documents(to_embed_texts)
+            main_vectors = vectors[:len(chunk_ids)]
+            self.repo.set_embeddings(chunk_ids, main_vectors)
+            self.vector.add(vectors, to_embed_ids)
             self._persist()
         return {
             "document_id": doc_id,
@@ -263,7 +385,7 @@ class KnowledgeBase:
         dense_ms = 0.0
         if self.vector.ready:
             dense_started = time.perf_counter()
-            qv = self.embedder.embed_query(query)
+            qv = self.embed_query(query)
             dense_hits = self.vector.search(qv, s.dense_top_k)
             dense_ms = (time.perf_counter() - dense_started) * 1000
         fusion_started = time.perf_counter()
@@ -312,10 +434,24 @@ class KnowledgeBase:
             m = meta.get(h.chunk_id)
             if not m:
                 continue
+            text = m["text"]
+            if s.enable_context_window:
+                doc_id = m["document_id"]
+                current_idx = m["chunk_index"]
+                num_neighbors = s.context_window_num_neighbors
+                start_idx = max(0, current_idx - num_neighbors)
+                end_idx = current_idx + num_neighbors
+                neighbors = self.repo.get_neighboring_chunks(doc_id, start_idx, end_idx)
+                if neighbors:
+                    neighbors = sorted(neighbors, key=lambda x: x["chunk_index"])
+                    text = neighbors[0]["text"]
+                    for next_ch in neighbors[1:]:
+                        text = merge_overlapping_texts(text, next_ch["text"], max_overlap=s.chunk_overlap + 100)
+
             out.append(
                 RetrievedChunk(
                     chunk_id=h.chunk_id,
-                    text=m["text"],
+                    text=text,
                     document_id=m["document_id"],
                     doc_title=m["doc_title"],
                     doc_source=m["doc_source"],

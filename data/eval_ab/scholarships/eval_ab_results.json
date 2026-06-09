@@ -1,0 +1,4942 @@
+{
+  "ingest_stats": {
+    "Baseline": {
+      "latency_ms": 18.473427999879277,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "HyPE": {
+      "latency_ms": 19.04121400002623,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "HyDE": {
+      "latency_ms": 0.0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "Window Enrichment": {
+      "latency_ms": 0.0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    },
+    "Context Compression": {
+      "latency_ms": 0.0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "calls": 0
+      }
+    }
+  },
+  "overall": {
+    "Baseline": {
+      "BM25": {
+        "recall@5": 0.688941798941799,
+        "mrr@5": 0.8,
+        "hit@5": 0.8666666666666667,
+        "latency_ms": 243.87656706664225,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.21666666666666667,
+        "mrr@5": 0.23333333333333334,
+        "hit@5": 0.26666666666666666,
+        "latency_ms": 19.983631866671203,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.06666666666666667,
+        "mrr@5": 0.06666666666666667,
+        "hit@5": 0.06666666666666667,
+        "latency_ms": 4.228397266691293,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      }
+    },
+    "HyDE": {
+      "BM25": {
+        "recall@5": 0.375,
+        "mrr@5": 0.43333333333333335,
+        "hit@5": 0.4666666666666667,
+        "latency_ms": 4.750077533359824,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.03333333333333333,
+        "mrr@5": 0.06666666666666667,
+        "hit@5": 0.06666666666666667,
+        "latency_ms": 1919.4931089999804,
+        "avg_query_prompt_tokens": 103.86666666666666,
+        "avg_query_completion_tokens": 66.6,
+        "avg_query_calls": 1.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.05333333333333334,
+        "mrr@5": 0.06666666666666667,
+        "hit@5": 0.06666666666666667,
+        "latency_ms": 2216.448031399993,
+        "avg_query_prompt_tokens": 103.86666666666666,
+        "avg_query_completion_tokens": 61.666666666666664,
+        "avg_query_calls": 1.0
+      }
+    },
+    "HyPE": {
+      "BM25": {
+        "recall@5": 0.5235714285714286,
+        "mrr@5": 0.6,
+        "hit@5": 0.6666666666666666,
+        "latency_ms": 4.998187999990478,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.03333333333333333,
+        "mrr@5": 0.06666666666666667,
+        "hit@5": 0.06666666666666667,
+        "latency_ms": 19.41597813330797,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "hit@5": 0.0,
+        "latency_ms": 3.9196847332884013,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      }
+    },
+    "Window Enrichment": {
+      "BM25": {
+        "recall@5": 0.06666666666666667,
+        "mrr@5": 0.06666666666666667,
+        "hit@5": 0.06666666666666667,
+        "latency_ms": 5.879805266658877,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Dense": {
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "hit@5": 0.0,
+        "latency_ms": 18.6503540666763,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "hit@5": 0.0,
+        "latency_ms": 4.935897600004561,
+        "avg_query_prompt_tokens": 0.0,
+        "avg_query_completion_tokens": 0.0,
+        "avg_query_calls": 0.0
+      }
+    },
+    "Context Compression": {
+      "BM25": {
+        "recall@5": 0.28444444444444444,
+        "mrr@5": 0.3333333333333333,
+        "hit@5": 0.3333333333333333,
+        "latency_ms": 2256.758807466698,
+        "avg_query_prompt_tokens": 5043.466666666666,
+        "avg_query_completion_tokens": 166.26666666666668,
+        "avg_query_calls": 1.0
+      },
+      "Dense": {
+        "recall@5": 0.06666666666666667,
+        "mrr@5": 0.06666666666666667,
+        "hit@5": 0.06666666666666667,
+        "latency_ms": 2343.8010673333038,
+        "avg_query_prompt_tokens": 4621.266666666666,
+        "avg_query_completion_tokens": 168.86666666666667,
+        "avg_query_calls": 1.0
+      },
+      "Hybrid (RRF)": {
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "hit@5": 0.0,
+        "latency_ms": 2105.1839078666794,
+        "avg_query_prompt_tokens": 4955.666666666667,
+        "avg_query_completion_tokens": 131.2,
+        "avg_query_calls": 1.0
+      }
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "Baseline": {
+        "BM25": {
+          "recall@5": 0.86,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "latency_ms": 721.1723114000506,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.55,
+          "mrr@5": 0.5,
+          "hit@5": 0.6,
+          "latency_ms": 57.532331399988834,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.2,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 3.4550230000149895,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "HyDE": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.6,
+          "hit@5": 0.6,
+          "latency_ms": 6.861828399951264,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1848.628237200046,
+          "avg_query_prompt_tokens": 86.2,
+          "avg_query_completion_tokens": 55.6,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1849.1875162000724,
+          "avg_query_prompt_tokens": 86.2,
+          "avg_query_completion_tokens": 47.4,
+          "avg_query_calls": 1.0
+        }
+      },
+      "HyPE": {
+        "BM25": {
+          "recall@5": 0.5,
+          "mrr@5": 0.6,
+          "hit@5": 0.6,
+          "latency_ms": 7.712333599965859,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 55.92758620005043,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 3.208479799923225,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Window Enrichment": {
+        "BM25": {
+          "recall@5": 0.2,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 7.588132399951064,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 51.63329080000949,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 4.347855600053663,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Context Compression": {
+        "BM25": {
+          "recall@5": 0.3333333333333333,
+          "mrr@5": 0.4,
+          "hit@5": 0.4,
+          "latency_ms": 1908.0711502001122,
+          "avg_query_prompt_tokens": 4405.8,
+          "avg_query_completion_tokens": 80.0,
+          "avg_query_calls": 1.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2028.197907599997,
+          "avg_query_prompt_tokens": 4362.0,
+          "avg_query_completion_tokens": 73.2,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1842.3631718000706,
+          "avg_query_prompt_tokens": 4469.2,
+          "avg_query_completion_tokens": 53.2,
+          "avg_query_calls": 1.0
+        }
+      }
+    },
+    "medium": {
+      "Baseline": {
+        "BM25": {
+          "recall@5": 0.6599999999999999,
+          "mrr@5": 0.7,
+          "hit@5": 0.8,
+          "latency_ms": 3.947880199939391,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1.2399790000472422,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 4.00570460005838,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "HyDE": {
+        "BM25": {
+          "recall@5": 0.4,
+          "mrr@5": 0.3,
+          "hit@5": 0.4,
+          "latency_ms": 2.8853058001004683,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1931.1239131999628,
+          "avg_query_prompt_tokens": 96.8,
+          "avg_query_completion_tokens": 66.0,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2519.7361766000085,
+          "avg_query_prompt_tokens": 96.8,
+          "avg_query_completion_tokens": 63.2,
+          "avg_query_calls": 1.0
+        }
+      },
+      "HyPE": {
+        "BM25": {
+          "recall@5": 0.6599999999999999,
+          "mrr@5": 0.7,
+          "hit@5": 0.8,
+          "latency_ms": 2.961023199986812,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 1.1416677999022795,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 3.6729237999679754,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Window Enrichment": {
+        "BM25": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 4.439542399995844,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2.2440243999881204,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 4.373300199995356,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Context Compression": {
+        "BM25": {
+          "recall@5": 0.4,
+          "mrr@5": 0.4,
+          "hit@5": 0.4,
+          "latency_ms": 2419.341160399972,
+          "avg_query_prompt_tokens": 5121.0,
+          "avg_query_completion_tokens": 180.0,
+          "avg_query_calls": 1.0
+        },
+        "Dense": {
+          "recall@5": 0.2,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 1995.7979257999796,
+          "avg_query_prompt_tokens": 4738.8,
+          "avg_query_completion_tokens": 115.0,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2065.8424481999646,
+          "avg_query_prompt_tokens": 5092.0,
+          "avg_query_completion_tokens": 143.4,
+          "avg_query_calls": 1.0
+        }
+      }
+    },
+    "hard": {
+      "Baseline": {
+        "BM25": {
+          "recall@5": 0.5468253968253969,
+          "mrr@5": 0.7,
+          "hit@5": 0.8,
+          "latency_ms": 6.509509599936791,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.1,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 1.1785851999775332,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 5.2244642000005115,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "HyDE": {
+        "BM25": {
+          "recall@5": 0.225,
+          "mrr@5": 0.4,
+          "hit@5": 0.4,
+          "latency_ms": 4.5030984000277385,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.1,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 1978.7271765999321,
+          "avg_query_prompt_tokens": 128.6,
+          "avg_query_completion_tokens": 78.2,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.16,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 2280.420401399897,
+          "avg_query_prompt_tokens": 128.6,
+          "avg_query_completion_tokens": 74.4,
+          "avg_query_calls": 1.0
+        }
+      },
+      "HyPE": {
+        "BM25": {
+          "recall@5": 0.4107142857142857,
+          "mrr@5": 0.5,
+          "hit@5": 0.6,
+          "latency_ms": 4.321207200018762,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.1,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 1.1786803999711992,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 4.877650599974004,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Window Enrichment": {
+        "BM25": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 5.611741000029724,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2.0737470000312896,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 6.086536999964665,
+          "avg_query_prompt_tokens": 0.0,
+          "avg_query_completion_tokens": 0.0,
+          "avg_query_calls": 0.0
+        }
+      },
+      "Context Compression": {
+        "BM25": {
+          "recall@5": 0.12,
+          "mrr@5": 0.2,
+          "hit@5": 0.2,
+          "latency_ms": 2442.8641118000087,
+          "avg_query_prompt_tokens": 5603.6,
+          "avg_query_completion_tokens": 238.8,
+          "avg_query_calls": 1.0
+        },
+        "Dense": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 3007.4073685999338,
+          "avg_query_prompt_tokens": 4763.0,
+          "avg_query_completion_tokens": 318.4,
+          "avg_query_calls": 1.0
+        },
+        "Hybrid (RRF)": {
+          "recall@5": 0.0,
+          "mrr@5": 0.0,
+          "hit@5": 0.0,
+          "latency_ms": 2407.3461036000026,
+          "avg_query_prompt_tokens": 5305.8,
+          "avg_query_completion_tokens": 197.0,
+          "avg_query_calls": 1.0
+        }
+      }
+    }
+  },
+  "per_question": [
+    {
+      "qid": "hb7",
+      "difficulty": "easy",
+      "question": "Thời gian nhận học bổng tối đa đối với sinh viên nhập học năm thứ 2 chương trình Thạc sĩ (M2) của học bổng Eiffel là bao lâu?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.8,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3594.172616000151,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              337,
+              328,
+              283
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.75,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 283.7982850001026,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              327,
+              326,
+              328,
+              337
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.809291000128724,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              336,
+              281,
+              337,
+              328
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 25.904746999913186,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              337,
+              328,
+              283
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2368.419612000025,
+            "tokens": {
+              "prompt_tokens": 96,
+              "completion_tokens": 39,
+              "calls": 1
+            },
+            "top5": [
+              327,
+              337,
+              336,
+              328,
+              326
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1677.5625570001012,
+            "tokens": {
+              "prompt_tokens": 96,
+              "completion_tokens": 39,
+              "calls": 1
+            },
+            "top5": [
+              327,
+              337,
+              281,
+              328,
+              336
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 29.96552900003735,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              337,
+              328,
+              283
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 275.19051200010836,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              337,
+              281,
+              328,
+              327,
+              331
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.250228000046263,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              337,
+              281,
+              327,
+              328,
+              336
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 24.65812599984929,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              337,
+              328,
+              283
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 250.04653899986806,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              327,
+              326,
+              328,
+              337
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.699077999906876,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              336,
+              281,
+              337,
+              328
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1868.719929000008,
+            "tokens": {
+              "prompt_tokens": 5070,
+              "completion_tokens": 33,
+              "calls": 1
+            },
+            "top5": [
+              327,
+              281,
+              337,
+              328,
+              283
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1945.2461559999392,
+            "tokens": {
+              "prompt_tokens": 4827,
+              "completion_tokens": 34,
+              "calls": 1
+            },
+            "top5": [
+              336,
+              327,
+              326,
+              328,
+              337
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1725.2262039999096,
+            "tokens": {
+              "prompt_tokens": 5092,
+              "completion_tokens": 34,
+              "calls": 1
+            },
+            "top5": [
+              327,
+              336,
+              281,
+              337,
+              328
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb8",
+      "difficulty": "easy",
+      "question": "Chương trình học bổng France Excellence của Đại sứ quán Pháp ưu tiên trao cho những lĩnh vực đào tạo nào?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.1379949998608936,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              322,
+              277,
+              279,
+              276
+            ]
+          },
+          "Dense": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9479410000494681,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              283,
+              285,
+              286,
+              288
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.554978000011033,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              277,
+              276,
+              288,
+              286
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.222640999889336,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              322,
+              277,
+              279,
+              276
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2255.975502000183,
+            "tokens": {
+              "prompt_tokens": 86,
+              "completion_tokens": 52,
+              "calls": 1
+            },
+            "top5": [
+              274,
+              283,
+              286,
+              285,
+              280
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2460.992509000107,
+            "tokens": {
+              "prompt_tokens": 86,
+              "completion_tokens": 43,
+              "calls": 1
+            },
+            "top5": [
+              274,
+              277,
+              286,
+              276,
+              283
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.2648100000424165,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              322,
+              277,
+              279,
+              276
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.079769999932978,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              280,
+              291,
+              273,
+              292
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.112216999852535,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              279,
+              273,
+              277,
+              280
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.3191499999247753,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              322,
+              277,
+              279,
+              276
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.8683920000057697,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              283,
+              285,
+              286,
+              288
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.588568000144733,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              274,
+              277,
+              276,
+              288,
+              286
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1825.597843000196,
+            "tokens": {
+              "prompt_tokens": 3618,
+              "completion_tokens": 51,
+              "calls": 1
+            },
+            "top5": [
+              274,
+              322,
+              277,
+              279,
+              276
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1845.0409269999,
+            "tokens": {
+              "prompt_tokens": 4177,
+              "completion_tokens": 53,
+              "calls": 1
+            },
+            "top5": [
+              274,
+              283,
+              285,
+              286,
+              288
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1640.8161210001708,
+            "tokens": {
+              "prompt_tokens": 3966,
+              "completion_tokens": 52,
+              "calls": 1
+            },
+            "top5": [
+              274,
+              277,
+              276,
+              288,
+              286
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb9",
+      "difficulty": "easy",
+      "question": "Thời gian tài trợ của học bổng Eiffel đối với bậc Tiến sĩ kéo dài trong khoảng bao lâu?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.9372880001119483,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              281,
+              321,
+              336,
+              326
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.959448000003249,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              328,
+              346,
+              326,
+              321
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.0167229999733536,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              336,
+              321,
+              326,
+              328
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.1124990000771504,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              281,
+              321,
+              336,
+              326
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1613.624216000062,
+            "tokens": {
+              "prompt_tokens": 84,
+              "completion_tokens": 58,
+              "calls": 1
+            },
+            "top5": [
+              328,
+              336,
+              326,
+              346,
+              321
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1543.7722110000323,
+            "tokens": {
+              "prompt_tokens": 84,
+              "completion_tokens": 41,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              336,
+              328,
+              321,
+              326
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.102253999964887,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              281,
+              321,
+              336,
+              326
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.0607310000523285,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              328,
+              336,
+              331,
+              329,
+              330
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.76905399982752,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              346,
+              328,
+              281,
+              330
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.474234000123033,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              281,
+              321,
+              336,
+              326
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.1264780000365135,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              328,
+              346,
+              326,
+              321
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.096368000091388,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              336,
+              321,
+              326,
+              328
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2030.8053870001004,
+            "tokens": {
+              "prompt_tokens": 4500,
+              "completion_tokens": 71,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              281,
+              321,
+              336,
+              326
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1219.4652790001328,
+            "tokens": {
+              "prompt_tokens": 4207,
+              "completion_tokens": 42,
+              "calls": 1
+            },
+            "top5": [
+              336,
+              328,
+              346,
+              326,
+              321
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2773.2712940000965,
+            "tokens": {
+              "prompt_tokens": 4495,
+              "completion_tokens": 23,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              336,
+              321,
+              326,
+              328
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb10",
+      "difficulty": "easy",
+      "question": "Tiêu chí lựa chọn thí sinh của chương trình học bổng France Excellence bao gồm những gì?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.848473000085505,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              279,
+              288
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9579009999924892,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              283,
+              286,
+              274,
+              290
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.031295000027967,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              290,
+              289
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.1361350000006496,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              279,
+              288
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1176.5205209999294,
+            "tokens": {
+              "prompt_tokens": 80,
+              "completion_tokens": 73,
+              "calls": 1
+            },
+            "top5": [
+              276,
+              283,
+              284,
+              290,
+              286
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1511.8915420000576,
+            "tokens": {
+              "prompt_tokens": 80,
+              "completion_tokens": 73,
+              "calls": 1
+            },
+            "top5": [
+              276,
+              284,
+              286,
+              290,
+              289
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.176595999799247,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              279,
+              288
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.131749000023774,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              285,
+              274,
+              273,
+              278,
+              277
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.017440999883547,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              285,
+              277,
+              279
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.342553999800657,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              279,
+              288
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.0453180000004068,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              283,
+              286,
+              274,
+              290
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.8108890000785323,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              290,
+              289
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.6666666666666666,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2160.3405990001647,
+            "tokens": {
+              "prompt_tokens": 4450,
+              "completion_tokens": 159,
+              "calls": 1
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              279,
+              288
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2396.545653999965,
+            "tokens": {
+              "prompt_tokens": 4096,
+              "completion_tokens": 160,
+              "calls": 1
+            },
+            "top5": [
+              276,
+              283,
+              286,
+              274,
+              290
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1434.1896700000234,
+            "tokens": {
+              "prompt_tokens": 4258,
+              "completion_tokens": 66,
+              "calls": 1
+            },
+            "top5": [
+              276,
+              286,
+              284,
+              290,
+              289
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb11",
+      "difficulty": "easy",
+      "question": "Học bổng Eiffel có chi trả tiền học phí cho sinh viên bậc Thạc sĩ và Tiến sĩ không?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.765185000043857,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              319,
+              283,
+              352,
+              321
+            ]
+          },
+          "Dense": {
+            "recall@5": 1.0,
+            "mrr@5": 0.5,
+            "hit@5": 1.0,
+            "latency_ms": 0.9980819997963408,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              349,
+              330,
+              352,
+              329,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.86282799993387,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              349,
+              352,
+              329,
+              321
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.9331199998759985,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              319,
+              283,
+              352,
+              321
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1828.6013350000303,
+            "tokens": {
+              "prompt_tokens": 85,
+              "completion_tokens": 56,
+              "calls": 1
+            },
+            "top5": [
+              349,
+              352,
+              335,
+              332,
+              330
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2051.718762000064,
+            "tokens": {
+              "prompt_tokens": 85,
+              "completion_tokens": 41,
+              "calls": 1
+            },
+            "top5": [
+              330,
+              349,
+              352,
+              329,
+              321
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.0524789999853965,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              319,
+              283,
+              352,
+              321
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1751690001347015,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              352,
+              350,
+              329,
+              337
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.89345900000626,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              352,
+              329,
+              350,
+              337
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.1465980000575655,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              319,
+              283,
+              352,
+              321
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.0797270001366996,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              349,
+              330,
+              352,
+              329,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.5443750000467844,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              349,
+              352,
+              329,
+              321
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1654.891993000092,
+            "tokens": {
+              "prompt_tokens": 4391,
+              "completion_tokens": 86,
+              "calls": 1
+            },
+            "top5": [
+              330,
+              319,
+              283,
+              352,
+              321
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2734.6915220000483,
+            "tokens": {
+              "prompt_tokens": 4503,
+              "completion_tokens": 77,
+              "calls": 1
+            },
+            "top5": [
+              349,
+              330,
+              352,
+              329,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1638.3125700001528,
+            "tokens": {
+              "prompt_tokens": 4535,
+              "completion_tokens": 91,
+              "calls": 1
+            },
+            "top5": [
+              330,
+              349,
+              352,
+              329,
+              321
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb12",
+      "difficulty": "medium",
+      "question": "Sinh viên nhận học bổng Eiffel cần làm gì để được hưởng bảo hiểm y tế bổ sung miễn phí, và điều này có giống với quyền lợi bảo hiểm của học bổng France Excellence không?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.028000999824144,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              355,
+              319,
+              329,
+              360
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9488260000125592,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              283,
+              329,
+              361
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.272417000061978,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              283,
+              360,
+              329,
+              330
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.9606970001623267,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              355,
+              319,
+              329,
+              360
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2957.9410159999497,
+            "tokens": {
+              "prompt_tokens": 99,
+              "completion_tokens": 82,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              335,
+              283,
+              333
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2453.7795740000092,
+            "tokens": {
+              "prompt_tokens": 99,
+              "completion_tokens": 72,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              283,
+              360,
+              329,
+              341
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.1054759999733506,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              355,
+              319,
+              329,
+              360
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1852739999085316,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              349,
+              352,
+              285,
+              329
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.8641599999209575,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              329,
+              283,
+              360,
+              349
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.055828999980804,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              355,
+              319,
+              329,
+              360
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.078187000051912,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              283,
+              329,
+              361
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.486886999984563,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              283,
+              360,
+              329,
+              330
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2238.585526999941,
+            "tokens": {
+              "prompt_tokens": 5138,
+              "completion_tokens": 176,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              355,
+              319,
+              329,
+              360
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2265.456679999943,
+            "tokens": {
+              "prompt_tokens": 4612,
+              "completion_tokens": 214,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              283,
+              329,
+              361
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2445.9040849999383,
+            "tokens": {
+              "prompt_tokens": 5024,
+              "completion_tokens": 368,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              283,
+              360,
+              329,
+              330
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb13",
+      "difficulty": "medium",
+      "question": "Thời gian bắt đầu khóa học được tài trợ đối với học bổng Eiffel và France Excellence có điểm gì chung về việc lùi lịch nhập học?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.905064000036873,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              346,
+              276,
+              336,
+              345
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.2524850001227605,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              326,
+              335,
+              345,
+              341
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.445781000162242,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              336,
+              345,
+              346,
+              339
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.852360999895609,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              346,
+              276,
+              336,
+              345
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1230.0789159999113,
+            "tokens": {
+              "prompt_tokens": 90,
+              "completion_tokens": 49,
+              "calls": 1
+            },
+            "top5": [
+              343,
+              336,
+              346,
+              342,
+              326
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2132.830471000034,
+            "tokens": {
+              "prompt_tokens": 90,
+              "completion_tokens": 54,
+              "calls": 1
+            },
+            "top5": [
+              336,
+              326,
+              346,
+              286,
+              345
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.9688540000734065,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              346,
+              276,
+              336,
+              345
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1805739998180798,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              331,
+              336,
+              326,
+              285,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.608650000160196,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              336,
+              345,
+              328,
+              346
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.253437999977905,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              346,
+              276,
+              336,
+              345
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.523700999972789,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              336,
+              326,
+              335,
+              345,
+              341
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.583272999980181,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              326,
+              336,
+              345,
+              346,
+              339
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2951.816633999897,
+            "tokens": {
+              "prompt_tokens": 4890,
+              "completion_tokens": 294,
+              "calls": 1
+            },
+            "top5": [
+              326,
+              346,
+              276,
+              336,
+              345
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1433.4427610001512,
+            "tokens": {
+              "prompt_tokens": 5125,
+              "completion_tokens": 90,
+              "calls": 1
+            },
+            "top5": [
+              336,
+              326,
+              335,
+              345,
+              341
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1871.8007859999943,
+            "tokens": {
+              "prompt_tokens": 5393,
+              "completion_tokens": 101,
+              "calls": 1
+            },
+            "top5": [
+              326,
+              336,
+              345,
+              346,
+              339
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb14",
+      "difficulty": "medium",
+      "question": "Nếu một sinh viên học Thạc sĩ muốn được hỗ trợ tiền vé máy bay khứ hồi quốc tế, sinh viên đó nên chọn học bổng France Excellence hay Eiffel? Tại sao?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 0.5,
+            "hit@5": 1.0,
+            "latency_ms": 3.9935439999680966,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              330,
+              355,
+              274
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9661199999300152,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              335,
+              353,
+              286,
+              355
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.6516630000278383,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              355,
+              353,
+              274,
+              335
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 0.5,
+            "hit@5": 1.0,
+            "latency_ms": 3.072523000128058,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              330,
+              355,
+              274
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1193.663620000052,
+            "tokens": {
+              "prompt_tokens": 98,
+              "completion_tokens": 66,
+              "calls": 1
+            },
+            "top5": [
+              335,
+              283,
+              355,
+              332,
+              336
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2348.3368860001974,
+            "tokens": {
+              "prompt_tokens": 98,
+              "completion_tokens": 64,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              355,
+              330,
+              335,
+              353
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 0.5,
+            "hit@5": 1.0,
+            "latency_ms": 3.037912999843684,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              330,
+              355,
+              274
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1018819998298568,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              285,
+              286,
+              329,
+              283,
+              274
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.630026999871916,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              274,
+              330,
+              286
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 6.678630000124031,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              330,
+              355,
+              274
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.395812000031583,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              335,
+              353,
+              286,
+              355
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.541376999895874,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              355,
+              353,
+              274,
+              335
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2233.1363190000957,
+            "tokens": {
+              "prompt_tokens": 4885,
+              "completion_tokens": 284,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              329,
+              330,
+              355,
+              274
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2823.945531999925,
+            "tokens": {
+              "prompt_tokens": 4974,
+              "completion_tokens": 152,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              335,
+              353,
+              286,
+              355
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1885.7487889999902,
+            "tokens": {
+              "prompt_tokens": 4885,
+              "completion_tokens": 114,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              355,
+              353,
+              274,
+              335
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb15",
+      "difficulty": "medium",
+      "question": "Sinh viên nhập học năm 2 bậc Thạc sĩ (M2) sẽ nhận được tài trợ tối đa bao nhiêu tháng từ học bổng France Excellence và học bổng Eiffel?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.8,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.068089999918811,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              283,
+              274,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.055443000017476,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              350,
+              329
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.19414299994969,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              281,
+              329
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.899442000170893,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              283,
+              274,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2550.772633999941,
+            "tokens": {
+              "prompt_tokens": 99,
+              "completion_tokens": 51,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              281,
+              327,
+              337,
+              336
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2394.0163919999122,
+            "tokens": {
+              "prompt_tokens": 99,
+              "completion_tokens": 54,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              327,
+              281,
+              349,
+              328
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.8,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.0258460001277854,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              283,
+              274,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1016329999620211,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              350,
+              330,
+              285
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.7424889999329025,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              330,
+              274,
+              329,
+              337
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.6611989999073558,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              327,
+              281,
+              283,
+              274,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.0234409998920455,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              350,
+              329
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.016215000092416,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              281,
+              329
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2110.5513759998757,
+            "tokens": {
+              "prompt_tokens": 5072,
+              "completion_tokens": 33,
+              "calls": 1
+            },
+            "top5": [
+              327,
+              281,
+              283,
+              274,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1515.4886039999838,
+            "tokens": {
+              "prompt_tokens": 4965,
+              "completion_tokens": 33,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              350,
+              329
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2252.0596560000286,
+            "tokens": {
+              "prompt_tokens": 4956,
+              "completion_tokens": 26,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              281,
+              329
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb16",
+      "difficulty": "medium",
+      "question": "Nghiên cứu sinh bậc Tiến sĩ nhận học bổng Eiffel có được phép chia nhỏ thời gian lưu trú tại Pháp không, và phải tuân thủ quy định nào?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.7447019999490294,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              284,
+              281,
+              360,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9770210001533997,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              341,
+              332,
+              336,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.4645190000901493,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              360,
+              321,
+              345,
+              328
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.641506000145455,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              284,
+              281,
+              360,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1723.16337999996,
+            "tokens": {
+              "prompt_tokens": 98,
+              "completion_tokens": 82,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              336,
+              341,
+              335,
+              345
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3269.71755999989,
+            "tokens": {
+              "prompt_tokens": 98,
+              "completion_tokens": 72,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              360,
+              321,
+              328,
+              345
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2.6670269999158336,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              284,
+              281,
+              360,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1389759999929083,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              331,
+              336,
+              332,
+              328,
+              350
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.5192929999539047,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              328,
+              346,
+              360,
+              330,
+              321
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.5486159999891242,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              284,
+              281,
+              360,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.1989809999922727,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              341,
+              332,
+              336,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.238749000023745,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              346,
+              360,
+              321,
+              345,
+              328
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2562.615946000051,
+            "tokens": {
+              "prompt_tokens": 5620,
+              "completion_tokens": 113,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              284,
+              281,
+              360,
+              328
+            ]
+          },
+          "Dense": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1940.6560519998948,
+            "tokens": {
+              "prompt_tokens": 4018,
+              "completion_tokens": 86,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              341,
+              332,
+              336,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1873.6989249998715,
+            "tokens": {
+              "prompt_tokens": 5202,
+              "completion_tokens": 108,
+              "calls": 1
+            },
+            "top5": [
+              346,
+              360,
+              321,
+              345,
+              328
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb17",
+      "difficulty": "hard",
+      "question": "Một ứng viên trúng tuyển Thạc sĩ nhưng cần học dự bị tiếng Pháp. Chi phí học tiếng và sinh hoạt phí của Eiffel đài thọ ra sao? So với quy định ngắt quãng của France Excellence, việc học tiếng này ảnh hưởng thế nào đến quỹ thời gian học bổng?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 7.3999490000460355,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              282,
+              283,
+              349,
+              276,
+              355
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.4013210000030085,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              349,
+              283,
+              329,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.627610000146888,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              336,
+              337
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.497376000017539,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              282,
+              283,
+              349,
+              276,
+              355
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1578.2544599999255,
+            "tokens": {
+              "prompt_tokens": 123,
+              "completion_tokens": 78,
+              "calls": 1
+            },
+            "top5": [
+              336,
+              335,
+              345,
+              349,
+              352
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2464.7344319998865,
+            "tokens": {
+              "prompt_tokens": 123,
+              "completion_tokens": 64,
+              "calls": 1
+            },
+            "top5": [
+              336,
+              355,
+              345,
+              283,
+              360
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.2650539999158354,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              282,
+              283,
+              349,
+              276,
+              355
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.0273010000219074,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              349,
+              283,
+              329,
+              332
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.72013000012339,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              337,
+              336
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.331370000021707,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              282,
+              283,
+              349,
+              276,
+              355
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.016024000113248,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              330,
+              349,
+              283,
+              329,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.516338999996151,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              336,
+              337
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2743.756337999912,
+            "tokens": {
+              "prompt_tokens": 5612,
+              "completion_tokens": 200,
+              "calls": 1
+            },
+            "top5": [
+              282,
+              283,
+              349,
+              276,
+              355
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2764.651752999953,
+            "tokens": {
+              "prompt_tokens": 4365,
+              "completion_tokens": 293,
+              "calls": 1
+            },
+            "top5": [
+              330,
+              349,
+              283,
+              329,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3174.5820300000105,
+            "tokens": {
+              "prompt_tokens": 5462,
+              "completion_tokens": 367,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              349,
+              330,
+              336,
+              337
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb18",
+      "difficulty": "hard",
+      "question": "Tôi chuẩn bị làm Tiến sĩ dưới dạng đồng hướng dẫn giữa Việt Nam và Pháp. Nếu xin France Excellence, tôi cần nộp giấy tờ đặc thù nào từ giáo viên hướng dẫn? Nếu xin Eiffel (18 tháng), thời gian lưu trú có thể linh hoạt ra sao để làm nghiên cứu ở 2 nước?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.5555555555555556,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 6.193291999807116,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              284,
+              346,
+              328,
+              285
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 0.9491399998751149,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              284,
+              332,
+              290,
+              283,
+              285
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.040832000076989,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              284,
+              290,
+              285,
+              278,
+              281
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.223353000043062,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              284,
+              346,
+              328,
+              285
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2481.8912609998733,
+            "tokens": {
+              "prompt_tokens": 127,
+              "completion_tokens": 77,
+              "calls": 1
+            },
+            "top5": [
+              341,
+              332,
+              335,
+              360,
+              333
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.8,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2001.6820279997773,
+            "tokens": {
+              "prompt_tokens": 127,
+              "completion_tokens": 67,
+              "calls": 1
+            },
+            "top5": [
+              284,
+              281,
+              290,
+              285,
+              346
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.625,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.9004010000098788,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              284,
+              346,
+              328,
+              285
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 1.1594929999318992,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              284,
+              332,
+              290,
+              283,
+              285
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.197488000045269,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              284,
+              290,
+              285,
+              278,
+              281
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.904351000026509,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              290,
+              284,
+              346,
+              328,
+              285
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.0259800000985706,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              284,
+              332,
+              290,
+              283,
+              285
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.832246999943891,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              284,
+              290,
+              285,
+              278,
+              281
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2183.121042000039,
+            "tokens": {
+              "prompt_tokens": 5999,
+              "completion_tokens": 217,
+              "calls": 1
+            },
+            "top5": [
+              290,
+              284,
+              346,
+              328,
+              285
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5107.864629999995,
+            "tokens": {
+              "prompt_tokens": 4685,
+              "completion_tokens": 803,
+              "calls": 1
+            },
+            "top5": [
+              284,
+              332,
+              290,
+              283,
+              285
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2295.8650200000648,
+            "tokens": {
+              "prompt_tokens": 5753,
+              "completion_tokens": 67,
+              "calls": 1
+            },
+            "top5": [
+              284,
+              290,
+              285,
+              278,
+              281
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb19",
+      "difficulty": "hard",
+      "question": "Tôi muốn biết sự khác biệt về chính sách cung cấp và trợ cấp tiền nhà ở giữa sinh viên nhận France Excellence nhập học 2025 và sinh viên nhận Eiffel (từ 2023 trở đi) là gì?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.42857142857142855,
+            "mrr@5": 0.5,
+            "hit@5": 1.0,
+            "latency_ms": 5.0922869997975795,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              283,
+              355,
+              356,
+              349
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.5241680000599445,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              335,
+              359,
+              333,
+              357
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.859662999933789,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              359,
+              355,
+              335,
+              274
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 3.4919720001198584,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              283,
+              355,
+              356,
+              349
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1225.8460179998565,
+            "tokens": {
+              "prompt_tokens": 104,
+              "completion_tokens": 79,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              357,
+              336,
+              335,
+              350
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1388.6241409998092,
+            "tokens": {
+              "prompt_tokens": 104,
+              "completion_tokens": 79,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              349,
+              350,
+              355,
+              359
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.42857142857142855,
+            "mrr@5": 0.5,
+            "hit@5": 1.0,
+            "latency_ms": 3.4260610000274028,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              283,
+              355,
+              356,
+              349
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.214842000081262,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              357,
+              335,
+              329,
+              286
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.417871999976342,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              329,
+              359,
+              335,
+              355
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.503496000097584,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              283,
+              355,
+              356,
+              349
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.1100050000768533,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              335,
+              359,
+              333,
+              357
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.653696999866952,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              283,
+              359,
+              355,
+              335,
+              274
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2822.1774319999895,
+            "tokens": {
+              "prompt_tokens": 5127,
+              "completion_tokens": 366,
+              "calls": 1
+            },
+            "top5": [
+              345,
+              283,
+              355,
+              356,
+              349
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2759.999755999843,
+            "tokens": {
+              "prompt_tokens": 4734,
+              "completion_tokens": 183,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              335,
+              359,
+              333,
+              357
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2705.6790589999764,
+            "tokens": {
+              "prompt_tokens": 4636,
+              "completion_tokens": 307,
+              "calls": 1
+            },
+            "top5": [
+              283,
+              359,
+              355,
+              335,
+              274
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb20",
+      "difficulty": "hard",
+      "question": "Nếu tôi là sinh viên M1, bị thi trượt phải học lại một năm, hoặc chủ động xin bảo lưu (gap year) đi làm thêm, tình trạng học bổng Eiffel bị xử lý ra sao? Khác biệt pháp lý nếu tôi ký hợp đồng học nghề (apprenticeship)?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.75,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 5.521129000044311,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              359,
+              49
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 0.9955699999864009,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              341,
+              335,
+              336
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.604321999977401,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              335,
+              336
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.5,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 4.215658000020994,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              359,
+              49
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2062.467009000102,
+            "tokens": {
+              "prompt_tokens": 121,
+              "completion_tokens": 87,
+              "calls": 1
+            },
+            "top5": [
+              335,
+              336,
+              360,
+              321,
+              342
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2751.698968000028,
+            "tokens": {
+              "prompt_tokens": 121,
+              "completion_tokens": 91,
+              "calls": 1
+            },
+            "top5": [
+              360,
+              345,
+              335,
+              336,
+              342
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 1.0,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 3.979455000035159,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              359,
+              49
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.299715999948603,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              331,
+              345,
+              332,
+              360,
+              341
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 4.65266299988798,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              335,
+              336,
+              359
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.071989000043686,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              359,
+              49
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.0286839999243966,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              341,
+              335,
+              336
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 7.035975000007966,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              335,
+              336
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1668.903594000085,
+            "tokens": {
+              "prompt_tokens": 6023,
+              "completion_tokens": 116,
+              "calls": 1
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              359,
+              49
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2003.1545209999422,
+            "tokens": {
+              "prompt_tokens": 5103,
+              "completion_tokens": 87,
+              "calls": 1
+            },
+            "top5": [
+              345,
+              360,
+              341,
+              335,
+              336
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2222.1022569999604,
+            "tokens": {
+              "prompt_tokens": 5528,
+              "completion_tokens": 149,
+              "calls": 1
+            },
+            "top5": [
+              345,
+              360,
+              355,
+              335,
+              336
+            ]
+          }
+        }
+      }
+    },
+    {
+      "qid": "hb21",
+      "difficulty": "hard",
+      "question": "Một sinh viên quốc tế (không thuộc Liên minh Châu Âu) nhận học bổng Eiffel vừa đến Pháp. Để không bị rủi ro đình chỉ việc chi trả sinh hoạt phí, sinh viên này phải tuân thủ những mốc thời gian nghiêm ngặt nào liên quan đến bảo hiểm y tế? Quy trình này sẽ có điểm gì khác biệt và được rút gọn ra sao nếu sinh viên đó là công dân của một quốc gia thành viên Liên minh Châu Âu (EU)?",
+      "configs": {
+        "Baseline": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 8.340890999988915,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              353,
+              283,
+              335
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.0227269999631972,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              341,
+              335,
+              345
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 5.9898939998674905,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              335,
+              353,
+              345
+            ]
+          }
+        },
+        "HyDE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 6.087132999937239,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              353,
+              283,
+              335
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2545.1771349999035,
+            "tokens": {
+              "prompt_tokens": 168,
+              "completion_tokens": 70,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              345,
+              362,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2795.3624379999837,
+            "tokens": {
+              "prompt_tokens": 168,
+              "completion_tokens": 71,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              335,
+              345,
+              283
+            ]
+          }
+        },
+        "HyPE": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 6.035065000105533,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              353,
+              283,
+              335
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1.1920499998723244,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              330,
+              360,
+              341,
+              335
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 6.400099999837039,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              330,
+              335,
+              353
+            ]
+          }
+        },
+        "Window Enrichment": {
+          "BM25": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 7.247498999959134,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              353,
+              283,
+              335
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2.18804199994338,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              341,
+              335,
+              345
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 7.394427000008363,
+            "tokens": {
+              "prompt_tokens": 0,
+              "completion_tokens": 0,
+              "calls": 0
+            },
+            "top5": [
+              355,
+              360,
+              335,
+              353,
+              345
+            ]
+          }
+        },
+        "Context Compression": {
+          "BM25": {
+            "recall@5": 0.6,
+            "mrr@5": 1.0,
+            "hit@5": 1.0,
+            "latency_ms": 2796.362153000018,
+            "tokens": {
+              "prompt_tokens": 5257,
+              "completion_tokens": 295,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              353,
+              283,
+              335
+            ]
+          },
+          "Dense": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 2401.3661829999364,
+            "tokens": {
+              "prompt_tokens": 4928,
+              "completion_tokens": 226,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              341,
+              335,
+              345
+            ]
+          },
+          "Hybrid (RRF)": {
+            "recall@5": 0.0,
+            "mrr@5": 0.0,
+            "hit@5": 0.0,
+            "latency_ms": 1638.502152000001,
+            "tokens": {
+              "prompt_tokens": 5150,
+              "completion_tokens": 95,
+              "calls": 1
+            },
+            "top5": [
+              355,
+              360,
+              335,
+              353,
+              345
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "n_questions": 15
+}

@@ -12,11 +12,25 @@ backend/.env
 backend/logs/
 backend/storage/
 backend/storage_eval/
-backend/storage_eval_before/
+backend/storage_eval_ab/
+backend/storage_eval_ab_baseline/
+backend/storage_eval_hb_baseline/
+backend/storage_eval_hb_hype/
+backend/storage_vinfast_eval/
 backend/**/parse_cache.db
 backend/**/*.tvim
 backend/**/*.pkl
 hf-cache/
+
+# Large binaries and databases
+**/*.zip
+**/*.tar.xz
+**/*.tar.gz
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.pdf
+
 
 # Node / frontend
 frontend/node_modules/
@@ -34,7 +48,7 @@ frontend/dist/
 opencode.jsonc
 .venv_parser/
 SKILL.md
-data/eval_ab/
+#data/eval_ab/
 .opencode/
 openspec/
 slide_generate_prompt.md

@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS chunks (
     section     TEXT,
     embedding   BLOB,                  -- float32 vector; lets us rebuild the dense index from the DB
     embed_text  TEXT,                   -- optimized text for embedding (from Reducto embed field)
+    hype_questions TEXT,
     FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_chunks_doc ON chunks(document_id);
@@ -69,14 +70,18 @@ class Database:
         self._init_schema()
 
     def _conn(self) -> sqlite3.Connection:
-        conn = getattr(_local, "conn", None)
+        conns = getattr(_local, "conns", None)
+        if conns is None:
+            conns = {}
+            _local.conns = conns
+        conn = conns.get(self.path)
         if conn is None:
             conn = sqlite3.connect(self.path, check_same_thread=False)
             conn.row_factory = sqlite3.Row
             conn.execute("PRAGMA foreign_keys = ON")
             conn.execute("PRAGMA journal_mode = WAL")
             conn.execute("PRAGMA busy_timeout = 5000")
-            _local.conn = conn
+            conns[self.path] = conn
         return conn
 
     def _init_schema(self) -> None:
@@ -92,6 +97,8 @@ class Database:
             conn.execute("ALTER TABLE chunks ADD COLUMN embedding BLOB")
         if "embed_text" not in cols:
             conn.execute("ALTER TABLE chunks ADD COLUMN embed_text TEXT")
+        if "hype_questions" not in cols:
+            conn.execute("ALTER TABLE chunks ADD COLUMN hype_questions TEXT")
 
         doc_cols = {r["name"] for r in conn.execute("PRAGMA table_info(documents)").fetchall()}
         if "status" not in doc_cols:
