@@ -1,0 +1,8 @@
+{
+  "storage": "D:\\porjects\\internship\\TeamHN-RAG-Agent\\backend\\storage_data_hung_reducto",
+  "documents": 40,
+  "chunks": 5167,
+  "new_ingested": 40,
+  "parser": "reducto",
+  "reducto_mode": "agentic"
+}

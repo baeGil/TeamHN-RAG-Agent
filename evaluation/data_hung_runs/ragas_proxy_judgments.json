@@ -1,0 +1,3252 @@
+{
+  "2026_285_04_2026_QH16_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_285_04_2026_QH16_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_285_04_2026_QH16_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_285_04_2026_QH16_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_285_04_2026_QH16_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_290_161_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_290_161_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_290_161_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_290_161_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_290_161_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_290_162_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_290_162_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_290_162_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_290_162_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_290_162_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_292_09_2026_TT-NHNN_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_292_09_2026_TT-NHNN_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_292_09_2026_TT-NHNN_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_292_09_2026_TT-NHNN_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_292_09_2026_TT-NHNN_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_159_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_159_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_293_159_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_159_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_293_159_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_293_169_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_169_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_293_169_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.5,
+    "semantic_similarity": 0.8,
+    "context_precision": 1.0,
+    "context_recall": 0.5,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_169_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_169_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_66.17_2026_NQ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_66.17_2026_NQ-CP_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.5,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_66.17_2026_NQ-CP_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_293_66.17_2026_NQ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_293_66.17_2026_NQ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_167_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "context_entity_recall": 0.5,
+    "noise_sensitivity": 0.5
+  },
+  "2026_294_167_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_167_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_167_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_167_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_168_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_168_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_168_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_168_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_168_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_170_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_170_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_170_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_170_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_170_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_175_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_175_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 0.5,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.3,
+    "context_precision": 0.4,
+    "context_recall": 0.5,
+    "context_entity_recall": 0.5,
+    "noise_sensitivity": 0.7
+  },
+  "2026_294_175_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_175_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_294_175_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_294_185_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_294_185_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.08,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.05,
+    "semantic_similarity": 0.1,
+    "context_precision": 0.02,
+    "context_recall": 0.03,
+    "context_entity_recall": 0.02,
+    "noise_sensitivity": 0.95
+  },
+  "2026_294_185_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.1,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.9
+  },
+  "2026_294_185_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.15,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.1,
+    "context_recall": 0.2,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.9
+  },
+  "2026_294_185_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_295_156_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.35,
+    "answer_relevancy": 0.4,
+    "answer_correctness": 0.25,
+    "semantic_similarity": 0.3,
+    "context_precision": 0.55,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.85,
+    "noise_sensitivity": 0.6
+  },
+  "2026_295_156_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.08,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.05,
+    "semantic_similarity": 0.08,
+    "context_precision": 0.07,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.15,
+    "noise_sensitivity": 0.92
+  },
+  "2026_295_156_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_295_156_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_295_156_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.42,
+    "semantic_similarity": 0.38,
+    "context_precision": 0.55,
+    "context_recall": 0.74,
+    "context_entity_recall": 0.71,
+    "noise_sensitivity": 0.58
+  },
+  "2026_295_171_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.98,
+    "answer_correctness": 0.88,
+    "semantic_similarity": 0.9,
+    "context_precision": 0.97,
+    "context_recall": 0.99,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.18
+  },
+  "2026_295_171_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.18,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.14,
+    "context_precision": 0.22,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.92
+  },
+  "2026_295_171_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_295_171_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_295_171_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.74,
+    "answer_correctness": 0.42,
+    "semantic_similarity": 0.46,
+    "context_precision": 0.58,
+    "context_recall": 0.63,
+    "context_entity_recall": 0.57,
+    "noise_sensitivity": 0.31
+  },
+  "2026_296_105_VBHN-VPQH_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_296_105_VBHN-VPQH_Q02": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.18,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.14,
+    "context_precision": 0.05,
+    "context_recall": 0.22,
+    "context_entity_recall": 0.18,
+    "noise_sensitivity": 0.92
+  },
+  "2026_296_105_VBHN-VPQH_Q03": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.62,
+    "semantic_similarity": 0.68,
+    "context_precision": 0.74,
+    "context_recall": 0.83,
+    "context_entity_recall": 0.79,
+    "noise_sensitivity": 0.18
+  },
+  "2026_296_105_VBHN-VPQH_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_296_105_VBHN-VPQH_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_296_106_VBHN-VPQH_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_296_106_VBHN-VPQH_Q02": {
+    "faithfulness": 0.18,
+    "answer_relevancy": 0.22,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.14,
+    "context_precision": 0.2,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.92
+  },
+  "2026_296_106_VBHN-VPQH_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.55,
+    "semantic_similarity": 0.58,
+    "context_precision": 0.98,
+    "context_recall": 0.72,
+    "context_entity_recall": 0.78,
+    "noise_sensitivity": 0.1
+  },
+  "2026_296_106_VBHN-VPQH_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_296_106_VBHN-VPQH_Q05": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.62,
+    "semantic_similarity": 0.68,
+    "context_precision": 0.74,
+    "context_recall": 0.83,
+    "context_entity_recall": 0.79,
+    "noise_sensitivity": 0.41
+  },
+  "2026_297_107_VBHN-VPQH_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_297_107_VBHN-VPQH_Q02": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.18,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.1,
+    "context_precision": 0.14,
+    "context_recall": 0.92,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.95
+  },
+  "2026_297_107_VBHN-VPQH_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_297_107_VBHN-VPQH_Q04": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.3,
+    "answer_correctness": 0.1,
+    "semantic_similarity": 0.2,
+    "context_precision": 0.2,
+    "context_recall": 0.4,
+    "context_entity_recall": 0.5,
+    "noise_sensitivity": 0.8
+  },
+  "2026_297_107_VBHN-VPQH_Q05": {
+    "faithfulness": 0.62,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.46,
+    "semantic_similarity": 0.52,
+    "context_precision": 0.71,
+    "context_recall": 0.58,
+    "context_entity_recall": 0.74,
+    "noise_sensitivity": 0.41
+  },
+  "2026_297_108_VBHN-VPQH_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_297_108_VBHN-VPQH_Q02": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.18,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.14,
+    "context_precision": 0.11,
+    "context_recall": 0.22,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.92
+  },
+  "2026_297_108_VBHN-VPQH_Q03": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.1,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.05,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_297_108_VBHN-VPQH_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_297_108_VBHN-VPQH_Q05": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.22,
+    "semantic_similarity": 0.24,
+    "context_precision": 0.88,
+    "context_recall": 0.74,
+    "context_entity_recall": 0.7,
+    "noise_sensitivity": 0.18
+  },
+  "2026_297_109_VBHN-VPQH_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_297_109_VBHN-VPQH_Q02": {
+    "faithfulness": 0.18,
+    "answer_relevancy": 0.22,
+    "answer_correctness": 0.12,
+    "semantic_similarity": 0.18,
+    "context_precision": 0.2,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.92
+  },
+  "2026_297_109_VBHN-VPQH_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.98,
+    "semantic_similarity": 0.97,
+    "context_precision": 0.99,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "2026_297_109_VBHN-VPQH_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_297_109_VBHN-VPQH_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.92,
+    "context_precision": 0.95,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.1
+  },
+  "2026_297_172_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.9,
+    "context_precision": 0.98,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.15
+  },
+  "2026_297_172_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.18,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.14,
+    "context_precision": 0.22,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.92
+  },
+  "2026_297_172_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.08,
+    "context_recall": 0.02,
+    "context_entity_recall": 0.05,
+    "noise_sensitivity": 0.02
+  },
+  "2026_297_172_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.15,
+    "context_recall": 0.1,
+    "context_entity_recall": 0.05,
+    "noise_sensitivity": 0.1
+  },
+  "2026_297_172_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.84,
+    "answer_correctness": 0.62,
+    "semantic_similarity": 0.68,
+    "context_precision": 0.74,
+    "context_recall": 0.86,
+    "context_entity_recall": 0.81,
+    "noise_sensitivity": 0.28
+  },
+  "2026_298_66.19_2026_NQ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_298_66.19_2026_NQ-CP_Q02": {
+    "faithfulness": 0.18,
+    "answer_relevancy": 0.22,
+    "answer_correctness": 0.12,
+    "semantic_similarity": 0.18,
+    "context_precision": 0.14,
+    "context_recall": 0.96,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.88
+  },
+  "2026_298_66.19_2026_NQ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_298_66.19_2026_NQ-CP_Q04": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.1,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.2,
+    "context_recall": 0.1,
+    "context_entity_recall": 0.1,
+    "noise_sensitivity": 0.0
+  },
+  "2026_298_66.19_2026_NQ-CP_Q05": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.3,
+    "answer_correctness": 0.1,
+    "semantic_similarity": 0.15,
+    "context_precision": 0.25,
+    "context_recall": 0.2,
+    "context_entity_recall": 0.15,
+    "noise_sensitivity": 0.8
+  },
+  "2026_299_157_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.18,
+    "semantic_similarity": 0.22,
+    "context_precision": 0.35,
+    "context_recall": 0.28,
+    "context_entity_recall": 0.3,
+    "noise_sensitivity": 0.82
+  },
+  "2026_299_157_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_299_157_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.1,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.15,
+    "context_recall": 0.2,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.95
+  },
+  "2026_299_157_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.62,
+    "answer_relevancy": 0.58,
+    "answer_correctness": 0.55,
+    "semantic_similarity": 0.52,
+    "context_precision": 0.71,
+    "context_recall": 0.46,
+    "context_entity_recall": 0.63,
+    "noise_sensitivity": 0.48
+  },
+  "2026_299_157_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.62,
+    "answer_relevancy": 0.58,
+    "answer_correctness": 0.42,
+    "semantic_similarity": 0.5,
+    "context_precision": 0.86,
+    "context_recall": 0.78,
+    "context_entity_recall": 0.74,
+    "noise_sensitivity": 0.48
+  },
+  "2026_299_164_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.02,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.12,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.15,
+    "noise_sensitivity": 0.9
+  },
+  "2026_299_164_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_299_164_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.15,
+    "answer_correctness": 0.05,
+    "semantic_similarity": 0.08,
+    "context_precision": 0.12,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.15,
+    "noise_sensitivity": 0.2
+  },
+  "2026_299_164_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.42,
+    "semantic_similarity": 0.48,
+    "context_precision": 0.22,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.25,
+    "noise_sensitivity": 0.72
+  },
+  "2026_299_164_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.4,
+    "answer_correctness": 0.15,
+    "semantic_similarity": 0.25,
+    "context_precision": 0.95,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.8
+  },
+  "2026_300_165_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_300_165_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_300_165_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.08,
+    "context_recall": 0.02,
+    "context_entity_recall": 0.02,
+    "noise_sensitivity": 0.95
+  },
+  "2026_300_165_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.92,
+    "context_precision": 0.98,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.1
+  },
+  "2026_300_165_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.18,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.12,
+    "context_precision": 0.15,
+    "context_recall": 0.22,
+    "context_entity_recall": 0.18,
+    "noise_sensitivity": 0.86
+  },
+  "2026_301_66.18_2026_NQ-CP_Q01": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_301_66.18_2026_NQ-CP_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.18,
+    "context_precision": 1.0,
+    "context_recall": 0.12,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.05
+  },
+  "2026_301_66.18_2026_NQ-CP_Q03": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.05,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.02,
+    "context_precision": 0.03,
+    "context_recall": 0.02,
+    "context_entity_recall": 0.01,
+    "noise_sensitivity": 0.1
+  },
+  "2026_301_66.18_2026_NQ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_301_66.18_2026_NQ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.84,
+    "answer_correctness": 0.62,
+    "semantic_similarity": 0.68,
+    "context_precision": 0.55,
+    "context_recall": 0.72,
+    "context_entity_recall": 0.58,
+    "noise_sensitivity": 0.32
+  },
+  "2026_303_13_2026_TT-NHNN_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_303_13_2026_TT-NHNN_Q02": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.15,
+    "semantic_similarity": 0.2,
+    "context_precision": 0.1,
+    "context_recall": 0.25,
+    "context_entity_recall": 0.3,
+    "noise_sensitivity": 0.2
+  },
+  "2026_303_13_2026_TT-NHNN_Q03": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.18,
+    "context_recall": 0.22,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.86
+  },
+  "2026_303_13_2026_TT-NHNN_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_303_13_2026_TT-NHNN_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.78,
+    "semantic_similarity": 0.8,
+    "context_precision": 0.86,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.92,
+    "noise_sensitivity": 0.22
+  },
+  "2026_305_24_VBHN-BXD_Q01": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_305_24_VBHN-BXD_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_305_24_VBHN-BXD_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_305_24_VBHN-BXD_Q04": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.93,
+    "answer_correctness": 0.78,
+    "semantic_similarity": 0.8,
+    "context_precision": 0.92,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.18
+  },
+  "2026_305_24_VBHN-BXD_Q05": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.98,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.92,
+    "context_precision": 0.97,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.93,
+    "noise_sensitivity": 0.08
+  },
+  "2026_305_41_2026_TT-BGDĐT_Q01": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.9,
+    "answer_correctness": 0.35,
+    "semantic_similarity": 0.45,
+    "context_precision": 0.92,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.15
+  },
+  "2026_305_41_2026_TT-BGDĐT_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_305_41_2026_TT-BGDĐT_Q03": {
+    "faithfulness": 0.42,
+    "answer_relevancy": 0.58,
+    "answer_correctness": 0.34,
+    "semantic_similarity": 0.46,
+    "context_precision": 0.71,
+    "context_recall": 0.93,
+    "context_entity_recall": 0.88,
+    "noise_sensitivity": 0.67
+  },
+  "2026_305_41_2026_TT-BGDĐT_Q04": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.94,
+    "context_precision": 0.99,
+    "context_recall": 0.97,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.08
+  },
+  "2026_305_41_2026_TT-BGDĐT_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.86,
+    "semantic_similarity": 0.9,
+    "context_precision": 0.95,
+    "context_recall": 0.92,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.15
+  },
+  "2026_307_135_NQ-CP_Q01": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.92,
+    "answer_correctness": 0.18,
+    "semantic_similarity": 0.22,
+    "context_precision": 0.95,
+    "context_recall": 0.78,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.12
+  },
+  "2026_307_135_NQ-CP_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_307_135_NQ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_307_135_NQ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_307_135_NQ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_307_154_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.1,
+    "answer_correctness": 0.2,
+    "semantic_similarity": 0.15,
+    "context_precision": 0.2,
+    "context_recall": 0.3,
+    "context_entity_recall": 0.4,
+    "noise_sensitivity": 0.9
+  },
+  "2026_307_154_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.98,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.95,
+    "context_precision": 0.2,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.15
+  },
+  "2026_307_154_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_307_154_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "2026_307_154_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.86,
+    "answer_correctness": 0.42,
+    "semantic_similarity": 0.48,
+    "context_precision": 0.55,
+    "context_recall": 0.62,
+    "context_entity_recall": 0.58,
+    "noise_sensitivity": 0.35
+  },
+  "2026_307_166_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.92,
+    "context_precision": 0.98,
+    "context_recall": 0.85,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.15
+  },
+  "2026_307_166_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.98,
+    "semantic_similarity": 0.96,
+    "context_precision": 0.99,
+    "context_recall": 0.12,
+    "context_entity_recall": 0.15,
+    "noise_sensitivity": 0.02
+  },
+  "2026_307_166_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.12,
+    "answer_relevancy": 0.08,
+    "answer_correctness": 0.02,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.14,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.16,
+    "noise_sensitivity": 0.92
+  },
+  "2026_307_166_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.92,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_307_166_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.93,
+    "context_precision": 0.95,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.08
+  },
+  "2026_308_174_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_308_174_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_308_174_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.15,
+    "context_precision": 0.18,
+    "context_recall": 0.12,
+    "context_entity_recall": 0.1,
+    "noise_sensitivity": 0.05
+  },
+  "2026_308_174_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_308_174_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.92,
+    "answer_correctness": 0.74,
+    "semantic_similarity": 0.8,
+    "context_precision": 0.86,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.22
+  },
+  "2026_309_176_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.1,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.15,
+    "context_recall": 0.1,
+    "context_entity_recall": 0.1,
+    "noise_sensitivity": 0.9
+  },
+  "2026_309_176_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 1.0
+  },
+  "2026_309_176_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.05,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.02,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.1
+  },
+  "2026_309_176_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.78,
+    "semantic_similarity": 0.82,
+    "context_precision": 0.88,
+    "context_recall": 0.97,
+    "context_entity_recall": 0.96,
+    "noise_sensitivity": 0.22
+  },
+  "2026_309_176_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.86,
+    "answer_correctness": 0.72,
+    "semantic_similarity": 0.76,
+    "context_precision": 0.93,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.34
+  },
+  "2026_309_177_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.08,
+    "context_recall": 0.1,
+    "context_entity_recall": 0.05,
+    "noise_sensitivity": 0.02
+  },
+  "2026_309_177_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.97,
+    "semantic_similarity": 0.96,
+    "context_precision": 0.99,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.99,
+    "noise_sensitivity": 0.05
+  },
+  "2026_309_177_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_309_177_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.9,
+    "context_precision": 0.97,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.12
+  },
+  "2026_309_177_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.1,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.1,
+    "context_precision": 0.0,
+    "context_recall": 0.1,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.9
+  },
+  "2026_310_178_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.02,
+    "context_precision": 0.05,
+    "context_recall": 0.08,
+    "context_entity_recall": 0.03,
+    "noise_sensitivity": 0.95
+  },
+  "2026_310_178_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.08,
+    "semantic_similarity": 0.1,
+    "context_precision": 0.95,
+    "context_recall": 0.15,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.05
+  },
+  "2026_310_178_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.1,
+    "answer_relevancy": 0.05,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.02,
+    "context_recall": 0.1,
+    "context_entity_recall": 0.05,
+    "noise_sensitivity": 0.95
+  },
+  "2026_310_178_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.86,
+    "answer_relevancy": 0.98,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.92,
+    "context_precision": 0.95,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.12
+  },
+  "2026_310_178_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.84,
+    "answer_correctness": 0.62,
+    "semantic_similarity": 0.68,
+    "context_precision": 0.74,
+    "context_recall": 0.71,
+    "context_entity_recall": 0.66,
+    "noise_sensitivity": 0.28
+  },
+  "2026_311_179_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.02,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.08,
+    "context_recall": 0.03,
+    "context_entity_recall": 0.02,
+    "noise_sensitivity": 0.95
+  },
+  "2026_311_179_2026_NĐ-CP_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.05
+  },
+  "2026_311_179_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.12,
+    "context_precision": 0.98,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.22,
+    "noise_sensitivity": 0.05
+  },
+  "2026_311_179_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.93,
+    "context_precision": 0.95,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.08
+  },
+  "2026_311_179_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.78,
+    "semantic_similarity": 0.8,
+    "context_precision": 0.9,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.86,
+    "noise_sensitivity": 0.18
+  },
+  "2026_311_180_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_311_180_2026_NĐ-CP_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_311_180_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.15,
+    "answer_correctness": 0.05,
+    "semantic_similarity": 0.12,
+    "context_precision": 0.18,
+    "context_recall": 0.22,
+    "context_entity_recall": 0.25,
+    "noise_sensitivity": 0.85
+  },
+  "2026_311_180_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.95,
+    "context_precision": 0.98,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.1
+  },
+  "2026_311_180_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.1,
+    "semantic_similarity": 0.15,
+    "context_precision": 0.9,
+    "context_recall": 0.85,
+    "context_entity_recall": 0.8,
+    "noise_sensitivity": 0.1
+  },
+  "2026_312_181_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_312_181_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_312_181_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.15,
+    "answer_correctness": 0.1,
+    "semantic_similarity": 0.12,
+    "context_precision": 0.18,
+    "context_recall": 0.25,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.85
+  },
+  "2026_312_181_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.2
+  },
+  "2026_312_181_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.84,
+    "answer_correctness": 0.62,
+    "semantic_similarity": 0.7,
+    "context_precision": 0.58,
+    "context_recall": 0.74,
+    "context_entity_recall": 0.8,
+    "noise_sensitivity": 0.42
+  },
+  "2026_312_182_2026_NĐ-CP_Q01": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.12,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.08,
+    "context_recall": 0.05,
+    "context_entity_recall": 0.02,
+    "noise_sensitivity": 0.95
+  },
+  "2026_312_182_2026_NĐ-CP_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 1.0,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.05
+  },
+  "2026_312_182_2026_NĐ-CP_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.2,
+    "answer_correctness": 0.1,
+    "semantic_similarity": 0.15,
+    "context_precision": 0.95,
+    "context_recall": 0.2,
+    "context_entity_recall": 0.2,
+    "noise_sensitivity": 0.9
+  },
+  "2026_312_182_2026_NĐ-CP_Q04": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.93,
+    "context_precision": 0.88,
+    "context_recall": 0.96,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.12
+  },
+  "2026_312_182_2026_NĐ-CP_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.86,
+    "answer_correctness": 0.78,
+    "semantic_similarity": 0.8,
+    "context_precision": 0.72,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.35
+  },
+  "2026_313_183_2026_NĐ-CP_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_313_183_2026_NĐ-CP_Q02": {
+    "faithfulness": 0.2,
+    "answer_relevancy": 0.1,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.05,
+    "context_precision": 0.15,
+    "context_recall": 0.2,
+    "context_entity_recall": 0.1,
+    "noise_sensitivity": 0.9
+  },
+  "2026_313_183_2026_NĐ-CP_Q03": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "answer_correctness": 0.0,
+    "semantic_similarity": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "context_entity_recall": 0.0,
+    "noise_sensitivity": 0.0
+  },
+  "2026_313_183_2026_NĐ-CP_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.5,
+    "semantic_similarity": 0.72,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.4
+  },
+  "2026_313_183_2026_NĐ-CP_Q05": {
+    "faithfulness": 0.78,
+    "answer_relevancy": 0.74,
+    "answer_correctness": 0.52,
+    "semantic_similarity": 0.58,
+    "context_precision": 0.63,
+    "context_recall": 0.71,
+    "context_entity_recall": 0.69,
+    "noise_sensitivity": 0.41
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.15
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.08
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q09": {
+    "faithfulness": 0.93,
+    "answer_relevancy": 0.78,
+    "answer_correctness": 0.22,
+    "semantic_similarity": 0.28,
+    "context_precision": 0.86,
+    "context_recall": 0.18,
+    "context_entity_recall": 0.16,
+    "noise_sensitivity": 0.12
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q11": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q12": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.05
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.85,
+    "semantic_similarity": 0.88,
+    "context_precision": 0.78,
+    "context_recall": 0.92,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.35
+  },
+  "250925duthao-luatai-v10-1759393446665893284209_Q15": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.88,
+    "semantic_similarity": 0.9,
+    "context_precision": 0.84,
+    "context_recall": 0.97,
+    "context_entity_recall": 0.93,
+    "noise_sensitivity": 0.18
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.75,
+    "semantic_similarity": 0.88,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.05
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.05
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q11": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q12": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Giao trinh Luat GTDB-quy định chung_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.75,
+    "semantic_similarity": 0.82,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.15
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.2
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.98,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.95,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q11": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.98,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.93,
+    "context_precision": 0.78,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.86,
+    "noise_sensitivity": 0.18
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q12": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.97,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.96,
+    "context_precision": 0.92,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.08
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.5,
+    "semantic_similarity": 0.78,
+    "context_precision": 0.98,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.12
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q16": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q17": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q18": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.97,
+    "answer_correctness": 0.96,
+    "semantic_similarity": 0.95,
+    "context_precision": 0.99,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.05
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q19": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.78,
+    "semantic_similarity": 0.8,
+    "context_precision": 0.88,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.93,
+    "noise_sensitivity": 0.18
+  },
+  "mô_hình_hóa_ĐATN (2) (1)_Q20": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q11": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q12": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.02
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.08
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q14": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.97,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.96,
+    "context_precision": 0.93,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.12
+  },
+  "Net dac sac cua nhom Bao vat Quoc gia... Nguyen Van Doan_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.93,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 0.98,
+    "noise_sensitivity": 0.12
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q11": {
+    "faithfulness": 0.92,
+    "answer_relevancy": 0.95,
+    "answer_correctness": 0.88,
+    "semantic_similarity": 0.9,
+    "context_precision": 0.84,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.88,
+    "noise_sensitivity": 0.18
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q12": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 0.95,
+    "context_entity_recall": 0.95,
+    "noise_sensitivity": 0.05
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.96,
+    "context_precision": 0.98,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.05
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "SƯU TẬP TÀI LIỆU, HIỆN VẬT VỀ chủ tịch Hồ Chí Minh_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.15
+  },
+  "Trực quan hóa dữ liệu_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "Trực quan hóa dữ liệu_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q11": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q12": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Trực quan hóa dữ liệu_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.1
+  },
+  "VietnamOutlook_20260420_TV_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.95,
+    "semantic_similarity": 0.96,
+    "context_precision": 0.93,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.08
+  },
+  "VietnamOutlook_20260420_TV_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "VietnamOutlook_20260420_TV_Q11": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.98,
+    "semantic_similarity": 0.98,
+    "context_precision": 0.97,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.08
+  },
+  "VietnamOutlook_20260420_TV_Q12": {
+    "faithfulness": 0.95,
+    "answer_relevancy": 0.98,
+    "answer_correctness": 0.92,
+    "semantic_similarity": 0.94,
+    "context_precision": 0.78,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.88,
+    "noise_sensitivity": 0.22
+  },
+  "VietnamOutlook_20260420_TV_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.98,
+    "semantic_similarity": 0.98,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.15
+  },
+  "VietnamOutlook_20260420_TV_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.15
+  },
+  "VietnamOutlook_20260420_TV_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.9,
+    "semantic_similarity": 0.95,
+    "context_precision": 0.92,
+    "context_recall": 0.88,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.1
+  },
+  "Đề cương ôn cuối kì_Q01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q02": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.98,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "Đề cương ôn cuối kì_Q03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.05
+  },
+  "Đề cương ôn cuối kì_Q05": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q06": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 0.95,
+    "context_recall": 0.9,
+    "context_entity_recall": 0.9,
+    "noise_sensitivity": 0.05
+  },
+  "Đề cương ôn cuối kì_Q07": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q08": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q10": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q11": {
+    "faithfulness": 0.98,
+    "answer_relevancy": 0.99,
+    "answer_correctness": 0.96,
+    "semantic_similarity": 0.97,
+    "context_precision": 0.95,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.12
+  },
+  "Đề cương ôn cuối kì_Q12": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.98,
+    "semantic_similarity": 0.97,
+    "context_precision": 0.95,
+    "context_recall": 0.98,
+    "context_entity_recall": 0.97,
+    "noise_sensitivity": 0.05
+  },
+  "Đề cương ôn cuối kì_Q13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 0.85,
+    "semantic_similarity": 0.88,
+    "context_precision": 0.95,
+    "context_recall": 0.8,
+    "context_entity_recall": 0.8,
+    "noise_sensitivity": 0.1
+  },
+  "Đề cương ôn cuối kì_Q14": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  },
+  "Đề cương ôn cuối kì_Q15": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "answer_correctness": 1.0,
+    "semantic_similarity": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "context_entity_recall": 1.0,
+    "noise_sensitivity": 0.0
+  }
+}

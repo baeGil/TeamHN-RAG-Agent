@@ -8,9 +8,12 @@ Modes (controlled by REDUCTO_PARSE env var):
 from __future__ import annotations
 
 import logging
+import json
 import time
 from pathlib import Path
 from typing import Any, Optional
+from urllib.error import URLError
+from urllib.request import Request, urlopen
 
 from reducto import Reducto
 from reducto.types import EnhanceParam, FormattingParam, RetrievalParam
@@ -66,11 +69,69 @@ def _build_params(
 # ---------------------------------------------------------------------------
 
 
+def _field(obj: Any, name: str, default: Any = None) -> Any:
+    if isinstance(obj, dict):
+        return obj.get(name, default)
+    return getattr(obj, name, default)
+
+
+def _read_url_bytes(url: str, attempts: int = 4, timeout: int = 300) -> bytes:
+    last_exc: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            req = Request(url, headers={"User-Agent": "TeamHN-RAG-Agent/benchmark"})
+            with urlopen(req, timeout=timeout) as resp:
+                chunks: list[bytes] = []
+                while True:
+                    part = resp.read(1024 * 1024)
+                    if not part:
+                        break
+                    chunks.append(part)
+                return b"".join(chunks)
+        except (ConnectionResetError, TimeoutError, URLError) as exc:
+            last_exc = exc
+            if attempt == attempts:
+                break
+            sleep_s = min(2 ** attempt, 10)
+            logger.warning(
+                "[Reducto] URL result download failed attempt=%s/%s (%s); retrying in %ss",
+                attempt,
+                attempts,
+                exc,
+                sleep_s,
+            )
+            time.sleep(sleep_s)
+    raise RuntimeError(f"Failed to download Reducto URL result after {attempts} attempts: {last_exc}")
+
+
+def _load_url_result(result_obj: Any) -> Any:
+    """Fetch Reducto's large parse result when the SDK returns type='url'.
+
+    Reducto returns a presigned JSON URL when the synchronous parse payload would
+    be too large for HTTPS. The downloaded JSON may be either the full parse
+    response or just the nested ``result`` object, so normalize both shapes.
+    """
+    url = _field(result_obj, "url")
+    if not url:
+        raise ValueError("Reducto returned a URL result without a URL.")
+    payload = json.loads(_read_url_bytes(url).decode("utf-8"))
+    return payload.get("result", payload) if isinstance(payload, dict) else payload
+
+
+def _materialize_reducto_result(result: Any) -> Any:
+    result_obj = _field(result, "result")
+    if _field(result_obj, "type") == "url":
+        return _load_url_result(result_obj)
+    return result_obj
+
+
 def _extract_section_from_blocks(blocks: list[Any]) -> str | None:
     """Find the first Section Header or Title block in a chunk."""
     for block in blocks:
-        if block.type in ("Section Header", "Title"):
-            return block.content.strip() if block.content else None
+        block_type = _field(block, "type")
+        content = _field(block, "content", "")
+        if block_type in ("Section Header", "Title"):
+            return content.strip() if content else None
     return None
 
 
@@ -83,20 +144,25 @@ def reducto_result_to_blocks(result: Any) -> list[Block]:
     """
     blocks_out: list[Block] = []
 
-    for chunk in result.result.chunks:
-        if not chunk.blocks:
+    parsed = _materialize_reducto_result(result)
+    chunks = _field(parsed, "chunks", [])
+
+    for chunk in chunks:
+        chunk_blocks = _field(chunk, "blocks", [])
+        if not chunk_blocks:
             continue
 
         pages = set()
-        for block in chunk.blocks:
-            if block.bbox:
-                pg = getattr(block.bbox, "original_page", None) or block.bbox.page
+        for block in chunk_blocks:
+            bbox = _field(block, "bbox")
+            if bbox:
+                pg = _field(bbox, "original_page") or _field(bbox, "page")
                 if pg is not None:
                     pages.add(pg)
         primary_page = min(pages) if pages else None
-        section = _extract_section_from_blocks(chunk.blocks)
-        content = chunk.content or ""
-        embed = chunk.embed or None
+        section = _extract_section_from_blocks(chunk_blocks)
+        content = _field(chunk, "content", "") or ""
+        embed = _field(chunk, "embed") or None
         if not content.strip():
             continue
 
@@ -177,6 +243,7 @@ def parse_pdf_reducto(
 
     blocks = reducto_result_to_blocks(result)
     total_elapsed = time.time() - t0
+    result_obj = _field(result, "result")
 
     meta["total_pages"] = result.usage.num_pages
     meta["total_credits"] = result.usage.credits
@@ -185,6 +252,10 @@ def parse_pdf_reducto(
     meta["n_blocks"] = len(blocks)
     meta["job_id"] = result.job_id
     meta["studio_link"] = result.studio_link
+    meta["result_type"] = _field(result_obj, "type")
+    if _field(result_obj, "type") == "url":
+        meta["result_id"] = _field(result_obj, "result_id")
+        meta["result_url"] = _field(result_obj, "url")
 
     logger.info(
         "[Reducto] Done: %.1fs, %d pages, %.0f credits, %d blocks, agentic=%s",
