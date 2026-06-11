@@ -90,6 +90,15 @@ class Agent:
             max_pairs=self.settings.conflict_max_pairs,
         )
 
+    @staticmethod
+    def _filter_conflicts(conflicts: list[dict], cited_labels: set[int]) -> list[dict]:
+        if not conflicts:
+            return []
+        return [
+            c for c in conflicts
+            if c.get("chunk_a_label") in cited_labels or c.get("chunk_b_label") in cited_labels
+        ]
+
     def summarize_conversation(
         self,
         session_id: str,
@@ -603,6 +612,11 @@ class Agent:
                 for tok_chunk in _chunk_string(answer_text, 3):
                     yield emit("token", {"text": tok_chunk})
                 trace_snapshot = list(trace)
+                filtered_conflicts = self._filter_conflicts(conflicts, cited_labels)
+                filtered_conflict_event = None
+                if conflict_event:
+                    filtered_conflict_event = dict(conflict_event)
+                    filtered_conflict_event["conflicts"] = filtered_conflicts
                 yield emit(
                     "final",
                     {
@@ -614,8 +628,8 @@ class Agent:
                         "partial": partial_warning,
                         "iterations": iteration,
                         "regenerated": False,
-                        "conflicts": conflicts,
-                        "conflict_check": conflict_event,
+                        "conflicts": filtered_conflicts,
+                        "conflict_check": filtered_conflict_event,
                     },
                 )
                 logger.info(
@@ -642,6 +656,11 @@ class Agent:
                     cited_labels = {int(m) for m in _CITE_RE.findall(answer_result)}
                     citations = self._build_citations(context_chunks, cited_labels)
                     trace_snapshot = list(trace)
+                    filtered_conflicts = self._filter_conflicts(conflicts, cited_labels)
+                    filtered_conflict_event = None
+                    if conflict_event:
+                        filtered_conflict_event = dict(conflict_event)
+                        filtered_conflict_event["conflicts"] = filtered_conflicts
                     yield emit(
                         "final",
                         {
@@ -653,8 +672,8 @@ class Agent:
                             "partial": True,
                             "iterations": iteration,
                             "regenerated": True,
-                            "conflicts": conflicts,
-                            "conflict_check": conflict_event,
+                            "conflicts": filtered_conflicts,
+                            "conflict_check": filtered_conflict_event,
                         },
                     )
                     logger.info(
@@ -672,6 +691,11 @@ class Agent:
                     for tok_chunk in _chunk_string(answer_text, 3):
                         yield emit("token", {"text": tok_chunk})
                     trace_snapshot = list(trace)
+                    filtered_conflicts = self._filter_conflicts(conflicts, cited_labels)
+                    filtered_conflict_event = None
+                    if conflict_event:
+                        filtered_conflict_event = dict(conflict_event)
+                        filtered_conflict_event["conflicts"] = filtered_conflicts
                     yield emit(
                         "final",
                         {
@@ -683,8 +707,8 @@ class Agent:
                             "partial": True,
                             "iterations": iteration,
                             "regenerated": False,
-                            "conflicts": conflicts,
-                            "conflict_check": conflict_event,
+                            "conflicts": filtered_conflicts,
+                            "conflict_check": filtered_conflict_event,
                         },
                     )
                     logger.info(
@@ -821,6 +845,11 @@ class Agent:
             cited_labels = {int(m) for m in _CITE_RE.findall(answer)}
             citations = self._build_citations(context_chunks, cited_labels)
             trace_snapshot = list(trace)
+            filtered_conflicts = self._filter_conflicts(conflicts, cited_labels)
+            filtered_conflict_event = None
+            if conflict_check:
+                filtered_conflict_event = dict(conflict_check)
+                filtered_conflict_event["conflicts"] = filtered_conflicts
             yield emit(
                 "final",
                 {
@@ -831,8 +860,8 @@ class Agent:
                     "route": route,
                     "partial": partial_warning,
                     "iterations": iterations,
-                    "conflicts": conflicts or [],
-                    "conflict_check": conflict_check,
+                    "conflicts": filtered_conflicts,
+                    "conflict_check": filtered_conflict_event,
                 },
             )
         return answer
