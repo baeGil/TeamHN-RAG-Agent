@@ -42,6 +42,7 @@ export default function ConflictReportCard({
       <div className="conflict-sub">
         Đã kiểm tra {report.num_pairs ?? 0} cặp từ {report.num_documents ?? "?"} đoạn trích
         {report.threshold !== undefined ? ` · threshold ${report.threshold}` : ""}
+        {report.num_stage2_calls ? ` · ${report.num_stage2_calls} cặp xác minh bằng LLM (Stage 2)` : ""}
         {report.duration_ms ? ` · ${report.duration_ms}ms` : ""}.
       </div>
 
@@ -50,6 +51,14 @@ export default function ConflictReportCard({
           <details key={idx} className="conflict-pair" open={idx === 0 && !compact}>
             <summary>
               <span className="conflict-badge">{typeLabel(p.type_label)}</span>
+              {p.stage === "stage2" && (
+                <span
+                  className="conflict-stage2"
+                  title="Cặp này được LLM xác minh ở Stage 2 (MLP chưa đủ chắc chắn)."
+                >
+                  🤖 Stage 2 · LLM
+                </span>
+              )}
               <span>
                 [{p.doc_i_label ?? p.doc_i_id}] ↔ [{p.doc_j_label ?? p.doc_j_id}]
               </span>
@@ -57,25 +66,40 @@ export default function ConflictReportCard({
             </summary>
 
             {!compact && (
-              <div className="conflict-preview-grid">
-                <div className="conflict-preview">
-                  <div className="conflict-preview-head">
-                    Đoạn [{p.doc_i_label ?? p.doc_i_id}]
-                    {p.doc_i_title ? ` · ${p.doc_i_title}` : ""}
-                    {p.doc_i_page ? ` · tr.${p.doc_i_page}` : ""}
+              <>
+                {p.stage === "stage2" && (
+                  <div className="conflict-stage2-note">
+                    <strong>Stage 2 (LLM)</strong> đã xác minh mâu thuẫn này
+                    {typeof p.stage2_confidence === "number"
+                      ? ` · độ tin cậy LLM ${percent(p.stage2_confidence)}`
+                      : ""}
+                    {p.stage2_summary ? `: ${p.stage2_summary}` : "."}
+                    <span className="conflict-stage2-hint">
+                      {" "}
+                      (MLP Stage 1 chỉ đạt {percent(p.conflict_probability)} nên được đẩy sang LLM)
+                    </span>
                   </div>
-                  <div>{p.doc_i_preview || "Không có preview."}</div>
-                </div>
+                )}
+                <div className="conflict-preview-grid">
+                  <div className="conflict-preview">
+                    <div className="conflict-preview-head">
+                      Đoạn [{p.doc_i_label ?? p.doc_i_id}]
+                      {p.doc_i_title ? ` · ${p.doc_i_title}` : ""}
+                      {p.doc_i_page ? ` · tr.${p.doc_i_page}` : ""}
+                    </div>
+                    <div>{p.doc_i_preview || "Không có preview."}</div>
+                  </div>
 
-                <div className="conflict-preview">
-                  <div className="conflict-preview-head">
-                    Đoạn [{p.doc_j_label ?? p.doc_j_id}]
-                    {p.doc_j_title ? ` · ${p.doc_j_title}` : ""}
-                    {p.doc_j_page ? ` · tr.${p.doc_j_page}` : ""}
+                  <div className="conflict-preview">
+                    <div className="conflict-preview-head">
+                      Đoạn [{p.doc_j_label ?? p.doc_j_id}]
+                      {p.doc_j_title ? ` · ${p.doc_j_title}` : ""}
+                      {p.doc_j_page ? ` · tr.${p.doc_j_page}` : ""}
+                    </div>
+                    <div>{p.doc_j_preview || "Không có preview."}</div>
                   </div>
-                  <div>{p.doc_j_preview || "Không có preview."}</div>
                 </div>
-              </div>
+              </>
             )}
           </details>
         ))}

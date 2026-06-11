@@ -28,6 +28,9 @@ export interface ConflictPair {
   conflict_probability: number;
   type_label: "no-conflict" | "factual" | "temporal" | string;
   type_probabilities?: Record<string, number>;
+  stage?: "stage1" | "stage2" | string;
+  stage2_summary?: string | null;
+  stage2_confidence?: number | null;
   doc_i_preview?: string;
   doc_j_preview?: string;
 }
@@ -36,8 +39,10 @@ export interface ConflictReport {
   enabled: boolean;
   has_conflict: boolean;
   threshold?: number;
+  tau_c?: number;
   num_documents?: number;
   num_pairs?: number;
+  num_stage2_calls?: number;
   duration_ms?: number;
   conflict_pairs: ConflictPair[];
 }
