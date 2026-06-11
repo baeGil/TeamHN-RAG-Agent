@@ -16,6 +16,31 @@ export interface TraceEvent {
   data: any;
 }
 
+export interface ConflictPair {
+  doc_i_id: number | string | null;
+  doc_j_id: number | string | null;
+  doc_i_label?: number | null;
+  doc_j_label?: number | null;
+  doc_i_title?: string | null;
+  doc_j_title?: string | null;
+  doc_i_page?: number | null;
+  doc_j_page?: number | null;
+  conflict_probability: number;
+  type_label: "no-conflict" | "factual" | "temporal" | string;
+  type_probabilities?: Record<string, number>;
+  doc_i_preview?: string;
+  doc_j_preview?: string;
+}
+
+export interface ConflictReport {
+  enabled: boolean;
+  has_conflict: boolean;
+  threshold?: number;
+  num_documents?: number;
+  num_pairs?: number;
+  duration_ms?: number;
+  conflict_pairs: ConflictPair[];
+}
 export interface Message {
   id?: number;
   role: "user" | "assistant";

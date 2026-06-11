@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Citation, Message, TraceEvent } from "../lib/types";
+import type { Citation, Message, TraceEvent, ConflictReport  } from "../lib/types";
 import { api, streamChat } from "../lib/api";
 import Markdown from "./Markdown";
 import AgentTrace from "./AgentTrace";
 import AgentGraph from "./AgentGraph";
+import ConflictReportCard from "./ConflictReportCard";
 
 interface Props {
   sessionId: string | null;
@@ -25,6 +26,11 @@ function normalizeMessage(m: any): Message {
     status: m.status || "complete",
     error_message: m.error_message || null,
   };
+}
+
+function getConflictReport(trace?: TraceEvent[]): ConflictReport | null {
+  const ev = [...(trace || [])].reverse().find((e) => e.type === "conflict_detect");
+  return ev?.data || null;
 }
 
 export default function ChatPanel({
@@ -331,6 +337,9 @@ export default function ChatPanel({
                     ) : m.role === "assistant" ? null : (
                       <div className="user-text">{m.content}</div>
                     )}
+                    {m.role === "assistant" && m.status === "complete" && (
+                      <ConflictReportCard report={getConflictReport(m.trace)} />
+                    )}
                     {m.role === "assistant" && m.citations && m.citations.length > 0 && m.status === "complete" && (
                       <div className="sources">
                         <div className="sources-title">Nguồn trích dẫn</div>
@@ -363,6 +372,8 @@ export default function ChatPanel({
                     ) : (
                       <div className="typing">●●●</div>
                     )}
+
+                    <ConflictReportCard report={getConflictReport(liveTrace)} compact />
                     <div className="bubble-actions">
                       <button className="btn danger small" onClick={cancelChat}>Hủy</button>
                     </div>

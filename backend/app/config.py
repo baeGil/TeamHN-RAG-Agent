@@ -31,6 +31,19 @@ class Settings:
         self.llm_model = os.getenv("LLM_MODEL", "gpt-4o-mini")
         self.llm_model_fast = os.getenv("LLM_MODEL_FAST", "gpt-4o-mini")
         self.embed_model = os.getenv("EMBED_MODEL", "text-embedding-3-small")
+        self.enable_conflict_rag = _get_bool("ENABLE_CONFLICT_RAG", True)
+        self.conflict_top_k = _get_int("CONFLICT_TOP_K", 5)
+        self.conflict_threshold = float(os.getenv("CONFLICT_THRESHOLD", "0.7"))
+
+        conflict_model_dir = os.getenv(
+            "CONFLICT_MODEL_DIR",
+            "../data/conflict_rag/artifacts/models/stage1_openai_1536_v2",
+        )
+        self.conflict_model_dir = (
+            BASE_DIR / conflict_model_dir
+            if not os.path.isabs(conflict_model_dir)
+            else Path(conflict_model_dir)
+        ).resolve()
         _dim = os.getenv("EMBED_DIM", "")
         self.embed_dim = int(_dim) if _dim.strip() else None
 

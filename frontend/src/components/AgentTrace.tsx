@@ -25,6 +25,7 @@ function Icon({ type }: { type: string }) {
     early_stop: "⚡",
     verify_answer: "🔍",
     summary: "📝",
+    conflict_detect: "⚠️",
   };
   return <span className="trace-icon">{map[type] || "•"}</span>;
 }
@@ -158,6 +159,22 @@ export default function AgentTrace({
                 {e.type === "synthesize" && (
                   <div>
                     <b>Tổng hợp câu trả lời</b> từ {e.data.n_context} đoạn ngữ cảnh.
+                  </div>
+                )}
+                {e.type === "conflict_detect" && (
+                  <div>
+                    <b>ConflictRAG:</b>{" "}
+                    {e.data.has_conflict ? (
+                      <span className="warn">
+                        Phát hiện {e.data.conflict_pairs?.length || 0} cặp mâu thuẫn ⚠
+                      </span>
+                    ) : (
+                      <span className="ok">Không phát hiện mâu thuẫn ✓</span>
+                    )}
+                    <div className="trace-sub">
+                      Đã kiểm tra {e.data.num_pairs || 0} cặp từ {e.data.num_documents || 0} đoạn
+                      {e.data.threshold !== undefined ? ` · threshold ${e.data.threshold}` : ""}
+                    </div>
                   </div>
                 )}
               </div>

@@ -46,6 +46,7 @@ from dataclasses import asdict
 from typing import Any, Iterator, Optional
 
 from ..config import get_settings
+from ..conflict.detector import ConflictDetector
 from ..indexing.store import KnowledgeBase, RetrievedChunk
 from . import prompts
 from .llm import LLM
@@ -81,6 +82,22 @@ class Agent:
         self.kb = kb
         self.llm = LLM()
         self.settings = get_settings()
+
+        self.conflict_detector = None
+        if self.settings.enable_conflict_rag and self.settings.has_openai:
+            try:
+                self.conflict_detector = ConflictDetector(
+                    model_dir=self.settings.conflict_model_dir,
+                    openai_api_key=self.settings.openai_api_key,
+                    openai_base_url=self.settings.openai_base_url,
+                    embedding_model=self.settings.embed_model,
+                    embedding_dim=self.settings.embed_dim or 1536,
+                    threshold=self.settings.conflict_threshold,
+                    enabled=True,
+                )
+            except Exception:
+                logger.exception("RAG_FLOW conflict_detector_load_error")
+                self.conflict_detector = None
 
     def summarize_conversation(
         self,
@@ -517,6 +534,42 @@ class Agent:
                 partial_warning = True
 
         context_chunks = self._select_context(pool, steps, route)
+
+        conflict_report = {
+            "enabled": False,
+            "has_conflict": False,
+            "conflict_pairs": [],
+        }
+
+        if context_chunks and self.conflict_detector is not None:
+            node_started = time.perf_counter()
+            yield emit("thinking", {"node": "conflict_detect"})
+
+            try:
+                conflict_report = self.conflict_detector.detect_topk(
+                    query=question,
+                    chunks=context_chunks,
+                    top_k=min(self.settings.conflict_top_k, len(context_chunks)),
+                )
+
+                yield emit("conflict_detect", conflict_report)
+
+                logger.info(
+                    "RAG_FLOW node_end node=conflict_detect duration_ms=%.1f has_conflict=%s conflicts=%s",
+                    (time.perf_counter() - node_started) * 1000,
+                    conflict_report.get("has_conflict"),
+                    len(conflict_report.get("conflict_pairs", [])),
+                )
+            except Exception as e:
+                logger.exception("RAG_FLOW conflict_detect_error")
+                yield emit(
+                    "error",
+                    {
+                        "node": "conflict_detect",
+                        "message": f"Lỗi ConflictRAG detector: {e}",
+                    },
+                )
+
         if not context_chunks:
             yield from self._emit_not_found(trace, emit)
             logger.info(
@@ -576,6 +629,7 @@ class Agent:
                         "partial": partial_warning,
                         "iterations": iteration,
                         "regenerated": False,
+                        "conflict_report": conflict_report,
                     },
                 )
                 logger.info(
@@ -613,6 +667,7 @@ class Agent:
                             "partial": True,
                             "iterations": iteration,
                             "regenerated": True,
+                            "conflict_report": conflict_report,
                         },
                     )
                     logger.info(
@@ -641,6 +696,7 @@ class Agent:
                             "partial": True,
                             "iterations": iteration,
                             "regenerated": False,
+                            "conflict_report": conflict_report,
                         },
                     )
                     logger.info(

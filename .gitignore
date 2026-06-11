@@ -17,6 +17,7 @@ backend/**/parse_cache.db
 backend/**/*.tvim
 backend/**/*.pkl
 hf-cache/
+backend/storage_*/
 
 # Node / frontend
 frontend/node_modules/
@@ -34,7 +35,7 @@ frontend/dist/
 opencode.jsonc
 .venv_parser/
 SKILL.md
-data/eval_ab/
 .opencode/
 openspec/
 slide_generate_prompt.md
+data/*

@@ -24,59 +24,54 @@ interface EdgeDef {
 }
 
 const NODES: NodeDef[] = [
-  { id: "router",        label: "Router",         sub: "Phân loại câu hỏi",      x: 180, y: 10,  w: 140, h: 56 },
-  { id: "simple",        label: "Single-hop",     sub: "Đường nhanh",            x: 30,  y: 110, w: 130, h: 56 },
-  { id: "complex",       label: "Multi-hop",      sub: "Agent đầy đủ",           x: 330, y: 110, w: 140, h: 56 },
-  { id: "planner",       label: "Planner",        sub: "Tách câu hỏi con",       x: 330, y: 200, w: 140, h: 56 },
-  { id: "retrieve",      label: "Retrieve",       sub: "BM25 + Dense + Rerank",  x: 180, y: 300, w: 140, h: 60 },
-  { id: "distill",       label: "Distill",        sub: "Chắt lọc ngữ cảnh",      x: 180, y: 390, w: 140, h: 56 },
-  { id: "verify",        label: "Verify",         sub: "Bám nguồn (Self-RAG)",   x: 180, y: 470, w: 140, h: 56 },
-  { id: "sufficiency",   label: "Sufficiency",    sub: "Đủ thông tin?",          x: 330, y: 550, w: 140, h: 56 },
-  { id: "replan",        label: "Replan",         sub: "Lập lại kế hoạch",       x: 330, y: 640, w: 140, h: 56 },
-  { id: "synthesize",    label: "Synthesize",     sub: "Sinh câu trả lời",       x: 180, y: 640, w: 140, h: 56 },
-  { id: "verify_answer", label: "Verify Answer",  sub: "Kiểm chứng trả lời",     x: 180, y: 730, w: 140, h: 56 },
-  { id: "answer",        label: "Answer",         sub: "Stream + Citations",     x: 180, y: 820, w: 140, h: 56 },
+  { id: "router",          label: "Router",        sub: "Phân loại câu hỏi",      x: 180, y: 10,  w: 140, h: 56 },
+  { id: "simple",          label: "Single-hop",    sub: "Đường nhanh",            x: 30,  y: 110, w: 130, h: 56 },
+  { id: "complex",         label: "Multi-hop",     sub: "Agent đầy đủ",           x: 330, y: 110, w: 140, h: 56 },
+  { id: "planner",         label: "Planner",       sub: "Tách câu hỏi con",       x: 330, y: 200, w: 140, h: 56 },
+  { id: "retrieve",        label: "Retrieve",      sub: "BM25 + Dense + Rerank",  x: 180, y: 300, w: 140, h: 60 },
+  { id: "distill",         label: "Distill",       sub: "Chắt lọc ngữ cảnh",      x: 180, y: 390, w: 140, h: 56 },
+  { id: "verify",          label: "Verify",        sub: "Bám nguồn (Self-RAG)",   x: 180, y: 470, w: 140, h: 56 },
+  { id: "sufficiency",     label: "Sufficiency",   sub: "Đủ thông tin?",          x: 330, y: 550, w: 140, h: 56 },
+  { id: "replan",          label: "Replan",        sub: "Lập lại kế hoạch",       x: 330, y: 640, w: 140, h: 56 },
+  { id: "conflict_detect", label: "ConflictRAG",   sub: "Phát hiện mâu thuẫn",    x: 180, y: 640, w: 140, h: 56 },
+  { id: "synthesize",      label: "Synthesize",    sub: "Sinh câu trả lời",       x: 180, y: 730, w: 140, h: 56 },
+  { id: "verify_answer",   label: "Verify Answer", sub: "Kiểm chứng trả lời",     x: 180, y: 820, w: 140, h: 56 },
+  { id: "answer",          label: "Answer",        sub: "Stream + Citations",     x: 180, y: 910, w: 140, h: 56 },
 ];
 
-// Every edge has a short Vietnamese label + absolute label position.
-// Labels are NEVER rotated — always horizontal for readability.
 const EDGES: EdgeDef[] = [
-  // ── Router branches ──
-  { from: "router", to: "simple",   label: "simple",         lx: 145, ly: 82 },
+  { from: "router", to: "simple",   label: "simple",       lx: 145, ly: 82 },
   { from: "router", to: "complex",  label: "complex",      lx: 340, ly: 82 },
-  { from: "router", to: "answer",   label: "no retrieval",  lx: 30,  ly: 430, anchor: "middle" },
+  { from: "router", to: "answer",   label: "no retrieval", lx: 30,  ly: 430, anchor: "middle" },
 
-  // ── Complex path ──
-  { from: "complex", to: "planner", label: "",              lx: 0,   ly: 0 },
-  { from: "planner", to: "retrieve", label: "",             lx: 0,   ly: 0 },
+  { from: "complex", to: "planner",  label: "", lx: 0, ly: 0 },
+  { from: "planner", to: "retrieve", label: "", lx: 0, ly: 0 },
 
-  // ── Simple path ──
-  { from: "simple", to: "retrieve",  label: "",             lx: 0,   ly: 0 },
+  { from: "simple", to: "retrieve", label: "", lx: 0, ly: 0 },
 
-  // ── Retrieve outputs ──
-  { from: "retrieve", to: "distill",    label: "multi-hop",  lx: 260, ly: 345 },
-  { from: "retrieve", to: "synthesize", label: "single-hop", lx: 255, ly: 475 },
+  { from: "retrieve", to: "distill",         label: "multi-hop", lx: 260, ly: 345 },
+  { from: "retrieve", to: "conflict_detect", label: "kiểm tra",  lx: 116, ly: 505 },
 
-  // ── Complex verification chain ──
-  { from: "distill", to: "verify",     label: "",            lx: 0,   ly: 0 },
-  { from: "verify", to: "sufficiency",  label: "",           lx: 280, ly: 505 },
+  { from: "distill", to: "verify",      label: "", lx: 0,   ly: 0 },
+  { from: "verify", to: "sufficiency",  label: "", lx: 280, ly: 505 },
 
-  // ── Sufficiency exits ──
-  { from: "sufficiency", to: "synthesize", label: "đủ",     lx: 280, ly: 598 },
-  { from: "sufficiency", to: "replan",     label: "chưa đủ", lx: 415, ly: 598 },
+  { from: "sufficiency", to: "conflict_detect", label: "đủ",      lx: 285, ly: 625 },
+  { from: "sufficiency", to: "replan",          label: "chưa đủ", lx: 415, ly: 598 },
 
-  // ── Replan loop ──
-  { from: "replan", to: "retrieve",       label: "lặp lại",  lx: 488, ly: 465, anchor: "start" },
+  { from: "replan", to: "retrieve",        label: "lặp lại", lx: 488, ly: 465, anchor: "start" },
+  { from: "replan", to: "conflict_detect", label: "dừng",    lx: 325, ly: 635 },
 
-  // ── Post-retrieval convergence ──
-  { from: "synthesize", to: "verify_answer", label: "",     lx: 0,   ly: 0 },
+  { from: "conflict_detect", to: "synthesize", label: "", lx: 0, ly: 0 },
 
-  // ── Verify Answer exits ──
-  { from: "verify_answer", to: "answer",     label: "bám nguồn", lx: 258, ly: 778 },
-  { from: "verify_answer", to: "synthesize", label: "tái tạo",  lx: 35,  ly: 688, anchor: "middle" },
+  { from: "synthesize", to: "verify_answer", label: "", lx: 0, ly: 0 },
+
+  { from: "verify_answer", to: "answer",     label: "bám nguồn", lx: 258, ly: 868 },
+  { from: "verify_answer", to: "synthesize", label: "tái tạo",   lx: 35,  ly: 778, anchor: "middle" },
 ];
 
-const NODE_MAP: Record<string, NodeDef> = Object.fromEntries(NODES.map((n) => [n.id, n]));
+const NODE_MAP: Record<string, NodeDef> = Object.fromEntries(
+  NODES.map((n) => [n.id, n])
+);
 
 function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
   states: Record<string, NodeState>;
@@ -87,9 +82,11 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
   const states: Record<string, NodeState> = Object.fromEntries(
     NODES.map((n) => [n.id, "idle"])
   );
+
   const edgeStates: Record<string, EdgeState> = Object.fromEntries(
-    EDGES.map((e, i) => [`${e.from}→${e.to}`, "idle"])
+    EDGES.map((e) => [`${e.from}→${e.to}`, "idle"])
   );
+
   const meta: Record<string, string> = {};
   let route: string | null = null;
   let active: string | null = null;
@@ -137,28 +134,38 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
       if (node && NODE_MAP[node]) {
         setActive(node);
       }
-    } else if (ev.type === "route") {
+    }
+
+    else if (ev.type === "route") {
       route = ev.data.route;
       markDone("router");
+
       if (route === "simple") {
         traverseEdge("router", "simple");
         markDone("simple");
+
         states["complex"] = "skipped";
         states["planner"] = "skipped";
         states["distill"] = "skipped";
         states["verify"] = "skipped";
         states["sufficiency"] = "skipped";
         states["replan"] = "skipped";
+
         markSkippedEdges();
         setActive("retrieve");
-      } else if (route === "complex") {
+      }
+
+      else if (route === "complex") {
         traverseEdge("router", "complex");
         markDone("complex");
         states["simple"] = "skipped";
         markSkippedEdges();
         setActive("planner");
-      } else if (route === "no_retrieval") {
+      }
+
+      else if (route === "no_retrieval") {
         traverseEdge("router", "answer");
+
         states["simple"] = "skipped";
         states["complex"] = "skipped";
         states["planner"] = "skipped";
@@ -167,81 +174,139 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         states["verify"] = "skipped";
         states["sufficiency"] = "skipped";
         states["replan"] = "skipped";
+        states["conflict_detect"] = "skipped";
         states["synthesize"] = "skipped";
         states["verify_answer"] = "skipped";
+
         markSkippedEdges();
         setActive("answer");
       }
-    } else if (ev.type === "plan") {
+    }
+
+    else if (ev.type === "plan") {
       traverseEdge("complex", "planner");
       markDone("planner");
       meta["planner"] = `${ev.data.subquestions?.length || 0} bước`;
       traverseEdge("planner", "retrieve");
       setActive("retrieve");
-    } else if (ev.type === "subquestion") {
+    }
+
+    else if (ev.type === "subquestion") {
       if (states["simple"] !== "skipped") markDone("simple");
       if (states["complex"] !== "skipped") markDone("complex");
-    } else if (ev.type === "retrieved") {
+    }
+
+    else if (ev.type === "retrieved") {
       markDone("retrieve");
       const n = ev.data.chunks?.length || 0;
       meta["retrieve"] = `${n} đoạn`;
+
       if (route === "simple") {
         traverseEdge("simple", "retrieve");
-        traverseEdge("retrieve", "synthesize");
-        setActive("synthesize");
+        traverseEdge("retrieve", "conflict_detect");
+        setActive("conflict_detect");
       } else {
         traverseEdge("retrieve", "distill");
         setActive("distill");
       }
-    } else if (ev.type === "distill") {
+    }
+
+    else if (ev.type === "distill") {
       traverseEdge("distill", "verify");
       markDone("distill");
       meta["distill"] = ev.data.relevant ? "✓ liên quan" : "✗ không liên quan";
       setActive("verify");
-    } else if (ev.type === "verify") {
+    }
+
+    else if (ev.type === "verify") {
       markDone("verify");
-      if (ev.data.grounded === false) meta["verify"] = "⚠ chưa chắc";
-      else if (ev.data.grounded === true) meta["verify"] = "✓ bám nguồn";
+      meta["verify"] = ev.data.grounded ? "✓ bám nguồn" : "⚠ chưa chắc";
       traverseEdge("verify", "sufficiency");
       setActive("sufficiency");
-    } else if (ev.type === "sufficiency") {
+    }
+
+    else if (ev.type === "sufficiency") {
       markDone("sufficiency");
       const suf = ev.data.sufficient;
       meta["sufficiency"] = suf ? "✓ đủ thông tin" : "⚠ chưa đủ";
+
       if (suf) {
-        traverseEdge("sufficiency", "synthesize");
-        setActive("synthesize");
+        traverseEdge("sufficiency", "conflict_detect");
+        setActive("conflict_detect");
       } else {
         traverseEdge("sufficiency", "replan");
         setActive("replan");
       }
-    } else if (ev.type === "converged") {
+    }
+
+    else if (ev.type === "converged") {
       traverseEdge("verify", "sufficiency");
       markDone("sufficiency");
       meta["sufficiency"] = "✓ tất cả bám nguồn";
-      traverseEdge("sufficiency", "synthesize");
-      setActive("synthesize");
-    } else if (ev.type === "max_iters") {
+      traverseEdge("sufficiency", "conflict_detect");
+      setActive("conflict_detect");
+    }
+
+    else if (ev.type === "max_iters") {
       markDone("replan");
       meta["replan"] = "⏹ đạt giới hạn";
-      setActive("synthesize");
-    } else if (ev.type === "early_stop") {
+      traverseEdge("replan", "conflict_detect");
+      setActive("conflict_detect");
+    }
+
+    else if (ev.type === "early_stop") {
       markDone("replan");
       meta["replan"] = "⚡ dừng sớm";
-      setActive("synthesize");
-    } else if (ev.type === "replan") {
+      traverseEdge("replan", "conflict_detect");
+      setActive("conflict_detect");
+    }
+
+    else if (ev.type === "replan") {
       traverseEdge("replan", "retrieve");
       markDone("replan");
       iteration = ev.data.iteration || iteration + 1;
       meta["replan"] = `🔄 vòng ${iteration}`;
       setActive("retrieve");
-    } else if (ev.type === "synthesize") {
-      traverseEdge("synthesize", "verify_answer");
+    }
+
+    else if (ev.type === "conflict_detect") {
+      if (route === "simple") {
+        traverseEdge("retrieve", "conflict_detect");
+      } else if (
+        meta["replan"] === "⏹ đạt giới hạn" ||
+        meta["replan"] === "⚡ dừng sớm"
+      ) {
+        traverseEdge("replan", "conflict_detect");
+      } else {
+        traverseEdge("sufficiency", "conflict_detect");
+      }
+
+      markDone("conflict_detect");
+
+      const n = ev.data.conflict_pairs?.length || 0;
+      meta["conflict_detect"] = ev.data.has_conflict
+        ? `⚠ ${n} conflict`
+        : "✓ không conflict";
+
+      traverseEdge("conflict_detect", "synthesize");
+      setActive("synthesize");
+    }
+
+    else if (ev.type === "synthesize") {
+      if (states["conflict_detect"] === "active") {
+        markDone("conflict_detect");
+        traverseEdge("conflict_detect", "synthesize");
+      }
+
       markDone("synthesize");
       meta["synthesize"] = `${ev.data.n_context || 0} ngữ cảnh`;
+      traverseEdge("synthesize", "verify_answer");
       setActive("verify_answer");
-    } else if (ev.type === "verify_answer") {
+    }
+
+    else if (ev.type === "verify_answer") {
       markDone("verify_answer");
+
       if (ev.data.grounded) {
         traverseEdge("verify_answer", "answer");
         meta["verify_answer"] = "✓ bám nguồn";
@@ -251,7 +316,9 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         meta["verify_answer"] = "⚠ hallucinate → tái tạo";
         setActive("synthesize");
       }
-    } else if (ev.type === "error") {
+    }
+
+    else if (ev.type === "error") {
       const node = ev.data.node;
       if (node && NODE_MAP[node]) {
         states[node] = "error";
@@ -264,7 +331,9 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
 
   if (hasAnswer) {
     for (const n of NODES) {
-      if (states[n.id] === "active") states[n.id] = "done";
+      if (states[n.id] === "active") {
+        states[n.id] = "done";
+      }
     }
     states["answer"] = "done";
     active = null;
@@ -290,7 +359,7 @@ export default function AgentGraph({ events, liveAnswer, done }: Props) {
 
   return (
     <div className="agent-graph">
-      <svg viewBox="0 0 520 890" preserveAspectRatio="xMidYMin meet">
+      <svg viewBox="0 0 520 980" preserveAspectRatio="xMidYMin meet">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
             <path d="M0,0 L10,5 L0,10 z" fill="#8b9bc3" />
