@@ -74,6 +74,7 @@ export interface AppConfig {
   llm_model: string;
   llm_model_fast: string;
   embed_model: string;
+  enable_conflict_rag: boolean;
   use_reranker: boolean;
   reranker_model: string;
   max_upload_size: number;

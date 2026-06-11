@@ -127,6 +127,7 @@ def config():
         "llm_model": settings.llm_model,
         "llm_model_fast": settings.llm_model_fast,
         "embed_model": settings.embed_model,
+        "enable_conflict_rag": settings.enable_conflict_rag,
         "use_reranker": settings.use_reranker,
         "reranker_model": settings.reranker_model,
         "max_upload_size": settings.max_upload_size,

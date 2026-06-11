@@ -14,6 +14,7 @@ interface Props {
   onOpenCitation: (c: Citation) => void;
   hasDocs: boolean;
   openaiReady: boolean;
+  conflictEnabled: boolean;
   configLoaded: boolean;
   messagesLoading: boolean;
 }
@@ -41,6 +42,7 @@ export default function ChatPanel({
   onOpenCitation,
   hasDocs,
   openaiReady,
+  conflictEnabled,
   configLoaded,
   messagesLoading,
 }: Props) {
@@ -337,7 +339,7 @@ export default function ChatPanel({
                     ) : m.role === "assistant" ? null : (
                       <div className="user-text">{m.content}</div>
                     )}
-                    {m.role === "assistant" && m.status === "complete" && (
+                    {conflictEnabled && m.role === "assistant" && m.status === "complete" && (
                       <ConflictReportCard report={getConflictReport(m.trace)} />
                     )}
                     {m.role === "assistant" && m.citations && m.citations.length > 0 && m.status === "complete" && (
@@ -373,7 +375,7 @@ export default function ChatPanel({
                       <div className="typing">●●●</div>
                     )}
 
-                    <ConflictReportCard report={getConflictReport(liveTrace)} compact />
+                    {conflictEnabled && <ConflictReportCard report={getConflictReport(liveTrace)} compact />}
                     <div className="bubble-actions">
                       <button className="btn danger small" onClick={cancelChat}>Hủy</button>
                     </div>
@@ -444,7 +446,12 @@ export default function ChatPanel({
                 ▶
               </button>
             </div>
-            <AgentGraph events={graphEvents} liveAnswer={graphAnswer} done={!isProcessing && !!lastAssistant} />
+            <AgentGraph
+              events={graphEvents}
+              liveAnswer={graphAnswer}
+              done={!isProcessing && !!lastAssistant}
+              conflictEnabled={conflictEnabled}
+            />
             <div className="agent-panel-legend">
               <div><span className="legend-dot active" /> <b>Đang xử lý</b></div>
               <div><span className="legend-dot done" /> <b>Hoàn thành</b></div>

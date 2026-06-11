@@ -69,22 +69,38 @@ const EDGES: EdgeDef[] = [
   { from: "verify_answer", to: "synthesize", label: "tái tạo",   lx: 35,  ly: 778, anchor: "middle" },
 ];
 
-const NODE_MAP: Record<string, NodeDef> = Object.fromEntries(
-  NODES.map((n) => [n.id, n])
-);
+function graphNodes(conflictEnabled: boolean): NodeDef[] {
+  return conflictEnabled ? NODES : NODES.filter((n) => n.id !== "conflict_detect");
+}
 
-function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
+function graphEdges(conflictEnabled: boolean): EdgeDef[] {
+  if (conflictEnabled) return EDGES;
+  return EDGES
+    .filter((e) => e.from !== "conflict_detect" && e.to !== "conflict_detect")
+    .concat([
+      { from: "retrieve", to: "synthesize", label: "kiểm tra tắt", lx: 116, ly: 505 },
+      { from: "sufficiency", to: "synthesize", label: "đủ", lx: 285, ly: 625 },
+      { from: "replan", to: "synthesize", label: "dừng", lx: 325, ly: 635 },
+    ]);
+}
+
+function deriveStates(events: TraceEvent[], hasAnswer: boolean, conflictEnabled: boolean): {
   states: Record<string, NodeState>;
   edgeStates: Record<string, EdgeState>;
   route: string | null;
   meta: Record<string, string>;
 } {
+  const visibleNodes = graphNodes(conflictEnabled);
+  const visibleEdges = graphEdges(conflictEnabled);
+  const visibleNodeMap: Record<string, NodeDef> = Object.fromEntries(
+    visibleNodes.map((n) => [n.id, n])
+  );
   const states: Record<string, NodeState> = Object.fromEntries(
-    NODES.map((n) => [n.id, "idle"])
+    visibleNodes.map((n) => [n.id, "idle"])
   );
 
   const edgeStates: Record<string, EdgeState> = Object.fromEntries(
-    EDGES.map((e) => [`${e.from}→${e.to}`, "idle"])
+    visibleEdges.map((e) => [`${e.from}→${e.to}`, "idle"])
   );
 
   const meta: Record<string, string> = {};
@@ -116,7 +132,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
   };
 
   const markSkippedEdges = () => {
-    for (const e of EDGES) {
+    for (const e of visibleEdges) {
       const key = `${e.from}→${e.to}`;
       if (edgeStates[key] === "idle") {
         const fromSkipped = states[e.from] === "skipped";
@@ -131,7 +147,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
   for (const ev of events) {
     if (ev.type === "thinking") {
       const node = ev.data.node;
-      if (node && NODE_MAP[node]) {
+      if (node && visibleNodeMap[node]) {
         setActive(node);
       }
     }
@@ -174,7 +190,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         states["verify"] = "skipped";
         states["sufficiency"] = "skipped";
         states["replan"] = "skipped";
-        states["conflict_detect"] = "skipped";
+        if (conflictEnabled) states["conflict_detect"] = "skipped";
         states["synthesize"] = "skipped";
         states["verify_answer"] = "skipped";
 
@@ -203,8 +219,13 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
 
       if (route === "simple") {
         traverseEdge("simple", "retrieve");
-        traverseEdge("retrieve", "conflict_detect");
-        setActive("conflict_detect");
+        if (conflictEnabled) {
+          traverseEdge("retrieve", "conflict_detect");
+          setActive("conflict_detect");
+        } else {
+          traverseEdge("retrieve", "synthesize");
+          setActive("synthesize");
+        }
       } else {
         traverseEdge("retrieve", "distill");
         setActive("distill");
@@ -231,8 +252,13 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
       meta["sufficiency"] = suf ? "✓ đủ thông tin" : "⚠ chưa đủ";
 
       if (suf) {
-        traverseEdge("sufficiency", "conflict_detect");
-        setActive("conflict_detect");
+        if (conflictEnabled) {
+          traverseEdge("sufficiency", "conflict_detect");
+          setActive("conflict_detect");
+        } else {
+          traverseEdge("sufficiency", "synthesize");
+          setActive("synthesize");
+        }
       } else {
         traverseEdge("sufficiency", "replan");
         setActive("replan");
@@ -243,22 +269,37 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
       traverseEdge("verify", "sufficiency");
       markDone("sufficiency");
       meta["sufficiency"] = "✓ tất cả bám nguồn";
-      traverseEdge("sufficiency", "conflict_detect");
-      setActive("conflict_detect");
+      if (conflictEnabled) {
+        traverseEdge("sufficiency", "conflict_detect");
+        setActive("conflict_detect");
+      } else {
+        traverseEdge("sufficiency", "synthesize");
+        setActive("synthesize");
+      }
     }
 
     else if (ev.type === "max_iters") {
       markDone("replan");
       meta["replan"] = "⏹ đạt giới hạn";
-      traverseEdge("replan", "conflict_detect");
-      setActive("conflict_detect");
+      if (conflictEnabled) {
+        traverseEdge("replan", "conflict_detect");
+        setActive("conflict_detect");
+      } else {
+        traverseEdge("replan", "synthesize");
+        setActive("synthesize");
+      }
     }
 
     else if (ev.type === "early_stop") {
       markDone("replan");
       meta["replan"] = "⚡ dừng sớm";
-      traverseEdge("replan", "conflict_detect");
-      setActive("conflict_detect");
+      if (conflictEnabled) {
+        traverseEdge("replan", "conflict_detect");
+        setActive("conflict_detect");
+      } else {
+        traverseEdge("replan", "synthesize");
+        setActive("synthesize");
+      }
     }
 
     else if (ev.type === "replan") {
@@ -270,6 +311,8 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
     }
 
     else if (ev.type === "conflict_detect") {
+      if (!conflictEnabled) continue;
+
       if (route === "simple") {
         traverseEdge("retrieve", "conflict_detect");
       } else if (
@@ -293,9 +336,20 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
     }
 
     else if (ev.type === "synthesize") {
-      if (states["conflict_detect"] === "active") {
+      if (conflictEnabled && states["conflict_detect"] === "active") {
         markDone("conflict_detect");
         traverseEdge("conflict_detect", "synthesize");
+      } else if (!conflictEnabled) {
+        if (route === "simple") {
+          traverseEdge("retrieve", "synthesize");
+        } else if (
+          meta["replan"] === "⏹ đạt giới hạn" ||
+          meta["replan"] === "⚡ dừng sớm"
+        ) {
+          traverseEdge("replan", "synthesize");
+        } else {
+          traverseEdge("sufficiency", "synthesize");
+        }
       }
 
       markDone("synthesize");
@@ -320,7 +374,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
 
     else if (ev.type === "error") {
       const node = ev.data.node;
-      if (node && NODE_MAP[node]) {
+      if (node && visibleNodeMap[node]) {
         states[node] = "error";
         meta[node] = ev.data.message || "Lỗi";
       }
@@ -330,7 +384,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
   markSkippedEdges();
 
   if (hasAnswer) {
-    for (const n of NODES) {
+    for (const n of visibleNodes) {
       if (states[n.id] === "active") {
         states[n.id] = "done";
       }
@@ -348,13 +402,26 @@ interface Props {
   events: TraceEvent[];
   liveAnswer?: string;
   done?: boolean;
+  conflictEnabled?: boolean;
 }
 
-export default function AgentGraph({ events, liveAnswer, done }: Props) {
+export default function AgentGraph({ events, liveAnswer, done, conflictEnabled = true }: Props) {
   const hasAnswer = !!(liveAnswer && liveAnswer.length > 0) || !!done;
   const { states, edgeStates, meta } = useMemo(
-    () => deriveStates(events, hasAnswer),
-    [events, hasAnswer]
+    () => deriveStates(events, hasAnswer, conflictEnabled),
+    [events, hasAnswer, conflictEnabled]
+  );
+  const visibleNodes = useMemo(
+    () => graphNodes(conflictEnabled),
+    [conflictEnabled]
+  );
+  const visibleEdges = useMemo(
+    () => graphEdges(conflictEnabled),
+    [conflictEnabled]
+  );
+  const visibleNodeMap = useMemo(
+    () => Object.fromEntries(visibleNodes.map((n) => [n.id, n])) as Record<string, NodeDef>,
+    [visibleNodes]
   );
 
   return (
@@ -369,9 +436,9 @@ export default function AgentGraph({ events, liveAnswer, done }: Props) {
           </marker>
         </defs>
 
-        {EDGES.map((e, i) => {
-          const a = NODE_MAP[e.from];
-          const b = NODE_MAP[e.to];
+        {visibleEdges.map((e, i) => {
+          const a = visibleNodeMap[e.from];
+          const b = visibleNodeMap[e.to];
           if (!a || !b) return null;
 
           const edgeKey = `${e.from}→${e.to}`;
@@ -426,7 +493,7 @@ export default function AgentGraph({ events, liveAnswer, done }: Props) {
           );
         })}
 
-        {NODES.map((n) => {
+        {visibleNodes.map((n) => {
           const state = states[n.id];
           return (
             <g key={n.id} className={`node node-${state}`} transform={`translate(${n.x},${n.y})`}>
