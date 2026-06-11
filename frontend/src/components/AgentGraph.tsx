@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { TraceEvent } from "../lib/types";
+import { conflictShortLabel } from "../lib/conflicts";
 
 type NodeState = "idle" | "active" | "done" | "skipped" | "error";
 type EdgeState = "idle" | "traversed" | "skipped";
@@ -29,13 +30,14 @@ const NODES: NodeDef[] = [
   { id: "complex",       label: "Multi-hop",      sub: "Agent đầy đủ",           x: 330, y: 110, w: 140, h: 56 },
   { id: "planner",       label: "Planner",        sub: "Tách câu hỏi con",       x: 330, y: 200, w: 140, h: 56 },
   { id: "retrieve",      label: "Retrieve",       sub: "BM25 + Dense + Rerank",  x: 180, y: 300, w: 140, h: 60 },
-  { id: "distill",       label: "Distill",        sub: "Chắt lọc ngữ cảnh",      x: 180, y: 390, w: 140, h: 56 },
-  { id: "verify",        label: "Verify",         sub: "Bám nguồn (Self-RAG)",   x: 180, y: 470, w: 140, h: 56 },
-  { id: "sufficiency",   label: "Sufficiency",    sub: "Đủ thông tin?",          x: 330, y: 550, w: 140, h: 56 },
-  { id: "replan",        label: "Replan",         sub: "Lập lại kế hoạch",       x: 330, y: 640, w: 140, h: 56 },
-  { id: "synthesize",    label: "Synthesize",     sub: "Sinh câu trả lời",       x: 180, y: 640, w: 140, h: 56 },
-  { id: "verify_answer", label: "Verify Answer",  sub: "Kiểm chứng trả lời",     x: 180, y: 730, w: 140, h: 56 },
-  { id: "answer",        label: "Answer",         sub: "Stream + Citations",     x: 180, y: 820, w: 140, h: 56 },
+  { id: "drag",          label: "DRAG",           sub: "Phân loại conflict",     x: 180, y: 390, w: 140, h: 56 },
+  { id: "distill",       label: "Distill",        sub: "Chắt lọc ngữ cảnh",      x: 180, y: 480, w: 140, h: 56 },
+  { id: "verify",        label: "Verify",         sub: "Bám nguồn (Self-RAG)",   x: 180, y: 560, w: 140, h: 56 },
+  { id: "sufficiency",   label: "Sufficiency",    sub: "Đủ thông tin?",          x: 330, y: 650, w: 140, h: 56 },
+  { id: "replan",        label: "Replan",         sub: "Lập lại kế hoạch",       x: 330, y: 740, w: 140, h: 56 },
+  { id: "synthesize",    label: "Synthesize",     sub: "Sinh câu trả lời",       x: 180, y: 740, w: 140, h: 56 },
+  { id: "verify_answer", label: "Verify Answer",  sub: "Kiểm chứng trả lời",     x: 180, y: 830, w: 140, h: 56 },
+  { id: "answer",        label: "Answer",         sub: "Stream + Citations",     x: 180, y: 920, w: 140, h: 56 },
 ];
 
 // Every edge has a short Vietnamese label + absolute label position.
@@ -54,26 +56,27 @@ const EDGES: EdgeDef[] = [
   { from: "simple", to: "retrieve",  label: "",             lx: 0,   ly: 0 },
 
   // ── Retrieve outputs ──
-  { from: "retrieve", to: "distill",    label: "multi-hop",  lx: 260, ly: 345 },
-  { from: "retrieve", to: "synthesize", label: "single-hop", lx: 255, ly: 475 },
+  { from: "retrieve", to: "drag",       label: "",           lx: 0,   ly: 0 },
+  { from: "drag", to: "distill",        label: "multi-hop",  lx: 260, ly: 435 },
+  { from: "drag", to: "synthesize",     label: "single-hop", lx: 255, ly: 575 },
 
   // ── Complex verification chain ──
   { from: "distill", to: "verify",     label: "",            lx: 0,   ly: 0 },
-  { from: "verify", to: "sufficiency",  label: "",           lx: 280, ly: 505 },
+  { from: "verify", to: "sufficiency",  label: "",           lx: 280, ly: 595 },
 
   // ── Sufficiency exits ──
-  { from: "sufficiency", to: "synthesize", label: "đủ",     lx: 280, ly: 598 },
-  { from: "sufficiency", to: "replan",     label: "chưa đủ", lx: 415, ly: 598 },
+  { from: "sufficiency", to: "synthesize", label: "đủ",     lx: 280, ly: 698 },
+  { from: "sufficiency", to: "replan",     label: "chưa đủ", lx: 415, ly: 698 },
 
   // ── Replan loop ──
-  { from: "replan", to: "retrieve",       label: "lặp lại",  lx: 488, ly: 465, anchor: "start" },
+  { from: "replan", to: "retrieve",       label: "lặp lại",  lx: 488, ly: 540, anchor: "start" },
 
   // ── Post-retrieval convergence ──
   { from: "synthesize", to: "verify_answer", label: "",     lx: 0,   ly: 0 },
 
   // ── Verify Answer exits ──
-  { from: "verify_answer", to: "answer",     label: "bám nguồn", lx: 258, ly: 778 },
-  { from: "verify_answer", to: "synthesize", label: "tái tạo",  lx: 35,  ly: 688, anchor: "middle" },
+  { from: "verify_answer", to: "answer",     label: "bám nguồn", lx: 258, ly: 878 },
+  { from: "verify_answer", to: "synthesize", label: "tái tạo",  lx: 35,  ly: 788, anchor: "middle" },
 ];
 
 const NODE_MAP: Record<string, NodeDef> = Object.fromEntries(NODES.map((n) => [n.id, n]));
@@ -163,6 +166,7 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
         states["complex"] = "skipped";
         states["planner"] = "skipped";
         states["retrieve"] = "skipped";
+        states["drag"] = "skipped";
         states["distill"] = "skipped";
         states["verify"] = "skipped";
         states["sufficiency"] = "skipped";
@@ -185,12 +189,17 @@ function deriveStates(events: TraceEvent[], hasAnswer: boolean): {
       markDone("retrieve");
       const n = ev.data.chunks?.length || 0;
       meta["retrieve"] = `${n} đoạn`;
+      if (route === "simple") traverseEdge("simple", "retrieve");
+      traverseEdge("retrieve", "drag");
+      setActive("drag");
+    } else if (ev.type === "conflict") {
+      markDone("drag");
+      meta["drag"] = conflictShortLabel(ev.data.conflict_type);
       if (route === "simple") {
-        traverseEdge("simple", "retrieve");
-        traverseEdge("retrieve", "synthesize");
+        traverseEdge("drag", "synthesize");
         setActive("synthesize");
       } else {
-        traverseEdge("retrieve", "distill");
+        traverseEdge("drag", "distill");
         setActive("distill");
       }
     } else if (ev.type === "distill") {
@@ -290,7 +299,7 @@ export default function AgentGraph({ events, liveAnswer, done }: Props) {
 
   return (
     <div className="agent-graph">
-      <svg viewBox="0 0 520 890" preserveAspectRatio="xMidYMin meet">
+      <svg viewBox="0 0 520 990" preserveAspectRatio="xMidYMin meet">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
             <path d="M0,0 L10,5 L0,10 z" fill="#8b9bc3" />

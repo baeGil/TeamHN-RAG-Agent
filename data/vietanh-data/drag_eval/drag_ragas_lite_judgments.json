@@ -1,0 +1,22 @@
+{
+  "D001:baseline:585bb33376ea7726": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_lite": 1.0,
+    "reason": "The answer accurately reflects the main issue studied in the paper, which is how RAG systems should detect and handle conflicting information from retrieved sources. It directly addresses the question without adding extraneous information, aligning with the expected conflict behavior."
+  },
+  "D001:drag:96a0f20b1dd00b4e": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_lite": 1.0,
+    "reason": "The answer accurately reflects the main focus of the paper, which is on detecting and addressing knowledge conflicts in RAG systems. It directly addresses the question without adding extraneous information, aligning with the expected conflict behavior. The contexts provided support the claims made in the answer, ensuring high precision and recall."
+  }
+}

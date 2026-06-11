@@ -47,6 +47,7 @@ from typing import Any, Iterator, Optional
 
 from ..config import get_settings
 from ..indexing.store import KnowledgeBase, RetrievedChunk
+from ..retrieval.drag import ConflictAssessment, DRAGRetriever
 from . import prompts
 from .llm import LLM
 
@@ -81,6 +82,7 @@ class Agent:
         self.kb = kb
         self.llm = LLM()
         self.settings = get_settings()
+        self.drag = DRAGRetriever(kb, self.llm, evidence_k=max(8, self.settings.final_top_k))
 
     def summarize_conversation(
         self,
@@ -164,9 +166,11 @@ class Agent:
 
     def _generate_and_verify(
         self, question, history, context_chunks, steps, route, summary=None,
+        conflict_assessment: Optional[ConflictAssessment] = None,
     ) -> tuple[str, bool, str]:
         """Generate answer internally (no streaming) and verify grounding."""
         ctx = prompts.build_context(context_chunks, label_key="label")
+        drag_guidance = self._drag_guidance(conflict_assessment)
         notes = ""
         if route == "complex":
             grounded_notes = [
@@ -178,6 +182,7 @@ class Agent:
                 notes = "\n\nGHI CHÚ ĐÃ CHẮT LỌC (đã kiểm chứng):\n" + "\n".join(grounded_notes)
 
         user_msg = (
+            f"{drag_guidance}"
             f"NGỮ CẢNH:\n{ctx}{notes}\n\n"
             f"CÂU HỎI:\n{question}\n\n"
             "Hãy trả lời theo đúng quy tắc, trích dẫn bằng [số] tương ứng với các đoạn ngữ cảnh."
@@ -529,6 +534,19 @@ class Agent:
             )
             return
 
+        conflict_assessment: Optional[ConflictAssessment] = None
+        if self.settings.enable_drag:
+            node_started = time.perf_counter()
+            yield emit("thinking", {"node": "drag"})
+            conflict_assessment = self.drag.assess_conflict_dicts(question, context_chunks)
+            logger.info(
+                "RAG_FLOW node_end node=drag duration_ms=%.1f conflict_type=%s confidence=%.2f",
+                (time.perf_counter() - node_started) * 1000,
+                conflict_assessment.conflict_type,
+                conflict_assessment.confidence,
+            )
+            yield emit("conflict", conflict_assessment.to_dict())
+
         # --- Synthesize ---
         node_started = time.perf_counter()
         yield emit("thinking", {"node": "synthesize"})
@@ -548,6 +566,7 @@ class Agent:
             # Generate internally (no streaming) and verify grounding
             answer_text, is_grounded, v_reason = self._generate_and_verify(
                 question, history, context_chunks, steps, route, summary=summary,
+                conflict_assessment=conflict_assessment,
             )
             logger.info(
                 "RAG_FLOW node_end node=synthesize duration_ms=%.1f answer_chars=%s grounded=%s",
@@ -596,6 +615,7 @@ class Agent:
                         question, history, context_chunks, steps, route, trace, emit,
                         partial_warning=partial_warning, regenerate_reason=v_reason,
                         iterations=iteration, summary=summary,
+                        conflict_assessment=conflict_assessment,
                     )
                     yield emit("verify_answer", {"grounded": True, "reason": "Đã tạo lại câu trả lời."})
                     # _synthesize skips "final" when regenerating — emit it here.
@@ -656,6 +676,7 @@ class Agent:
             answer_result = yield from self._synthesize(
                 question, history, context_chunks, steps, route, trace, emit,
                 partial_warning=partial_warning, iterations=iteration, summary=summary,
+                conflict_assessment=conflict_assessment,
             )
             logger.info(
                 "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s answer_chars=%s",
@@ -702,6 +723,19 @@ class Agent:
             )
         return cits
 
+    @staticmethod
+    def _drag_guidance(conflict_assessment: Optional[ConflictAssessment]) -> str:
+        if not conflict_assessment:
+            return ""
+        return (
+            "DRAG_CONFLICT_ASSESSMENT:\n"
+            f"- type: {conflict_assessment.conflict_type}\n"
+            f"- display: {conflict_assessment.display_sentence}\n"
+            f"- rationale: {conflict_assessment.rationale}\n"
+            f"- answer_policy: {conflict_assessment.answer_policy}\n"
+            f"- expected_behavior: {conflict_assessment.expected_behavior}\n\n"
+        )
+
     def _synthesize(
         self,
         question,
@@ -715,8 +749,10 @@ class Agent:
         regenerate_reason: Optional[str] = None,
         iterations: int = 0,
         summary: Optional[str] = None,
+        conflict_assessment: Optional[ConflictAssessment] = None,
     ):
         ctx = prompts.build_context(context_chunks, label_key="label")
+        drag_guidance = self._drag_guidance(conflict_assessment)
         notes = ""
         if route == "complex":
             grounded_notes = [
@@ -737,6 +773,7 @@ class Agent:
             warning = "\n\n⚠️ Lưu ý: Thông tin có thể chưa đầy đủ cho một số khía cạnh của câu hỏi. Chỉ trả lời dựa trên ngữ cảnh có sẵn."
 
         user_msg = (
+            f"{drag_guidance}"
             f"NGỮ CẢNH:\n{ctx}{notes}{warning}\n\n"
             f"CÂU HỎI:\n{question}\n\n"
             "Hãy trả lời theo đúng quy tắc, trích dẫn bằng [số] tương ứng với các đoạn ngữ cảnh."

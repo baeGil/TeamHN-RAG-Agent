@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { TraceEvent } from "../lib/types";
+import { conflictLabel, conflictSentence, normalizeConflictType } from "../lib/conflicts";
 
 const ROUTE_LABEL: Record<string, string> = {
   simple: "Single-hop (đường nhanh)",
@@ -24,6 +25,7 @@ function Icon({ type }: { type: string }) {
     max_iters: "⏹",
     early_stop: "⚡",
     verify_answer: "🔍",
+    conflict: "⚖️",
     summary: "📝",
   };
   return <span className="trace-icon">{map[type] || "•"}</span>;
@@ -148,6 +150,20 @@ export default function AgentTrace({
                       {e.data.grounded ? "Bám nguồn ✓" : "Chưa chắc chắn ⚠"}
                     </span>
                     {e.data.reason ? <span className="trace-sub"> {e.data.reason}</span> : null}
+                  </div>
+                )}
+                {e.type === "conflict" && (
+                  <div>
+                    <b>DRAG conflict:</b>{" "}
+                    <span className={normalizeConflictType(e.data.conflict_type) === "no_conflict" ? "ok" : "warn"}>
+                      {conflictLabel(e.data.conflict_type)}
+                    </span>
+                    {typeof e.data.confidence === "number" ? (
+                      <span className="trace-sub"> ({Math.round(e.data.confidence * 100)}%)</span>
+                    ) : null}
+                    <div className="trace-sub">
+                      {conflictSentence(e.data.conflict_type, e.data.display_sentence)}
+                    </div>
                   </div>
                 )}
                 {e.type === "summary" && (

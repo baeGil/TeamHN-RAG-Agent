@@ -1,0 +1,355 @@
+{
+  "n_questions": 1,
+  "k": 5,
+  "pdf": "D:\\TeamHN-RAG-Agent\\data\\vietanh-data\\DRAG.pdf",
+  "dataset": "D:\\TeamHN-RAG-Agent\\data\\vietanh-data\\drag_eval\\drag_mock_qa.jsonl",
+  "overall": {
+    "baseline": {
+      "retrieval": {
+        "recall@5": 1.0,
+        "mrr@5": 0.5,
+        "hit@5": 1.0
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0,
+        "context_recall": 1.0,
+        "answer_correctness": 1.0,
+        "behavior_alignment": 1.0,
+        "ragas_avg": 1.0
+      },
+      "avg_latency_s": 31.547328300001027,
+      "total_latency_s": 31.547328300001027,
+      "avg_tokens": 1709.0,
+      "total_tokens": 1709,
+      "total_llm_calls": 1
+    },
+    "drag": {
+      "retrieval": {
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "hit@5": 1.0
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0,
+        "context_recall": 1.0,
+        "answer_correctness": 1.0,
+        "behavior_alignment": 1.0,
+        "ragas_avg": 1.0
+      },
+      "avg_latency_s": 207.6169303000006,
+      "total_latency_s": 207.6169303000006,
+      "avg_tokens": 3846.0,
+      "total_tokens": 3846,
+      "total_llm_calls": 2
+    }
+  },
+  "by_conflict_type": {
+    "conflicting_opinions": {
+      "baseline": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 31.547328300001027,
+        "total_latency_s": 31.547328300001027,
+        "avg_tokens": 1709.0,
+        "total_tokens": 1709,
+        "total_llm_calls": 1
+      },
+      "drag": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 207.6169303000006,
+        "total_latency_s": 207.6169303000006,
+        "avg_tokens": 3846.0,
+        "total_tokens": 3846,
+        "total_llm_calls": 2
+      }
+    }
+  },
+  "by_difficulty": {
+    "medium": {
+      "baseline": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 31.547328300001027,
+        "total_latency_s": 31.547328300001027,
+        "avg_tokens": 1709.0,
+        "total_tokens": 1709,
+        "total_llm_calls": 1
+      },
+      "drag": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 207.6169303000006,
+        "total_latency_s": 207.6169303000006,
+        "avg_tokens": 3846.0,
+        "total_tokens": 3846,
+        "total_llm_calls": 2
+      }
+    }
+  },
+  "per_question": [
+    {
+      "qid": "D020",
+      "question": "Theo phân tích lỗi, vanilla model thường mắc lỗi gì với câu hỏi thuộc loại conflicting opinions?",
+      "expected": "Chúng thường chỉ trình bày một quan điểm, hoặc trình bày nhiều quan điểm nhưng thiên lệch mạnh về một phía, thay vì phản ánh bất đồng một cách trung lập.",
+      "conflict_type": "conflicting_opinions",
+      "difficulty": "medium",
+      "expected_behavior": "Nêu đúng lỗi hành vi ở nhóm conflicting opinions.",
+      "baseline": {
+        "answer": "Theo phân tích lỗi, với câu hỏi thuộc loại **conflicting opinions**, vanilla model thường **chỉ đưa ra một quan điểm duy nhất hoặc nhiều quan điểm nhưng thiên lệch mạnh về một phía**, thay vì phản ánh đầy đủ các góc nhìn liên quan [2][3]. Trong bảng kết quả, đây cũng là loại có độ chính xác hành vi kỳ vọng thấp nhất dưới prompt Vanilla, chỉ đạt **36.2%** [3][4].",
+        "chunks": [
+          {
+            "label": 1,
+            "chunk_id": 38,
+            "text": "Flash with Thinking mode. These relatively low Conflict type prediction: We prompt the model scores reveal that, while models can be grounded with the query, retrieved evidence, and our taxon- on the search results and include the correct an- omy T (Table 1), which includes category defini- swer, they sometimes fail to follow the expected tions and 1–2 illustrative examples per class. The behavior. This highlights the importance of evalu- model is then asked to classify the type of conflict ating not only the factual accuracy and grounding of model outputs, but also whether the style of the Response Generation: We explore multiple response aligns with human preferences. prompting strategies for generating the response yˆ: Result 2: Explicitly incorporating conflict 1. Vanilla: A standard RAG-style approach type improves expected behavior. The Oracle where the model receives the query and search prompt, which augments the LLM input with the results as input and generates a response: gold conflict type from CONFLICTS, substantially p (y|[√; C ]) (Ram et al., 2023). improves adherence to the expected response be-\nθ √ havior across all models. On average, it yields a 24- 2.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 8,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.29588180709041056
+          },
+          {
+            "label": 2,
+            "chunk_id": 42,
+            "text": "For each model and prompt strategy, we report the expected behavior accuracy, answer recall and factual grounding (§4). knowledge conflicts, including handling irrelevant puts that do not adhere to the expected behavior sources due to an imperfect retrieval (Yoran et al., from our best-performing model (Gemini 2.5 Flash 2024), determining when to refine the user query with thinking). For the Complementary informa- and to search for additional evidence, or address- tion category, the most common error was under- ing queries with safety concerns. Therefore, future specification: model response often include only work can explore how to integrate such conflict- one correct answer, failing to capture the full range aware methods into practical RAG systems. of relevant results (see Table 3). For Conflicting opinions, models either present only a single view- 5.3 Analysis point or multiple viewpoints with a strong bias Expected behavior per category Table 6 toward one perspective. In the No conflict and presents the expected behavior evaluation for each Freshness categories, models frequently hedge by category in our taxonomy (§2).",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 9,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.24437242631372166
+          },
+          {
+            "label": 3,
+            "chunk_id": 43,
+            "text": "In the No conflict and presents the expected behavior evaluation for each Freshness categories, models frequently hedge by category in our taxonomy (§2). For brevity, we expressing uncertainty or mentioning multiple pos- report the performance of Gemini 2.5 Flash with sible answers. thinking mode, other models showing similar 6 Related Work trends. The most challenging category is “Conflict- ing opinions” with Gemini achieving only 36.2% 6.1 Retrieval Augmented Generation under the Vanilla prompt. The pipeline approach Retrieval Augmented Generation (RAG) consists improves the expected behavior for Complemen- of conditioning a model on relevant documents tary information, Freshness and Misinformation from a large corpus during generation (Guu et al., and Conflicting opinions, with a slight drop in No 2020; Lewis et al., 2020; Izacard et al., 2023; conflict. Borgeaud et al., 2021; Ram et al., 2023; Gao et al., Error Analysis To better understand the head- 2023b). Retrieved documents can bring conflicting room in conforming to the expected behavior, information, which can complicate the generation we manually analyze 40 randomly sampled out- process.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 9,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.2233374406448615
+          },
+          {
+            "label": 4,
+            "chunk_id": 45,
+            "text": "Category Vanilla Pipeline Taxonomy-Aware Oracle No conflict 78.4 74.7 71.0 90.1 Complementary Information 83.3 83.3 78.1 94.7 Freshness and Misinformation 74.2 75.8 78.8 80.3 Conflicting opinions 36.2 73.3 69.8 87.9 Table 6: Expected behavior accuracy of Gemini Flash 2.5 Thinking per category. We combine Freshness and Misinformation because both categories require selecting the correct response. has mostly focused on a single type of conflict, multiple types of knowledge conflicts by extending such as conflicts arising from outdated informa- AmbigDocs with automatically generated misin- tion (Liska et al., 2022; Kasai et al., 2023; Vu et al., formation and retrieval-induced noise. They also 2024), controversial queries with disputed opin- suggest evaluating RAG systems with varying num- ions (Wan et al., 2024; Xu et al., 2024a), ambiguous bers of retrieved sources, similarly to real-world queries (Min et al., 2020; Zhang and Choi, 2021; retrieval distributions.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 10,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.16198244127595074
+          },
+          {
+            "label": 5,
+            "chunk_id": 22,
+            "text": "Therefore, we turn to human annotation by pre- (Conflict Type # Instances)/(No conflict 161) senting annotators with the queries and their cor- responding webpage segments, instructing them Complementary information 115 to label the conflict type based on our taxonomy Conflicting opinions 115 (Section 2). During the annotation, we add two ad- Outdated Information 62 ditional categories: “Other” to capture any conflict (Misinformation 5)/(Total 458) that does not correspond to one of the defined cate- gories in our taxonomy and “No relevant sources” Table 2: Statistics of CONFLICTS. if Google Search yielded no relevant results. In practice, no instances were annotated as “Other”, suggesting that our taxonomy is comprehensive separate source. However, the annotators were ex- and captures well the different conflict types. In plicitly instructed to treat those model-generated addition to the conflict type, annotators were asked responses as optional hints and to disregard them to provide brief, unstructured explanations for their if they appear to be hallucinations. decisions.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 5,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.10097809832556763
+          }
+        ],
+        "ranked_ids": [
+          38,
+          42,
+          43,
+          45,
+          22
+        ],
+        "elapsed": 31.547328300001027,
+        "usage": {
+          "prompt_tokens": 1612,
+          "completion_tokens": 97,
+          "calls": 1
+        },
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.5,
+          "hit@5": 1.0,
+          "top5": [
+            38,
+            42,
+            43,
+            45,
+            22
+          ],
+          "n_relevant_in_pool": 3
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0,
+          "reason": "The answer accurately describes the common errors of vanilla models when handling conflicting opinions, aligning perfectly with the expected answer. It uses relevant contexts to support its claims, ensuring both precision and recall are met. Additionally, the answer adheres to the expected conflict behavior by correctly identifying the bias in presenting opinions."
+        }
+      },
+      "drag": {
+        "answer": "Theo phân tích lỗi, với câu hỏi thuộc loại **conflicting opinions**, vanilla model thường **chỉ प्रस्तुत một quan điểm duy nhất** hoặc **nêu nhiều quan điểm nhưng bị lệch mạnh về một phía**, thay vì trung lập và bao quát đầy đủ các góc nhìn [2]. Đây cũng là loại khó nhất, với độ chính xác chỉ **36.2%** dưới vanilla prompt [1][3].",
+        "chunks": [
+          {
+            "label": 1,
+            "chunk_id": 43,
+            "text": "In the No conflict and presents the expected behavior evaluation for each Freshness categories, models frequently hedge by category in our taxonomy (§2). For brevity, we expressing uncertainty or mentioning multiple pos- report the performance of Gemini 2.5 Flash with sible answers. thinking mode, other models showing similar 6 Related Work trends. The most challenging category is “Conflict- ing opinions” with Gemini achieving only 36.2% 6.1 Retrieval Augmented Generation under the Vanilla prompt. The pipeline approach Retrieval Augmented Generation (RAG) consists improves the expected behavior for Complemen- of conditioning a model on relevant documents tary information, Freshness and Misinformation from a large corpus during generation (Guu et al., and Conflicting opinions, with a slight drop in No 2020; Lewis et al., 2020; Izacard et al., 2023; conflict. Borgeaud et al., 2021; Ram et al., 2023; Gao et al., Error Analysis To better understand the head- 2023b). Retrieved documents can bring conflicting room in conforming to the expected behavior, information, which can complicate the generation we manually analyze 40 randomly sampled out- process.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 9,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.8470585313410458
+          },
+          {
+            "label": 2,
+            "chunk_id": 42,
+            "text": "For each model and prompt strategy, we report the expected behavior accuracy, answer recall and factual grounding (§4). knowledge conflicts, including handling irrelevant puts that do not adhere to the expected behavior sources due to an imperfect retrieval (Yoran et al., from our best-performing model (Gemini 2.5 Flash 2024), determining when to refine the user query with thinking). For the Complementary informa- and to search for additional evidence, or address- tion category, the most common error was under- ing queries with safety concerns. Therefore, future specification: model response often include only work can explore how to integrate such conflict- one correct answer, failing to capture the full range aware methods into practical RAG systems. of relevant results (see Table 3). For Conflicting opinions, models either present only a single view- 5.3 Analysis point or multiple viewpoints with a strong bias Expected behavior per category Table 6 toward one perspective. In the No conflict and presents the expected behavior evaluation for each Freshness categories, models frequently hedge by category in our taxonomy (§2).",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 9,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.5504194549640009
+          },
+          {
+            "label": 3,
+            "chunk_id": 45,
+            "text": "Category Vanilla Pipeline Taxonomy-Aware Oracle No conflict 78.4 74.7 71.0 90.1 Complementary Information 83.3 83.3 78.1 94.7 Freshness and Misinformation 74.2 75.8 78.8 80.3 Conflicting opinions 36.2 73.3 69.8 87.9 Table 6: Expected behavior accuracy of Gemini Flash 2.5 Thinking per category. We combine Freshness and Misinformation because both categories require selecting the correct response. has mostly focused on a single type of conflict, multiple types of knowledge conflicts by extending such as conflicts arising from outdated informa- AmbigDocs with automatically generated misin- tion (Liska et al., 2022; Kasai et al., 2023; Vu et al., formation and retrieval-induced noise. They also 2024), controversial queries with disputed opin- suggest evaluating RAG systems with varying num- ions (Wan et al., 2024; Xu et al., 2024a), ambiguous bers of retrieved sources, similarly to real-world queries (Min et al., 2020; Zhang and Choi, 2021; retrieval distributions.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 10,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.38273098814392076
+          },
+          {
+            "label": 4,
+            "chunk_id": 22,
+            "text": "Therefore, we turn to human annotation by pre- (Conflict Type # Instances)/(No conflict 161) senting annotators with the queries and their cor- responding webpage segments, instructing them Complementary information 115 to label the conflict type based on our taxonomy Conflicting opinions 115 (Section 2). During the annotation, we add two ad- Outdated Information 62 ditional categories: “Other” to capture any conflict (Misinformation 5)/(Total 458) that does not correspond to one of the defined cate- gories in our taxonomy and “No relevant sources” Table 2: Statistics of CONFLICTS. if Google Search yielded no relevant results. In practice, no instances were annotated as “Other”, suggesting that our taxonomy is comprehensive separate source. However, the annotators were ex- and captures well the different conflict types. In plicitly instructed to treat those model-generated addition to the conflict type, annotators were asked responses as optional hints and to disregard them to provide brief, unstructured explanations for their if they appear to be hallucinations. decisions.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 5,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.10097809832556763
+          },
+          {
+            "label": 5,
+            "chunk_id": 9,
+            "text": "We believe that our taxonomy Station?”), where models should prioritize recent and dataset will serve as a valuable resource for sources. Others reflect subjective opinions (e.g., evaluating and improving future RAG models. “Are humans fundamentally good or evil?”), where 2 Taxonomy of Knowledge Conflicts models should neutrally present the diversity of all the authoritative perspectives in the sources. We posit that the type of knowledge conflict is im- Inspired by these observations, we propose a portant because different types induce different de- comprehensive framework for handling knowledge sired model behaviors. Consider, for example, the conflicts. We introduce a novel taxonomy of con- controversial query, “Is unlimited vacation time flict categories (§2; Table 1) and, for each category, beneficial for employees?” (Wan et al., 2024). Re- define an expected model behavior — a desired trieved sources may present diverse viewpoints, response style designed to emulate how a human including arguments for and against unlimited va- would typically address that type of conflict. cation time, as well as nuanced analyses of its pros and cons.",
+            "document_id": 1,
+            "doc_title": "DRAG",
+            "doc_source": "DRAG.pdf",
+            "page": 2,
+            "section": "2 the conflict type is essential for generating the ap-",
+            "score": 0.7639778245604081
+          }
+        ],
+        "ranked_ids": [
+          43,
+          42,
+          45,
+          22,
+          9
+        ],
+        "elapsed": 207.6169303000006,
+        "usage": {
+          "prompt_tokens": 3577,
+          "completion_tokens": 269,
+          "calls": 2
+        },
+        "conflict_assessment": {
+          "conflict_type": "conflicting_opinions",
+          "confidence": 0.9,
+          "rationale": "The retrieved passages indicate that models often struggle with conflicting opinions, either presenting a single viewpoint or showing a strong bias towards one perspective. This aligns with the user's question about the common errors of vanilla models in handling conflicting opinions.",
+          "answer_policy": "The answer should acknowledge the presence of conflicting opinions and highlight the challenges faced by vanilla models in addressing them. It should also suggest that models may either present biased views or fail to capture the full range of perspectives.",
+          "follow_up_queries": [
+            "What are the specific challenges faced by vanilla models in handling conflicting opinions?",
+            "Can you provide examples of conflicting opinions that vanilla models struggle with?",
+            "What improvements have been suggested for RAG models to better handle conflicting opinions?"
+          ]
+        },
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            43,
+            42,
+            45,
+            22,
+            9
+          ],
+          "n_relevant_in_pool": 3
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0,
+          "reason": "The answer accurately describes the common errors of vanilla models when handling conflicting opinions, aligning perfectly with the expected answer. It uses relevant contexts to support its claims and addresses the question directly. The behavior alignment is also correct as it identifies the expected conflict behavior for this type of question."
+        }
+      }
+    }
+  ]
+}

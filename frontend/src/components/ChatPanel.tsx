@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Citation, Message, TraceEvent } from "../lib/types";
 import { api, streamChat } from "../lib/api";
+import { conflictLabel, conflictSentence, normalizeConflictType } from "../lib/conflicts";
 import Markdown from "./Markdown";
 import AgentTrace from "./AgentTrace";
 import AgentGraph from "./AgentGraph";
@@ -25,6 +26,30 @@ function normalizeMessage(m: any): Message {
     status: m.status || "complete",
     error_message: m.error_message || null,
   };
+}
+
+function getConflictEvent(events?: TraceEvent[]) {
+  return (events || []).find((e) => e.type === "conflict")?.data || null;
+}
+
+function ConflictStrip({ conflict }: { conflict: any }) {
+  if (!conflict) return null;
+  const type = normalizeConflictType(conflict.conflict_type);
+  const isClear = type === "no_conflict";
+  return (
+    <div className={`conflict-strip ${isClear ? "clear" : "attention"}`}>
+      <div className="conflict-kicker">DRAG conflict</div>
+      <div className="conflict-main">
+        <b>{conflictLabel(type)}</b>
+        {typeof conflict.confidence === "number" ? (
+          <span className="muted small"> {Math.round(conflict.confidence * 100)}%</span>
+        ) : null}
+      </div>
+      <div className="conflict-sentence">
+        {conflictSentence(conflict.conflict_type, conflict.display_sentence)}
+      </div>
+    </div>
+  );
 }
 
 export default function ChatPanel({
@@ -323,6 +348,9 @@ export default function ChatPanel({
                     {m.role === "assistant" && m.status === "failed" && m.error_message && (
                       <div className="error-box">⚠️ {m.error_message}</div>
                     )}
+                    {m.role === "assistant" && (
+                      <ConflictStrip conflict={getConflictEvent(m.trace)} />
+                    )}
                     {m.role === "assistant" && m.content ? (
                       <Markdown content={m.content} citations={m.citations || []} onCite={(label) => {
                         const c = (m.citations || []).find((x) => x.label === label);
@@ -358,6 +386,7 @@ export default function ChatPanel({
                   <div className="avatar">🤖</div>
                   <div className="bubble">
                     <AgentTrace events={liveTrace} live />
+                    <ConflictStrip conflict={getConflictEvent(liveTrace)} />
                     {liveAnswer ? (
                       <Markdown content={liveAnswer} citations={[]} />
                     ) : (

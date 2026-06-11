@@ -130,7 +130,8 @@ export default function App() {
             <span className={`dot ${config?.openai_configured ? "on" : "off"}`} />
             {config
               ? `${config.llm_model} · embed: ${config.embed_model}` +
-                (config.use_reranker ? " · reranker bật" : "")
+                (config.use_reranker ? " · reranker bật" : "") +
+                (config.enable_drag ? " · DRAG bật" : "")
               : "Đang tải…"}
           </div>
           <div className="muted small">Hybrid: BM25 + turbovec (TurboQuant) + RRF</div>

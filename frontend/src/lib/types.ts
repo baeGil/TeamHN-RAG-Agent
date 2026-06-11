@@ -50,6 +50,8 @@ export interface AppConfig {
   llm_model_fast: string;
   embed_model: string;
   use_reranker: boolean;
+  enable_drag: boolean;
   reranker_model: string;
+  reranker_device: string;
   max_upload_size: number;
 }

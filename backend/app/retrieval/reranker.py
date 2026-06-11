@@ -2,10 +2,13 @@
 
 Loaded lazily and degrades gracefully if the model/weights are unavailable.
 """
+import os
 import logging
 import threading
 import time
 from typing import Optional
+
+from ..config import get_settings
 
 logger = logging.getLogger("rag.flow")
 
@@ -13,6 +16,7 @@ logger = logging.getLogger("rag.flow")
 class Reranker:
     def __init__(self, model_name: str) -> None:
         self.model_name = model_name
+        self.settings = get_settings()
         self._model = None
         self._failed = False
         self._lock = threading.Lock()
@@ -27,12 +31,22 @@ class Reranker:
             if self._model is None and not self._failed:
                 started = time.perf_counter()
                 try:
+                    os.environ.setdefault("USE_TF", "0")
+                    os.environ.setdefault("TRANSFORMERS_NO_TF", "1")
                     from FlagEmbedding import FlagReranker
 
-                    self._model = FlagReranker(self.model_name, use_fp16=True)
-                    logger.info(
-                        "RAG_FLOW inference_load node=retrieve component=reranker model=%s duration_ms=%.1f",
+                    device = self._resolve_device()
+                    self._model = FlagReranker(
                         self.model_name,
+                        use_fp16=device != "cpu",
+                        devices=device,
+                        batch_size=self.settings.reranker_batch_size,
+                    )
+                    logger.info(
+                        "RAG_FLOW inference_load node=retrieve component=reranker model=%s device=%s batch_size=%s duration_ms=%.1f",
+                        self.model_name,
+                        device,
+                        self.settings.reranker_batch_size,
                         (time.perf_counter() - started) * 1000,
                     )
                 except Exception:
@@ -44,6 +58,17 @@ class Reranker:
                     self._failed = True
                     self._model = None
         return self._model
+
+    def _resolve_device(self) -> str:
+        configured = (self.settings.reranker_device or "auto").strip().lower()
+        if configured and configured != "auto":
+            return configured
+        try:
+            import torch
+
+            return "cuda" if torch.cuda.is_available() else "cpu"
+        except Exception:
+            return "cpu"
 
     @property
     def available(self) -> bool:

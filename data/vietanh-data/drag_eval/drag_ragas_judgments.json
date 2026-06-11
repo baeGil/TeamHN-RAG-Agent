@@ -1,0 +1,322 @@
+{
+  "D020:baseline:a564b851a9e091c5": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the common errors of vanilla models with conflicting opinions, aligning perfectly with the expected answer. It uses relevant contexts to support its claims and addresses the question directly. The behavior alignment is also met as it correctly identifies the expected conflict behavior."
+  },
+  "D020:drag:eee2d8b70bd8696d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected behavior of vanilla models when handling conflicting opinions, stating that they often present a single viewpoint or multiple viewpoints biased towards one side. It is well-supported by the provided contexts, which discuss the challenges faced by models in this category and the expected behavior. The answer is relevant to the question and correctly identifies the behavior expected in conflicting opinion scenarios."
+  },
+  "D020:baseline:e5fd0a4164c5174b": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected answer regarding the errors of vanilla models with conflicting opinions, supported by relevant contexts. It addresses the question directly and correctly describes the behavior of the model in this context, aligning with the expected conflict behavior."
+  },
+  "D020:drag:4eec8ed9ade1133b": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected behavior of vanilla models in handling conflicting opinions, stating that they often present a single viewpoint or show strong bias towards one perspective. It uses relevant contexts to support these claims and addresses the question directly, demonstrating a clear understanding of the expected conflict behavior."
+  },
+  "D020:baseline:608aec4bc02722fa": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the common errors of vanilla models when handling conflicting opinions, aligning perfectly with the expected answer. It uses relevant contexts to support its claims, ensuring both precision and recall are met. Additionally, the answer adheres to the expected conflict behavior by correctly identifying the bias in presenting opinions."
+  },
+  "D020:drag:7cd19fe6a5c282f5": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the common errors of vanilla models when handling conflicting opinions, aligning perfectly with the expected answer. It uses relevant contexts to support its claims and addresses the question directly. The behavior alignment is also correct as it identifies the expected conflict behavior for this type of question."
+  },
+  "D001:7ffb85af21d6d612:baseline:beac7de29a2eb66a": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately identifies the conflicting opinions regarding intermittent fasting for individuals with diabetes, presenting both sides neutrally as expected. It uses relevant contexts to support its claims and aligns with the expected conflict behavior by summarizing the diverse perspectives without taking a definitive stance."
+  },
+  "D001:7ffb85af21d6d612:drag:d37116af57163c2d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the conflicting opinions regarding intermittent fasting for diabetes patients, presenting both sides neutrally as expected. It uses relevant contexts to support its claims and aligns with the expected behavior of summarizing conflicting viewpoints without bias."
+  },
+  "D002:7062c911e4cbae92:baseline:4a31a700f7455006": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately explains why evaluating only factual grounding is insufficient in the context of conflicting sources, aligning perfectly with the expected answer. It incorporates relevant contexts that support the claims made, addresses the question directly, and adheres to the expected conflict behavior by explaining the need for expected behavior accuracy and answer recall in addition to factual grounding."
+  },
+  "D002:7062c911e4cbae92:drag:501d5c1c0693d7d0": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately explains why evaluating only factual grounding is insufficient in the context of conflicting sources, aligning perfectly with the expected answer. It addresses the question directly, uses relevant contexts effectively, and covers all necessary aspects of the expected answer. Additionally, it follows the expected conflict behavior by explaining the need for expected behavior beyond factual grounding."
+  },
+  "D003:b0b91acda5c8c79c:baseline:47d5899f2b1a9a13": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected behavior of prioritizing the most up-to-date information while acknowledging outdated sources. It is fully supported by the provided contexts, which discuss the importance of freshness in conflicting information. The answer is relevant to the question and correctly addresses the conflict type of freshness."
+  },
+  "D003:b0b91acda5c8c79c:drag:16e3ee6e7ac2f5bb": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.5,
+    "behavior_alignment": 0.5,
+    "ragas_avg": 0.6,
+    "reason": "The answer addresses the question and provides relevant information about the conflicting numbers. However, it does not fully align with the expected conflict behavior of prioritizing the most recent information and clarifying outdated sources. The contexts provided are partially relevant but do not directly support the answer's claims about the conflict behavior."
+  },
+  "D004:e755cdab5798627b:baseline:4727adb72054a87a": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the pipeline for creating CONFLICTS, aligning with the expected answer. It details the steps from query collection to quality control, using relevant contexts to support each claim. The answer is comprehensive, covering all necessary aspects and maintaining the expected conflict behavior."
+  },
+  "D004:e755cdab5798627b:drag:700906072ca7b697": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the pipeline for creating CONFLICTS, aligns with the expected answer, and uses relevant contexts effectively. It covers all necessary steps, including query initialization, source retrieval, conflict labeling, quality control, and data filtering, while also ensuring that the final dataset meets quality standards. The answer is correct and relevant to the question asked."
+  },
+  "D005:8a3fd0cbd20f7f70:baseline:700a110a89209da5": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately explains why stating only King Fahd International Airport is insufficient by discussing multiple criteria for defining the 'biggest' airport, which aligns with the expected conflict behavior of providing complementary information."
+  },
+  "D005:8a3fd0cbd20f7f70:drag:35196da23fb7970a": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately explains why mentioning only King Fahd International Airport is insufficient by highlighting the different criteria for 'biggest' airports. It uses relevant contexts to support its claims and provides a comprehensive view that aligns with the expected conflict behavior of synthesizing complementary information."
+  },
+  "D006:a719d2a93ee2f672:baseline:45ff383468661f96": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the similarities and differences in input and output between Task 1 and Task 2, aligning with the expected answer. It uses relevant contexts to support its claims and adheres to the expected conflict behavior by comparing the two tasks as requested."
+  },
+  "D006:a719d2a93ee2f672:drag:07a5d60a5fba015b": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the similarities and differences in input and output between Task 1 and Task 2, aligning with the expected answer. It uses relevant contexts to support its claims and adheres to the expected conflict behavior by comparing the two tasks as requested."
+  },
+  "D007:d74de9436471f552:baseline:3c778c5f0eec6e26": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately identifies the misinformation regarding the release dates of Prison Break season 5, prioritizing the correct date and explaining why the incorrect date should not be treated as valid. It uses relevant contexts to support its claims and aligns with the expected conflict behavior by emphasizing the verified information."
+  },
+  "D007:d74de9436471f552:drag:6b049ba7fa856634": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately identifies the misinformation regarding the release dates of Prison Break season 5, prioritizing the verified date of April 4, 2017, and correctly dismissing the incorrect date of May 30, 2017. It aligns with the expected conflict behavior by clarifying the misinformation and not treating both dates as equivalent."
+  },
+  "D008:34768a025040c6ed:baseline:2fd6cad6e8617d35": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately summarizes the data from Table 2 and explains why the distribution should not be interpreted as a natural distribution of conflicts on search engines, aligning perfectly with the expected answer and behavior."
+  },
+  "D008:34768a025040c6ed:drag:b629358451d27e04": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately summarizes the data from Table 2 and explains why the distribution should not be interpreted as a natural distribution of conflicts on search engines. It uses relevant contexts to support its claims and aligns with the expected conflict behavior by providing key statistics and a clear explanation of the caveat regarding the distribution."
+  },
+  "D009:542c6ffc758c5d51:baseline:aa76c394c6a0b8da": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the claims made in the provided contexts, addressing why knowing the conflict type in advance is unrealistic and how Pipeline differs from Oracle. It uses relevant contexts effectively and covers the expected answer comprehensively, while also aligning with the expected conflict behavior."
+  },
+  "D009:542c6ffc758c5d51:drag:81d09a55e026083f": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately explains why the assumption of knowing the conflict type in advance is unrealistic, aligning with the expected answer. It correctly contrasts the Pipeline's approach with the Oracle's method, using relevant contexts to support its claims. All aspects of the answer are relevant and correct, and it adheres to the expected conflict behavior by providing a clear comparison."
+  },
+  "D010:289a4bde50eb5646:baseline:01650c02766289b4": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9,
+    "reason": "The answer accurately distinguishes between the general origin of hot dogs and the specific Chicago-style hot dog, aligning with the expected conflict behavior. It presents the conflicting opinions regarding the general origin and correctly states that Chicago-style hot dog is a later variant. However, the contexts provided are not entirely relevant to the question, as they include extraneous information not directly related to the hot dog origins, which affects context precision."
+  },
+  "D010:289a4bde50eb5646:drag:ad5f5b841a636b8a": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer effectively distinguishes between the general origin of hot dogs and the specific Chicago-style hot dog, presenting the conflicting opinions neutrally as expected. It uses relevant contexts to support its claims and accurately reflects the expected answer regarding the origins and distinctions of hot dogs."
+  },
+  "D011:2735ab35437a039e:baseline:b2b4af2cb0d9e50d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the differences between the prompt generation methods in terms of their use of conflict type and taxonomy, aligning perfectly with the expected answer. It uses relevant contexts to support its claims and maintains a clear focus on the question asked. Additionally, it effectively distinguishes the four strategies as required by the expected conflict behavior."
+  },
+  "D011:2735ab35437a039e:drag:664286916fcc639c": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the differences between the prompt generation methods in terms of taxonomy and conflict type, aligning perfectly with the expected answer. It uses relevant contexts to support its claims and covers all aspects of the expected answer, demonstrating a clear understanding of the conflict behavior expected in the response."
+  },
+  "D012:81965662e4648664:baseline:fdbcdf656aafebe4": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately explains why listing the two figures as equal is incorrect and aligns with the provided contexts. However, it fails to prioritize the newer data as expected, which is a key aspect of the expected conflict behavior regarding freshness. Instead, it discusses the mixing of data without clearly stating that the newer figure should be prioritized over the older one."
+  },
+  "D012:81965662e4648664:drag:d5b61f75b5b9bdfd": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately identifies the nature of the conflict as a freshness issue, correctly explaining that the two figures represent different timeframes and should not be treated as equal. It aligns with the expected behavior by prioritizing the more recent data and clarifying the temporal discrepancy."
+  },
+  "D013:93d1b13d0b725f7f:baseline:499c9d5f19aeae24": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected answer by emphasizing that the speed of public transportation compared to driving depends on various conditions and contexts, thus avoiding a binary conclusion. It aligns with the complementary information conflict type by integrating relevant conditions and avoiding absolute statements."
+  },
+  "D013:93d1b13d0b725f7f:drag:600b1eef6da56736": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected answer by emphasizing that public transportation can be faster or slower than driving depending on various conditions. It avoids a binary conclusion and aligns with the complementary information conflict type, integrating relevant contexts effectively."
+  }
+}

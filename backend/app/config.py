@@ -41,6 +41,8 @@ class Settings:
         self.final_top_k = _get_int("FINAL_TOP_K", 5)
         self.use_reranker = _get_bool("USE_RERANKER", True)
         self.reranker_model = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
+        self.reranker_device = os.getenv("RERANKER_DEVICE", "auto")
+        self.reranker_batch_size = _get_int("RERANKER_BATCH_SIZE", 16)
         self.use_hyde = _get_bool("USE_HYDE", False)
 
         self.max_replan_iters = _get_int("MAX_REPLAN_ITERS", 3)
@@ -48,6 +50,7 @@ class Settings:
         self.enable_replan = _get_bool("ENABLE_REPLAN", True)
         self.enable_sufficiency = _get_bool("ENABLE_SUFFICIENCY", True)
         self.enable_answer_verify = _get_bool("ENABLE_ANSWER_VERIFY", True)
+        self.enable_drag = _get_bool("ENABLE_DRAG", True)
 
         self.enable_summarization = _get_bool("ENABLE_SUMMARIZATION", True)
         self.summary_threshold = _get_int("SUMMARY_THRESHOLD", 12)

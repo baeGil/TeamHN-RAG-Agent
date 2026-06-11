@@ -128,7 +128,9 @@ def config():
         "llm_model_fast": settings.llm_model_fast,
         "embed_model": settings.embed_model,
         "use_reranker": settings.use_reranker,
+        "enable_drag": settings.enable_drag,
         "reranker_model": settings.reranker_model,
+        "reranker_device": settings.reranker_device,
         "max_upload_size": settings.max_upload_size,
     }
 

@@ -269,6 +269,26 @@ body {
 .bubble { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; min-width: 0; }
 .msg.user .bubble { background: #1b2236; }
 .user-text { white-space: pre-wrap; }
+.conflict-strip {
+  border-left: 3px solid var(--warn);
+  background: rgba(251, 191, 36, .08);
+  padding: 8px 10px;
+  margin: 0 0 12px;
+  border-radius: 0 8px 8px 0;
+}
+.conflict-strip.clear {
+  border-left-color: var(--ok);
+  background: rgba(74, 222, 128, .07);
+}
+.conflict-kicker {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 700;
+}
+.conflict-main { font-size: 13px; margin-top: 1px; }
+.conflict-sentence { color: #c9cfde; font-size: 12.5px; margin-top: 2px; }
 .typing { color: var(--muted); letter-spacing: 2px; animation: blink 1.2s infinite; }
 @keyframes blink { 50% { opacity: .4; } }
 .bubble-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }

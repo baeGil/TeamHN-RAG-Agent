@@ -1,0 +1,605 @@
+{
+  "n_questions": 2,
+  "dataset": "D:\\TeamHN-RAG-Agent\\data\\data_conflict\\conflict_test_qa.csv",
+  "pdf_root": "D:\\TeamHN-RAG-Agent\\data\\data_conflict",
+  "overall": {
+    "baseline": {
+      "retrieval": {
+        "recall@5": 1.0,
+        "mrr@5": 0.6666666666666666,
+        "hit@5": 1.0
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0,
+        "context_recall": 1.0,
+        "answer_correctness": 1.0,
+        "behavior_alignment": 1.0,
+        "ragas_avg": 1.0
+      },
+      "avg_latency_s": 6.598397750000004,
+      "total_latency_s": 13.196795500000007,
+      "avg_tokens": 2022.0,
+      "total_tokens": 4044,
+      "total_llm_calls": 2
+    },
+    "drag": {
+      "retrieval": {
+        "recall@5": 1.0,
+        "mrr@5": 0.6666666666666666,
+        "hit@5": 1.0
+      },
+      "ragas": {
+        "faithfulness": 0.9,
+        "answer_relevancy": 1.0,
+        "context_precision": 0.9,
+        "context_recall": 0.9,
+        "answer_correctness": 0.9,
+        "behavior_alignment": 0.9,
+        "ragas_avg": 0.92
+      },
+      "avg_latency_s": 5.901260399998137,
+      "total_latency_s": 11.802520799996273,
+      "avg_tokens": 5653.0,
+      "total_tokens": 11306,
+      "total_llm_calls": 4
+    }
+  },
+  "by_conflict_type": {
+    "false_premise": {
+      "baseline": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 3.462387999999919,
+        "total_latency_s": 3.462387999999919,
+        "avg_tokens": 2239.0,
+        "total_tokens": 2239,
+        "total_llm_calls": 1
+      },
+      "drag": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 0.8,
+          "answer_relevancy": 1.0,
+          "context_precision": 0.8,
+          "context_recall": 0.8,
+          "answer_correctness": 0.8,
+          "behavior_alignment": 0.8,
+          "ragas_avg": 0.8400000000000001
+        },
+        "avg_latency_s": 6.179987799998344,
+        "total_latency_s": 6.179987799998344,
+        "avg_tokens": 5818.0,
+        "total_tokens": 5818,
+        "total_llm_calls": 2
+      }
+    },
+    "temporal_scope": {
+      "baseline": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 9.734407500000088,
+        "total_latency_s": 9.734407500000088,
+        "avg_tokens": 1805.0,
+        "total_tokens": 1805,
+        "total_llm_calls": 1
+      },
+      "drag": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 5.622532999997929,
+        "total_latency_s": 5.622532999997929,
+        "avg_tokens": 5488.0,
+        "total_tokens": 5488,
+        "total_llm_calls": 2
+      }
+    }
+  },
+  "by_difficulty": {
+    "hard": {
+      "baseline": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.6666666666666666,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0
+        },
+        "avg_latency_s": 6.598397750000004,
+        "total_latency_s": 13.196795500000007,
+        "avg_tokens": 2022.0,
+        "total_tokens": 4044,
+        "total_llm_calls": 2
+      },
+      "drag": {
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.6666666666666666,
+          "hit@5": 1.0
+        },
+        "ragas": {
+          "faithfulness": 0.9,
+          "answer_relevancy": 1.0,
+          "context_precision": 0.9,
+          "context_recall": 0.9,
+          "answer_correctness": 0.9,
+          "behavior_alignment": 0.9,
+          "ragas_avg": 0.92
+        },
+        "avg_latency_s": 5.901260399998137,
+        "total_latency_s": 11.802520799996273,
+        "avg_tokens": 5653.0,
+        "total_tokens": 11306,
+        "total_llm_calls": 4
+      }
+    }
+  },
+  "per_question": [
+    {
+      "qid": "DC014",
+      "question_type": "Simple w. condition",
+      "question": "Nếu câu hỏi hỏi chính sách giảm GTGT áp dụng trong tháng 8/2024, phải dùng nghị định nào và hiệu lực ra sao?",
+      "expected": "Phải dùng NĐ 72/2024/NĐ-CP vì nghị định này có hiệu lực từ 01/07/2024 đến hết 31/12/2024.",
+      "conflict_type": "temporal_scope",
+      "difficulty": "hard",
+      "expected_behavior": "Dùng điều kiện thời gian để chọn đúng văn bản, không chọn NĐ 180/2024 hay NĐ 174/2025.",
+      "evidence_pages": "pdf/ND_72_2024_GTGT_excerpt_8p.pdf:p3",
+      "source_documents": "ND_72_2024_GTGT_excerpt_8p.pdf",
+      "baseline": {
+        "answer": "Nếu hỏi chính sách giảm GTGT áp dụng trong **tháng 8/2024**, thì phải dùng **Nghị định số 72/2024** vì nghị định này có hiệu lực từ **ngày 01/7/2024 đến hết ngày 31/12/2024**, nên tháng 8/2024 nằm trong thời gian hiệu lực của nghị định này. [1]\n\nNghị định số 174/2025 có hiệu lực từ **ngày 01/7/2025 đến hết ngày 31/12/2026**, nên không áp dụng cho tháng 8/2024. [2]",
+        "chunks": [
+          {
+            "label": 1,
+            "chunk_id": 44,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục IV ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người tiêu dùng hiểu và được thụ hưởng lợi ích từ việc giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 3. Trong quá trình thực hiện nếu phát sinh vướng mắc giao Bộ Tài chính hướng dẫn, giải quyết. ```",
+            "document_id": 3,
+            "doc_title": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.03278688524590164
+          },
+          {
+            "label": 2,
+            "chunk_id": 4,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục III ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. Điều 2. Điều khoản thi hành 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2025 đến hết ngày 31 tháng 12 năm 2026. ```",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 2,
+            "section": null,
+            "score": 0.03200204813108039
+          },
+          {
+            "label": 3,
+            "chunk_id": 25,
+            "text": "```markdown # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người bán và người mua hiểu được hưởng lợi theo quy định về giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. b) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thành tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20% mức tỷ lệ % trên doanh thu, đồng thời ghi chú: “đã giảm… (số tiền) tương ứng 20% mức tỷ lệ % để tính thuế giá trị gia tăng theo Nghị quyết số 174/2024/QH15”. 4.",
+            "document_id": 2,
+            "doc_title": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.03200204813108039
+          },
+          {
+            "label": 4,
+            "chunk_id": 28,
+            "text": "```markdown # Phụ lục I ## DANH MỤC HÀNG HÓA, DỊCH VỤ ### HỒNG ĐƯỢC GIẢM THUẾ SUẤT THUẾ GIÁ TRỊ GIA TĂNG (Kèm theo Nghị định số 180/2024/NĐ-CP ngày 31 tháng 12 năm 2024 của Chính phủ) | Cấp 1 | Cấp 2 | Cấp 3 | Cấp 4 | Cấp 5 | Cấp 6 | Cấp 7 | Tên sản phẩm | Nội dung | Mã số HS (áp dụng đối với hàng hóa tại khu nhập khẩu) | |-------|-------|-------|-------|-------|-------|-------|--------------|----------|-------------------------------------------------------|",
+            "document_id": 2,
+            "doc_title": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p.pdf",
+            "page": 5,
+            "section": null,
+            "score": 0.028991596638655463
+          },
+          {
+            "label": 5,
+            "chunk_id": 7,
+            "text": "```markdown # Phụ lục I ## DANH MỤC HÀNG HÓA, DỊCH VỤ ### ĐƯỢC GIẢM THUẾ SUẤT THUẾ GIÁ TRỊ GIA TĂNG (Kèm theo Nghị định số 174/2025/NĐ-CP ngày 30 tháng 6 năm 2025 của Chính phủ) | Cấp 1 | Cấp 2 | Cấp 3 | Cấp 4 | Cấp 5 | Cấp 6 | Cấp 7 | Tên sản phẩm | Nội dung | Mã số HS (áp dụng đối với hàng hóa tại khâu nhập khẩu) | |-------|-------|-------|-------|-------|-------|-------|--------------|-----------|-------------------------------------------------------|",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 4,
+            "section": null,
+            "score": 0.02877846790890269
+          }
+        ],
+        "ranked_ids": [
+          44,
+          4,
+          25,
+          28,
+          7
+        ],
+        "elapsed": 9.734407500000088,
+        "usage": {
+          "prompt_tokens": 1670,
+          "completion_tokens": 135,
+          "calls": 1
+        },
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            44,
+            4,
+            25,
+            28,
+            7
+          ],
+          "n_relevant_in_pool": 1
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0,
+          "reason": "The answer correctly identifies NĐ 72/2024 as the applicable decree for the VAT reduction policy in August 2024, supported by the context that states its effective period. It also appropriately excludes NĐ 174/2025 based on the temporal scope, aligning with the expected conflict behavior."
+        }
+      },
+      "drag": {
+        "answer": "Nếu hỏi chính sách giảm GTGT áp dụng trong **tháng 8/2024**, thì phải dùng **Nghị định 72/2024/NĐ-CP** vì nghị định này có hiệu lực từ **01/7/2024 đến hết 31/12/2024** [1].\n\nCác nghị định khác trong tài liệu không áp dụng cho tháng 8/2024:\n- **Nghị định 180/2024/NĐ-CP**: hiệu lực từ **01/01/2025 đến 30/6/2025** [3].\n- **Nghị định 174/2025/NĐ-CP**: hiệu lực từ **01/7/2025 đến 31/12/2026** [2].",
+        "chunks": [
+          {
+            "label": 1,
+            "chunk_id": 44,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục IV ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người tiêu dùng hiểu và được thụ hưởng lợi ích từ việc giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 3. Trong quá trình thực hiện nếu phát sinh vướng mắc giao Bộ Tài chính hướng dẫn, giải quyết. ```",
+            "document_id": 3,
+            "doc_title": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.03278688524590164
+          },
+          {
+            "label": 2,
+            "chunk_id": 4,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục III ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. Điều 2. Điều khoản thi hành 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2025 đến hết ngày 31 tháng 12 năm 2026. ```",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 2,
+            "section": null,
+            "score": 0.03200204813108039
+          },
+          {
+            "label": 3,
+            "chunk_id": 25,
+            "text": "```markdown # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người bán và người mua hiểu được hưởng lợi theo quy định về giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. b) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thành tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20% mức tỷ lệ % trên doanh thu, đồng thời ghi chú: “đã giảm… (số tiền) tương ứng 20% mức tỷ lệ % để tính thuế giá trị gia tăng theo Nghị quyết số 174/2024/QH15”. 4.",
+            "document_id": 2,
+            "doc_title": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.03200204813108039
+          },
+          {
+            "label": 4,
+            "chunk_id": 28,
+            "text": "```markdown # Phụ lục I ## DANH MỤC HÀNG HÓA, DỊCH VỤ ### HỒNG ĐƯỢC GIẢM THUẾ SUẤT THUẾ GIÁ TRỊ GIA TĂNG (Kèm theo Nghị định số 180/2024/NĐ-CP ngày 31 tháng 12 năm 2024 của Chính phủ) | Cấp 1 | Cấp 2 | Cấp 3 | Cấp 4 | Cấp 5 | Cấp 6 | Cấp 7 | Tên sản phẩm | Nội dung | Mã số HS (áp dụng đối với hàng hóa tại khu nhập khẩu) | |-------|-------|-------|-------|-------|-------|-------|--------------|----------|-------------------------------------------------------|",
+            "document_id": 2,
+            "doc_title": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p.pdf",
+            "page": 5,
+            "section": null,
+            "score": 0.028991596638655463
+          },
+          {
+            "label": 5,
+            "chunk_id": 7,
+            "text": "```markdown # Phụ lục I ## DANH MỤC HÀNG HÓA, DỊCH VỤ ### ĐƯỢC GIẢM THUẾ SUẤT THUẾ GIÁ TRỊ GIA TĂNG (Kèm theo Nghị định số 174/2025/NĐ-CP ngày 30 tháng 6 năm 2025 của Chính phủ) | Cấp 1 | Cấp 2 | Cấp 3 | Cấp 4 | Cấp 5 | Cấp 6 | Cấp 7 | Tên sản phẩm | Nội dung | Mã số HS (áp dụng đối với hàng hóa tại khâu nhập khẩu) | |-------|-------|-------|-------|-------|-------|-------|--------------|-----------|-------------------------------------------------------|",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 4,
+            "section": null,
+            "score": 0.02877846790890269
+          }
+        ],
+        "ranked_ids": [
+          44,
+          4,
+          25,
+          28,
+          7
+        ],
+        "elapsed": 5.622532999997929,
+        "usage": {
+          "prompt_tokens": 5104,
+          "completion_tokens": 384,
+          "calls": 2
+        },
+        "conflict_assessment": {
+          "conflict_type": "temporal_scope",
+          "confidence": 0.9,
+          "rationale": "The retrieved sources refer to different decrees with varying effective dates. Source [1] (Nghị định 72/2024) is effective from July 1, 2024, to December 31, 2024, which applies to the question about August 2024. Source [2] (Nghị định 174/2025) is effective from July 1, 2025, to December 31, 2026, and does not apply to the specified date. Source [3] (Nghị định 180/2024) is effective from January 1, 2025, to June 30, 2025, which also does not apply. Therefore, the relevant source for the question is [1].",
+          "answer_policy": "Use the information from Nghị định 72/2024, as it is the only relevant decree for August 2024, and mention the other decrees for clarity."
+        },
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 1.0,
+          "hit@5": 1.0,
+          "top5": [
+            44,
+            4,
+            25,
+            28,
+            7
+          ],
+          "n_relevant_in_pool": 1
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0,
+          "reason": "The answer correctly identifies Nghị định 72/2024/NĐ-CP as the applicable decree for the VAT reduction policy in August 2024, supported by the context that states its effective period. It also appropriately excludes Nghị định 180/2024 and Nghị định 174/2025 based on their effective dates, aligning with the expected conflict behavior."
+        }
+      }
+    },
+    {
+      "qid": "DC089",
+      "question_type": "False premise",
+      "question": "NĐ 72/2024 quy định chính sách giảm GTGT theo Nghị quyết 174/2024/QH15 phải không?",
+      "expected": "Không. NĐ 72/2024 quy định theo Nghị quyết 142/2024/QH15 ngày 29/06/2024. Nghị quyết 174/2024/QH15 là căn cứ của NĐ 180/2024.",
+      "conflict_type": "false_premise",
+      "difficulty": "hard",
+      "expected_behavior": "Sửa tiền đề sai về số nghị quyết.",
+      "evidence_pages": "pdf/ND_72_2024_GTGT_excerpt_8p.pdf:p1; pdf/ND_180_2024_GTGT_excerpt_8p.pdf:p1",
+      "source_documents": "ND_72_2024_GTGT_excerpt_8p.pdf; ND_180_2024_GTGT_excerpt_8p.pdf",
+      "baseline": {
+        "answer": "Có. Trong ngữ cảnh, Nghị định 180/2024/GTGT nêu rõ việc giảm thuế giá trị gia tăng được thực hiện “theo Nghị quyết số 174/2024/QH15” khi ghi chú trên hóa đơn đối với cơ sở kinh doanh thuộc đối tượng giảm thuế GTGT. [1]\n\nTuy nhiên, ngữ cảnh cũng cho thấy Nghị định 72/2024/GTGT là văn bản có hiệu lực từ ngày 01/7/2024 đến hết ngày 31/12/2024 và ghi chú giảm thuế theo “Nghị quyết số 142/2024/QH15”, không phải 174/2024/QH15. [2][3]\n\nVì vậy, theo ngữ cảnh cung cấp, **NĐ 72/2024 không phải là nghị định quy định chính sách giảm GTGT theo Nghị quyết 174/2024/QH15**; nội dung gắn với Nghị quyết 174/2024/QH15 xuất hiện ở Nghị định 180/2024/GTGT. [1][2][3]",
+        "chunks": [
+          {
+            "label": 1,
+            "chunk_id": 25,
+            "text": "```markdown # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người bán và người mua hiểu được hưởng lợi theo quy định về giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. b) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thành tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20% mức tỷ lệ % trên doanh thu, đồng thời ghi chú: “đã giảm… (số tiền) tương ứng 20% mức tỷ lệ % để tính thuế giá trị gia tăng theo Nghị quyết số 174/2024/QH15”. 4.",
+            "document_id": 2,
+            "doc_title": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.032266458495966696
+          },
+          {
+            "label": 2,
+            "chunk_id": 44,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục IV ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người tiêu dùng hiểu và được thụ hưởng lợi ích từ việc giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 3. Trong quá trình thực hiện nếu phát sinh vướng mắc giao Bộ Tài chính hướng dẫn, giải quyết. ```",
+            "document_id": 3,
+            "doc_title": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.031754032258064516
+          },
+          {
+            "label": 3,
+            "chunk_id": 43,
+            "text": "```markdown b) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thành tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20\\% mức tỷ lệ \\% trên doanh thu, đồng thời ghi chú: “đã giảm... (số tiền) tương ứng 20\\% mức tỷ lệ \\% tính thuế giá trị gia tăng theo Nghị quyết số 142/2024/QH15”. 4. Trường hợp cơ sở kinh doanh theo quy định tại điểm a khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ áp dụng các mức thuế suất khác nhau thì trên hóa đơn giá trị gia tăng phải ghi rõ thuế suất của từng hàng hóa, dịch vụ theo quy định tại khoản 3 Điều này. Trường hợp cơ sở kinh doanh theo quy định tại điểm b khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ thì trên hóa đơn bán hàng phải ghi rõ số tiền được giảm theo quy định tại khoản 3 Điều này. 5. Trường hợp cơ sở kinh doanh đã lập hóa đơn và đã kê khai theo mức thuế suất hoặc mức tỷ lệ \\% để tính thuế giá trị gia tăng chưa được giảm theo quy định tại Nghị định này thì người bán và người mua xử lý hóa đơn đã lập theo quy định pháp luật về hóa đơn, chứng từ.",
+            "document_id": 3,
+            "doc_title": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.030834914611005692
+          },
+          {
+            "label": 4,
+            "chunk_id": 3,
+            "text": "2) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thanh tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20% mức tỷ lệ % trên doanh thu, dòng thông ghi chú: “đã giảm… (số tiền) tương ứng 20% mức tỷ lệ % để tính thuế giá trị gia tăng theo Nghị quyết số 204/2025/QH15”. 4. Trường hợp cơ sở kinh doanh theo quy định tại điểm a khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ áp dụng các mức thuế suất khác nhau thì trên hóa đơn giá trị gia tăng phải ghi rõ thuế suất của từng hàng hóa, dịch vụ theo quy định tại khoản 3 Điều này. Trường hợp cơ sở kinh doanh theo quy định tại điểm b khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ thì trên hóa đơn bán hàng phải ghi rõ số tiền được giảm theo quy định tại khoản 3 Điều này. 5. Trường hợp cơ sở kinh doanh đã lập hóa đơn và đã kê khai theo mức thuế suất hợp mức tỷ lệ % để tính thuế giá trị gia tăng chưa được giảm theo quy định tại Nghị định này thì người bán và người mua xử lý hóa đơn đã lập theo quy định pháp luật về hóa đơn, chứng từ.",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 2,
+            "section": null,
+            "score": 0.03047794966520434
+          },
+          {
+            "label": 5,
+            "chunk_id": 4,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục III ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. Điều 2. Điều khoản thi hành 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2025 đến hết ngày 31 tháng 12 năm 2026. ```",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 2,
+            "section": null,
+            "score": 0.030309988518943745
+          }
+        ],
+        "ranked_ids": [
+          25,
+          44,
+          43,
+          3,
+          4
+        ],
+        "elapsed": 3.462387999999919,
+        "usage": {
+          "prompt_tokens": 1998,
+          "completion_tokens": 241,
+          "calls": 1
+        },
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            25,
+            44,
+            43,
+            3,
+            4
+          ],
+          "n_relevant_in_pool": 1
+        },
+        "ragas": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0,
+          "reason": "The answer correctly identifies that NĐ 72/2024 does not regulate the reduction of GTGT according to Nghị quyết 174/2024/QH15, and it provides the correct context and reasoning to support this claim. It also aligns with the expected conflict behavior by correcting the false premise regarding the resolution numbers."
+        }
+      },
+      "drag": {
+        "answer": "Không hẳn. NĐ 72/2024 là quy định giảm GTGT cho giai đoạn **01/7/2024 đến 31/12/2024** và trong nội dung của nó còn dẫn chiếu **Nghị quyết số 142/2024/QH15** [2][3].  \n\nCòn theo văn bản mới hơn, chính sách giảm GTGT được áp dụng từ **01/01/2025 đến 30/6/2025** và ghi chú hóa đơn theo **Nghị quyết số 174/2024/QH15** [1].  \n\nVì vậy, nếu hỏi theo chính sách hiện hành trong giai đoạn mới thì **không phải NĐ 72/2024**, mà là quy định tại **NĐ 180/2024** [1].",
+        "chunks": [
+          {
+            "label": 1,
+            "chunk_id": 25,
+            "text": "```markdown # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người bán và người mua hiểu được hưởng lợi theo quy định về giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 1 năm 2025 đến hết ngày 30 tháng 6 năm 2025. b) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thành tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20% mức tỷ lệ % trên doanh thu, đồng thời ghi chú: “đã giảm… (số tiền) tương ứng 20% mức tỷ lệ % để tính thuế giá trị gia tăng theo Nghị quyết số 174/2024/QH15”. 4.",
+            "document_id": 2,
+            "doc_title": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_180_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.032266458495966696
+          },
+          {
+            "label": 2,
+            "chunk_id": 44,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục IV ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. # Điều 2. Hiệu lực thi hành và tổ chức thực hiện 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 2. Các bộ theo chức năng, nhiệm vụ và Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chỉ đạo các cơ quan liên quan triển khai tuyên truyền, hướng dẫn, kiểm tra, giám sát để người tiêu dùng hiểu và được thụ hưởng lợi ích từ việc giảm thuế giá trị gia tăng quy định tại Điều 1 Nghị định này, trong đó tập trung các giải pháp ổn định cung cầu hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng nhằm giữ bình ổn mặt bằng giá cả thị trường (giá chưa có thuế giá trị gia tăng) từ ngày 01 tháng 7 năm 2024 đến hết ngày 31 tháng 12 năm 2024. 3. Trong quá trình thực hiện nếu phát sinh vướng mắc giao Bộ Tài chính hướng dẫn, giải quyết. ```",
+            "document_id": 3,
+            "doc_title": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.031754032258064516
+          },
+          {
+            "label": 3,
+            "chunk_id": 43,
+            "text": "```markdown b) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thành tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20\\% mức tỷ lệ \\% trên doanh thu, đồng thời ghi chú: “đã giảm... (số tiền) tương ứng 20\\% mức tỷ lệ \\% tính thuế giá trị gia tăng theo Nghị quyết số 142/2024/QH15”. 4. Trường hợp cơ sở kinh doanh theo quy định tại điểm a khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ áp dụng các mức thuế suất khác nhau thì trên hóa đơn giá trị gia tăng phải ghi rõ thuế suất của từng hàng hóa, dịch vụ theo quy định tại khoản 3 Điều này. Trường hợp cơ sở kinh doanh theo quy định tại điểm b khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ thì trên hóa đơn bán hàng phải ghi rõ số tiền được giảm theo quy định tại khoản 3 Điều này. 5. Trường hợp cơ sở kinh doanh đã lập hóa đơn và đã kê khai theo mức thuế suất hoặc mức tỷ lệ \\% để tính thuế giá trị gia tăng chưa được giảm theo quy định tại Nghị định này thì người bán và người mua xử lý hóa đơn đã lập theo quy định pháp luật về hóa đơn, chứng từ.",
+            "document_id": 3,
+            "doc_title": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_72_2024_GTGT_excerpt_8p.pdf",
+            "page": 3,
+            "section": null,
+            "score": 0.030834914611005692
+          },
+          {
+            "label": 4,
+            "chunk_id": 3,
+            "text": "2) Đối với cơ sở kinh doanh quy định tại điểm b khoản 2 Điều này, khi lập hóa đơn bán hàng cung cấp hàng hóa, dịch vụ thuộc đối tượng giảm thuế giá trị gia tăng, tại cột “Thanh tiền” ghi đầy đủ tiền hàng hóa, dịch vụ trước khi giảm, tại dòng “Cộng tiền hàng hóa, dịch vụ” ghi theo số đã giảm 20% mức tỷ lệ % trên doanh thu, dòng thông ghi chú: “đã giảm… (số tiền) tương ứng 20% mức tỷ lệ % để tính thuế giá trị gia tăng theo Nghị quyết số 204/2025/QH15”. 4. Trường hợp cơ sở kinh doanh theo quy định tại điểm a khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ áp dụng các mức thuế suất khác nhau thì trên hóa đơn giá trị gia tăng phải ghi rõ thuế suất của từng hàng hóa, dịch vụ theo quy định tại khoản 3 Điều này. Trường hợp cơ sở kinh doanh theo quy định tại điểm b khoản 2 Điều này khi bán hàng hóa, cung cấp dịch vụ thì trên hóa đơn bán hàng phải ghi rõ số tiền được giảm theo quy định tại khoản 3 Điều này. 5. Trường hợp cơ sở kinh doanh đã lập hóa đơn và đã kê khai theo mức thuế suất hợp mức tỷ lệ % để tính thuế giá trị gia tăng chưa được giảm theo quy định tại Nghị định này thì người bán và người mua xử lý hóa đơn đã lập theo quy định pháp luật về hóa đơn, chứng từ.",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 2,
+            "section": null,
+            "score": 0.03047794966520434
+          },
+          {
+            "label": 5,
+            "chunk_id": 4,
+            "text": "Cần cử vào hóa đơn sau khi xử lý, người bán kê khai điều chỉnh thuế đầu vào, người mua kê khai điều chỉnh thuế đầu vào (nếu có). 6. Cơ sở kinh doanh quy định tại Điều này thực hiện kê khai các hàng hóa, dịch vụ được giảm thuế giá trị gia tăng theo Mẫu số 01 tại Phụ lục III ban hành kèm theo Nghị định này cùng với Tờ khai thuế giá trị gia tăng. Điều 2. Điều khoản thi hành 1. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2025 đến hết ngày 31 tháng 12 năm 2026. ```",
+            "document_id": 1,
+            "doc_title": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p",
+            "doc_source": "data_conflict/pdf/ND_174_2025_GTGT_excerpt_8p.pdf",
+            "page": 2,
+            "section": null,
+            "score": 0.030309988518943745
+          }
+        ],
+        "ranked_ids": [
+          25,
+          44,
+          43,
+          3,
+          4
+        ],
+        "elapsed": 6.179987799998344,
+        "usage": {
+          "prompt_tokens": 5473,
+          "completion_tokens": 345,
+          "calls": 2
+        },
+        "conflict_assessment": {
+          "conflict_type": "freshness",
+          "confidence": 0.9,
+          "rationale": "The retrieved sources indicate that NĐ 72/2024 has a validity period from July 1, 2024, to December 31, 2024, while Nghị quyết 174/2024/QH15 is referenced in the context of NĐ 180/2024, which has a later effective date starting January 1, 2025. This suggests that the information regarding the application of the tax reduction policy is outdated in the context of NĐ 72/2024.",
+          "answer_policy": "Prefer the most current information regarding the tax reduction policy, specifically referencing NĐ 180/2024 and its relation to Nghị quyết 174/2024/QH15."
+        },
+        "retrieval": {
+          "recall@5": 1.0,
+          "mrr@5": 0.3333333333333333,
+          "hit@5": 1.0,
+          "top5": [
+            25,
+            44,
+            43,
+            3,
+            4
+          ],
+          "n_relevant_in_pool": 1
+        },
+        "ragas": {
+          "faithfulness": 0.8,
+          "answer_relevancy": 1.0,
+          "context_precision": 0.8,
+          "context_recall": 0.8,
+          "answer_correctness": 0.8,
+          "behavior_alignment": 0.8,
+          "ragas_avg": 0.8400000000000001,
+          "reason": "The answer correctly identifies that NĐ 72/2024 is related to Nghị quyết 142/2024/QH15 and not Nghị quyết 174/2024/QH15, but it does not explicitly correct the false premise about the resolution numbers as expected. It provides relevant context and details about the effective dates and policies, but the answer could be clearer in directly addressing the false premise. Overall, it aligns well with the expected conflict behavior."
+        }
+      }
+    }
+  ]
+}

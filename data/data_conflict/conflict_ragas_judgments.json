@@ -1,0 +1,782 @@
+{
+  "DC007:af72a862a31f2fbe:baseline:6896d84478ef19f9": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states the GDP growth of 7.4% for Q3 2024, which is supported by the provided contexts. It is relevant to the question, uses precise contexts, covers the expected answer fully, and is correct. Additionally, it aligns with the expected behavior of providing a direct answer from the October 2024 update."
+  },
+  "DC007:af72a862a31f2fbe:drag:85f55e30cd79f403": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states the GDP growth of 7.4% for Q3 2024, which is supported by the provided contexts. It is relevant to the question, uses precise contexts, covers the expected answer fully, and is correct. Additionally, it aligns with the expected behavior of providing a direct answer without conflict."
+  },
+  "DC014:247f2a08856141ed:baseline:a3863c87d4a71b2c": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024 as the applicable decree for the VAT reduction policy in August 2024, supported by the provided contexts. It also appropriately excludes Nghị định 174/2025 based on the temporal scope, aligning with the expected conflict behavior."
+  },
+  "DC014:247f2a08856141ed:drag:3d1bc97512dc3ec8": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies NĐ 72/2024/NĐ-CP as the relevant decree for the VAT reduction policy applicable in August 2024, citing its effective dates accurately. It also aligns with the expected conflict behavior by focusing on the correct temporal scope and not mentioning irrelevant decrees. All contexts used are relevant and support the claims made in the answer."
+  },
+  "DC027:535fcd57a3652aee:baseline:19cfbdda7f52cdb5": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.4,
+    "reason": "The answer does not provide the specific list of goods and services excluded from the VAT reduction as requested in the question. Instead, it states that there is no specific list available in the visible context, which contradicts the expected answer. Additionally, it fails to align with the expected conflict behavior by not listing the relevant groups from the decree and instead introduces irrelevant information about other appendices."
+  },
+  "DC027:535fcd57a3652aee:drag:04e4729a2d6d5b87": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.5,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.6,
+    "reason": "The answer includes 'Công nghệ thông tin' which is not part of the expected answer and violates the expected conflict behavior. It also lacks the complete list of excluded items as per the expected answer, thus affecting faithfulness and correctness."
+  },
+  "DC032:564713abac51bfb1:baseline:107356ba86b8e73b": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested, directly matching the expected answer. It uses relevant contexts that support the claims made, ensuring all aspects of the question are addressed without misrepresenting the nature of the investments."
+  },
+  "DC032:564713abac51bfb1:drag:2125d54f9388c913": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested in the question. Each example is supported by the provided contexts, and the answer does not misrepresent the nature of the commitments. It adheres to the expected conflict behavior by listing the examples without conflating them with already disbursed FDI."
+  },
+  "DC039:9d3c6824fe22f61d:baseline:71818354ab620862": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 0.6,
+    "ragas_avg": 0.8799999999999999,
+    "reason": "The answer correctly identifies that PMI for December 2024 is newer than for November 2024 and provides the relevant PMI values. However, it incorrectly states the PMI for December as 50.8 instead of the expected 49.8, which affects faithfulness and correctness. The answer does mention the previous month's value to explain the trend, but it does not clearly indicate that the trend is below the expansion threshold of 50, which affects behavior alignment."
+  },
+  "DC039:9d3c6824fe22f61d:drag:199088311189b9c1": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 0.6,
+    "answer_correctness": 0.6,
+    "behavior_alignment": 0.8,
+    "ragas_avg": 0.76,
+    "reason": "The answer correctly identifies that PMI for December 2024 is newer than November 2024, but it fails to provide the specific PMI value for December (49.8) and instead discusses the previous month's PMI (50.8) without clearly stating the December value. The answer does address the trend but does not fully align with the expected answer regarding the specific numbers and the trend's implications. The contexts used are relevant but do not fully cover the expected answer, leading to lower context recall."
+  },
+  "DC051:7ef31955aa2a7623:baseline:4f01e2c4927c87dc": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies the number of decrees (3) and lists them accurately, aligning with the expected answer. It uses relevant contexts that support the claims made, and the answer is directly relevant to the question asked. The behavior aligns with the expected conflict behavior by counting the relevant documents with the same mechanism."
+  },
+  "DC051:7ef31955aa2a7623:drag:d5042843a4967921": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately states that there are 3 decrees related to the 8% VAT rate for businesses using the deduction method, which is supported by the provided contexts. The answer is relevant to the question, uses relevant contexts, and correctly identifies the decrees. Additionally, it aligns with the expected behavior of counting the relevant documents."
+  },
+  "DC063:015477cc515856f9:baseline:d7b30a904882a757": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 1.0,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.8800000000000001,
+    "reason": "The answer correctly identifies the VAT rate of 8% and the effective period from January 1, 2025, to June 30, 2025, which aligns with the expected answer. However, it incorrectly cites 'Nghị định số 174/2025' instead of 'NĐ 180/2024', which affects faithfulness and correctness. The answer is relevant and covers the necessary context, demonstrating good behavior alignment with the expected conflict behavior."
+  },
+  "DC063:015477cc515856f9:drag:49a934d1bcb17ce8": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.5,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.6,
+    "reason": "The answer correctly identifies the tax rate as 8% and mentions the relevant context of the tax reduction. However, it incorrectly cites the legal document as Nghị định 174/2025/GTGT instead of the correct Nghị định 180/2024, which is crucial for the temporal scope of the question. The answer is relevant and aligns with the expected conflict behavior by combining the time frame with the deduction method, but the inaccuracies in the legal reference affect the overall faithfulness and correctness."
+  },
+  "DC070:a0979c0bc6c125f9:baseline:8b2e7af6e0221dfc": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 0.9,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9,
+    "reason": "The answer provides a detailed overview of FDI trends from October to December 2024, aligning well with the expected answer. It accurately reflects the commitment and realization of FDI, although it lacks specific details for October, which is acknowledged. The contexts used are relevant and support the claims made in the answer, particularly regarding the increase in FDI commitments and realizations. The answer also effectively distinguishes between monthly commitments and realized/cumulative figures, adhering to the expected conflict behavior."
+  },
+  "DC070:a0979c0bc6c125f9:drag:21ed5fe6f625933a": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.9,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9199999999999999,
+    "reason": "The answer provides a detailed overview of FDI commitments and realizations for the months of October to December 2024, aligning well with the expected answer. It accurately distinguishes between monthly commitments and cumulative realizations, which is in line with the expected conflict behavior. However, there are minor discrepancies in the figures presented, particularly in the cumulative FDI realization for October, which could affect faithfulness slightly."
+  },
+  "DC076:900f2e2664f3f834:baseline:d11a55539661fb09": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 174/2025 is effective from 01/07/2025 to 31/12/2026, which is indeed 18 months. It uses relevant contexts that confirm the effective dates and provides a correct calculation of the duration, aligning with the expected conflict behavior of calculating the time period from the effective date."
+  },
+  "DC076:900f2e2664f3f834:drag:ddcbad7039c6a617": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states the effective period of NĐ 174/2025 as 18 months, which is supported by the provided contexts. It directly addresses the question and uses relevant contexts to justify the claims made. The answer also aligns with the expected behavior of calculating the duration from the effective date."
+  },
+  "DC089:bb6877d6c742888f:baseline:cd265bb01f2c8f77": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies that NĐ 72/2024 is not related to Nghị quyết 174/2024/QH15, but rather to Nghị quyết 142/2024/QH15. It also follows the expected conflict behavior by correcting the false premise regarding the resolution numbers."
+  },
+  "DC089:bb6877d6c742888f:drag:ccfea7b48b5e3ad4": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 72/2024 does not relate to Nghị quyết 174/2024/QH15, and it accurately references the relevant contexts to support this claim. It also aligns with the expected conflict behavior by correcting the false premise regarding the resolution numbers."
+  },
+  "DC014:247f2a08856141ed:baseline:3dbfccc43be92f0a": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies NĐ 72/2024/NĐ-CP as the applicable decree for the VAT reduction policy in August 2024, supported by the context that states its effective period. It also appropriately excludes NĐ 174/2025/NĐ-CP based on the temporal scope, aligning with the expected conflict behavior."
+  },
+  "DC014:247f2a08856141ed:drag:112f5bc15e0df6ba": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024/NĐ-CP as the relevant decree for the VAT reduction policy applicable in August 2024, and it accurately states its effective dates. It also appropriately excludes the other decrees that do not apply within the specified timeframe, aligning with the expected conflict behavior."
+  },
+  "DC027:535fcd57a3652aee:baseline:0ca6faa12eeb59fa": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.4,
+    "reason": "The answer does not provide the specific groups of goods and services excluded from the VAT reduction as requested in the question. Instead, it states that there is no specific list in the provided context, which contradicts the expected answer. The answer also fails to align with the expected conflict behavior by not listing the exclusions as per the expected answer, and it introduces a general principle of exclusion that is not directly relevant to the question."
+  },
+  "DC027:535fcd57a3652aee:drag:3ab6a13adbee4431": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.5,
+    "ragas_avg": 0.4,
+    "reason": "The answer correctly identifies that the specific groups of goods and services excluded from the VAT reduction are not explicitly mentioned in the provided context. However, it fails to list the expected groups that are typically excluded, which is a significant omission. The answer does not align with the expected conflict behavior of listing the exclusions based on the provided context, as it does not provide any specific exclusions and instead focuses on general statements about non-taxable goods and services."
+  },
+  "DC032:564713abac51bfb1:baseline:60ac9d2e9c32c7b5": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested in the question. Each example is supported by the provided contexts, and the answer does not misrepresent the nature of the commitments. It adheres to the expected conflict behavior by listing the required examples without altering them into already disbursed FDI."
+  },
+  "DC032:564713abac51bfb1:drag:cb730a80417ad178": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested, directly matching the expected answer. All claims are supported by the provided contexts, and the examples are relevant and correctly cited. The answer does not misrepresent the nature of the commitments, aligning with the expected conflict behavior."
+  },
+  "DC039:9d3c6824fe22f61d:baseline:5e165d50f0be9c20": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 0.9,
+    "ragas_avg": 0.86,
+    "reason": "The answer correctly identifies that PMI for December 2024 is newer than for November 2024 and mentions the relevant figures. However, it does not explicitly state the December PMI value, which is crucial for full correctness. The answer also discusses the trend but does not clearly indicate that the PMI has dropped below the expansion threshold of 50, which is part of the expected answer. Overall, it aligns well with the expected conflict behavior by prioritizing the newer data while providing context from the previous month."
+  },
+  "DC039:9d3c6824fe22f61d:drag:769aa9c6a1bdfb4a": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.5,
+    "ragas_avg": 0.5,
+    "reason": "The answer correctly identifies that December 2024 is newer than November 2024 and discusses the trend based on the provided context. However, it fails to provide the PMI value for December 2024, which is crucial for a complete answer. The answer does not fully align with the expected conflict behavior as it does not prioritize the newer data while explaining the trend effectively."
+  },
+  "DC051:7ef31955aa2a7623:baseline:d8e6eb3ebae330ab": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies the number of decrees (3) and lists them accurately, aligning with the expected answer. It uses relevant contexts that support the claims made, ensuring faithfulness and correctness. The answer also follows the expected conflict behavior by counting the relevant documents with the same mechanism (8% VAT)."
+  },
+  "DC051:7ef31955aa2a7623:drag:b1bc0217063d69af": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately states that there are 3 decrees related to the 8% VAT rate for businesses using the deduction method, which is supported by the provided contexts. The answer is relevant to the question, uses relevant contexts, and correctly identifies the decrees. Additionally, it aligns with the expected behavior of counting the relevant documents."
+  },
+  "DC063:015477cc515856f9:baseline:8c97bed7d6f75fcf": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.5,
+    "behavior_alignment": 0.5,
+    "ragas_avg": 0.6,
+    "reason": "The answer correctly identifies the VAT rate of 8% and mentions the method of deduction, which is relevant to the question. However, it incorrectly cites 'Nghị định 174/2025' instead of the expected 'Nghị định 180/2024', which affects faithfulness and correctness. The answer does not fully align with the expected conflict behavior as it fails to properly combine the temporal scope with the deduction method, leading to lower scores in context precision and recall."
+  },
+  "DC063:015477cc515856f9:drag:a9d2669cf253b57d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately references the relevant decree (Nghị định 180/2024) and correctly states the applicable VAT rate of 8% for the specified time period. It effectively combines the temporal scope with the deduction method as expected."
+  },
+  "DC070:a0979c0bc6c125f9:baseline:565536ab4bf54ecd": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 0.9,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9,
+    "reason": "The answer provides a clear summary of FDI trends from October to December 2024, correctly distinguishing between commitments and realizations. It uses relevant contexts to support claims, although it notes a lack of detailed data for October. The answer aligns with the expected conflict behavior by connecting multiple documents over time and differentiating between monthly commitments and realized/cumulative figures."
+  },
+  "DC070:a0979c0bc6c125f9:drag:1e22f060936ef4f3": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.9,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9199999999999999,
+    "reason": "The answer accurately summarizes the FDI developments from October to December 2024, correctly distinguishing between monthly commitments and realized/cumulative figures. It uses relevant contexts to support its claims, although it notes the lack of detailed commitment data for October, which is consistent with the provided context. Overall, the answer is well-aligned with the expected conflict behavior by connecting multiple documents over time."
+  },
+  "DC076:900f2e2664f3f834:baseline:3385c235920845c5": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 174/2025 is effective from 01/07/2025 to 31/12/2026, which is a total of 18 months. It uses relevant contexts to support this claim and directly addresses the question asked. The behavior aligns with the expected conflict behavior of calculating the duration from the effective date."
+  },
+  "DC076:900f2e2664f3f834:drag:bbe4b9e5ccd4fe0c": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately calculates the duration of the effectiveness of NĐ 174/2025 as 18 months, which is supported by the provided contexts. It directly addresses the question and uses relevant contexts to justify the calculation. The expected conflict behavior is followed as it correctly computes the time span from the effective date."
+  },
+  "DC089:bb6877d6c742888f:baseline:34d3d05a159f553f": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer incorrectly states that NĐ 180/2024/GTGT is based on Nghị quyết 174/2024/QH15, which contradicts the expected answer that clarifies the correct resolution associated with NĐ 72/2024. The answer is relevant to the question but fails in faithfulness and correctness. However, it aligns with the expected conflict behavior by attempting to correct the premise about the resolution number."
+  },
+  "DC089:bb6877d6c742888f:drag:14d6aebe89e04cdb": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies that NĐ 72/2024 is based on Nghị quyết 142/2024/QH15 and not Nghị quyết 174/2024/QH15, aligning with the expected answer. It provides accurate context and details, addressing the question directly and correcting the false premise effectively."
+  },
+  "DC014:247f2a08856141ed:baseline:d7572b506f2fb909": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies NĐ 72/2024 as the applicable decree for the VAT reduction policy in August 2024, supported by the context that states its effective period. It also appropriately excludes NĐ 174/2025 based on the temporal scope, aligning with the expected conflict behavior."
+  },
+  "DC014:247f2a08856141ed:drag:701fb7670cc17340": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024/NĐ-CP as the applicable decree for the VAT reduction policy in August 2024, supported by the provided contexts. It also correctly excludes Nghị định 180/2024 and Nghị định 174/2025 based on their effective dates, aligning with the expected conflict behavior."
+  },
+  "DC027:535fcd57a3652aee:baseline:0db4bc4c065d8b13": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer states that there is no information available in the provided contexts to identify the excluded goods and services from the VAT reduction in NĐ 174/2025. However, the expected answer lists specific categories that should be excluded, which contradicts the claim of the answer. Additionally, the answer does not address the question directly and fails to utilize the relevant contexts effectively, leading to a complete lack of alignment with the expected behavior."
+  },
+  "DC027:535fcd57a3652aee:drag:2a8d863d8bbea492": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.4,
+    "reason": "The answer does not directly list the excluded goods and services as requested in the question. Instead, it states that the specific groups are not mentioned in the visible part of the document, which does not fulfill the requirement to list them. Additionally, it introduces information from page 2, which is not aligned with the expected behavior of only referencing page 1. Therefore, the answer lacks correctness and alignment with the expected conflict behavior."
+  },
+  "DC032:564713abac51bfb1:baseline:3a47e0fa38fe254d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested in the question. Each example is supported by the provided contexts, and the answer does not misrepresent the nature of the commitments. It aligns with the expected conflict behavior by listing the examples without altering them into already disbursed FDI."
+  },
+  "DC032:564713abac51bfb1:drag:3f883e2ba5e5010a": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested, directly aligning with the expected answer. All claims are supported by the provided contexts, and the answer does not misrepresent the nature of the commitments. It adheres to the expected conflict behavior by listing the examples without conflating them with already disbursed FDI."
+  },
+  "DC039:9d3c6824fe22f61d:baseline:594f8274140fbb15": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 0.7,
+    "ragas_avg": 0.86,
+    "reason": "The answer correctly identifies that PMI for December 2024 is newer than for November 2024 and mentions the decrease in PMI values. However, it fails to explicitly state the December PMI value of 49.8 and does not clearly indicate that the trend is below the expansion threshold of 50, which is crucial for understanding the trend. The answer also does not prioritize the newer data as expected, focusing instead on the previous month's data for context."
+  },
+  "DC039:9d3c6824fe22f61d:drag:4425f0b33b1068ea": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.6,
+    "context_recall": 0.6,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 0.8,
+    "ragas_avg": 0.76,
+    "reason": "The answer correctly identifies that PMI for December 2024 is newer and discusses the PMI for November 2024, but it fails to provide the specific value for December 2024, which is crucial for a complete comparison. It does mention the trend based on the November value, which aligns with the expected conflict behavior of prioritizing newer data while explaining the trend with older data."
+  },
+  "DC063:015477cc515856f9:baseline:975e4a43a152fdf9": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 0.9,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.86,
+    "reason": "The answer correctly identifies the VAT rate of 8% and the applicable regulation, but it incorrectly cites 'Nghị định 174/2025' instead of the expected 'NĐ 180/2024'. The answer is relevant and aligns with the expected conflict behavior by combining the time frame with the deduction method."
+  },
+  "DC063:015477cc515856f9:drag:4fee174fa1288535": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies the applicable regulation (Nghị định 180/2024) and the tax rate (8%) for the specified transaction date (February 2025). It effectively combines the temporal aspect with the relevant tax deduction method, aligning with the expected conflict behavior."
+  },
+  "DC070:a0979c0bc6c125f9:baseline:a13d4539135fa372": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9199999999999999,
+    "reason": "The answer provides a clear summary of FDI trends from October to December 2024, accurately reflecting the expected figures and trends. It uses relevant contexts to support claims, particularly for November and December, while acknowledging the lack of detailed information for October. The answer distinguishes between commitments and realizations, aligning with the expected conflict behavior."
+  },
+  "DC070:a0979c0bc6c125f9:drag:ab8131480b6d0623": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9400000000000001,
+    "reason": "The answer provides a detailed account of FDI commitments and realizations for October to December 2024, aligning well with the expected answer. It accurately distinguishes between monthly commitments and realized/cumulative figures, although it notes the lack of detailed information for October. The contexts used are mostly relevant, but the mention of October's lack of data slightly affects context precision. Overall, the answer is correct and follows the expected conflict behavior."
+  },
+  "DC076:900f2e2664f3f834:baseline:3b9aa8e08eee214c": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 174/2025 is effective from 01/07/2025 to 31/12/2026, which is indeed 18 months. It uses relevant contexts to support this claim and directly addresses the question asked. The behavior aligns with the expected conflict behavior of calculating the duration from the effective date."
+  },
+  "DC076:900f2e2664f3f834:drag:9a2f487be093b6ab": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 174/2025 is effective from 01/07/2025 to 31/12/2026, which is indeed 18 months. It uses relevant contexts that confirm the effective dates and aligns with the expected conflict behavior of calculating the duration from the effective date."
+  },
+  "DC089:bb6877d6c742888f:baseline:cf8b6d9db6914a0f": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies that NĐ 72/2024 does not regulate the reduction of GTGT according to Nghị quyết 174/2024/QH15, but rather according to Nghị quyết 142/2024/QH15. It also accurately references the contexts provided, demonstrating a clear understanding of the conflict behavior by correcting the false premise regarding the resolution numbers."
+  },
+  "DC089:bb6877d6c742888f:drag:ed294071d18693d0": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 72/2024 does not regulate the policy of reducing VAT according to Resolution 174/2024/QH15, and it provides the correct resolution (142/2024/QH15) that NĐ 72/2024 is based on. The contexts used are relevant and support the claims made in the answer, and the answer aligns with the expected conflict behavior by correcting the false premise regarding the resolution number."
+  },
+  "DC014:247f2a08856141ed:baseline:80094b34166aff71": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024 as applicable for the question regarding the VAT reduction policy in August 2024, and it explains the effective dates accurately. It also appropriately excludes Nghị định 174/2025 based on the temporal scope, aligning with the expected conflict behavior."
+  },
+  "DC014:247f2a08856141ed:drag:b05b8bd45c07dc17": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies NĐ 72/2024/NĐ-CP as the relevant decree for the VAT reduction policy applicable in August 2024, supported by the provided context. It also accurately explains the effective dates and excludes the other decrees that do not apply, aligning with the expected conflict behavior."
+  },
+  "DC027:535fcd57a3652aee:baseline:0a6f08250cab56c5": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer states that there is no specific list of excluded goods and services in the provided context, which contradicts the expected answer that lists specific categories. The answer does not address the question directly and fails to provide relevant information from the context, leading to a complete lack of alignment with the expected behavior."
+  },
+  "DC027:535fcd57a3652aee:drag:8fa692c0e27ecc62": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer states that the provided documents do not contain sufficient information to identify the excluded goods and services from VAT reduction in NĐ 174/2025, which contradicts the expected answer that lists specific excluded categories. The answer does not utilize the contexts effectively, as it fails to acknowledge that the expected exclusions are indeed mentioned in the relevant documents. Additionally, the answer does not align with the expected conflict behavior, as it does not list the exclusions as required."
+  },
+  "DC032:564713abac51bfb1:baseline:8f9b13a922677bd1": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested, directly aligning with the expected answer. All claims are supported by the provided contexts, and the answer does not misrepresent the nature of the investments as already disbursed FDI. The contexts used are relevant and directly pertain to the examples given in the answer."
+  },
+  "DC032:564713abac51bfb1:drag:2f260e70a5ebe42d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately lists three examples of new FDI commitments or technology company activities as requested, directly aligning with the expected answer. All claims are supported by the provided contexts, and the additional information about FDI commitments does not conflict with the expected behavior of listing only the examples without turning them into realized FDI."
+  },
+  "DC039:9d3c6824fe22f61d:baseline:ff9019b4a78367e4": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 0.9,
+    "ragas_avg": 0.86,
+    "reason": "The answer correctly identifies that PMI for December 2024 is newer than for November 2024 and mentions the relevant figures. However, it does not explicitly state the December PMI value, which is crucial for full correctness. The answer also explains the trend but does not clearly indicate that the PMI is below the expansion threshold of 50, which is part of the expected answer. Overall, it aligns well with the expected conflict behavior by prioritizing the newer data while providing context from the previous month."
+  },
+  "DC039:9d3c6824fe22f61d:drag:acd3b2ebd389fb0b": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer incorrectly states that the PMI for November 2024 is newer than December 2024, which contradicts the expected answer. It fails to provide the PMI for December 2024, does not mention the decrease in PMI from November to December, and does not align with the expected conflict behavior of prioritizing the newer month while explaining the trend with the older data."
+  },
+  "DC051:7ef31955aa2a7623:baseline:439bbc9ed6366cd7": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies the three decrees related to the 8% VAT rate for the deduction method, which aligns with the expected answer. It uses relevant contexts to support its claims and adheres to the expected conflict behavior by counting the relevant documents."
+  },
+  "DC051:7ef31955aa2a7623:drag:429b64b7ef8a16d3": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately states that there are 3 decrees related to the 8% VAT rate for businesses using the deduction method, which is supported by the provided contexts. The answer is relevant to the question, uses relevant contexts, and correctly identifies the decrees. Additionally, it aligns with the expected behavior of counting the relevant documents."
+  },
+  "DC063:015477cc515856f9:baseline:e4936820faddc93c": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 0.9,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.86,
+    "reason": "The answer correctly identifies the VAT rate of 8% and references relevant legal documents, but it incorrectly cites 'Nghị định số 174/2025' instead of 'Nghị định số 180/2024' as the primary basis for the tax rate applicable in February 2025. The answer is relevant and aligns with the expected conflict behavior by combining the time frame with the deduction method."
+  },
+  "DC063:015477cc515856f9:drag:14d36aa2c349cb9e": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected answer by citing the correct decree (NĐ 180/2024) and the applicable VAT rate (8%) for the specified period (01/01/2025 to 30/06/2025). It also correctly combines the temporal aspect with the deduction method as required by the expected conflict behavior."
+  },
+  "DC070:a0979c0bc6c125f9:baseline:1b36286d05327934": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.9,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9199999999999999,
+    "reason": "The answer provides a detailed account of FDI commitments and realizations for October to December 2024, aligning well with the expected answer. It correctly distinguishes between monthly commitments and realizations, although it lacks specific data for October. The contexts used are relevant and support the claims made in the answer, particularly for November and December. Overall, the answer is accurate and follows the expected conflict behavior."
+  },
+  "DC070:a0979c0bc6c125f9:drag:46162b4dfeb1a09f": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately summarizes the FDI developments from October to December 2024, aligning with the expected answer. It correctly distinguishes between monthly commitments and realized/cumulative figures, and it uses relevant contexts to support its claims. The answer also reflects the expected conflict behavior by connecting multiple documents over time."
+  },
+  "DC076:900f2e2664f3f834:drag:df61e50c0c35bb1c": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 174/2025 is effective from 01/07/2025 to 31/12/2026, which is indeed 18 months. It uses relevant contexts that confirm the effective dates and aligns with the expected conflict behavior of calculating the duration from the effective date."
+  },
+  "DC089:bb6877d6c742888f:baseline:1e1ffbca76d98f48": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.5,
+    "reason": "The answer incorrectly states that NĐ 72/2024 is related to Nghị quyết 174/2024/QH15, which is false. It does mention the correct association with Nghị quyết 142/2024/QH15, but fails to correct the false premise about Nghị quyết 174/2024/QH15 as expected. Therefore, it does not align with the expected conflict behavior of correcting the false premise."
+  },
+  "DC089:bb6877d6c742888f:drag:6e7907b1ed6d5e5e": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 72/2024 does not relate to Nghị quyết 174/2024/QH15, and it accurately references the correct Nghị quyết 180/2024/NĐ-CP. The answer is relevant to the question, uses the provided contexts effectively, and aligns with the expected conflict behavior by correcting the false premise about the resolution numbers."
+  },
+  "DC014:247f2a08856141ed:baseline:d48746df80b248de": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024 as the applicable decree for the VAT reduction policy in August 2024, supported by the provided context. It also appropriately excludes Nghị định 174/2025 based on the temporal scope, aligning with the expected conflict behavior."
+  },
+  "DC014:247f2a08856141ed:drag:255dc6bcefe93fe5": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024 as the applicable decree for the VAT reduction policy in August 2024, supported by the provided context. It also explains why the other decrees (Nghị định 180/2024 and Nghị định 174/2025) do not apply, aligning with the expected conflict behavior by using the temporal condition to select the correct document."
+  },
+  "DC089:bb6877d6c742888f:baseline:ad408ff5e4d6ec3e": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies that NĐ 72/2024 is associated with Nghị quyết 142/2024/QH15 and not 174/2024/QH15, aligning with the expected answer. It also provides relevant context to support this claim, addressing the question accurately and maintaining the expected conflict behavior by correcting the false premise regarding the resolution numbers."
+  },
+  "DC089:bb6877d6c742888f:drag:8fa41b1d722902fe": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that NĐ 72/2024 does not relate to Nghị quyết 174/2024/QH15, and it provides accurate details about the effective dates and the relevant resolutions. It addresses the question directly and uses the supplied contexts effectively to support its claims."
+  },
+  "DC014:247f2a08856141ed:drag:2979a1bd32a71e49": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Nghị định 72/2024/NĐ-CP as the applicable decree for the VAT reduction policy in August 2024, supported by the context that states its effective period. It also appropriately excludes Nghị định 180/2024 and Nghị định 174/2025 based on their effective dates, aligning with the expected conflict behavior."
+  },
+  "DC089:bb6877d6c742888f:baseline:925ec5362f4e7c5b": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies that NĐ 72/2024 does not regulate the reduction of GTGT according to Nghị quyết 174/2024/QH15, and it provides the correct context and reasoning to support this claim. It also aligns with the expected conflict behavior by correcting the false premise regarding the resolution numbers."
+  },
+  "DC089:bb6877d6c742888f:drag:54c31cd0a4ca854c": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.8,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 0.8,
+    "ragas_avg": 0.8400000000000001,
+    "reason": "The answer correctly identifies that NĐ 72/2024 is related to Nghị quyết 142/2024/QH15 and not Nghị quyết 174/2024/QH15, but it does not explicitly correct the false premise about the resolution numbers as expected. It provides relevant context and details about the effective dates and policies, but the answer could be clearer in directly addressing the false premise. Overall, it aligns well with the expected conflict behavior."
+  }
+}
