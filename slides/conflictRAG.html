@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConflictRAG — Phát hiện mâu thuẫn 2 tầng (Two-Stage Conflict Detection)</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    darkMode: true,
+    background: '#0b0f19',
+    fontSize: '16px',
+    actorBkg: '#1e3a5f',
+    actorBorder: '#60a5fa',
+    actorTextColor: '#f8fafc',
+    actorLineColor: '#60a5fa',
+    signalColor: '#94a3b8',
+    signalTextColor: '#f1f5f9',
+    messageTextColor: '#f1f5f9',
+    noteBkgColor: '#fde68a',
+    noteTextColor: '#111827',
+    noteBorderColor: '#f59e0b',
+    labelBoxBkgColor: '#1e3a5f',
+    labelBoxBorderColor: '#60a5fa',
+    labelTextColor: '#f8fafc',
+    loopTextColor: '#f1f5f9',
+    activationBkgColor: '#334155',
+    activationBorderColor: '#94a3b8',
+    sequenceNumberColor: '#0b0f19'
+  }
+});
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#0b0f19;color:#e2e8f0;line-height:1.65}
+#sidebar{position:fixed;left:0;top:0;width:280px;height:100%;background:#0f172a;border-right:1px solid #1e293b;overflow-y:auto;z-index:1000;padding:16px}
+#sidebar h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;margin-bottom:12px}
+#sidebar ul{list-style:none}
+#sidebar li{padding:8px 10px;margin-bottom:4px;border-radius:6px;cursor:pointer;font-size:13px;color:#cbd5e1;transition:all .15s;border-left:3px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#sidebar li:hover{background:#1e293b}
+#sidebar li.active{background:#1e293b;border-left-color:#3b82f6;color:#fff;font-weight:600}
+#main{margin-left:280px;height:100%;position:relative;overflow:hidden}
+.slide{display:none;width:100%;height:100%;padding:48px 64px;overflow-y:auto;animation:fadeIn .35s ease}
+.slide.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:32px;font-weight:800;margin-bottom:12px;color:#f8fafc;line-height:1.25}
+h2{font-size:22px;font-weight:700;margin:28px 0 12px;color:#93c5fd;border-bottom:1px solid #1e293b;padding-bottom:8px}
+h3{font-size:17px;font-weight:600;margin:20px 0 8px;color:#bfdbfe}
+p{margin-bottom:14px;font-size:15px;color:#cbd5e1}
+ul,ol{margin-left:22px;margin-bottom:14px}
+li{margin-bottom:7px;font-size:14.5px}
+strong{color:#f8fafc;font-weight:600}
+.c{background:#1e293b;padding:2px 8px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;color:#86efac}
+.card{background:#111827;border:1px solid #1e293b;border-radius:10px;padding:18px 22px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 11px;border:1px solid #1e293b;text-align:left;vertical-align:top}
+th{background:#0f172a;color:#93c5fd;font-weight:600}
+tr:nth-child(even){background:#111827}
+.svg-wrap{margin:16px auto;text-align:center}
+.mermaid-wrap{margin:16px auto;text-align:center;background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:14px}
+svg{max-width:100%;height:auto}
+pre.code{background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.8px;color:#cbd5e1;margin:12px 0;line-height:1.55;white-space:pre}
+pre.code .cm{color:#64748b}
+pre.code .kw{color:#c4b5fd}
+pre.code .st{color:#86efac}
+pre.code .fn{color:#93c5fd}
+.tag{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700}
+.tag-s1{background:#3a2c13;color:#ffd88a;border:1px solid rgba(251,191,36,.4)}
+.tag-s2{background:#14233a;color:#8ac4ff;border:1px solid rgba(96,165,250,.45)}
+.tag-bad{background:#3a1414;color:#fca5a5;border:1px solid rgba(239,68,68,.4)}
+.tag-good{background:#12281b;color:#86efac;border:1px solid rgba(16,185,129,.4)}
+.lead{font-size:18px;color:#93c5fd;margin-bottom:22px}
+.kpi{font-size:30px;font-weight:800;color:#f8fafc}
+.kpi-sub{font-size:12.5px;color:#94a3b8}
+.note{border-left:3px solid #f59e0b;padding:8px 14px;background:rgba(245,158,11,.08);border-radius:0 6px 6px 0;margin:12px 0}
+.note.blue{border-left-color:#60a5fa;background:rgba(96,165,250,.08)}
+.note.red{border-left-color:#ef4444;background:rgba(239,68,68,.08)}
+.note.green{border-left-color:#10b981;background:rgba(16,185,129,.08)}
+#controls{position:fixed;bottom:18px;right:24px;z-index:2000;display:flex;gap:8px}
+#controls button{background:#1e293b;border:1px solid #334155;color:#cbd5e1;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;transition:background .15s}
+#controls button:hover{background:#334155}
+#slideNum{position:fixed;bottom:18px;left:300px;z-index:2000;font-size:12px;color:#64748b}
+@media print{
+  #sidebar,#controls,#slideNum{display:none}
+  #main{margin-left:0}
+  .slide{display:block!important;page-break-after:always;overflow:visible;height:auto;padding:32px 40px}
+  body{background:#fff;color:#111}
+  h1,h2,h3{color:#0f172a}
+  .card,.c,pre.code{background:#f8fafc;border-color:#e2e8f0;color:#111}
+}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#0b0f19}
+::-webkit-scrollbar-thumb{background:#334155;border-radius:4px}
+</style>
+</head>
+<body>
+<nav id="sidebar"><h2>Mục lục</h2><ul id="navList"></ul></nav>
+<div id="main">
+
+<!-- SLIDE 1 — Tổng quan -->
+<section class="slide active" data-title="Tổng quan">
+<h1>ConflictRAG — Phát hiện mâu thuẫn 2 tầng</h1>
+<p class="lead">Module phát hiện mâu thuẫn giữa các tài liệu được truy hồi, trước khi LLM sinh câu trả lời — kết hợp một <strong>MLP nhẹ trên embedding (Stage 1)</strong> và <strong>tinh chỉnh bằng LLM có chọn lọc (Stage 2)</strong>.</p>
+<div class="grid2">
+<div class="card"><h3>Vấn đề giải quyết</h3><p>RAG mặc định giả định mọi tài liệu truy hồi về là <strong>nhất quán</strong>. Thực tế chúng có thể <strong>mâu thuẫn nhau</strong> (số liệu khác nhau, thông tin theo thời gian, quan điểm trái chiều). Hệ thống thường gộp hết lại → trả lời sai mà không hề cảnh báo.</p></div>
+<div class="card"><h3>Ý tưởng cốt lõi</h3><p>Với K=5 tài liệu có <strong>C(5,2)=10 cặp</strong>/câu hỏi. Gọi LLM cho mọi cặp thì đắt. Vì vậy:</p><ul><li><span class="tag tag-s1">Stage 1</span> MLP sàng lọc nhanh phần lớn cặp (CPU, ~ms).</li><li><span class="tag tag-s2">Stage 2</span> chỉ gọi LLM cho cặp MLP <strong>chưa đủ chắc chắn</strong>.</li></ul></div>
+</div>
+<div class="card"><h3>Vị trí trong pipeline RAG</h3>
+<p>Chèn ngay sau bước chọn ngữ cảnh, trước khi sinh câu trả lời:</p>
+<p style="text-align:center;font-size:15px;margin:8px 0"><span class="c">Retrieve</span> → <span class="c">Rerank</span> → <span class="c">Select context (top-K)</span> → <strong style="color:#fcd34d">Conflict Detect (2-stage)</strong> → <span class="c">Generate</span></p>
+</div>
+<div class="grid3">
+<div class="card"><div class="kpi">2</div><div class="kpi-sub">tầng: MLP + LLM</div></div>
+<div class="card"><div class="kpi">3</div><div class="kpi-sub">loại nhãn: no-conflict / factual / temporal</div></div>
+<div class="card"><div class="kpi">10</div><div class="kpi-sub">cặp xét mỗi câu hỏi (K=5)</div></div>
+</div>
+<p style="margin-top:8px;color:#64748b;font-size:13px">Dựa trên ý tưởng paper <em>ConflictRAG (arXiv 2605.17301)</em>, hiện thực hoá &amp; tinh chỉnh cho corpus tiếng Việt. Code: <span class="c">backend/app/conflict/detector.py</span>.</p>
+</section>
+
+<!-- SLIDE 2 — Knowledge Conflict -->
+<section class="slide" data-title="Knowledge Conflict là gì">
+<h1>Knowledge Conflict trong RAG là gì?</h1>
+<div class="card"><h3>Định nghĩa</h3><p>Khi hai (hoặc nhiều) đoạn tài liệu truy hồi về <strong>không thể cùng đúng</strong> khi trả lời cùng một câu hỏi. Module này tập trung vào <strong>inter-document conflict</strong> (mâu thuẫn giữa các đoạn), xét theo <strong>từng cặp</strong>.</p></div>
+<div class="grid3">
+<div class="card"><h3><span class="tag tag-s1">factual</span> Sự kiện</h3><p>Hai khẳng định trái ngược về cùng một sự kiện.</p><p style="font-size:13px;color:#94a3b8">"Premam sản xuất tại <strong>India</strong>" vs "tại <strong>Austria</strong>".</p></div>
+<div class="card"><h3><span class="tag tag-s1">temporal</span> Thời gian</h3><p>Cùng chủ đề nhưng ứng với <strong>mốc thời gian khác nhau</strong> — thông tin thay đổi theo thời gian.</p><p style="font-size:13px;color:#94a3b8">"Chủ tịch nước là <strong>Tô Lâm</strong> (2026)" vs "<strong>Lương Cường</strong> (2025)".</p></div>
+<div class="card"><h3>no-conflict</h3><p>Bổ sung nhau, trùng lặp, hoặc <strong>khác chủ đề</strong> (không liên quan ⇒ không thể mâu thuẫn).</p><p style="font-size:13px;color:#94a3b8">"Chủ tịch nước…" vs "thuật toán Dijkstra…" → không liên quan.</p></div>
+</div>
+<div class="note"><strong>Vì sao quan trọng:</strong> nếu không phát hiện, hệ thống gộp cả hai đáp án trái ngược vào ngữ cảnh và LLM có thể trả lời theo đoạn sai, hoặc trộn lẫn — người dùng không hề biết có mâu thuẫn. Phát hiện trước cho phép <strong>cảnh báo, ưu tiên nguồn, hoặc trình bày đa quan điểm</strong>.</div>
+</section>
+
+<!-- SLIDE 3 — Pipeline tổng quan -->
+<section class="slide" data-title="Pipeline 2-stage tổng quan">
+<h1>Kiến trúc 2 tầng — Tổng quan luồng</h1>
+<div class="svg-wrap">
+<svg width="860" height="300" viewBox="0 0 860 300">
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker></defs>
+<!-- input -->
+<rect x="20" y="120" width="150" height="64" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<text x="95" y="146" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="700">Query + top-K chunks</text>
+<text x="95" y="166" text-anchor="middle" fill="#cbd5e1" font-size="10">C(5,2) = 10 cặp</text>
+<!-- stage1 -->
+<rect x="210" y="100" width="180" height="104" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="300" y="124" text-anchor="middle" fill="#fcd34d" font-size="13" font-weight="700">Stage 1 — MLP</text>
+<text x="300" y="144" text-anchor="middle" fill="#cbd5e1" font-size="10">Embed q⊕d (1536-dim)</text>
+<text x="300" y="160" text-anchor="middle" fill="#cbd5e1" font-size="10">Feature 6144-dim → 2 head</text>
+<text x="300" y="176" text-anchor="middle" fill="#cbd5e1" font-size="10">binary p + type</text>
+<text x="300" y="194" text-anchor="middle" fill="#94a3b8" font-size="10">~ vài ms, chạy CPU</text>
+<!-- decision -->
+<polygon points="470,152 520,118 570,152 520,186" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="520" y="148" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="700">conf ≥ τc?</text>
+<text x="520" y="164" text-anchor="middle" fill="#94a3b8" font-size="10">τc = 0.7</text>
+<!-- fast path -->
+<rect x="640" y="40" width="190" height="60" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="735" y="64" text-anchor="middle" fill="#fcd34d" font-size="12" font-weight="700">Dùng quyết định MLP</text>
+<text x="735" y="84" text-anchor="middle" fill="#cbd5e1" font-size="10">Fast path (tự tin)</text>
+<!-- stage2 -->
+<rect x="640" y="200" width="190" height="72" rx="8" fill="#0f172a" stroke="#60a5fa" stroke-width="2"/>
+<text x="735" y="224" text-anchor="middle" fill="#8ac4ff" font-size="12" font-weight="700">Stage 2 — LLM</text>
+<text x="735" y="242" text-anchor="middle" fill="#cbd5e1" font-size="10">gpt-4o-mini, JSON mode</text>
+<text x="735" y="258" text-anchor="middle" fill="#cbd5e1" font-size="10">phán đoán lại (lưỡng lự)</text>
+<!-- arrows -->
+<line x1="170" y1="152" x2="210" y2="152" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="390" y1="152" x2="468" y2="152" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="540" y1="135" x2="640" y2="80" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+<text x="600" y="100" fill="#6ee7b7" font-size="10">Có (~tự tin)</text>
+<line x1="540" y1="170" x2="640" y2="225" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+<text x="585" y="205" fill="#fca5a5" font-size="10">Không (&lt; τc)</text>
+</svg></div>
+<div class="grid2">
+<div class="card"><h3>Đầu vào / Đầu ra</h3><ul><li><strong>Vào:</strong> câu hỏi <span class="c">query</span> + danh sách chunk (mỗi chunk có <span class="c">text, chunk_id, doc_title, page, label</span>).</li><li><strong>Ra:</strong> <span class="c">conflict_report</span> = tập các cặp mâu thuẫn, kèm loại, xác suất, và tầng đã quyết (<span class="c">stage1</span>/<span class="c">stage2</span>).</li></ul></div>
+<div class="card"><h3>Triết lý "tiết kiệm có chọn lọc"</h3><p>MLP xử lý phần lớn cặp gần như miễn phí; LLM (đắt) chỉ dùng cho thiểu số cặp <strong>mơ hồ</strong>. Đây chính là điểm cốt lõi giúp giảm chi phí mà vẫn giữ độ chính xác cao (paper: giảm ~62% chi phí).</p></div>
+</div>
+</section>
+
+<!-- SLIDE 4 — Stage 1 MLP kiến trúc -->
+<section class="slide" data-title="Stage 1: Kiến trúc MLP">
+<h1><span class="tag tag-s1">Stage 1</span> Bộ phân loại MLP trên embedding</h1>
+<div class="card"><h3>Vì sao dùng MLP + encoder đóng băng (frozen)?</h3><p>Thay vì fine-tune cross-encoder (nặng, cần GPU), ta <strong>đóng băng encoder</strong> (OpenAI embedding) và chỉ học một MLP nhỏ phía trên. Nhờ vậy <strong>chạy được trên CPU</strong>, nạp model nhẹ, suy luận ~vài ms/cặp.</p></div>
+<div class="grid2">
+<div class="card"><h3>Kiến trúc (class <span class="c">Stage1MLP</span>)</h3>
+<pre class="code"><span class="cm"># input_dim = 1536 × 4 = 6144</span>
+shared = Sequential(
+  Linear(<span class="st">6144</span> → <span class="st">1024</span>), ReLU, Dropout(0.2),
+  Linear(<span class="st">1024</span> → <span class="st">256</span>),  ReLU, Dropout(0.2),
+)
+binary_head = Linear(<span class="st">256</span> → <span class="st">2</span>)   <span class="cm"># conflict?</span>
+type_head   = Linear(<span class="st">256</span> → <span class="st">3</span>)   <span class="cm"># loại</span></pre>
+<p>Hai head <strong>chia sẻ chung</strong> biểu diễn <span class="c">shared</span>: head 1 phân loại nhị phân (có/không mâu thuẫn), head 2 phân loại 3 loại.</p></div>
+<div class="card"><h3>Nhãn (3 lớp)</h3>
+<table><tr><th>id</th><th>nhãn</th><th>ý nghĩa</th></tr>
+<tr><td>0</td><td>no-conflict</td><td>Không mâu thuẫn</td></tr>
+<tr><td>1</td><td>factual</td><td>Mâu thuẫn sự kiện</td></tr>
+<tr><td>2</td><td>temporal</td><td>Mâu thuẫn thời gian</td></tr></table>
+<p style="font-size:13px;color:#94a3b8">Nhãn nạp từ <span class="c">label_mapping.json</span> trong thư mục model. Paper có thêm loại <em>opinion</em>; bản hiện tại tập trung 3 loại trên.</p>
+<h3>Encoder</h3><p><span class="c">text-embedding-3-small</span>, 1536 chiều, L2-normalize, cache theo <span class="c">SHA-256(text)</span> để khỏi gọi lại.</p></div>
+</div>
+<p style="margin-top:6px"><strong>File:</strong> <span class="c">backend/app/conflict/detector.py</span> — class <span class="c">Stage1MLP</span>, <span class="c">_load_model()</span>, <span class="c">_embed_batch()</span>.</p>
+</section>
+
+<!-- SLIDE 5 — Feature engineering -->
+<section class="slide" data-title="Stage 1: Feature vector">
+<h1><span class="tag tag-s1">Stage 1</span> Feature vector — 4 thành phần tương tác</h1>
+<div class="card"><h3>Cách tạo đặc trưng cho một cặp (dᵢ, dⱼ)</h3>
+<p>Mỗi đoạn được nối với câu hỏi rồi embed: <span class="c">eᵢ = Embed("Câu hỏi: q\nTài liệu: dᵢ")</span>. Sau khi L2-normalize, ghép <strong>4 khối</strong>:</p>
+<pre class="code">f = [ <span class="st">eᵢ</span> ; <span class="st">eⱼ</span> ; <span class="st">|eᵢ − eⱼ|</span> ; <span class="st">eᵢ ⊙ eⱼ</span> ]   ∈ ℝ⁶¹⁴⁴</pre></div>
+<div class="grid2">
+<div class="card"><h3>Ý nghĩa từng khối</h3>
+<table><tr><th>Khối</th><th>Chiều</th><th>Bắt thông tin gì</th></tr>
+<tr><td><span class="c">eᵢ</span></td><td>1536</td><td>Nội dung đoạn i (theo ngữ cảnh câu hỏi)</td></tr>
+<tr><td><span class="c">eⱼ</span></td><td>1536</td><td>Nội dung đoạn j</td></tr>
+<tr><td><span class="c">|eᵢ−eⱼ|</span></td><td>1536</td><td><strong>Độ khác biệt</strong> theo từng chiều</td></tr>
+<tr><td><span class="c">eᵢ⊙eⱼ</span></td><td>1536</td><td><strong>Độ tương đồng/đồng pha</strong> (tích Hadamard)</td></tr></table></div>
+<div class="card"><h3>Vì sao cần cả "khác" lẫn "giống"?</h3><ul><li><span class="c">|eᵢ−eⱼ|</span> lớn ⇒ hai đoạn khác nhau (gợi ý có thể mâu thuẫn <em>hoặc</em> khác chủ đề).</li><li><span class="c">eᵢ⊙eⱼ</span> cao ⇒ hai đoạn cùng chủ đề/đồng hướng.</li><li>Kết hợp cả hai mới phân biệt được "<strong>khác mà cùng chủ đề</strong>" (mâu thuẫn thật) với "<strong>khác vì lạc đề</strong>" (không mâu thuẫn).</li></ul><p style="font-size:13px;color:#94a3b8">Đây là dạng feature kinh điển của bài so khớp câu (NLI sentence-pair).</p></div>
+</div>
+<p style="margin-top:6px"><strong>File:</strong> <span class="c">detector.py</span> — <span class="c">_make_feature()</span>, <span class="c">_format_text()</span>, <span class="c">_l2_normalize()</span>.</p>
+</section>
+
+<!-- SLIDE 6 — Định tuyến theo confidence -->
+<section class="slide" data-title="Định tuyến theo độ tự tin">
+<h1>Định tuyến theo độ tự tin — cầu nối 2 tầng</h1>
+<div class="card"><h3>Công thức quyết định trong <span class="c">predict_pair()</span></h3>
+<pre class="code">binary_prob = softmax(binary_logits)
+p = binary_prob[<span class="st">1</span>]                <span class="cm"># xác suất "có mâu thuẫn"</span>
+conflict = p &gt;= threshold        <span class="cm"># quyết định Stage 1 (threshold = 0.7)</span>
+
+stage1_confidence = max(p, 1 − p)  <span class="cm"># độ CHẮC CHẮN, ∈ [0.5, 1.0]</span>
+
+<span class="kw">if</span> enable_stage2 <span class="kw">and</span> stage1_confidence &lt; τc:   <span class="cm"># τc = 0.7</span>
+    refined = _stage2_refine(...)       <span class="cm"># → gọi LLM</span></pre></div>
+<div class="grid2">
+<div class="card"><h3>Phân biệt 2 ngưỡng (rất quan trọng)</h3>
+<table><tr><th>Tham số</th><th>Vai trò</th></tr>
+<tr><td><span class="c">threshold</span> = 0.7</td><td>Ngưỡng <strong>quyết định</strong> có mâu thuẫn của MLP (p ≥ 0.7).</td></tr>
+<tr><td><span class="c">τc</span> (tau_c) = 0.7</td><td>Ngưỡng <strong>định tuyến</strong>: độ tự tin dưới mức này ⇒ đẩy sang LLM.</td></tr></table>
+<p style="font-size:13px;color:#94a3b8">Hai con số tình cờ bằng nhau nhưng <strong>ý nghĩa khác hẳn</strong>: một cái nói "có conflict không", một cái nói "MLP có chắc không".</p></div>
+<div class="card"><h3>Vùng "lưỡng lự" được đẩy lên LLM</h3>
+<p>Vì <span class="c">confidence = max(p, 1−p)</span>, điều kiện <span class="c">&lt; 0.7</span> tương đương <strong>p ∈ (0.3, 0.7)</strong>.</p>
+<p style="text-align:center;margin:10px 0">
+<span class="tag tag-good">p &lt; 0.3</span> chắc chắn không &nbsp;→ MLP<br><br>
+<span class="tag tag-s2">0.3 ≤ p &lt; 0.7</span> lưỡng lự &nbsp;→ <strong>Stage 2 LLM</strong><br><br>
+<span class="tag tag-s1">p ≥ 0.7</span> chắc chắn có &nbsp;→ MLP</p></div>
+</div>
+<div class="note blue">Cấu hình qua <span class="c">.env</span>: <span class="c">CONFLICT_THRESHOLD</span>, <span class="c">CONFLICT_TAU_C</span>, <span class="c">CONFLICT_ENABLE_STAGE2</span>. Đặt <span class="c">CONFLICT_TAU_C</span> cao (vd 0.99) sẽ ép gần như mọi cặp qua Stage 2 để kiểm chứng.</div>
+</section>
+
+<!-- SLIDE 7 — Stage 2 LLM -->
+<section class="slide" data-title="Stage 2: LLM refinement">
+<h1><span class="tag tag-s2">Stage 2</span> Tinh chỉnh bằng LLM (có chọn lọc)</h1>
+<div class="grid2">
+<div class="card"><h3>Hàm <span class="c">_stage2_refine()</span></h3><ul><li>Model: <span class="c">gpt-4o-mini</span> (= <span class="c">LLM_MODEL_FAST</span>), <span class="c">temperature=0</span>, <strong>JSON mode</strong>.</li><li>Prompt có cấu trúc: đưa câu hỏi + hai đoạn A, B, yêu cầu phán đoán có mâu thuẫn không và phân loại.</li><li>Trả về JSON: <span class="c">{has_conflict, type, summary, confidence}</span>.</li><li>Kết quả LLM <strong>ghi đè</strong> quyết định &amp; loại của Stage 1.</li></ul></div>
+<div class="card"><h3>Schema đầu ra (ép JSON)</h3>
+<pre class="code">{
+  <span class="st">"has_conflict"</span>: true | false,
+  <span class="st">"type"</span>: "factual" | "temporal" | "no-conflict",
+  <span class="st">"summary"</span>: "<span class="cm">mô tả ngắn gọn</span>",
+  <span class="st">"confidence"</span>: 0.0 .. 1.0
+}</pre>
+<p style="font-size:13px;color:#94a3b8">Loại trả về được <strong>validate</strong> về đúng tập nhãn của model; nếu không khớp sẽ chuẩn hoá lại.</p></div>
+</div>
+<div class="card"><h3>An toàn &amp; chi phí</h3>
+<div class="grid2" style="margin:0">
+<div><h3 style="margin-top:4px">Fallback an toàn</h3><p>Nếu gọi LLM lỗi (mạng, parse JSON) → trả <span class="c">None</span> → <strong>giữ nguyên quyết định Stage 1</strong>, không làm sập cả pipeline.</p></div>
+<div><h3 style="margin-top:4px">Đếm chi phí</h3><p><span class="c">detect_topk()</span> đếm <span class="c">num_stage2_calls</span> và log dòng <span class="c">RAG_FLOW node=conflict_stage2 …</span> để theo dõi đúng số lần gọi LLM.</p></div>
+</div></div>
+<p style="margin-top:6px"><strong>File:</strong> <span class="c">detector.py</span> — <span class="c">_stage2_refine()</span>, hằng <span class="c">STAGE2_SYSTEM</span> / <span class="c">STAGE2_INSTRUCTION</span>.</p>
+</section>
+
+<!-- SLIDE 8 — detect_topk -->
+<section class="slide" data-title="Vòng lặp detect_topk">
+<h1>Ghép cặp &amp; tổng hợp — <span class="c">detect_topk()</span></h1>
+<div class="card"><h3>Các bước</h3><ol>
+<li>Lấy <span class="c">top_k = 5</span> chunk đầu (cấu hình <span class="c">CONFLICT_TOP_K</span>).</li>
+<li>Sinh mọi cặp: <span class="c">combinations(range(5), 2)</span> → <strong>10 cặp</strong>.</li>
+<li>Bỏ cặp có đoạn rỗng. Với mỗi cặp gọi <span class="c">predict_pair()</span> (đã gồm định tuyến Stage 1→2).</li>
+<li>Nếu cặp được kết luận là conflict → thêm vào <span class="c">conflict_pairs</span> kèm metadata (title, page, loại, xác suất, tầng, tóm tắt LLM).</li>
+<li>Sắp xếp theo <span class="c">conflict_probability</span> giảm dần.</li>
+</ol></div>
+<div class="grid2">
+<div class="card"><h3>Cấu trúc 1 cặp mâu thuẫn trả về</h3>
+<pre class="code">{
+  doc_i_id, doc_j_id, doc_i_title, doc_j_title,
+  doc_i_page, doc_j_page,
+  conflict_probability,   <span class="cm"># xác suất MLP</span>
+  type_label,             <span class="cm"># factual/temporal</span>
+  type_probabilities,
+  <span class="st">stage</span>,                  <span class="cm"># "stage1" | "stage2"</span>
+  <span class="st">stage2_summary</span>,         <span class="cm"># tóm tắt LLM (nếu có)</span>
+  <span class="st">stage2_confidence</span>,
+  doc_i_preview, doc_j_preview
+}</pre></div>
+<div class="card"><h3>Báo cáo tổng (<span class="c">conflict_report</span>)</h3>
+<pre class="code">{
+  enabled, has_conflict,
+  threshold, <span class="st">tau_c</span>,
+  num_documents, num_pairs,
+  <span class="st">num_stage2_calls</span>,    <span class="cm"># số lần gọi LLM</span>
+  conflict_pairs[ ... ],
+  duration_ms
+}</pre>
+<p style="font-size:13px;color:#94a3b8">Toàn bộ dùng <span class="c">threading.Lock</span> để an toàn khi chạy đồng thời nhiều request.</p></div>
+</div>
+</section>
+
+<!-- SLIDE 9 — Tích hợp backend -->
+<section class="slide" data-title="Tích hợp Backend">
+<h1>Tích hợp vào Agent Graph (Backend)</h1>
+<div class="svg-wrap">
+<svg width="820" height="120" viewBox="0 0 820 120">
+<defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker></defs>
+<rect x="20" y="35" width="150" height="50" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="2"/>
+<text x="95" y="56" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="700">select_context</text>
+<text x="95" y="74" text-anchor="middle" fill="#cbd5e1" font-size="10">top-K chunks</text>
+<rect x="220" y="35" width="180" height="50" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<text x="310" y="56" text-anchor="middle" fill="#fcd34d" font-size="12" font-weight="700">conflict_detect node</text>
+<text x="310" y="74" text-anchor="middle" fill="#cbd5e1" font-size="10">detector.detect_topk()</text>
+<rect x="450" y="35" width="160" height="50" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+<text x="530" y="56" text-anchor="middle" fill="#67e8f9" font-size="12" font-weight="700">SSE emit</text>
+<text x="530" y="74" text-anchor="middle" fill="#cbd5e1" font-size="10">"conflict_detect"</text>
+<rect x="660" y="35" width="150" height="50" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="735" y="56" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="700">Generate</text>
+<text x="735" y="74" text-anchor="middle" fill="#cbd5e1" font-size="10">+ conflict_report</text>
+<line x1="170" y1="60" x2="220" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#arr2)"/>
+<line x1="400" y1="60" x2="450" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#arr2)"/>
+<line x1="610" y1="60" x2="660" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#arr2)"/>
+</svg></div>
+<div class="grid2">
+<div class="card"><h3>Khởi tạo (1 lần, trong <span class="c">graph.py</span>)</h3>
+<pre class="code">ConflictDetector(
+  model_dir   = CONFLICT_MODEL_DIR,
+  embedding_model = EMBED_MODEL,
+  threshold   = CONFLICT_THRESHOLD,
+  <span class="st">llm_model</span>   = LLM_MODEL_FAST,
+  <span class="st">tau_c</span>       = CONFLICT_TAU_C,
+  <span class="st">enable_stage2</span> = True,
+)</pre>
+<p style="font-size:13px;color:#94a3b8">Chỉ bật khi <span class="c">ENABLE_CONFLICT_RAG=true</span> và có OpenAI key. Lỗi nạp model → tắt mềm, không chặn agent.</p></div>
+<div class="card"><h3>Trong node trả lời</h3><ul><li>Chỉ chạy khi có ngữ cảnh và detector sẵn sàng.</li><li>Gọi <span class="c">detect_topk(query, chunks, top_k)</span>.</li><li>Phát sự kiện SSE <span class="c">conflict_detect</span> để frontend hiển thị real-time.</li><li>Đính kèm <span class="c">conflict_report</span> vào payload <span class="c">final</span>.</li></ul></div>
+</div>
+<p style="margin-top:6px"><strong>File:</strong> <span class="c">backend/app/agent/graph.py</span> + <span class="c">backend/app/config.py</span>.</p>
+</section>
+
+<!-- SLIDE 10 — Frontend -->
+<section class="slide" data-title="Hiển thị Frontend">
+<h1>Hiển thị trên giao diện (Frontend)</h1>
+<div class="grid2">
+<div class="card"><h3>Thẻ ConflictReportCard</h3><ul><li>Tiêu đề: "⚠️ Phát hiện N cặp mâu thuẫn" + dòng tóm tắt (số cặp, threshold, <strong>số cặp xác minh bằng LLM</strong>, thời gian).</li><li>Mỗi cặp: badge loại (Mâu thuẫn sự kiện/thời gian), nhãn đoạn <span class="c">[i] ↔ [j]</span>, và % bên phải.</li><li><strong>% hiển thị = <span class="c">conflict_probability</span> của MLP</strong> (làm tròn ×100).</li></ul></div>
+<div class="card"><h3>Badge Stage 2 (mới thêm)</h3><p>Khi <span class="c">stage === "stage2"</span>:</p><ul><li>Hiện chip <span class="tag tag-s2">🤖 Stage 2 · LLM</span> cạnh badge loại.</li><li>Mở rộng cặp: ô ghi chú xanh "<strong>Stage 2 (LLM) đã xác minh</strong>" + độ tin cậy LLM + <span class="c">stage2_summary</span>, kèm nhắc "MLP chỉ đạt X% nên được đẩy sang LLM".</li></ul></div>
+</div>
+<div class="card"><h3>Mô phỏng giao diện</h3>
+<div style="border:1px solid #f59e0b;border-radius:10px;padding:14px;background:rgba(245,158,11,.06)">
+<div style="font-weight:700;color:#fcd34d;margin-bottom:4px">⚠️ ConflictRAG: Phát hiện 1 cặp mâu thuẫn</div>
+<div style="font-size:12.5px;color:#94a3b8;margin-bottom:10px">Đã kiểm tra 10 cặp từ 5 đoạn trích · threshold 0.7 · <strong style="color:#8ac4ff">1 cặp xác minh bằng LLM (Stage 2)</strong> · 1240ms.</div>
+<div style="background:rgba(15,17,23,.65);border:1px solid #1e293b;border-radius:8px;padding:9px">
+<div style="display:flex;align-items:center;gap:8px"><span class="tag tag-s1">Mâu thuẫn sự kiện</span><span class="tag tag-s2">🤖 Stage 2 · LLM</span><span style="color:#cbd5e1;font-size:13px">[1] ↔ [3]</span><span style="margin-left:auto;color:#f59e0b;font-weight:800">60%</span></div>
+<div style="margin-top:8px;padding:7px 9px;background:rgba(20,35,58,.55);border:1px solid rgba(96,165,250,.25);border-radius:8px;color:#cfe3ff;font-size:12px"><strong>Stage 2 (LLM)</strong> đã xác minh mâu thuẫn này · độ tin cậy LLM 82%: hai đoạn nêu độ phức tạp khác nhau. <span style="color:#8b96a8">(MLP Stage 1 chỉ đạt 60% nên được đẩy sang LLM)</span></div>
+</div>
+</div></div>
+<p style="margin-top:6px"><strong>File:</strong> <span class="c">frontend/src/components/ConflictReportCard.tsx</span>, <span class="c">frontend/src/lib/types.ts</span>, <span class="c">styles.css</span>.</p>
+</section>
+
+<!-- SLIDE 11 — Bug 100% -->
+<section class="slide" data-title="Sự cố: mọi cặp 100%">
+<h1>Sự cố thực tế: mọi cặp đều "mâu thuẫn 100%"</h1>
+<div class="note red"><strong>Triệu chứng:</strong> trên corpus thật, model gắn cờ mâu thuẫn cho cả những cặp <strong>chẳng liên quan</strong> ("Chủ tịch nước là Lương Cường" vs "thuật toán dùng Heap…") với độ tự tin <strong>100%</strong> cho mọi cặp.</div>
+<div class="grid2">
+<div class="card"><h3>Nguyên nhân #1 — Dữ liệu (gốc rễ)</h3><p>Model train từ <strong>MQuAKE</strong>, mọi cặp đều <strong>cùng chủ đề</strong>:</p><ul><li>negative = câu paraphrase <strong>trùng</strong> ("Theo tài liệu, " + chính câu đó).</li><li>positive = cùng câu, khác đúng 1 giá trị.</li></ul><p>⇒ Model <strong>chưa từng thấy cặp khác chủ đề</strong> → không học được "không liên quan ⇒ không mâu thuẫn". Gặp chunk thật là <strong>out-of-distribution</strong>.</p></div>
+<div class="card"><h3>Nguyên nhân #2 — Train (khuếch đại)</h3><p><span class="c">train_loss → 0.0</span> ở epoch ~18. Để loss về 0, mạng bị ép đẩy logit <strong>cực lớn</strong> → softmax <strong>bão hòa</strong> ra ~1.0.</p><p>Mạng ReLU lại <strong>cực kỳ overconfident trên OOD</strong>: input lạ vẫn cho ~1.0. Vì bão hòa nên mọi cặp đều ra <strong>cùng một số 100%</strong>, mất khả năng phân biệt.</p></div>
+</div>
+<div class="card"><h3>Vạch trần bằng chính số liệu</h3>
+<table><tr><th>Bằng chứng</th><th>Ý nghĩa</th></tr>
+<tr><td><span class="c">test_metrics</span>: 99.8% F1</td><td>"Ảo" — chỉ đúng trên phân phối nhân tạo quá dễ.</td></tr>
+<tr><td><span class="c">train_loss = 0.0</span></td><td>Học vẹt hoàn hảo → logit phình → softmax bão hòa.</td></tr>
+<tr><td>negative = paraphrase trùng</td><td>Model học luật "khác nhau ⇒ conflict", sai bản chất.</td></tr></table></div>
+<div class="note">Lưu ý: vì FP đều 100% (rất tự tin) nên chúng <strong>luôn đi fast-path</strong>, Stage 2 không được kích hoạt để cứu — đúng như thiết kế định tuyến.</div>
+</section>
+
+<!-- SLIDE 12 — Retrain pipeline -->
+<section class="slide" data-title="Khắc phục: train lại (scripts2)">
+<h1>Khắc phục: pipeline train lại ổn định (<span class="c">scripts2/</span>)</h1>
+<div class="grid2">
+<div class="card"><h3>① Hard negative khác chủ đề <span class="tag tag-good">gốc rễ</span></h3><p>Ghép doc của 2 case <strong>khác chủ đề</strong> → gán <span class="c">no-conflict</span>. Dạy model khái niệm còn thiếu. Sinh tách riêng từng split (không rò rỉ).</p><p style="font-size:13px;color:#94a3b8">Đã thêm: +7023 train, +1549 val, +1504 test.</p></div>
+<div class="card"><h3>② Chống bão hòa softmax</h3><ul><li><span class="c">label_smoothing=0.1</span> — đặt sàn cho loss, logit hết phình.</li><li><span class="c">weight_decay=0.05</span>, <span class="c">dropout=0.3</span>, <span class="c">grad_clip=1.0</span>.</li></ul></div>
+<div class="card"><h3>③ Early-stopping theo val-loss</h3><p>Chọn model theo <strong>val-loss thấp nhất</strong> (không phải F1 — vốn luôn ~0.996), <span class="c">patience=4</span>. Dừng <strong>trước khi</strong> loss kịp về 0.</p></div>
+<div class="card"><h3>④ Hiệu chỉnh + cân bằng</h3><ul><li>Class weights tự động (temporal hiếm).</li><li><strong>Temperature scaling</strong> fit trên val rồi <strong>gấp thẳng vào trọng số head</strong> → checkpoint drop-in, không sửa <span class="c">detector.py</span>.</li><li>Log <span class="c">mean_confidence</span> &amp; <span class="c">ECE</span> mỗi epoch.</li></ul></div>
+</div>
+<div class="note green"><strong>Drop-in:</strong> kiến trúc giữ nguyên (6144→1024→256, head 2/3) nên chỉ cần trỏ <span class="c">CONFLICT_MODEL_DIR</span> sang model mới (<span class="c">stage1_openai_1536_v3</span>), không phải đổi code backend.</div>
+<p style="margin-top:4px"><strong>Files:</strong> <span class="c">scripts2/00_build_hard_negatives.py</span> → <span class="c">01_cache_openai_embeddings.py</span> → <span class="c">02_train_stage1_mlp.py</span> → <span class="c">03_sanity_check.py</span>.</p>
+</section>
+
+<!-- SLIDE 13 — Kết quả -->
+<section class="slide" data-title="Kết quả & before/after">
+<h1>Kết quả: hết bão hòa, calibration cải thiện</h1>
+<div class="grid2">
+<div class="card"><h3><span class="tag tag-bad">TRƯỚC</span> model cũ</h3><ul><li>Mọi cặp (kể cả lạc đề) → <strong>100%</strong>.</li><li><span class="c">train_loss → 0.0</span>; softmax bão hòa.</li><li>Cặp "Lương Cường vs thuật toán Heap" → conflict 100% (sai).</li></ul></div>
+<div class="card"><h3><span class="tag tag-good">SAU</span> model v3</h3><ul><li>Xác suất <strong>được hiệu chỉnh</strong> — vd cặp khó ra <strong>60%</strong>, không còn dí 100%.</li><li>label_smoothing chặn trần ~0.95.</li><li>Cặp lưỡng lự (60% &lt; τc 0.7) <strong>được đẩy sang Stage 2 LLM</strong> để phán đoán lại.</li></ul></div>
+</div>
+<div class="card"><h3>Tín hiệu theo dõi (epoch 1, model v3)</h3>
+<table><tr><th>Chỉ số</th><th>Giá trị</th><th>Diễn giải</th></tr>
+<tr><td><span class="c">train_loss</span></td><td>0.916</td><td>Không còn về 0 → hết học vẹt.</td></tr>
+<tr><td><span class="c">val_loss</span></td><td>0.335</td><td>Khái quát hoá tốt.</td></tr>
+<tr><td><span class="c">val_bin_f1</span></td><td>0.984</td><td>Vẫn giữ độ chính xác phát hiện.</td></tr>
+<tr><td><span class="c">mean_confidence</span></td><td>0.910</td><td>Tự tin có cơ sở (không phải 1.0 cho tất cả).</td></tr>
+<tr><td><span class="c">ECE</span></td><td>0.080</td><td>Độ lệch tự-tin / chính-xác thấp → calibrate ổn.</td></tr></table></div>
+<div class="note blue"><strong>Kiểm thử OOD (<span class="c">03_sanity_check.py</span>):</strong> "Tô Lâm vs Lương Cường" → vẫn CONFLICT (giữ recall); "Lương Cường vs thuật toán Heap" → no-conflict (hết FP). Đây mới là phép thử thật, vì val cùng phân phối train.</div>
+</section>
+
+<!-- SLIDE 14 — Sequence diagram -->
+<section class="slide" data-title="Sequence: luồng phát hiện">
+<h1>Sequence Diagram: luồng phát hiện một cặp</h1>
+<div class="mermaid-wrap">
+<pre class="mermaid">
+sequenceDiagram
+    participant AG as AgentGraph
+    participant D as ConflictDetector
+    participant E as OpenAI Embedding
+    participant M as Stage1 MLP
+    participant L as LLM gpt-4o-mini
+    AG->>D: detect_topk(query, 5 chunks)
+    loop 10 cap (i,j)
+        D->>E: embed q+di, q+dj
+        E-->>D: ei, ej (1536-dim)
+        D->>M: feature 6144-dim
+        M-->>D: p (conflict), type
+        Note over D: confidence = max(p, 1-p)
+        alt confidence >= tau_c (tu tin)
+            D->>D: dung quyet dinh MLP (stage1)
+        else confidence < tau_c (luong lu)
+            D->>L: prompt JSON (q, A, B)
+            L-->>D: has_conflict, type, summary
+            D->>D: ghi de = ket qua LLM (stage2)
+        end
+    end
+    D-->>AG: conflict_report (pairs + num_stage2_calls)
+</pre></div>
+<div class="card"><h3>Điểm cốt lõi</h3><ul><li><strong>Embedding được cache</strong> theo SHA-256 → cùng (q,d) không gọi API lại.</li><li>Chỉ <strong>cặp lưỡng lự</strong> mới phát sinh LLM call → chi phí thấp.</li><li>LLM <strong>ghi đè</strong> cả quyết định lẫn loại; lỗi LLM thì <strong>fallback</strong> về Stage 1.</li></ul></div>
+</section>
+
+<!-- SLIDE 15 — Tóm tắt -->
+<section class="slide" data-title="Tóm tắt">
+<h1>Tóm tắt</h1>
+<div class="grid2">
+<div class="card"><h3>Đã xây dựng</h3><ul><li><strong>Phát hiện mâu thuẫn 2 tầng</strong>: MLP (Stage 1) + LLM có chọn lọc (Stage 2), định tuyến theo độ tự tin.</li><li>Tích hợp đầy đủ: backend node + SSE + thẻ hiển thị frontend (badge Stage 2).</li><li><strong>Pipeline train lại ổn định</strong> (<span class="c">scripts2/</span>) sửa overconfidence.</li></ul></div>
+<div class="card"><h3>Bài học</h3><ul><li>Chất lượng <strong>dữ liệu train</strong> (đặc biệt hard negative) quyết định nhiều hơn kiến trúc.</li><li>Metric đẹp (99.8%) có thể "ảo" nếu phân phối quá dễ; phải kiểm thử <strong>OOD</strong>.</li><li><span class="c">train_loss→0</span> là cờ đỏ của overconfidence → cần label smoothing + early-stop.</li></ul></div>
+</div>
+<div class="card"><h3>Hướng phát triển</h3>
+<table><tr><th>Hạng mục</th><th>Mô tả</th></tr>
+<tr><td>Hard negative từ chunk thật</td><td>Lấy cặp từ chính corpus (đoạn dài) thay vì câu MQuAKE ngắn → thu hẹp domain gap.</td></tr>
+<tr><td>Siết prompt Stage 2</td><td>Dạy LLM phân biệt "khác đối tượng/điều kiện ⇒ không mâu thuẫn" (ca Dijkstra vs Fast Marching).</td></tr>
+<tr><td>Thêm loại <em>opinion</em></td><td>Mở rộng 3 → 4 nhãn như paper (cần dữ liệu &amp; retrain head).</td></tr>
+<tr><td>Resolution layer</td><td>Entropy-TOPSIS chọn nguồn đáng tin cho factual; ưu tiên mới nhất cho temporal.</td></tr>
+</table></div>
+<p style="margin-top:6px;color:#64748b;font-size:13px">Mã nguồn chính: <span class="c">backend/app/conflict/detector.py</span> · <span class="c">backend/app/agent/graph.py</span> · <span class="c">data/conflict_rag/scripts2/</span> · <span class="c">frontend/src/components/ConflictReportCard.tsx</span></p>
+</section>
+
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const navList=document.getElementById('navList');
+let current=0;
+slides.forEach((s,i)=>{
+  const li=document.createElement('li');
+  li.textContent=(i+1)+'. '+(s.dataset.title||('Slide '+(i+1)));
+  li.onclick=()=>showSlide(i);
+  navList.appendChild(li);
+});
+function showSlide(n){
+  slides[current].classList.remove('active');
+  navList.children[current].classList.remove('active');
+  current=n;
+  slides[current].classList.add('active');
+  navList.children[current].classList.add('active');
+  slides[current].scrollTop=0;
+  navList.children[current].scrollIntoView({block:'nearest'});
+  document.getElementById('slideNum').textContent=(current+1)+' / '+slides.length;
+  localStorage.setItem('conflictSlidePos',current);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();showSlide(Math.min(current+1,slides.length-1))}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();showSlide(Math.max(current-1,0))}
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].screenX});
+document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].screenX;if(d>50)showSlide(Math.min(current+1,slides.length-1));if(d<-50)showSlide(Math.max(current-1,0))});
+const saved=localStorage.getItem('conflictSlidePos');
+showSlide(saved!==null?parseInt(saved):0);
+</script>
+<div id="controls"><button onclick="showSlide(Math.max(current-1,0))">◀ Trước</button><button onclick="showSlide(Math.min(current+1,slides.length-1))">Tiếp ▶</button></div>
+<div id="slideNum"></div>
+</body>
+</html>
