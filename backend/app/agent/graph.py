@@ -94,6 +94,9 @@ class Agent:
                     embedding_dim=self.settings.embed_dim or 1536,
                     threshold=self.settings.conflict_threshold,
                     enabled=True,
+                    llm_model=self.settings.llm_model_fast,
+                    tau_c=self.settings.conflict_tau_c,
+                    enable_stage2=self.settings.conflict_enable_stage2,
                 )
             except Exception:
                 logger.exception("RAG_FLOW conflict_detector_load_error")

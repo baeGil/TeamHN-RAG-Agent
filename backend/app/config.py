@@ -34,6 +34,9 @@ class Settings:
         self.enable_conflict_rag = _get_bool("ENABLE_CONFLICT_RAG", True)
         self.conflict_top_k = _get_int("CONFLICT_TOP_K", 5)
         self.conflict_threshold = float(os.getenv("CONFLICT_THRESHOLD", "0.7"))
+        # Stage 2 (LLM refinement): route cặp có độ tự tin Stage 1 < tau_c sang LLM.
+        self.conflict_enable_stage2 = _get_bool("CONFLICT_ENABLE_STAGE2", True)
+        self.conflict_tau_c = float(os.getenv("CONFLICT_TAU_C", "0.7"))
 
         conflict_model_dir = os.getenv(
             "CONFLICT_MODEL_DIR",

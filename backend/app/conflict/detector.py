@@ -52,6 +52,35 @@ def _format_text(query: str, doc: str) -> str:
     return f"Câu hỏi: {query}\nTài liệu: {doc}"
 
 
+STAGE2_SYSTEM = (
+    "Bạn là chuyên gia phát hiện mâu thuẫn tri thức giữa hai đoạn tài liệu được "
+    "truy hồi cho cùng một câu hỏi. Hãy phán đoán chính xác và trả về JSON."
+)
+
+STAGE2_INSTRUCTION = """\
+Cho câu hỏi và hai đoạn tài liệu (A, B), xác định chúng có MÂU THUẪN với nhau khi
+trả lời câu hỏi hay không, và phân loại kiểu mâu thuẫn.
+
+Định nghĩa kiểu:
+- "factual": đưa ra các khẳng định/sự kiện trái ngược nhau (số liệu, tên, kết luận khác nhau).
+- "temporal": cùng chủ đề nhưng ứng với mốc thời gian khác nhau (thông tin thay đổi theo thời gian).
+- "no-conflict": không mâu thuẫn (bổ sung, trùng lặp, hoặc không liên quan đến nhau).
+
+Chỉ tính là mâu thuẫn nếu hai đoạn thực sự không thể cùng đúng khi trả lời câu hỏi.
+
+Câu hỏi: {query}
+
+[Tài liệu A]
+{doc_i}
+
+[Tài liệu B]
+{doc_j}
+
+Trả về JSON đúng schema sau, không thêm chữ nào khác:
+{{"has_conflict": true|false, "type": "factual"|"temporal"|"no-conflict", "summary": "<mô tả ngắn gọn mâu thuẫn hoặc lý do không mâu thuẫn>", "confidence": <số thực 0..1>}}
+"""
+
+
 def _l2_normalize(x: np.ndarray) -> np.ndarray:
     norm = np.linalg.norm(x)
     if norm == 0:
@@ -83,6 +112,9 @@ class ConflictDetector:
         embedding_dim: int = 1536,
         threshold: float | None = None,
         enabled: bool = True,
+        llm_model: str = "gpt-4o-mini",
+        tau_c: float = 0.7,
+        enable_stage2: bool = True,
     ) -> None:
         self.enabled = enabled
         self.model_dir = Path(model_dir)
@@ -96,7 +128,12 @@ class ConflictDetector:
             base_url=openai_base_url,
         )
 
+        # Stage 1: ngưỡng quyết định nhị phân của MLP.
         self.threshold = threshold or self._load_threshold()
+        # Stage 2: route sang LLM khi độ tự tin của Stage 1 < tau_c.
+        self.llm_model = llm_model
+        self.tau_c = tau_c
+        self.enable_stage2 = enable_stage2
         self.label_mapping = self._load_label_mapping()
 
         self.model = Stage1MLP(embedding_dim=embedding_dim)
@@ -189,15 +226,88 @@ class ConflictDetector:
         type_id = int(torch.argmax(type_prob).item())
         type_label = self.label_mapping.get(type_id, LABELS[type_id])
 
-        return {
+        type_probabilities = {
+            self.label_mapping.get(i, LABELS[i]): float(type_prob[i].item())
+            for i in range(len(LABELS))
+        }
+
+        # Độ tự tin của quyết định nhị phân Stage 1 (khoảng [0.5, 1.0]).
+        stage1_confidence = max(conflict_probability, 1.0 - conflict_probability)
+
+        result = {
             "conflict": conflict,
             "conflict_probability": conflict_probability,
             "threshold": self.threshold,
             "type_label": type_label,
-            "type_probabilities": {
-                self.label_mapping.get(i, LABELS[i]): float(type_prob[i].item())
-                for i in range(len(LABELS))
-            },
+            "type_probabilities": type_probabilities,
+            "stage": "stage1",
+            "stage1_confidence": stage1_confidence,
+        }
+
+        # Stage 2: chỉ gọi LLM cho các cặp Stage 1 không đủ tự tin (conf < tau_c).
+        if self.enable_stage2 and stage1_confidence < self.tau_c:
+            refined = self._stage2_refine(query, doc_i, doc_j)
+            if refined is not None:
+                result.update(refined)
+                result["stage"] = "stage2"
+
+        return result
+
+    def _stage2_refine(self, query: str, doc_i: str, doc_j: str) -> dict[str, Any] | None:
+        """Tinh chỉnh bằng LLM cho cặp tài liệu Stage 1 không chắc chắn.
+
+        Trả về None nếu gọi LLM thất bại (caller giữ nguyên quyết định Stage 1).
+        """
+        instruction = STAGE2_INSTRUCTION.format(
+            query=query,
+            doc_i=doc_i,
+            doc_j=doc_j,
+        )
+        started = time.perf_counter()
+        try:
+            resp = self.client.chat.completions.create(
+                model=self.llm_model,
+                messages=[
+                    {"role": "system", "content": STAGE2_SYSTEM},
+                    {"role": "user", "content": instruction},
+                ],
+                temperature=0.0,
+                response_format={"type": "json_object"},
+            )
+            raw = resp.choices[0].message.content or "{}"
+            data = json.loads(raw)
+        except Exception:
+            logger.exception("RAG_FLOW node=conflict_stage2 llm_error")
+            return None
+
+        has_conflict = bool(data.get("has_conflict", False))
+        type_label = str(data.get("type", "no-conflict")).strip().lower()
+        if type_label not in self.label_mapping.values():
+            type_label = "factual" if has_conflict else "no-conflict"
+        if has_conflict and type_label == "no-conflict":
+            type_label = "factual"
+        if not has_conflict:
+            type_label = "no-conflict"
+
+        try:
+            llm_confidence = float(data.get("confidence", 0.0))
+        except (TypeError, ValueError):
+            llm_confidence = 0.0
+
+        elapsed_ms = (time.perf_counter() - started) * 1000
+        logger.info(
+            "RAG_FLOW node=conflict_stage2 model=%s has_conflict=%s type=%s duration_ms=%.1f",
+            self.llm_model,
+            has_conflict,
+            type_label,
+            elapsed_ms,
+        )
+
+        return {
+            "conflict": has_conflict,
+            "type_label": type_label,
+            "stage2_summary": str(data.get("summary", "")).strip(),
+            "stage2_confidence": llm_confidence,
         }
 
     def detect_topk(
@@ -221,6 +331,7 @@ class ConflictDetector:
         selected = chunks[:top_k]
         pairs = list(combinations(range(len(selected)), 2))
         conflict_pairs = []
+        num_stage2 = 0
 
         with self._lock:
             for i, j in pairs:
@@ -234,6 +345,9 @@ class ConflictDetector:
                     continue
 
                 pred = self.predict_pair(query, doc_i_text, doc_j_text)
+
+                if pred.get("stage") == "stage2":
+                    num_stage2 += 1
 
                 prob = pred["conflict_probability"]
                 if min_probability is not None and prob < min_probability:
@@ -252,6 +366,9 @@ class ConflictDetector:
                         "conflict_probability": round(prob, 6),
                         "type_label": pred["type_label"],
                         "type_probabilities": pred["type_probabilities"],
+                        "stage": pred.get("stage", "stage1"),
+                        "stage2_summary": pred.get("stage2_summary"),
+                        "stage2_confidence": pred.get("stage2_confidence"),
                         "doc_i_preview": doc_i_text[:300],
                         "doc_j_preview": doc_j_text[:300],
                     })
@@ -264,9 +381,10 @@ class ConflictDetector:
         elapsed_ms = (time.perf_counter() - started) * 1000
 
         logger.info(
-            "RAG_FLOW node_end node=conflict_detect chunks=%s pairs=%s conflicts=%s duration_ms=%.1f",
+            "RAG_FLOW node_end node=conflict_detect chunks=%s pairs=%s stage2=%s conflicts=%s duration_ms=%.1f",
             len(selected),
             len(pairs),
+            num_stage2,
             len(conflict_pairs),
             elapsed_ms,
         )
@@ -275,8 +393,10 @@ class ConflictDetector:
             "enabled": True,
             "has_conflict": bool(conflict_pairs),
             "threshold": self.threshold,
+            "tau_c": self.tau_c,
             "num_documents": len(selected),
             "num_pairs": len(pairs),
+            "num_stage2_calls": num_stage2,
             "conflict_pairs": conflict_pairs,
             "duration_ms": round(elapsed_ms, 1),
         }
