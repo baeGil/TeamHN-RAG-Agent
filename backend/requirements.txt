@@ -17,6 +17,7 @@ underthesea>=6.0
 FlagEmbedding>=1.2
 transformers<5
 torch>=2.0
+huggingface_hub>=0.24
 
 # Ingestion
 PyMuPDF>=1.24

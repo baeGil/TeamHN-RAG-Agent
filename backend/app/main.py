@@ -129,6 +129,8 @@ def config():
         "embed_model": settings.embed_model,
         "use_reranker": settings.use_reranker,
         "reranker_model": settings.reranker_model,
+        "enable_conflict_check": settings.enable_conflict_check,
+        "conflict_model": settings.conflict_model,
         "max_upload_size": settings.max_upload_size,
     }
 

@@ -8,6 +8,20 @@ const ROUTE_LABEL: Record<string, string> = {
   not_found: "Không tìm thấy",
 };
 
+function conflictReasonLabel(reason?: string): string {
+  const labels: Record<string, string> = {
+    input_too_long: "đoạn nguồn quá dài cho mô hình NLI",
+    missing_hf_token: "chưa cấu hình HF_TOKEN",
+    client_unavailable: "không khởi tạo được Hugging Face client",
+    hf_unauthorized: "HF_TOKEN không hợp lệ hoặc hết quyền",
+    hf_rate_limited: "Hugging Face đang giới hạn lượt gọi",
+    hf_bad_request: "Hugging Face từ chối request",
+    hf_inference_error: "lỗi khi gọi Hugging Face",
+  };
+  if (!reason) return "không rõ lý do";
+  return labels[reason] || reason;
+}
+
 function Icon({ type }: { type: string }) {
   const map: Record<string, string> = {
     route: "🧭",
@@ -153,6 +167,24 @@ export default function AgentTrace({
                 {e.type === "summary" && (
                   <div>
                     <b>Tóm tắt lịch sử</b> — Agent sử dụng tóm tắt hội thoại trước đó.
+                  </div>
+                )}
+                {e.type === "conflicts" && (
+                  <div>
+                    <b>Kiểm tra xung đột:</b>{" "}
+                    {e.data.available ? (
+                      <span className={(e.data.conflicts?.length || 0) > 0 ? "warn" : "ok"}>
+                        {(e.data.conflicts?.length || 0) > 0
+                          ? `${e.data.conflicts.length} cặp mâu thuẫn`
+                          : "Không phát hiện mâu thuẫn"}
+                      </span>
+                    ) : (
+                      <span className="muted">Không kiểm tra được ({conflictReasonLabel(e.data.reason)})</span>
+                    )}
+                    <div className="trace-sub">
+                      {e.data.checked_pairs || 0} cặp đã đối chiếu
+                      {e.data.input_chars ? ` · ${e.data.input_chars} ký tự/nguồn` : ""}
+                    </div>
                   </div>
                 )}
                 {e.type === "synthesize" && (

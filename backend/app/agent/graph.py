@@ -47,6 +47,7 @@ from typing import Any, Iterator, Optional
 
 from ..config import get_settings
 from ..indexing.store import KnowledgeBase, RetrievedChunk
+from ..retrieval.conflict import ConflictDetector
 from . import prompts
 from .llm import LLM
 
@@ -81,6 +82,13 @@ class Agent:
         self.kb = kb
         self.llm = LLM()
         self.settings = get_settings()
+        self.conflict_detector = ConflictDetector(
+            enabled=self.settings.enable_conflict_check,
+            model_name=self.settings.conflict_model,
+            api_key=self.settings.hf_token,
+            min_confidence=self.settings.conflict_min_confidence,
+            max_pairs=self.settings.conflict_max_pairs,
+        )
 
     def summarize_conversation(
         self,
@@ -163,7 +171,7 @@ class Agent:
         return self.llm.chat(msgs, fast=True, node="distill").strip()
 
     def _generate_and_verify(
-        self, question, history, context_chunks, steps, route, summary=None,
+        self, question, history, context_chunks, steps, route, conflicts=None, summary=None,
     ) -> tuple[str, bool, str]:
         """Generate answer internally (no streaming) and verify grounding."""
         ctx = prompts.build_context(context_chunks, label_key="label")
@@ -176,6 +184,8 @@ class Agent:
             ]
             if grounded_notes:
                 notes = "\n\nGHI CHÚ ĐÃ CHẮT LỌC (đã kiểm chứng):\n" + "\n".join(grounded_notes)
+
+        notes += self._format_conflict_notes(conflicts or [])
 
         user_msg = (
             f"NGỮ CẢNH:\n{ctx}{notes}\n\n"
@@ -529,6 +539,34 @@ class Agent:
             )
             return
 
+        # --- Conflict check (after rerank/context selection) ---
+        conflict_report: dict[str, Any] = {"conflicts": [], "checked_pairs": 0}
+        conflict_event: dict[str, Any] | None = None
+        conflicts: list[dict] = []
+        if self.settings.enable_conflict_check:
+            node_started = time.perf_counter()
+            yield emit("thinking", {"node": "conflict"})
+            conflict_report = self.conflict_detector.check(context_chunks)
+            conflicts = conflict_report.get("conflicts", []) or []
+            logger.info(
+                "RAG_FLOW node_end node=conflict duration_ms=%.1f checked_pairs=%s conflicts=%s available=%s",
+                (time.perf_counter() - node_started) * 1000,
+                conflict_report.get("checked_pairs", 0),
+                len(conflicts),
+                conflict_report.get("available", False),
+            )
+            conflict_event = {
+                "available": conflict_report.get("available", False),
+                "reason": conflict_report.get("reason", ""),
+                "model": conflict_report.get("model", self.settings.conflict_model),
+                "checked_pairs": conflict_report.get("checked_pairs", 0),
+                "input_chars": conflict_report.get("input_chars"),
+                "conflicts": conflicts,
+            }
+            yield emit("conflicts", conflict_event)
+            if conflicts:
+                partial_warning = True
+
         # --- Synthesize ---
         node_started = time.perf_counter()
         yield emit("thinking", {"node": "synthesize"})
@@ -547,7 +585,7 @@ class Agent:
         if self.settings.enable_answer_verify and route != "no_retrieval":
             # Generate internally (no streaming) and verify grounding
             answer_text, is_grounded, v_reason = self._generate_and_verify(
-                question, history, context_chunks, steps, route, summary=summary,
+                question, history, context_chunks, steps, route, conflicts=conflicts, summary=summary,
             )
             logger.info(
                 "RAG_FLOW node_end node=synthesize duration_ms=%.1f answer_chars=%s grounded=%s",
@@ -576,6 +614,8 @@ class Agent:
                         "partial": partial_warning,
                         "iterations": iteration,
                         "regenerated": False,
+                        "conflicts": conflicts,
+                        "conflict_check": conflict_event,
                     },
                 )
                 logger.info(
@@ -595,7 +635,7 @@ class Agent:
                     answer_result = yield from self._synthesize(
                         question, history, context_chunks, steps, route, trace, emit,
                         partial_warning=partial_warning, regenerate_reason=v_reason,
-                        iterations=iteration, summary=summary,
+                        iterations=iteration, conflicts=conflicts, conflict_check=conflict_event, summary=summary,
                     )
                     yield emit("verify_answer", {"grounded": True, "reason": "Đã tạo lại câu trả lời."})
                     # _synthesize skips "final" when regenerating — emit it here.
@@ -613,6 +653,8 @@ class Agent:
                             "partial": True,
                             "iterations": iteration,
                             "regenerated": True,
+                            "conflicts": conflicts,
+                            "conflict_check": conflict_event,
                         },
                     )
                     logger.info(
@@ -641,6 +683,8 @@ class Agent:
                             "partial": True,
                             "iterations": iteration,
                             "regenerated": False,
+                            "conflicts": conflicts,
+                            "conflict_check": conflict_event,
                         },
                     )
                     logger.info(
@@ -655,7 +699,8 @@ class Agent:
             # No verification — stream directly via _synthesize
             answer_result = yield from self._synthesize(
                 question, history, context_chunks, steps, route, trace, emit,
-                partial_warning=partial_warning, iterations=iteration, summary=summary,
+                partial_warning=partial_warning, iterations=iteration, conflicts=conflicts,
+                conflict_check=conflict_event, summary=summary,
             )
             logger.info(
                 "RAG_FLOW run_end duration_ms=%.1f route=%s partial=%s iterations=%s regenerated=%s answer_chars=%s",
@@ -702,6 +747,22 @@ class Agent:
             )
         return cits
 
+    @staticmethod
+    def _format_conflict_notes(conflicts: list[dict]) -> str:
+        if not conflicts:
+            return ""
+        lines = []
+        for c in conflicts[:8]:
+            a = c.get("chunk_a_label")
+            b = c.get("chunk_b_label")
+            conf = float(c.get("confidence", 0.0) or 0.0)
+            lines.append(f"- [{a}] mâu thuẫn với [{b}] (confidence {conf:.2%}).")
+        return (
+            "\n\nCẢNH BÁO XUNG ĐỘT NGUỒN:\n"
+            + "\n".join(lines)
+            + "\nKhi trả lời, hãy nêu rõ các nguồn đang mâu thuẫn và không tự ý trộn chúng thành một kết luận duy nhất."
+        )
+
     def _synthesize(
         self,
         question,
@@ -714,6 +775,8 @@ class Agent:
         partial_warning: bool = False,
         regenerate_reason: Optional[str] = None,
         iterations: int = 0,
+        conflicts: Optional[list[dict]] = None,
+        conflict_check: Optional[dict] = None,
         summary: Optional[str] = None,
     ):
         ctx = prompts.build_context(context_chunks, label_key="label")
@@ -726,6 +789,8 @@ class Agent:
             ]
             if grounded_notes:
                 notes = "\n\nGHI CHÚ ĐÃ CHẮT LỌC (đã kiểm chứng):\n" + "\n".join(grounded_notes)
+
+        notes += self._format_conflict_notes(conflicts or [])
 
         if regenerate_reason:
             system = prompts.REGENERATE_SYSTEM.format(verify_reason=regenerate_reason)
@@ -766,6 +831,8 @@ class Agent:
                     "route": route,
                     "partial": partial_warning,
                     "iterations": iterations,
+                    "conflicts": conflicts or [],
+                    "conflict_check": conflict_check,
                 },
             )
         return answer

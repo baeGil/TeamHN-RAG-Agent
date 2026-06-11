@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Citation, Message, TraceEvent } from "../lib/types";
+import type { Citation, ConflictCheck, ConflictPair, Message, TraceEvent } from "../lib/types";
 import { api, streamChat } from "../lib/api";
 import Markdown from "./Markdown";
 import AgentTrace from "./AgentTrace";
@@ -17,14 +17,121 @@ interface Props {
   messagesLoading: boolean;
 }
 
+function conflictsFromTrace(trace: TraceEvent[] = []): ConflictPair[] {
+  const ev = [...trace].reverse().find((x) => x.type === "conflicts");
+  return ev?.data?.conflicts || [];
+}
+
+function conflictCheckFromTrace(trace: TraceEvent[] = []): ConflictCheck | null {
+  const ev = [...trace].reverse().find((x) => x.type === "conflicts");
+  return ev?.data || null;
+}
+
 function normalizeMessage(m: any): Message {
+  const conflictCheck = m.conflict_check || conflictCheckFromTrace(m.trace || []);
   return {
     ...m,
     citations: m.citations || [],
+    conflict_check: conflictCheck,
+    conflicts: m.conflicts || conflictCheck?.conflicts || conflictsFromTrace(m.trace || []),
     trace: m.trace || [],
     status: m.status || "complete",
     error_message: m.error_message || null,
   };
+}
+
+function conflictReasonLabel(reason?: string): string {
+  const labels: Record<string, string> = {
+    input_too_long: "đoạn nguồn quá dài cho mô hình NLI",
+    missing_hf_token: "chưa cấu hình HF_TOKEN",
+    client_unavailable: "không khởi tạo được Hugging Face client",
+    hf_unauthorized: "HF_TOKEN không hợp lệ hoặc hết quyền",
+    hf_rate_limited: "Hugging Face đang giới hạn lượt gọi",
+    hf_bad_request: "Hugging Face từ chối request",
+    hf_inference_error: "lỗi khi gọi Hugging Face",
+  };
+  if (!reason) return "không rõ lý do";
+  return labels[reason] || reason;
+}
+
+function ConflictReview({
+  check,
+  conflicts,
+  citations,
+  messageKey,
+  resolutions,
+  onResolve,
+  onOpenCitation,
+}: {
+  check: ConflictCheck | null;
+  conflicts: ConflictPair[];
+  citations: Citation[];
+  messageKey: string;
+  resolutions: Record<string, string>;
+  onResolve: (key: string, value: string) => void;
+  onOpenCitation: (c: Citation) => void;
+}) {
+  if (!check && !conflicts.length) return null;
+
+  const openLabel = (label: number) => {
+    const c = citations.find((x) => x.label === label);
+    if (c) onOpenCitation(c);
+  };
+
+  const nConflicts = conflicts.length;
+  const checkedPairs = check?.checked_pairs || 0;
+  const statusClass = !check?.available ? "skipped" : nConflicts > 0 ? "alert" : "clear";
+  const statusText = !check?.available
+    ? `Không kiểm tra được: ${conflictReasonLabel(check?.reason)}`
+    : nConflicts > 0
+      ? `Phát hiện ${nConflicts} cặp mâu thuẫn trong ${checkedPairs} cặp đã đối chiếu`
+      : `Đã đối chiếu ${checkedPairs} cặp, không phát hiện mâu thuẫn`;
+  return (
+    <div className="conflict-panel">
+      <div className="conflict-title">Kiểm tra mâu thuẫn nguồn</div>
+      <div className={`conflict-status ${statusClass}`}>
+        <span>{statusText}</span>
+      </div>
+      {conflicts.length > 0 && (
+        <div className="conflict-list">
+          {conflicts.map((c) => {
+            const key = `${messageKey}:${c.pair_index}`;
+            const selected = resolutions[key] || "";
+            return (
+              <div key={key} className={`conflict-item ${selected ? "resolved" : ""}`}>
+                <div className="conflict-meta">
+                  <span className="chip warn">CONTRADICTION</span>
+                  <span className="chip score">{Math.round((c.confidence || 0) * 100)}%</span>
+                  {selected ? <span className="chip ok">Đã xử lý</span> : null}
+                </div>
+                <div className="conflict-grid">
+                  <div className={`conflict-side ${selected === "a" ? "selected" : ""}`}>
+                    <button className="conflict-source" onClick={() => openLabel(c.chunk_a_label)}>
+                      [{c.chunk_a_label}] {c.chunk_a_title}
+                      {c.chunk_a_page ? ` · tr.${c.chunk_a_page}` : ""}
+                    </button>
+                    <div className="conflict-preview">{c.text_a_preview}</div>
+                  </div>
+                  <div className={`conflict-side ${selected === "b" ? "selected" : ""}`}>
+                    <button className="conflict-source" onClick={() => openLabel(c.chunk_b_label)}>
+                      [{c.chunk_b_label}] {c.chunk_b_title}
+                      {c.chunk_b_page ? ` · tr.${c.chunk_b_page}` : ""}
+                    </button>
+                    <div className="conflict-preview">{c.text_b_preview}</div>
+                  </div>
+                </div>
+                <div className="conflict-actions">
+                  <button className="btn small" onClick={() => onResolve(key, "a")}>Chọn [{c.chunk_a_label}]</button>
+                  <button className="btn small" onClick={() => onResolve(key, "b")}>Chọn [{c.chunk_b_label}]</button>
+                  <button className="btn small" onClick={() => onResolve(key, "ignore")}>Bỏ qua</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function ChatPanel({
@@ -46,6 +153,7 @@ export default function ChatPanel({
   const [agentWidth, setAgentWidth] = useState(360);
   const [polling, setPolling] = useState(false);
   const [chatError, setChatError] = useState("");
+  const [conflictResolutions, setConflictResolutions] = useState<Record<string, string>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -156,6 +264,8 @@ export default function ChatPanel({
 
     let answer = "";
     let citations: Citation[] = [];
+    let conflicts: ConflictPair[] = [];
+    let conflictCheck: ConflictCheck | null = null;
     const trace: TraceEvent[] = [];
     let gotFinal = false;
 
@@ -173,6 +283,8 @@ export default function ChatPanel({
             gotFinal = true;
             answer = data.answer;
             citations = data.citations || [];
+            conflictCheck = data.conflict_check || conflictCheckFromTrace(trace);
+            conflicts = data.conflicts || conflictCheck?.conflicts || conflictsFromTrace(trace);
           } else {
             trace.push({ type, data });
             setLiveTrace([...trace]);
@@ -196,6 +308,8 @@ export default function ChatPanel({
                   ...updated[processingIdx],
                   content: answer,
                   citations,
+                  conflicts,
+                  conflict_check: conflictCheck,
                   trace,
                   status: "complete",
                 };
@@ -203,7 +317,7 @@ export default function ChatPanel({
               }
               return [
                 ...prev,
-                { role: "assistant", content: answer, citations, trace, status: "complete" },
+                { role: "assistant", content: answer, citations, conflicts, conflict_check: conflictCheck, trace, status: "complete" },
               ];
             });
             setLiveAnswer("");
@@ -330,6 +444,19 @@ export default function ChatPanel({
                       }} />
                     ) : m.role === "assistant" ? null : (
                       <div className="user-text">{m.content}</div>
+                    )}
+                    {m.role === "assistant" && m.status === "complete" && (
+                      <ConflictReview
+                        check={m.conflict_check || conflictCheckFromTrace(m.trace || [])}
+                        conflicts={m.conflicts || m.conflict_check?.conflicts || conflictsFromTrace(m.trace || [])}
+                        citations={m.citations || []}
+                        messageKey={`${m.id ?? i}`}
+                        resolutions={conflictResolutions}
+                        onResolve={(key, value) => {
+                          setConflictResolutions((prev) => ({ ...prev, [key]: value }));
+                        }}
+                        onOpenCitation={onOpenCitation}
+                      />
                     )}
                     {m.role === "assistant" && m.citations && m.citations.length > 0 && m.status === "complete" && (
                       <div className="sources">

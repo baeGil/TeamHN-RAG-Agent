@@ -6,7 +6,7 @@ venv/
 
 # Env / secrets
 backend/.env
-a.ipynb
+
 
 # Storage / indexes / caches
 *.log

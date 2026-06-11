@@ -23,6 +23,14 @@ def _get_int(name: str, default: int) -> int:
         return default
 
 
+def _get_float(name: str, default: float) -> float:
+    val = os.getenv(name)
+    try:
+        return float(val) if val not in (None, "") else default
+    except ValueError:
+        return default
+
+
 class Settings:
     def __init__(self) -> None:
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "")
@@ -42,6 +50,16 @@ class Settings:
         self.use_reranker = _get_bool("USE_RERANKER", True)
         self.reranker_model = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
         self.use_hyde = _get_bool("USE_HYDE", False)
+        self.enable_conflict_check = _get_bool("ENABLE_CONFLICT_CHECK", True)
+        self.conflict_model = os.getenv("CONFLICT_MODEL", "FacebookAI/roberta-large-mnli")
+        self.conflict_min_confidence = _get_float("CONFLICT_MIN_CONFIDENCE", 0.75)
+        self.conflict_max_pairs = _get_int("CONFLICT_MAX_PAIRS", 45)
+        self.hf_token = (
+            os.getenv("HF_TOKEN")
+            or os.getenv("HUGGINGFACEHUB_API_TOKEN")
+            or os.getenv("HUGGINGFACE_API_TOKEN")
+            or ""
+        )
 
         self.max_replan_iters = _get_int("MAX_REPLAN_ITERS", 3)
         self.max_answer_regenerations = _get_int("MAX_ANSWER_REGENERATIONS", 1)
