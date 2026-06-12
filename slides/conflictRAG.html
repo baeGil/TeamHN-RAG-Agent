@@ -461,31 +461,90 @@ stage1_confidence = max(p, 1 − p)  <span class="cm"># độ CHẮC CHẮN, ∈
 <!-- SLIDE 16 — Sequence diagram -->
 <section class="slide" data-title="Sequence: luồng phát hiện">
 <h1>Sequence Diagram: luồng phát hiện một cặp</h1>
-<div class="mermaid-wrap">
-<pre class="mermaid">
-sequenceDiagram
-    participant AG as AgentGraph
-    participant D as ConflictDetector
-    participant E as OpenAI Embedding
-    participant M as Stage1 MLP
-    participant L as LLM gpt-4o-mini
-    AG->>D: detect_topk(query, 5 chunks)
-    loop 10 cap (i,j)
-        D->>E: embed q+di, q+dj
-        E-->>D: ei, ej (1536-dim)
-        D->>M: feature 6144-dim
-        M-->>D: p (conflict), type
-        Note over D: confidence = max(p, 1-p)
-        alt confidence >= tau_c (tu tin)
-            D->>D: dung quyet dinh MLP (stage1)
-        else confidence < tau_c (luong lu)
-            D->>L: prompt JSON (q, A, B)
-            L-->>D: has_conflict, type, summary
-            D->>D: ghi de = ket qua LLM (stage2)
-        end
-    end
-    D-->>AG: conflict_report (pairs + num_stage2_calls)
-</pre></div>
+<div class="svg-wrap">
+<svg width="920" height="420" viewBox="0 0 920 420">
+<defs>
+  <marker id="arrSeq" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>
+  <marker id="arrSeqBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#60a5fa"/></marker>
+</defs>
+<rect x="8" y="4" width="904" height="410" rx="10" fill="#0f172a" stroke="#1e293b"/>
+
+<!-- actors -->
+<g font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700" fill="#f8fafc">
+  <rect x="34" y="24" width="120" height="42" rx="4" fill="#1e3a5f" stroke="#60a5fa"/>
+  <text x="94" y="50" text-anchor="middle">AgentGraph</text>
+  <rect x="245" y="24" width="130" height="42" rx="4" fill="#1e3a5f" stroke="#60a5fa"/>
+  <text x="310" y="50" text-anchor="middle">ConflictDetector</text>
+  <rect x="440" y="24" width="140" height="42" rx="4" fill="#1e3a5f" stroke="#60a5fa"/>
+  <text x="510" y="50" text-anchor="middle">OpenAI Embedding</text>
+  <rect x="635" y="24" width="120" height="42" rx="4" fill="#1e3a5f" stroke="#60a5fa"/>
+  <text x="695" y="50" text-anchor="middle">Stage1 MLP</text>
+  <rect x="790" y="24" width="120" height="42" rx="4" fill="#1e3a5f" stroke="#60a5fa"/>
+  <text x="850" y="50" text-anchor="middle">LLM gpt-4o-mini</text>
+</g>
+
+<!-- lifelines -->
+<g stroke="#60a5fa" stroke-width="1.6">
+  <line x1="94" y1="66" x2="94" y2="384"/>
+  <line x1="310" y1="66" x2="310" y2="384"/>
+  <line x1="510" y1="66" x2="510" y2="384"/>
+  <line x1="695" y1="66" x2="695" y2="384"/>
+  <line x1="850" y1="66" x2="850" y2="384"/>
+</g>
+
+<!-- loop and alt frames -->
+<rect x="222" y="112" width="650" height="252" fill="none" stroke="#60a5fa" stroke-width="1.4" stroke-dasharray="2 3"/>
+<rect x="234" y="112" width="42" height="18" fill="#0f172a" stroke="#60a5fa"/>
+<text x="255" y="125" text-anchor="middle" fill="#bfdbfe" font-size="11" font-weight="700">loop</text>
+<text x="545" y="126" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="700">10 cặp (i,j)</text>
+
+<rect x="232" y="238" width="630" height="116" fill="none" stroke="#60a5fa" stroke-width="1.4" stroke-dasharray="2 3"/>
+<rect x="244" y="238" width="34" height="18" fill="#0f172a" stroke="#60a5fa"/>
+<text x="261" y="251" text-anchor="middle" fill="#bfdbfe" font-size="11" font-weight="700">alt</text>
+<line x1="232" y1="296" x2="862" y2="296" stroke="#60a5fa" stroke-dasharray="2 3"/>
+
+<!-- messages -->
+<g font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#f8fafc" font-weight="600">
+  <line x1="94" y1="104" x2="310" y2="104" stroke="#94a3b8" marker-end="url(#arrSeq)"/>
+  <text x="202" y="94" text-anchor="middle">detect_topk(query, 5 chunks)</text>
+
+  <line x1="310" y1="158" x2="510" y2="158" stroke="#94a3b8" marker-end="url(#arrSeq)"/>
+  <text x="410" y="148" text-anchor="middle">embed q+di, q+dj</text>
+
+  <line x1="510" y1="186" x2="310" y2="186" stroke="#94a3b8" stroke-dasharray="4 3" marker-end="url(#arrSeq)"/>
+  <text x="410" y="177" text-anchor="middle">ei, ej (1536-dim)</text>
+
+  <line x1="310" y1="214" x2="695" y2="214" stroke="#94a3b8" marker-end="url(#arrSeq)"/>
+  <text x="502" y="204" text-anchor="middle">feature 6144-dim</text>
+
+  <line x1="695" y1="232" x2="310" y2="232" stroke="#94a3b8" stroke-dasharray="4 3" marker-end="url(#arrSeq)"/>
+  <text x="502" y="224" text-anchor="middle">p(conflict), type</text>
+</g>
+
+<!-- note -->
+<rect x="326" y="244" width="220" height="36" rx="4" fill="#fde68a" stroke="#f59e0b"/>
+<text x="436" y="259" text-anchor="middle" fill="#111827" font-size="11" font-weight="700">confidence = max(p, 1-p)</text>
+<text x="436" y="274" text-anchor="middle" fill="#111827" font-size="10">độ chắc chắn của Stage 1</text>
+
+<!-- alt branches -->
+<g font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#f8fafc" font-weight="600">
+  <text x="548" y="254" text-anchor="middle" fill="#bfdbfe">confidence >= tau_c (tự tin)</text>
+  <path d="M310 272 C350 272 350 292 310 292" fill="none" stroke="#94a3b8" marker-end="url(#arrSeq)"/>
+  <text x="360" y="286" fill="#f8fafc">dùng quyết định MLP (stage1)</text>
+
+  <text x="548" y="312" text-anchor="middle" fill="#bfdbfe">confidence &lt; tau_c (lưỡng lự)</text>
+  <line x1="310" y1="334" x2="850" y2="334" stroke="#94a3b8" marker-end="url(#arrSeq)"/>
+  <text x="580" y="324" text-anchor="middle">prompt JSON (q, A, B)</text>
+  <line x1="850" y1="356" x2="310" y2="356" stroke="#94a3b8" stroke-dasharray="4 3" marker-end="url(#arrSeq)"/>
+  <text x="580" y="348" text-anchor="middle">has_conflict, type, summary</text>
+  <path d="M310 374 C350 374 350 392 310 392" fill="none" stroke="#94a3b8" marker-end="url(#arrSeq)"/>
+  <text x="360" y="387" fill="#f8fafc">ghi đè = kết quả LLM (stage2)</text>
+</g>
+
+<!-- final return -->
+<line x1="310" y1="400" x2="94" y2="400" stroke="#94a3b8" stroke-dasharray="4 3" marker-end="url(#arrSeq)"/>
+<text x="202" y="390" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="600">conflict_report (pairs + num_stage2_calls)</text>
+</svg></div>
 <div class="card"><h3>Điểm cốt lõi</h3><ul><li><strong>Embedding được cache</strong> theo SHA-256 → cùng (q,d) không gọi API lại.</li><li>Chỉ <strong>cặp lưỡng lự</strong> mới phát sinh LLM call → chi phí thấp.</li><li>LLM <strong>ghi đè</strong> cả quyết định lẫn loại; lỗi LLM thì <strong>fallback</strong> về Stage 1.</li></ul></div>
 </section>
 
