@@ -410,7 +410,55 @@ stage1_confidence = max(p, 1 − p)  <span class="cm"># độ CHẮC CHẮN, ∈
 <div class="note blue"><strong>Kiểm thử OOD (<span class="c">03_sanity_check.py</span>):</strong> "Tô Lâm vs Lương Cường" → vẫn CONFLICT (giữ recall); "Lương Cường vs thuật toán Heap" → no-conflict (hết FP). Đây mới là phép thử thật, vì val cùng phân phối train.</div>
 </section>
 
-<!-- SLIDE 14 — Sequence diagram -->
+<!-- SLIDE 14 — Đánh giá E2E -->
+<section class="slide" data-title="Đánh giá E2E">
+<h1>Kết quả đánh giá E2E trên bộ <span class="c">eval</span></h1>
+<p class="lead">Đánh giá 300 case, mỗi case xét 10 cặp từ top-5 chunk. Số liệu lấy từ <span class="c">data/conflict_rag/data/eval/conflict_e2e_revised_summary.json</span>.</p>
+<div class="grid3">
+<div class="card"><div class="kpi">0.774</div><div class="kpi-sub">F1 cảnh báo conflict ở mức case</div></div>
+<div class="card"><div class="kpi">92.5%</div><div class="kpi-sub">Recall: bắt được 185/200 case có conflict</div></div>
+<div class="card"><div class="kpi">10.2%</div><div class="kpi-sub">Tỷ lệ cặp phải gọi Stage 2 LLM</div></div>
+</div>
+<div class="grid2">
+<div class="card"><h3>Case-level warning</h3>
+<table><tr><th>Metric</th><th>Giá trị</th><th>Diễn giải</th></tr>
+<tr><td>TP / FP / FN / TN</td><td>185 / 93 / 15 / 7</td><td>Bắt nhiều conflict thật, nhưng còn báo nhầm nhiều ở nhóm no-conflict.</td></tr>
+<tr><td>Precision</td><td>66.5%</td><td>Khoảng 2/3 cảnh báo là đúng ở mức case.</td></tr>
+<tr><td>Recall</td><td>92.5%</td><td>Ưu tiên không bỏ sót mâu thuẫn.</td></tr>
+<tr><td>Accuracy</td><td>64.0%</td><td>Bị kéo xuống bởi 93 FP trên 100 case no-conflict.</td></tr>
+</table></div>
+<div class="card"><h3>Gold-pair & runtime</h3>
+<table><tr><th>Metric</th><th>Giá trị</th><th>Ý nghĩa</th></tr>
+<tr><td>Retrieval recall by case</td><td>81.0%</td><td>162/200 case có gold pair xuất hiện trong top-K.</td></tr>
+<tr><td>Detection recall by gold pair</td><td>61.5%</td><td>123/200 gold pair được phát hiện đúng.</td></tr>
+<tr><td>Detected by stage</td><td>107 Stage 1 · 16 Stage 2</td><td>Đa số gold pair do MLP bắt; LLM cứu thêm 16 cặp.</td></tr>
+<tr><td>Avg latency</td><td>6304 ms</td><td>Trung bình mỗi case, với 307 LLM call / 3000 cặp.</td></tr>
+</table></div>
+</div>
+<div class="note blue"><strong>Cách đọc metric:</strong> các cặp conflict dự đoán ngoài <span class="c">expected.gold_pairs</span> được thống kê riêng, không tính là pair-level FP vì dataset có thể chưa annotate hết mọi cặp trong top-K. Vì vậy case-level FP vẫn là tín hiệu quan trọng nhất để cải thiện trải nghiệm.</div>
+</section>
+
+<!-- SLIDE 15 — Phân tích đánh giá -->
+<section class="slide" data-title="Phân tích kết quả đánh giá">
+<h1>Phân tích kết quả: mạnh ở recall, yếu ở lọc nhiễu</h1>
+<div class="grid2">
+<div class="card"><h3>Theo loại case</h3>
+<table><tr><th>Nhóm</th><th>Recall cảnh báo</th><th>Gold-pair recall</th><th>Type accuracy</th></tr>
+<tr><td>no-conflict</td><td>FP 93/100</td><td>-</td><td>-</td></tr>
+<tr><td>factual</td><td>90.0%</td><td>58.0%</td><td>75.9%</td></tr>
+<tr><td>temporal</td><td>95.0%</td><td>65.0%</td><td>18.5%</td></tr>
+</table>
+<p style="font-size:13px;color:#94a3b8">Type accuracy chỉ tính trên các detected gold pairs; extra pairs bị loại khỏi phép tính này.</p></div>
+<div class="card"><h3>Điểm sáng</h3><ul><li><strong>Recall cao</strong>: hệ thống ít bỏ sót case có mâu thuẫn, phù hợp vai trò cảnh báo trước khi generate.</li><li><strong>Chi phí Stage 2 thấp</strong>: chỉ 307/3000 cặp phải gọi LLM (10.2%).</li><li><strong>Stage 2 có đóng góp thật</strong>: 16/123 gold pair phát hiện đúng đến từ LLM refinement.</li></ul></div>
+</div>
+<div class="grid2">
+<div class="card"><h3>Vấn đề còn lại</h3><ul><li><strong>No-conflict bị over-trigger</strong>: 93/100 case không mâu thuẫn vẫn có cảnh báo.</li><li><strong>Extra predicted pairs cao</strong>: 1712 cặp ngoài gold, trung bình 5.71 cặp/case.</li><li><strong>Temporal type còn yếu</strong>: chỉ 12/65 detected temporal gold pairs được gán đúng loại.</li></ul></div>
+<div class="card"><h3>Hướng cải thiện trực tiếp</h3><ul><li>Tăng hard negative từ chính corpus top-K để học tốt hơn cặp "cùng ngữ cảnh nhưng không mâu thuẫn".</li><li>Hiệu chỉnh threshold riêng cho <span class="c">has_conflict</span> và type head; cân nhắc abstain khi type entropy cao.</li><li>Siết prompt Stage 2 để trả <span class="c">no-conflict</span> khi hai đoạn khác chủ đề/khác điều kiện, thay vì xem mọi khác biệt là mâu thuẫn.</li></ul></div>
+</div>
+<div class="note green"><strong>Kết luận vận hành:</strong> phiên bản hiện tại phù hợp làm lớp cảnh báo recall-first; trước khi bật như bộ lọc tự động chặn generation, cần giảm FP ở nhóm no-conflict và cải thiện phân loại temporal.</div>
+</section>
+
+<!-- SLIDE 16 — Sequence diagram -->
 <section class="slide" data-title="Sequence: luồng phát hiện">
 <h1>Sequence Diagram: luồng phát hiện một cặp</h1>
 <div class="mermaid-wrap">
@@ -441,11 +489,11 @@ sequenceDiagram
 <div class="card"><h3>Điểm cốt lõi</h3><ul><li><strong>Embedding được cache</strong> theo SHA-256 → cùng (q,d) không gọi API lại.</li><li>Chỉ <strong>cặp lưỡng lự</strong> mới phát sinh LLM call → chi phí thấp.</li><li>LLM <strong>ghi đè</strong> cả quyết định lẫn loại; lỗi LLM thì <strong>fallback</strong> về Stage 1.</li></ul></div>
 </section>
 
-<!-- SLIDE 15 — Tóm tắt -->
+<!-- SLIDE 17 — Tóm tắt -->
 <section class="slide" data-title="Tóm tắt">
 <h1>Tóm tắt</h1>
 <div class="grid2">
-<div class="card"><h3>Đã xây dựng</h3><ul><li><strong>Phát hiện mâu thuẫn 2 tầng</strong>: MLP (Stage 1) + LLM có chọn lọc (Stage 2), định tuyến theo độ tự tin.</li><li>Tích hợp đầy đủ: backend node + SSE + thẻ hiển thị frontend (badge Stage 2).</li><li><strong>Pipeline train lại ổn định</strong> (<span class="c">scripts2/</span>) sửa overconfidence.</li></ul></div>
+<div class="card"><h3>Đã xây dựng</h3><ul><li><strong>Phát hiện mâu thuẫn 2 tầng</strong>: MLP (Stage 1) + LLM có chọn lọc (Stage 2), định tuyến theo độ tự tin.</li><li>Tích hợp đầy đủ: backend node + SSE + thẻ hiển thị frontend (badge Stage 2).</li><li><strong>Pipeline train lại ổn định</strong> (<span class="c">scripts2/</span>) sửa overconfidence.</li><li><strong>Đánh giá E2E</strong>: F1 cảnh báo 0.774, recall 92.5%, Stage 2 chỉ gọi 10.2% cặp.</li></ul></div>
 <div class="card"><h3>Bài học</h3><ul><li>Chất lượng <strong>dữ liệu train</strong> (đặc biệt hard negative) quyết định nhiều hơn kiến trúc.</li><li>Metric đẹp (99.8%) có thể "ảo" nếu phân phối quá dễ; phải kiểm thử <strong>OOD</strong>.</li><li><span class="c">train_loss→0</span> là cờ đỏ của overconfidence → cần label smoothing + early-stop.</li></ul></div>
 </div>
 <div class="card"><h3>Hướng phát triển</h3>
