@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NLI trong Hệ thống RAG — Slide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: #080b14;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    /* ── Slide wrapper ── */
+    .deck { width: 100%; max-width: 1100px; }
+
+    .slide {
+      display: none;
+      background: linear-gradient(160deg, #131829 0%, #0e1120 100%);
+      border: 1px solid #1e2540;
+      border-radius: 20px;
+      padding: 56px 64px;
+      min-height: 580px;
+      flex-direction: column;
+      justify-content: flex-start;
+      animation: fadeUp .35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(109,40,217,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .slide.active { display: flex; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Slide header ── */
+    .slide-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #6d28d9;
+      margin-bottom: 10px;
+    }
+    .slide h1 {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #f0f4ff;
+      margin-bottom: 8px;
+    }
+    .slide .subtitle {
+      font-size: 15px;
+      color: #64748b;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    /* ══════════════════════════════
+       SLIDE 1 — NLI Model I/O
+    ══════════════════════════════ */
+    .io-layout {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    /* Input / Output panels */
+    .panel {
+      background: #0c0f1c;
+      border: 1px solid #1e2540;
+      border-radius: 14px;
+      padding: 28px 30px;
+    }
+    .panel-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #4f46e5;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e2540;
+    }
+
+    .field-block { margin-bottom: 20px; }
+    .field-block:last-child { margin-bottom: 0; }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    .field-val {
+      background: #13162a;
+      border: 1px solid #252a45;
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 13.5px;
+      color: #cbd5e0;
+      line-height: 1.6;
+    }
+    .field-note {
+      font-size: 11.5px;
+      color: #475569;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* Middle column — arrow + model badge */
+    .middle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 28px;
+      gap: 12px;
+    }
+
+    .model-card {
+      background: linear-gradient(135deg, #3b0764 0%, #1e1b4b 100%);
+      border: 1px solid #4c1d95;
+      border-radius: 14px;
+      padding: 22px 20px;
+      text-align: center;
+      width: 180px;
+    }
+    .model-card .mc-icon { font-size: 28px; margin-bottom: 10px; }
+    .model-card .mc-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #c4b5fd;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .model-card .mc-sub {
+      font-size: 11px;
+      color: #7c3aed;
+      line-height: 1.5;
+    }
+
+    .big-arrow {
+      font-size: 24px;
+      color: #312e81;
+      user-select: none;
+    }
+
+    /* Output labels */
+    .out-list { display: flex; flex-direction: column; gap: 10px; }
+    .out-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border-left: 4px solid;
+    }
+    .out-item.ent  { background: rgba(16,185,129,.08); border-color: #10b981; }
+    .out-item.neu  { background: rgba(234,179,8,.08);  border-color: #eab308; }
+    .out-item.con  { background: rgba(239,68,68,.08);  border-color: #ef4444; }
+
+    .out-icon { font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+
+    .out-body {}
+    .out-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .out-desc { font-size: 12px; color: #94a3b8; line-height: 1.5; }
+
+    .out-item.ent .out-name { color: #34d399; }
+    .out-item.neu .out-name { color: #fbbf24; }
+    .out-item.con .out-name { color: #f87171; }
+
+    .conf-note {
+      margin-top: 16px;
+      background: #0c0f1c;
+      border: 1px solid #1e2540;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+    .conf-note strong { color: #a78bfa; }
+
+    /* ══════════════════════════════
+       SLIDE 2 — Pipeline
+    ══════════════════════════════ */
+    .pipeline-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding: 4px 0 12px;
+      margin-bottom: 36px;
+    }
+
+    .pnode {
+      background: #0c0f1c;
+      border: 1px solid #1e2540;
+      border-radius: 12px;
+      padding: 18px 22px;
+      text-align: center;
+      flex-shrink: 0;
+      min-width: 120px;
+    }
+    .pnode .pn-icon { font-size: 22px; margin-bottom: 6px; }
+    .pnode .pn-name { font-size: 13px; font-weight: 600; color: #cbd5e0; }
+    .pnode .pn-sub  { font-size: 11px; color: #4a5568; margin-top: 4px; line-height: 1.4; }
+
+    .pnode.accent {
+      border-color: #6d28d9;
+      background: linear-gradient(135deg, #1e1a3f, #130f2a);
+    }
+    .pnode.accent .pn-name { color: #c4b5fd; }
+    .pnode.accent .pn-sub  { color: #7c3aed; }
+
+    .pnode.decision {
+      border-color: #b45309;
+      background: rgba(120,53,15,.15);
+    }
+    .pnode.decision .pn-name { color: #fbbf24; }
+    .pnode.decision .pn-sub  { color: #92400e; }
+
+    .parr {
+      color: #2d3148;
+      font-size: 22px;
+      padding: 0 10px;
+      flex-shrink: 0;
+    }
+
+    /* Metrics row */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .metric-card {
+      background: #0c0f1c;
+      border: 1px solid #1e2540;
+      border-radius: 12px;
+      padding: 20px 18px;
+      text-align: center;
+    }
+    .metric-card .mc-val {
+      font-size: 26px;
+      font-weight: 800;
+      color: #a78bfa;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .metric-card .mc-lbl {
+      font-size: 11px;
+      color: #4a5568;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.4;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .analysis-card {
+      background: #0c0f1c;
+      border: 1px solid #1e2540;
+      border-radius: 12px;
+      padding: 20px 22px;
+    }
+    .analysis-card .ac-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .analysis-card .ac-body {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.7;
+    }
+    .analysis-card .ac-body strong { color: #c4b5fd; }
+    .analysis-card.warn .ac-title { color: #f87171; }
+    .analysis-card.ok   .ac-title { color: #34d399; }
+
+    /* ── Nav ── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .nav button {
+      background: #131829;
+      border: 1px solid #1e2540;
+      color: #94a3b8;
+      padding: 10px 28px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 500;
+      transition: all .2s;
+    }
+    .nav button:hover:not(:disabled) {
+      background: #1e2540;
+      color: #e2e8f0;
+      border-color: #4f46e5;
+    }
+    .nav button:disabled { opacity: .3; cursor: default; }
+
+    .dots { display: flex; gap: 8px; align-items: center; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #1e2540; cursor: pointer; transition: all .2s;
+    }
+    .dot.active { background: #7c3aed; width: 24px; border-radius: 4px; }
+
+    .progress {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #7c3aed, #4f46e5);
+      border-radius: 0 0 0 20px;
+      transition: width .35s ease;
+    }
+
+    /* ── Title slide ── */
+    .slide.title-slide {
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 580px;
+    }
+    .title-slide .cover-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .title-slide .cover-badge {
+      background: linear-gradient(135deg, #6d28d9, #4f46e5);
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .title-slide .cover-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, #4f46e5, transparent);
+    }
+    .title-slide h1.cover-title {
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #f0f4ff;
+      margin-bottom: 18px;
+      max-width: 780px;
+    }
+    .title-slide h1.cover-title span {
+      background: linear-gradient(90deg, #a78bfa, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .title-slide .cover-sub {
+      font-size: 17px;
+      color: #64748b;
+      line-height: 1.7;
+      max-width: 680px;
+      margin-bottom: 48px;
+    }
+    .title-slide .cover-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .cover-chip {
+      background: #0c0f1c;
+      border: 1px solid #1e2540;
+      border-radius: 10px;
+      padding: 14px 22px;
+      font-size: 13px;
+    }
+    .cover-chip .cc-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #4a5568;
+      margin-bottom: 4px;
+    }
+    .cover-chip .cc-val {
+      font-weight: 700;
+      color: #c4b5fd;
+      font-size: 14px;
+    }
+    .cover-glow {
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,70,229,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- ══════════════════════════════════════════════
+       SLIDE 0 — TITLE
+  ══════════════════════════════════════════════ -->
+  <div class="slide title-slide active" id="s0">
+    <div class="progress"></div>
+    <div class="cover-glow"></div>
+
+    <div class="cover-top">
+      <div class="cover-badge">Báo cáo Kỹ thuật</div>
+      <div class="cover-line"></div>
+    </div>
+
+    <h1 class="cover-title">
+      Hệ thống Phát hiện Mâu thuẫn Nguồn<br>
+      <span>với Mô hình NLI</span>
+    </h1>
+    <p class="cover-sub">
+      Ứng dụng mô hình <strong style="color:#a78bfa">RoBERTa-large-MNLI</strong> để phát hiện xung đột thông tin
+      giữa các đoạn ngữ cảnh trong hệ thống RAG Agent —
+      nhằm chống bịa đặt (anti-hallucination) và tăng tính minh bạch câu trả lời.
+    </p>
+
+    <div class="cover-meta">
+      <div class="cover-chip">
+        <div class="cc-label">Mô hình</div>
+        <div class="cc-val">RoBERTa-large-MNLI</div>
+      </div>
+      <div class="cover-chip">
+        <div class="cc-label">Tác vụ</div>
+        <div class="cc-val">Natural Language Inference (NLI)</div>
+      </div>
+      <div class="cover-chip">
+        <div class="cc-label">Tập thực nghiệm</div>
+        <div class="cc-val">20 câu hỏi</div>
+      </div>
+      <div class="cover-chip">
+        <div class="cc-label">Conflict Recall</div>
+        <div class="cc-val">60.0%</div>
+      </div>
+      <div class="cover-chip">
+        <div class="cc-label">Conflict Precision</div>
+        <div class="cc-val">54.5%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SLIDE 2 — NLI: Đầu vào và Đầu ra
+  ══════════════════════════════════════════════ -->
+  <div class="slide" id="s1">
+    <div class="progress"></div>
+    <div class="slide-tag">Slide 2 / 3 &nbsp;·&nbsp; Mô hình NLI</div>
+    <h1>Natural Language Inference —<br>Đầu vào &amp; Đầu ra</h1>
+    <p class="subtitle">Mô hình phân loại quan hệ ngữ nghĩa giữa hai đoạn văn bản bất kỳ</p>
+
+    <div class="io-layout">
+
+      <!-- INPUT -->
+      <div class="panel">
+        <div class="panel-title">📥 Đầu vào (Input)</div>
+
+        <div class="field-block">
+          <div class="field-label">Premise — Tiền đề</div>
+          <div class="field-val">
+            "Ngân sách dự án năm 2024 được phê duyệt là <strong>500 triệu đồng</strong>."
+          </div>
+          <div class="field-note">→ Đoạn văn bản từ <strong>nguồn tài liệu A</strong> (Top-K chunk)</div>
+        </div>
+
+        <div class="field-block">
+          <div class="field-label">Hypothesis — Giả thuyết</div>
+          <div class="field-val">
+            "Theo kế hoạch điều chỉnh, ngân sách dự án năm 2024 là <strong>750 triệu đồng</strong>."
+          </div>
+          <div class="field-note">→ Đoạn văn bản từ <strong>nguồn tài liệu B</strong> (Top-K chunk khác)</div>
+        </div>
+
+        <div class="field-block">
+          <div class="field-label">Cách tạo cặp (Pairwise)</div>
+          <div class="field-val" style="font-size:12.5px; color:#64748b;">
+            Với Top-K = 10 chunk → tạo ra <strong style="color:#a78bfa">C(10,2) = 45 cặp</strong> để đối chiếu chéo. Mỗi cặp được gửi riêng đến mô hình NLI.
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE -->
+      <div class="middle">
+        <div class="big-arrow">→</div>
+        <div class="model-card">
+          <div class="mc-icon">🤖</div>
+          <div class="mc-name">RoBERTa-large-MNLI</div>
+          <div class="mc-sub">FacebookAI<br>HuggingFace API<br><br>Serverless Inference</div>
+        </div>
+        <div class="big-arrow">→</div>
+      </div>
+
+      <!-- OUTPUT -->
+      <div class="panel">
+        <div class="panel-title">📤 Đầu ra (Output)</div>
+
+        <div class="out-list">
+          <div class="out-item ent">
+            <div class="out-icon">✅</div>
+            <div class="out-body">
+              <div class="out-name">Entailment — Đồng thuận</div>
+              <div class="out-desc">Hypothesis được suy ra từ Premise. Hai đoạn văn chứa thông tin nhất quán, không mâu thuẫn nhau.</div>
+            </div>
+          </div>
+          <div class="out-item neu">
+            <div class="out-icon">➖</div>
+            <div class="out-body">
+              <div class="out-name">Neutral — Trung lập</div>
+              <div class="out-desc">Không đủ thông tin để xác định hai đoạn là đồng thuận hay mâu thuẫn. Bỏ qua trong bước lọc.</div>
+            </div>
+          </div>
+          <div class="out-item con">
+            <div class="out-icon">⚠️</div>
+            <div class="out-body">
+              <div class="out-name">Contradiction — Mâu thuẫn</div>
+              <div class="out-desc">Hypothesis phủ định hoặc trái ngược trực tiếp với Premise. Hệ thống kích hoạt cảnh báo nếu confidence ≥ 0.75.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="conf-note">
+          Mỗi nhãn đi kèm <strong>Confidence Score (0 → 1)</strong>. Chỉ khi nhãn là <strong>Contradiction</strong> và score ≥ 0.75 thì cặp đó mới được đánh dấu là xung đột nguồn.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SLIDE 3 — Tích hợp vào RAG + Kết quả
+  ══════════════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="progress"></div>
+    <div class="slide-tag">Slide 3 / 3 &nbsp;·&nbsp; Hệ thống RAG + NLI</div>
+    <h1>Tích hợp NLI vào Hệ thống RAG</h1>
+    <p class="subtitle">Luồng xử lý từ câu hỏi người dùng đến câu trả lời cuối — kèm kết quả thực nghiệm trên 20 câu hỏi</p>
+
+    <!-- Pipeline -->
+    <div class="pipeline-wrap">
+      <div class="pnode">
+        <div class="pn-icon">🧑</div>
+        <div class="pn-name">User Input</div>
+        <div class="pn-sub">Câu hỏi người dùng</div>
+      </div>
+      <div class="parr">→</div>
+      <div class="pnode">
+        <div class="pn-icon">🔍</div>
+        <div class="pn-name">Retrieval</div>
+        <div class="pn-sub">Vector Search<br>Embedding DB</div>
+      </div>
+      <div class="parr">→</div>
+      <div class="pnode">
+        <div class="pn-icon">📚</div>
+        <div class="pn-name">Top-K Chunks</div>
+        <div class="pn-sub">Ngữ cảnh liên quan<br>nhất được truy hồi</div>
+      </div>
+      <div class="parr">→</div>
+      <div class="pnode accent">
+        <div class="pn-icon">🤖</div>
+        <div class="pn-name">NLI Check</div>
+        <div class="pn-sub">Gộp cặp → gọi<br>RoBERTa API</div>
+      </div>
+      <div class="parr">→</div>
+      <div class="pnode decision">
+        <div class="pn-icon">⚡</div>
+        <div class="pn-name">Conflict?</div>
+        <div class="pn-sub">Contradiction &amp;<br>conf ≥ 0.75</div>
+      </div>
+      <div class="parr">→</div>
+      <div class="pnode">
+        <div class="pn-icon">💬</div>
+        <div class="pn-name">LLM Synthesizer</div>
+        <div class="pn-sub">+ cảnh báo xung đột<br>(nếu phát hiện)</div>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="mc-val">12.82s</div>
+        <div class="mc-lbl">Conflict Detection<br>Latency</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-val">18.99s</div>
+        <div class="mc-lbl">Avg Latency<br>/ câu hỏi</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-val">54.5%</div>
+        <div class="mc-lbl">Conflict Detection<br>Precision</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-val">60.0%</div>
+        <div class="mc-lbl">Conflict Detection<br>Recall</div>
+      </div>
+    </div>
+
+    <!-- Analysis -->
+    <div class="analysis-grid">
+      <div class="analysis-card warn">
+        <div class="ac-title">⚠️ Hạn chế — Latency cao</div>
+        <div class="ac-body">
+          Bộ NLI chiếm tới <strong>12.82s</strong> trong tổng <strong>18.99s</strong> phản hồi (≈ 67%). Nguyên nhân: gọi Hugging Face API qua internet + bước dịch thuật Việt → Anh trung gian làm tăng độ trễ đáng kể.
+        </div>
+      </div>
+      <div class="analysis-card warn">
+        <div class="ac-title">⚠️ Hạn chế — Độ chính xác trung bình</div>
+        <div class="ac-body">
+          Recall <strong>60.0%</strong> — còn bỏ sót 2/5 xung đột thực tế do cắt ngắn văn bản. Precision <strong>54.5%</strong> — gần một nửa cảnh báo là báo động giả do dịch thuật làm lệch ngữ nghĩa.
+        </div>
+      </div>
+      <div class="analysis-card ok">
+        <div class="ac-title">✅ Ưu điểm — Minh bạch thông tin</div>
+        <div class="ac-body">
+          Khi phát hiện xung đột, hệ thống chèn cảnh báo vào prompt giúp LLM trình bày đa chiều thay vì tự ý hòa trộn thông tin mâu thuẫn — giảm thiểu hallucination.
+        </div>
+      </div>
+      <div class="analysis-card ok">
+        <div class="ac-title">✅ Ưu điểm — Chi phí token tối ưu</div>
+        <div class="ac-body">
+          Token tăng thêm chỉ <strong>+236.6 tokens/câu hỏi</strong> (tổng <strong>83,452 tokens</strong> cho 20 câu) — không ảnh hưởng đáng kể đến chi phí vận hành LLM.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <button id="prev" onclick="go(-1)" disabled>← Trước</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" onclick="go(1)">Tiếp theo →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const total  = slides.length;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+
+  function updateProgress() {
+    const pct = ((cur + 1) / total) * 100 + '%';
+    document.querySelectorAll('.progress').forEach(p => p.style.width = pct);
+  }
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dotsEl.children[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, n));
+    slides[cur].classList.add('active');
+    dotsEl.children[cur].classList.add('active');
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === total - 1;
+    updateProgress();
+  }
+
+  function go(d) { goTo(cur + d); }
+
+  updateProgress();
+
+  // Keyboard support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+</script>
+</body>
+</html>

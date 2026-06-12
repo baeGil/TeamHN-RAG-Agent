@@ -127,17 +127,39 @@ def compute_f1(prediction, ground_truths):
 def main():
     raw_data_path = Path("d:/TeamHN-RAG-Agent/data/vietanh-data/drag_eval/data_raw.json")
     if not raw_data_path.exists():
-        print(f"Không tìm thấy data_raw.json tại {raw_data_path}", flush=True)
+        print(f"Khong tim thay data_raw.json tai {raw_data_path}", flush=True)
         sys.exit(1)
 
     print("Loading data_raw.json...", flush=True)
     with open(raw_data_path, "r", encoding="utf-8") as f:
         dataset = json.load(f)
 
-    # Evaluate on 20 questions
-    num_questions = min(20, len(dataset))
-    eval_set = dataset[:num_questions]
-    print(f"Loaded {num_questions} questions for evaluation.", flush=True)
+    # === Loc 20 cau dac thu theo DC ID ===
+    # DC001-DC010, DC014, DC015, DC020, DC021, DC022, DC037, DC063, DC070, DC088, DC089
+    target_dc_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 20, 21, 22, 37, 63, 70, 88, 89]
+    target_prefixes = [f"0001-{n:04d}-" for n in target_dc_nums]
+    print(f"Tim kiem {len(target_dc_nums)} cau theo DC ID...", flush=True)
+
+    eval_set = []
+    matched_prefixes = []
+    for pfx in target_prefixes:
+        matched = [item for item in dataset if item.get("id", "").startswith(pfx)]
+        if matched:
+            eval_set.append(matched[0])  # Lay 1 cau dau tien khop voi moi DC
+            matched_prefixes.append(pfx)
+        else:
+            print(f"  CANH BAO: Khong tim thay cau voi prefix '{pfx}' (DC{pfx[5:9]})", flush=True)
+
+    num_questions = len(eval_set)
+    if num_questions == 0:
+        print("Loi: Khong tim thay cau hoi nao phu hop!", flush=True)
+        sys.exit(1)
+
+    print(f"==> Da tim thay {num_questions}/20 cau hoi dac thu.", flush=True)
+    for i, item in enumerate(eval_set):
+        dc_num = int(item['id'].split('-')[1])
+        print(f"  [{i+1:02d}] DC{dc_num:03d}: id={item['id']} | Q={item.get('question','')[:60]}", flush=True)
+    print("", flush=True)
 
     clear_storage()
     
@@ -147,7 +169,7 @@ def main():
 
     # Step 1: Ingest documents
     print("Ingesting contexts...", flush=True)
-    contradict_indices = set(range(0, num_questions, 5)) # indices 0, 5, 10, 15 (4 items)
+    contradict_indices = set(range(0, num_questions, 2)) # indices 0, 2, 4, 6, 8, 10, 12, 14, 16, 18 (10 items)
     
     for idx, item in enumerate(eval_set):
         update_progress_file(idx + 1, num_questions, "Ingestion")
