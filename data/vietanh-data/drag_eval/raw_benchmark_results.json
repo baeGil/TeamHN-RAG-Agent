@@ -10,18 +10,18 @@
         "hit@5": 0.9
       },
       "ragas": {
-        "faithfulness": 0.9,
+        "faithfulness": 0.95,
         "answer_relevancy": 0.95,
-        "context_precision": 0.925,
-        "context_recall": 0.925,
-        "answer_correctness": 0.9,
-        "behavior_alignment": 0.9,
-        "ragas_avg": 0.9199999999999999
+        "context_precision": 0.95,
+        "context_recall": 0.95,
+        "answer_correctness": 0.95,
+        "behavior_alignment": 0.95,
+        "ragas_avg": 0.95
       },
-      "avg_latency_s": 4.577132755000093,
-      "total_latency_s": 91.54265510000187,
-      "avg_tokens": 1509.35,
-      "total_tokens": 30187
+      "avg_latency_s": 3.187222654999823,
+      "total_latency_s": 63.74445309999646,
+      "avg_tokens": 1513.1,
+      "total_tokens": 30262
     },
     "drag": {
       "retrieval": {
@@ -30,18 +30,18 @@
         "hit@5": 0.9
       },
       "ragas": {
-        "faithfulness": 0.8550000000000001,
-        "answer_relevancy": 0.95,
-        "context_precision": 0.905,
-        "context_recall": 0.875,
-        "answer_correctness": 0.865,
+        "faithfulness": 0.925,
+        "answer_relevancy": 0.975,
+        "context_precision": 0.925,
+        "context_recall": 0.9,
+        "answer_correctness": 0.9,
         "behavior_alignment": 0.9,
-        "ragas_avg": 0.8899999999999999
+        "ragas_avg": 0.925
       },
-      "avg_latency_s": 5.587361104999945,
-      "total_latency_s": 111.74722209999891,
-      "avg_tokens": 3172.7,
-      "total_tokens": 63454
+      "avg_latency_s": 6.057759200000146,
+      "total_latency_s": 121.15518400000292,
+      "avg_tokens": 3174.5,
+      "total_tokens": 63490
     }
   },
   "per_question": [
@@ -50,7 +50,7 @@
       "question": "Paris là một thành phố quan trọng của nước Pháp bắt đầu từ thời gian nào?",
       "expected": "thế kỷ 10",
       "baseline": {
-        "answer": "Paris đã là **một trong những thành phố chính của Pháp vào thế kỷ 10** [5].",
+        "answer": "Paris đã là **một trong những thành phố chính của Pháp vào thế kỷ 10** [5]. Ngoài ra, ngữ cảnh cũng cho biết **từ thế kỷ 6**, vua Clovis I đã lấy Paris làm thủ đô cho vương quốc Franc [2].",
         "chunks": [
           {
             "label": 1,
@@ -61,7 +61,7 @@
             "doc_source": "raw_doc_25",
             "page": null,
             "section": null,
-            "score": 0.08333333333333333
+            "score": 0.14646464646464646
           },
           {
             "label": 2,
@@ -72,7 +72,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.08210180623973727
+            "score": 0.14354066985645933
           },
           {
             "label": 3,
@@ -83,7 +83,7 @@
             "doc_source": "raw_doc_24",
             "page": null,
             "section": null,
-            "score": 0.08193979933110368
+            "score": 0.13942307692307693
           },
           {
             "label": 4,
@@ -94,7 +94,7 @@
             "doc_source": "raw_doc_14",
             "page": null,
             "section": null,
-            "score": 0.07870370370370369
+            "score": 0.13025210084033612
           },
           {
             "label": 5,
@@ -105,7 +105,7 @@
             "doc_source": "raw_doc_0",
             "page": null,
             "section": null,
-            "score": 0.06904761904761905
+            "score": 0.10555555555555556
           }
         ],
         "ranked_ids": [
@@ -115,10 +115,10 @@
           15,
           1
         ],
-        "elapsed": 21.373296699999628,
+        "elapsed": 23.18664379999973,
         "usage": {
           "prompt_tokens": 1550,
-          "completion_tokens": 27,
+          "completion_tokens": 64,
           "calls": 1
         },
         "retrieval": {
@@ -142,11 +142,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Paris was one of the main cities of France in the 10th century, which aligns perfectly with the expected answer. The context provided supports this claim, confirming the historical significance of Paris during that time. All metrics are satisfied as the answer is accurate, relevant, and well-supported by the context."
+          "reason": "The answer directly states that Paris became one of the main cities of France in the 10th century, which aligns perfectly with the expected answer. The provided contexts support this claim, particularly context [5], which confirms the significance of Paris in the 10th century. The answer is relevant, precise, and correct, and it follows the expected behavior by directly addressing the question based on the cited contexts."
         }
       },
       "drag": {
-        "answer": "Paris đã trở thành một thành phố quan trọng từ **thời kỳ La Mã, tức thế kỷ 1**; sau đó tiếp tục giữ vai trò quan trọng qua các thời kỳ như **thế kỷ 6** khi Clovis I chọn Paris làm thủ đô, và từ **thế kỷ 10–12** khi Paris là một trong những thành phố chính của Pháp và trung tâm giáo dục, nghệ thuật của châu Âu [2][5].",
+        "answer": "Paris bắt đầu trở thành một thành phố quan trọng từ **thế kỷ 6**, khi **vua Clovis I lấy Paris làm thủ đô của vương quốc Franc** [2][4]. Sau đó, Paris tiếp tục phát triển và dần trở thành một trung tâm lớn của Pháp và châu Âu [2][5].",
         "chunks": [
           {
             "label": 1,
@@ -157,7 +157,7 @@
             "doc_source": "raw_doc_25",
             "page": null,
             "section": null,
-            "score": 0.08333333333333333
+            "score": 0.14646464646464646
           },
           {
             "label": 2,
@@ -168,7 +168,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.08210180623973727
+            "score": 0.14354066985645933
           },
           {
             "label": 3,
@@ -179,7 +179,7 @@
             "doc_source": "raw_doc_24",
             "page": null,
             "section": null,
-            "score": 0.08193979933110368
+            "score": 0.13942307692307693
           },
           {
             "label": 4,
@@ -190,7 +190,7 @@
             "doc_source": "raw_doc_14",
             "page": null,
             "section": null,
-            "score": 0.07870370370370369
+            "score": 0.13025210084033612
           },
           {
             "label": 5,
@@ -201,7 +201,7 @@
             "doc_source": "raw_doc_0",
             "page": null,
             "section": null,
-            "score": 0.06904761904761905
+            "score": 0.10555555555555556
           }
         ],
         "ranked_ids": [
@@ -211,17 +211,17 @@
           15,
           1
         ],
-        "elapsed": 6.991185299997596,
+        "elapsed": 7.63009570000213,
         "usage": {
-          "prompt_tokens": 3216,
-          "completion_tokens": 254,
+          "prompt_tokens": 3168,
+          "completion_tokens": 178,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "Các nguồn đều nhất trí rằng Paris đã trở thành một thành phố quan trọng từ thời kỳ La Mã (thế kỷ 1) và tiếp tục giữ vai trò này qua các thời kỳ lịch sử khác nhau, như thời kỳ Clovis I (thế kỷ 6) và Cách mạng Pháp (thế kỷ 16). Không có thông tin mâu thuẫn nào giữa các nguồn.",
-          "answer_policy": "Tóm tắt các thông tin từ các nguồn để nêu rõ sự phát triển và tầm quan trọng của Paris qua các thời kỳ lịch sử."
+          "rationale": "All sources indicate that Paris has been an important city since at least the 6th century when Clovis I made it the capital of the Frankish kingdom. They provide compatible historical contexts without contradicting each other.",
+          "answer_policy": "Summarize the information from the sources, emphasizing that Paris became significant starting in the 6th century with Clovis I."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -239,12 +239,12 @@
         "ragas": {
           "faithfulness": 0.5,
           "answer_relevancy": 1.0,
-          "context_precision": 0.8,
-          "context_recall": 0.6,
-          "answer_correctness": 0.5,
-          "behavior_alignment": 1.0,
-          "ragas_avg": 0.6799999999999999,
-          "reason": "The answer provides a broader historical context for Paris's importance, mentioning its significance from the Roman period and Clovis I's reign, but it does not directly answer the question about when Paris became an important city, which is specifically the 10th century. The contexts used are relevant, but the answer does not focus on the expected timeframe, leading to a lower score in faithfulness and answer correctness."
+          "context_precision": 1.0,
+          "context_recall": 0.5,
+          "answer_correctness": 0.0,
+          "behavior_alignment": 0.0,
+          "ragas_avg": 0.6,
+          "reason": "The answer incorrectly states that Paris became an important city in the 6th century instead of the 10th century as expected. While it is relevant to the question and uses relevant contexts, it does not align with the expected answer and fails to provide the correct timeframe."
         }
       }
     },
@@ -264,7 +264,7 @@
             "doc_source": "raw_doc_106",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 2,
@@ -275,7 +275,7 @@
             "doc_source": "raw_doc_75",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 3,
@@ -286,7 +286,7 @@
             "doc_source": "raw_doc_33",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 4,
@@ -297,7 +297,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -308,7 +308,7 @@
             "doc_source": "raw_doc_39",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -318,7 +318,7 @@
           12,
           40
         ],
-        "elapsed": 4.80164810000133,
+        "elapsed": 1.9678692999987106,
         "usage": {
           "prompt_tokens": 1407,
           "completion_tokens": 58,
@@ -349,7 +349,7 @@
         }
       },
       "drag": {
-        "answer": "Người ta đến với Paris vì Paris có lịch sử lâu đời và là trung tâm văn hóa, nghệ thuật lớn: nơi gắn với Khai sáng, nhiều nhà văn, họa sĩ, trí thức nổi tiếng, và từng là “thủ đô của hội họa” cũng như trung tâm văn hóa của thế giới [2][4]. Paris cũng rất đa văn hóa, thu hút nhiều người từ khắp nơi [5].",
+        "answer": "Người ta đến với Paris vì Paris là một trung tâm văn hóa, nghệ thuật và tư tưởng lớn: nơi từng thu hút nhiều nhà văn, họa sĩ, triết gia và nhân vật nổi tiếng; đồng thời là thủ đô của hội họa và tiếp tục là trung tâm văn hóa của thế giới [2]. Paris cũng có lịch sử lâu đời, gắn với lịch sử Pháp và châu Âu, và ngày nay vẫn là một trung tâm văn hóa, kinh tế quan trọng [4].",
         "chunks": [
           {
             "label": 1,
@@ -360,7 +360,7 @@
             "doc_source": "raw_doc_106",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 2,
@@ -371,7 +371,7 @@
             "doc_source": "raw_doc_75",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 3,
@@ -382,7 +382,7 @@
             "doc_source": "raw_doc_33",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 4,
@@ -393,7 +393,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -404,7 +404,7 @@
             "doc_source": "raw_doc_39",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -414,17 +414,17 @@
           12,
           40
         ],
-        "elapsed": 4.779776100000163,
+        "elapsed": 5.888154300002498,
         "usage": {
-          "prompt_tokens": 2892,
-          "completion_tokens": 205,
+          "prompt_tokens": 2893,
+          "completion_tokens": 222,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages provide various aspects of why people are drawn to Paris, including its rich cultural history, artistic significance, and diverse population. However, none of the passages directly answer the question, and the context does not contain enough information to provide a specific reason.",
-          "answer_policy": "Summarize the cultural and historical significance of Paris as a reason for attraction, while noting the lack of direct answers in the sources."
+          "rationale": "The retrieved passages provide various aspects of why people are drawn to Paris, including its rich cultural history, artistic significance, and diverse population. However, none of the passages directly answer the question, and the context does not contain enough information to provide a definitive answer.",
+          "answer_policy": "Summarize the cultural and historical significance of Paris as mentioned in the passages, while noting the lack of a direct answer to the question."
         },
         "retrieval": {
           "recall@5": 0.0,
@@ -440,14 +440,14 @@
           "n_relevant_in_pool": 1
         },
         "ragas": {
-          "faithfulness": 0.8,
+          "faithfulness": 1.0,
           "answer_relevancy": 1.0,
-          "context_precision": 0.8,
-          "context_recall": 0.6,
-          "answer_correctness": 0.8,
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
-          "ragas_avg": 0.8,
-          "reason": "The answer provides a relevant explanation for why people come to Paris, mentioning its cultural and historical significance, which aligns with the expected answer. However, it does not explicitly mention the 'nhộn nhịp' (bustling atmosphere) or 'không khí nghệ sĩ' (artistic atmosphere), which are key components of the expected answer. The contexts used are mostly relevant, but some do not directly support the specific aspects of the expected answer."
+          "ragas_avg": 1.0,
+          "reason": "The answer directly addresses the question about why people come to Paris, citing its cultural, artistic, and historical significance, which aligns with the expected answer. The contexts provided support the claims made in the answer, ensuring faithfulness and relevance. The answer is correct and follows the expected conflict behavior by responding directly based on the supplied context."
         }
       }
     },
@@ -456,7 +456,7 @@
       "question": "Người dân trên thế giới thường gọi Paris với tên khác là gì?",
       "expected": "Kinh đô ánh sáng",
       "baseline": {
-        "answer": "Người dân trên thế giới thường gọi Paris là **“Kinh đô ánh sáng”** (tiếng Pháp: **“Ville lumière”**, tiếng Anh: **“The City of Lights”**). [1]",
+        "answer": "Người dân trên thế giới thường gọi Paris là **“Kinh đô ánh sáng”** [1][4].",
         "chunks": [
           {
             "label": 1,
@@ -467,7 +467,7 @@
             "doc_source": "raw_doc_2",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -478,7 +478,7 @@
             "doc_source": "raw_doc_4",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 3,
@@ -489,7 +489,7 @@
             "doc_source": "raw_doc_33",
             "page": null,
             "section": null,
-            "score": 0.08166666666666667
+            "score": 0.1380952380952381
           },
           {
             "label": 4,
@@ -500,7 +500,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.07796101949025487
+            "score": 0.12955465587044535
           },
           {
             "label": 5,
@@ -511,7 +511,7 @@
             "doc_source": "raw_doc_35",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -521,10 +521,10 @@
           2,
           36
         ],
-        "elapsed": 3.0676694000030693,
+        "elapsed": 2.0803520000008575,
         "usage": {
           "prompt_tokens": 1313,
-          "completion_tokens": 49,
+          "completion_tokens": 27,
           "calls": 1
         },
         "retrieval": {
@@ -548,11 +548,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Paris is commonly referred to as 'Kinh đô ánh sáng', which is supported by the provided context. The answer is relevant, precise, and covers the expected answer completely, aligning with the expected behavior of providing a direct response based on the context."
+          "reason": "The answer directly states that Paris is commonly referred to as 'Kinh đô ánh sáng', which is supported by the provided contexts. The answer is relevant, precise, and correct, and it aligns with the expected behavior of directly answering the question based on the cited context."
         }
       },
       "drag": {
-        "answer": "Người dân thường gọi Paris là **“Kinh đô ánh sáng”** và cũng có tên thân mật khác là **“Paname”** [1][2].",
+        "answer": "Người dân thường gọi Paris là **“Kinh đô ánh sáng”** hoặc **“Paname”** [1][2].",
         "chunks": [
           {
             "label": 1,
@@ -563,7 +563,7 @@
             "doc_source": "raw_doc_2",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -574,7 +574,7 @@
             "doc_source": "raw_doc_4",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 3,
@@ -585,7 +585,7 @@
             "doc_source": "raw_doc_33",
             "page": null,
             "section": null,
-            "score": 0.08166666666666667
+            "score": 0.1380952380952381
           },
           {
             "label": 4,
@@ -596,7 +596,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.07796101949025487
+            "score": 0.12955465587044535
           },
           {
             "label": 5,
@@ -607,7 +607,7 @@
             "doc_source": "raw_doc_35",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -617,17 +617,17 @@
           2,
           36
         ],
-        "elapsed": 5.32180850000077,
+        "elapsed": 5.168411400001787,
         "usage": {
           "prompt_tokens": 2669,
-          "completion_tokens": 118,
+          "completion_tokens": 111,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 1.0,
-          "rationale": "The retrieved passages provide compatible information about the alternative names for Paris, specifically 'Kinh đô ánh sáng' and 'Paname', without any contradictions or discrepancies.",
-          "answer_policy": "Summarize the alternative names for Paris as mentioned in the sources."
+          "rationale": "The retrieved passages provide compatible information about the alternative names for Paris, such as 'Kinh đô ánh sáng' and 'Paname', without any contradictions or discrepancies.",
+          "answer_policy": "Summarize the alternative names for Paris mentioned in the sources."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -650,7 +650,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Paris is commonly referred to as 'Kinh đô ánh sáng', which is the expected answer. The contexts provided support this claim, and the answer does not introduce any conflicting information, aligning with the expected behavior."
+          "reason": "The answer directly states that Paris is commonly referred to as 'Kinh đô ánh sáng', which is the expected answer. The contexts provided support this claim, and the answer aligns with the expected conflict behavior by directly addressing the question based on the supplied contexts."
         }
       }
     },
@@ -659,7 +659,7 @@
       "question": "Hai thành phố nào được gọi là thành phố của tình yêu?",
       "expected": "Venezia, Paris",
       "baseline": {
-        "answer": "Hai thành phố được gọi là “thành phố của tình yêu” là **Venezia và Paris**. [1]",
+        "answer": "Hai thành phố được gọi là **“thành phố của tình yêu”** là **Venezia và Paris**. [1]",
         "chunks": [
           {
             "label": 1,
@@ -670,7 +670,7 @@
             "doc_source": "raw_doc_3",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -681,7 +681,7 @@
             "doc_source": "raw_doc_89",
             "page": null,
             "section": null,
-            "score": 0.08893280632411067
+            "score": 0.16025641025641024
           },
           {
             "label": 3,
@@ -692,7 +692,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.08012820512820512
+            "score": 0.13392857142857142
           },
           {
             "label": 4,
@@ -703,7 +703,7 @@
             "doc_source": "raw_doc_2",
             "page": null,
             "section": null,
-            "score": 0.07738095238095238
+            "score": 0.12698412698412698
           },
           {
             "label": 5,
@@ -714,7 +714,7 @@
             "doc_source": "raw_doc_83",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -724,10 +724,10 @@
           3,
           84
         ],
-        "elapsed": 2.4691301999991992,
+        "elapsed": 2.4026348999977927,
         "usage": {
           "prompt_tokens": 1300,
-          "completion_tokens": 29,
+          "completion_tokens": 31,
           "calls": 1
         },
         "retrieval": {
@@ -751,11 +751,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Venezia and Paris are referred to as the 'city of love', which is supported by the context provided. All metrics are satisfied as the answer is relevant, correct, and aligns with the expected behavior of directly answering the question based on the context."
+          "reason": "The answer directly states that Venezia and Paris are referred to as the 'city of love', which is supported by the context provided. All metrics are satisfied as the answer is relevant, correct, and aligns with the expected behavior of directly answering the question based on the supplied context."
         }
       },
       "drag": {
-        "answer": "Paris được gọi là “thành phố của tình yêu” [1].",
+        "answer": "Paris được gọi là “thành phố của tình yêu” [1]. Paris cũng nổi tiếng với tên gọi “Kinh đô ánh sáng” / “City of Lights” [3][4].",
         "chunks": [
           {
             "label": 1,
@@ -766,7 +766,7 @@
             "doc_source": "raw_doc_3",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -777,7 +777,7 @@
             "doc_source": "raw_doc_89",
             "page": null,
             "section": null,
-            "score": 0.08893280632411067
+            "score": 0.16025641025641024
           },
           {
             "label": 3,
@@ -788,7 +788,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.08012820512820512
+            "score": 0.13392857142857142
           },
           {
             "label": 4,
@@ -799,7 +799,7 @@
             "doc_source": "raw_doc_2",
             "page": null,
             "section": null,
-            "score": 0.07738095238095238
+            "score": 0.12698412698412698
           },
           {
             "label": 5,
@@ -810,7 +810,7 @@
             "doc_source": "raw_doc_83",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -820,17 +820,17 @@
           3,
           84
         ],
-        "elapsed": 4.196090500001446,
+        "elapsed": 6.219874499998696,
         "usage": {
-          "prompt_tokens": 2645,
-          "completion_tokens": 98,
+          "prompt_tokens": 2664,
+          "completion_tokens": 143,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 1.0,
-          "rationale": "All sources agree that Paris is referred to as the 'City of Love'. They provide compatible information without any contradictions.",
-          "answer_policy": "Directly state that Paris is known as the 'City of Love' and can be supported by the retrieved sources."
+          "rationale": "All retrieved passages consistently refer to Paris as the 'City of Love' and provide compatible information about its cultural significance. There are no conflicting claims or misinformation present.",
+          "answer_policy": "Directly state that Paris is known as the 'City of Love' and can also be referred to as 'Kinh đô ánh sáng' (City of Lights)."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -853,7 +853,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer correctly identifies Paris as the 'city of love' and is supported by the context that explicitly mentions both Paris and Venezia in this regard. The answer is relevant to the question, uses precise context, covers the expected answer, and aligns with the expected behavior of directly answering based on the provided context."
+          "reason": "The answer correctly identifies Paris as the 'city of love' and is supported by the context provided, which explicitly mentions both Paris and Venezia in this regard. The answer is relevant to the question, uses precise context, covers the expected answer, and aligns with the expected behavior of directly answering based on the cited context."
         }
       }
     },
@@ -862,7 +862,7 @@
       "question": "Ngoại trừ cái tên Paname, Paris còn có tên gọi khác là gì?",
       "expected": "Pantruche",
       "baseline": {
-        "answer": "Ngoại trừ **Paname**, Paris còn được gọi là **“Pantruche”**, **“Parigot”**, **“Kinh đô ánh sáng” / “Ville lumière”**, **“Thành phố ánh sáng”**, **“The City of Lights”**, **“Thành phố của tình yêu”**, và **“Paradis”** theo cách chơi chữ trong tiếng Pháp. [1][2][4]",
+        "answer": "Ngoại trừ cái tên **Paname**, Paris còn được gọi là **“Kinh đô ánh sáng”** [2][3], **“Thành phố của tình yêu”** [4], **“Pantruche”** [1], và **“Parigot”** [1].",
         "chunks": [
           {
             "label": 1,
@@ -873,7 +873,7 @@
             "doc_source": "raw_doc_4",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -884,7 +884,7 @@
             "doc_source": "raw_doc_2",
             "page": null,
             "section": null,
-            "score": 0.09090909090909091
+            "score": 0.16666666666666666
           },
           {
             "label": 3,
@@ -895,7 +895,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.08012820512820512
+            "score": 0.13392857142857142
           },
           {
             "label": 4,
@@ -906,7 +906,7 @@
             "doc_source": "raw_doc_3",
             "page": null,
             "section": null,
-            "score": 0.07919254658385093
+            "score": 0.13247863247863248
           },
           {
             "label": 5,
@@ -917,7 +917,7 @@
             "doc_source": "raw_doc_118",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -927,10 +927,10 @@
           4,
           119
         ],
-        "elapsed": 3.273064000000886,
+        "elapsed": 2.4382832999981474,
         "usage": {
           "prompt_tokens": 1179,
-          "completion_tokens": 93,
+          "completion_tokens": 65,
           "calls": 1
         },
         "retrieval": {
@@ -954,11 +954,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer correctly identifies 'Pantruche' as an alternative name for Paris, which is supported by the provided contexts. It directly addresses the question and includes relevant additional names, demonstrating a comprehensive understanding of the topic without introducing conflict."
+          "reason": "The answer correctly identifies 'Pantruche' as another name for Paris, which is supported by the provided context. It directly addresses the question and includes relevant information from the contexts, ensuring both precision and recall are met. The answer aligns with the expected behavior by providing a direct response based on the cited contexts."
         }
       },
       "drag": {
-        "answer": "Ngoài “Paname”, Paris còn được gọi là **“Kinh đô ánh sáng”** / **“Ville lumière”** (City of Lights) [2], và cũng được ví là **“Thành phố của tình yêu”** [4].",
+        "answer": "Ngoài “Paname”, Paris còn được gọi là **“Kinh đô ánh sáng”** / **“Thành phố ánh sáng”** (*Ville lumière*, *City of Lights*) [2], và cũng được ví là **“Thành phố của tình yêu”** [4].",
         "chunks": [
           {
             "label": 1,
@@ -969,7 +969,7 @@
             "doc_source": "raw_doc_4",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -980,7 +980,7 @@
             "doc_source": "raw_doc_2",
             "page": null,
             "section": null,
-            "score": 0.09090909090909091
+            "score": 0.16666666666666666
           },
           {
             "label": 3,
@@ -991,7 +991,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.08012820512820512
+            "score": 0.13392857142857142
           },
           {
             "label": 4,
@@ -1002,7 +1002,7 @@
             "doc_source": "raw_doc_3",
             "page": null,
             "section": null,
-            "score": 0.07919254658385093
+            "score": 0.13247863247863248
           },
           {
             "label": 5,
@@ -1013,7 +1013,7 @@
             "doc_source": "raw_doc_118",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -1023,16 +1023,16 @@
           4,
           119
         ],
-        "elapsed": 4.7164257000004,
+        "elapsed": 5.629008100000647,
         "usage": {
-          "prompt_tokens": 2427,
-          "completion_tokens": 161,
+          "prompt_tokens": 2428,
+          "completion_tokens": 169,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "complementary_information",
           "confidence": 0.9,
-          "rationale": "The retrieved passages provide different names for Paris, such as 'Paname', 'Kinh đô ánh sáng' (City of Lights), and 'Thành phố của tình yêu' (City of Love). These names are not in conflict but rather offer complementary perspectives on the city's identity.",
+          "rationale": "The retrieved passages provide different names for Paris, including 'Paname', 'Kinh đô ánh sáng' (City of Lights), and 'Thành phố của tình yêu' (City of Love). Each passage offers a unique perspective on the city's identity, which are all valid and compatible.",
           "answer_policy": "Merge the relevant aspects from the sources to provide a comprehensive answer."
         },
         "retrieval": {
@@ -1050,13 +1050,13 @@
         },
         "ragas": {
           "faithfulness": 0.0,
-          "answer_relevancy": 1.0,
+          "answer_relevancy": 0.5,
           "context_precision": 0.5,
           "context_recall": 0.5,
           "answer_correctness": 0.0,
           "behavior_alignment": 0.0,
-          "ragas_avg": 0.4,
-          "reason": "The answer provides alternative names for Paris but fails to mention 'Pantruche', which is the expected answer. Instead, it focuses on 'Kinh đô ánh sáng' and 'Thành phố của tình yêu', which are not the requested alternative name. This indicates a lack of faithfulness and correctness regarding the expected answer."
+          "ragas_avg": 0.3,
+          "reason": "The answer does not provide the expected answer 'Pantruche' and instead lists other names for Paris, which are not relevant to the question. The contexts do mention 'Pantruche', but the answer fails to directly address the question as expected."
         }
       }
     },
@@ -1076,7 +1076,7 @@
             "doc_source": "raw_doc_54",
             "page": null,
             "section": null,
-            "score": 0.09109730848861283
+            "score": 0.16783216783216784
           },
           {
             "label": 2,
@@ -1087,7 +1087,7 @@
             "doc_source": "raw_doc_53",
             "page": null,
             "section": null,
-            "score": 0.08761904761904762
+            "score": 0.1575757575757576
           },
           {
             "label": 3,
@@ -1098,7 +1098,7 @@
             "doc_source": "raw_doc_58",
             "page": null,
             "section": null,
-            "score": 0.08545454545454545
+            "score": 0.15
           },
           {
             "label": 4,
@@ -1109,7 +1109,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.08193979933110368
+            "score": 0.13942307692307693
           },
           {
             "label": 5,
@@ -1120,7 +1120,7 @@
             "doc_source": "raw_doc_59",
             "page": null,
             "section": null,
-            "score": 0.08116883116883117
+            "score": 0.1388888888888889
           }
         ],
         "ranked_ids": [
@@ -1130,7 +1130,7 @@
           6,
           60
         ],
-        "elapsed": 2.4091298000021197,
+        "elapsed": 1.7647676000015053,
         "usage": {
           "prompt_tokens": 1574,
           "completion_tokens": 25,
@@ -1161,7 +1161,7 @@
         }
       },
       "drag": {
-        "answer": "Công trình nằm trên đỉnh Montmartre là **nhà thờ Saint-Pierre** [4].",
+        "answer": "Công trình nằm trên đỉnh Montmartre là nhà thờ Saint-Pierre [4].",
         "chunks": [
           {
             "label": 1,
@@ -1172,7 +1172,7 @@
             "doc_source": "raw_doc_54",
             "page": null,
             "section": null,
-            "score": 0.09109730848861283
+            "score": 0.16783216783216784
           },
           {
             "label": 2,
@@ -1183,7 +1183,7 @@
             "doc_source": "raw_doc_53",
             "page": null,
             "section": null,
-            "score": 0.08761904761904762
+            "score": 0.1575757575757576
           },
           {
             "label": 3,
@@ -1194,7 +1194,7 @@
             "doc_source": "raw_doc_58",
             "page": null,
             "section": null,
-            "score": 0.08545454545454545
+            "score": 0.15
           },
           {
             "label": 4,
@@ -1205,7 +1205,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.08193979933110368
+            "score": 0.13942307692307693
           },
           {
             "label": 5,
@@ -1216,7 +1216,7 @@
             "doc_source": "raw_doc_59",
             "page": null,
             "section": null,
-            "score": 0.08116883116883117
+            "score": 0.1388888888888889
           }
         ],
         "ranked_ids": [
@@ -1226,17 +1226,17 @@
           6,
           60
         ],
-        "elapsed": 5.019882700002199,
+        "elapsed": 6.899360700001125,
         "usage": {
-          "prompt_tokens": 3250,
-          "completion_tokens": 162,
+          "prompt_tokens": 3246,
+          "completion_tokens": 155,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 1.0,
-          "rationale": "The retrieved passages do not provide specific information about the structure located at the top of Montmartre. However, it is known that the Basilica of the Sacré-Cœur is situated there, but this is not mentioned in the sources. Therefore, the context does not contain enough information to answer the question directly.",
-          "answer_policy": "Since the sources do not mention the specific structure on Montmartre, the answer should acknowledge the lack of information while noting that the Basilica of the Sacré-Cœur is commonly known to be located there."
+          "rationale": "The retrieved passages do not provide specific information about the structure located at the top of Montmartre. However, it is widely known that the Basilica of the Sacré-Cœur is situated on Montmartre. The context does not contain enough information to directly answer the question.",
+          "answer_policy": "Since the passages do not mention the specific structure on Montmartre, the answer should acknowledge the lack of information in the sources and provide the widely known answer that the Basilica of the Sacré-Cœur is located there."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -1259,7 +1259,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that the building on top of Montmartre is 'nhà thờ Saint-Pierre', which is the expected answer. The context provided supports this claim, confirming the location and significance of the church. The answer is relevant, precise, and correct, aligning with the expected behavior of directly answering the question based on the supplied context."
+          "reason": "The answer directly states that the building on top of Montmartre is the Saint-Pierre church, which is correct and supported by the context provided. The context mentions that the summit of Montmartre is the location of the Saint-Pierre church, making the answer both relevant and precise. Additionally, the answer aligns with the expected behavior of directly responding based on the cited context."
         }
       }
     },
@@ -1268,7 +1268,7 @@
       "question": "Rừng Vincennes nằm ở đâu của Paris?",
       "expected": "Quận 12 ở phía Đông",
       "baseline": {
-        "answer": "Rừng Vincennes nằm ở **phía Đông của Paris**, và thuộc **Quận 12** [1].",
+        "answer": "Rừng Vincennes nằm ở **phía Đông Paris**, và theo ngữ cảnh thì **thuộc Quận 12** của thành phố. [1][2]",
         "chunks": [
           {
             "label": 1,
@@ -1279,7 +1279,7 @@
             "doc_source": "raw_doc_6",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -1290,7 +1290,7 @@
             "doc_source": "raw_doc_60",
             "page": null,
             "section": null,
-            "score": 0.08465608465608465
+            "score": 0.1497326203208556
           },
           {
             "label": 3,
@@ -1301,7 +1301,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 4,
@@ -1312,7 +1312,7 @@
             "doc_source": "raw_doc_138",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           },
           {
             "label": 5,
@@ -1323,7 +1323,7 @@
             "doc_source": "raw_doc_8",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -1333,10 +1333,10 @@
           139,
           9
         ],
-        "elapsed": 2.7544215000016266,
+        "elapsed": 5.1088470999966376,
         "usage": {
           "prompt_tokens": 1590,
-          "completion_tokens": 27,
+          "completion_tokens": 38,
           "calls": 1
         },
         "retrieval": {
@@ -1360,11 +1360,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer accurately states that the Vincennes Forest is located in the eastern part of Paris and belongs to the 12th district, which is directly supported by the provided context. The answer is relevant to the question, uses precise context, covers the expected answer fully, and is correct. Additionally, it follows the expected behavior by providing a direct response based on the cited context."
+          "reason": "The answer accurately states that the Vincennes Forest is located in the eastern part of Paris and belongs to the 12th district, which is directly supported by the provided context. It addresses the question directly and uses relevant context effectively, covering all aspects of the expected answer without any conflict."
         }
       },
       "drag": {
-        "answer": "Rừng Vincennes nằm ở Quận 12 của Paris, ở phía Đông thành phố [1].",
+        "answer": "Rừng Vincennes nằm ở **Quận 12, phía Đông của Paris** [1][2].",
         "chunks": [
           {
             "label": 1,
@@ -1375,7 +1375,7 @@
             "doc_source": "raw_doc_6",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -1386,7 +1386,7 @@
             "doc_source": "raw_doc_60",
             "page": null,
             "section": null,
-            "score": 0.08465608465608465
+            "score": 0.1497326203208556
           },
           {
             "label": 3,
@@ -1397,7 +1397,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 4,
@@ -1408,7 +1408,7 @@
             "doc_source": "raw_doc_138",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           },
           {
             "label": 5,
@@ -1419,7 +1419,7 @@
             "doc_source": "raw_doc_8",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -1429,17 +1429,17 @@
           139,
           9
         ],
-        "elapsed": 5.597271900001942,
+        "elapsed": 5.787433299999975,
         "usage": {
-          "prompt_tokens": 3244,
-          "completion_tokens": 123,
+          "prompt_tokens": 3234,
+          "completion_tokens": 114,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 1.0,
-          "rationale": "Both sources confirm that the Vincennes Forest is located in the 12th arrondissement of Paris, specifically in the eastern part of the city. There are no conflicting details in the retrieved passages.",
-          "answer_policy": "Directly state that the Vincennes Forest is located in the 12th arrondissement of Paris, in the eastern part of the city."
+          "rationale": "Both retrieved passages confirm that the Rừng Vincennes is located in Quận 12, to the east of Paris. There are no conflicting details in the information provided.",
+          "answer_policy": "Directly state that Rừng Vincennes is located in Quận 12, phía Đông của Paris."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -1462,7 +1462,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that the Vincennes Forest is located in the 12th district of Paris, which is in the east of the city, aligning perfectly with the expected answer. The context provided supports this information accurately, confirming the location and direction. There are no conflicts in the answer, and it adheres to the expected behavior of providing a direct response based on the cited context."
+          "reason": "The answer directly states that Rừng Vincennes is located in Quận 12, phía Đông của Paris, which is consistent with the expected answer. The contexts provided support this claim, confirming the location and relevance of the information. The answer aligns with the expected behavior by providing a direct response based on the cited contexts."
         }
       }
     },
@@ -1471,7 +1471,7 @@
       "question": "Bản đồ địa chất được bắt đầu vẽ ở đâu?",
       "expected": "Bồn Paris",
       "baseline": {
-        "answer": "Bản đồ địa chất được bắt đầu vẽ ở **Bồn Paris**, vì ngữ cảnh nói đây là “một trong những nơi đầu tiên trở thành đối tượng của việc xây dựng bản đồ địa chất” [1].",
+        "answer": "Bản đồ địa chất được bắt đầu vẽ ở **Bồn Paris**, vì ngữ cảnh nêu đây là “một trong những nơi đầu tiên trở thành đối tượng của việc xây dựng bản đồ địa chất” [1].",
         "chunks": [
           {
             "label": 1,
@@ -1482,7 +1482,7 @@
             "doc_source": "raw_doc_7",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -1493,7 +1493,7 @@
             "doc_source": "raw_doc_24",
             "page": null,
             "section": null,
-            "score": 0.08347826086956522
+            "score": 0.14358974358974358
           },
           {
             "label": 3,
@@ -1504,7 +1504,7 @@
             "doc_source": "raw_doc_122",
             "page": null,
             "section": null,
-            "score": 0.07738095238095238
+            "score": 0.12698412698412698
           },
           {
             "label": 4,
@@ -1515,7 +1515,7 @@
             "doc_source": "raw_doc_118",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -1526,7 +1526,7 @@
             "doc_source": "raw_doc_8",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -1536,10 +1536,10 @@
           119,
           9
         ],
-        "elapsed": 4.319117899998673,
+        "elapsed": 2.0376469000002544,
         "usage": {
           "prompt_tokens": 1396,
-          "completion_tokens": 50,
+          "completion_tokens": 51,
           "calls": 1
         },
         "retrieval": {
@@ -1563,11 +1563,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that geological mapping began in the Paris Basin, which is supported by the context provided. The answer is relevant to the question, uses the relevant context accurately, and covers the expected answer completely. Additionally, it aligns with the expected behavior of providing a direct answer based on the cited context."
+          "reason": "The answer directly states that geological maps began to be drawn in the Paris Basin, which is supported by the context provided. The context specifically mentions that the Paris Basin was one of the first places to be the subject of geological mapping, aligning perfectly with the expected answer. All metrics are scored as 1 because the answer is accurate, relevant, and well-supported by the context."
         }
       },
       "drag": {
-        "answer": "Bản đồ địa chất được bắt đầu vẽ ở **Bồn Paris / Paris**; đây là một trong những nơi đầu tiên trở thành đối tượng của việc xây dựng bản đồ địa chất [1].",
+        "answer": "Bản đồ địa chất được bắt đầu vẽ ở **Bồn Paris**; đây được xem là một trong những nơi đầu tiên trở thành đối tượng của việc xây dựng bản đồ địa chất [1].",
         "chunks": [
           {
             "label": 1,
@@ -1578,7 +1578,7 @@
             "doc_source": "raw_doc_7",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -1589,7 +1589,7 @@
             "doc_source": "raw_doc_24",
             "page": null,
             "section": null,
-            "score": 0.08347826086956522
+            "score": 0.14358974358974358
           },
           {
             "label": 3,
@@ -1600,7 +1600,7 @@
             "doc_source": "raw_doc_122",
             "page": null,
             "section": null,
-            "score": 0.07738095238095238
+            "score": 0.12698412698412698
           },
           {
             "label": 4,
@@ -1611,7 +1611,7 @@
             "doc_source": "raw_doc_118",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -1622,7 +1622,7 @@
             "doc_source": "raw_doc_8",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -1632,17 +1632,17 @@
           119,
           9
         ],
-        "elapsed": 7.780839700000797,
+        "elapsed": 6.211636299998645,
         "usage": {
-          "prompt_tokens": 2894,
-          "completion_tokens": 182,
+          "prompt_tokens": 2877,
+          "completion_tokens": 165,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages discuss the geological mapping of the Paris Basin and its significance in geology, indicating that Paris is one of the first places where geological maps were created. However, they do not provide a definitive answer to the question of where geological mapping began, as they focus on specific aspects of the Paris region without addressing the broader context.",
-          "answer_policy": "Summarize the relevant aspects from the passages, emphasizing that Paris is a significant location in the history of geological mapping, but acknowledge the lack of a clear answer to the broader question."
+          "rationale": "The retrieved passages provide compatible information about the origins of geological mapping, particularly focusing on the Paris Basin as one of the first areas where geological maps were created. However, they do not directly answer the question of where geological mapping began, as they lack specific details on the very first instance or location of geological mapping.",
+          "answer_policy": "Summarize the relevant aspects from the passages, emphasizing the significance of the Paris Basin in the context of geological mapping."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -1665,7 +1665,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that geological maps began to be drawn in 'Bồn Paris / Paris', which is consistent with the context provided. The context explicitly mentions that Bồn Paris was one of the first places to be the subject of geological mapping, thus supporting the answer's claims. The answer is relevant to the question, uses precise context, covers the expected answer fully, and is correct. Additionally, it aligns with the expected behavior of directly answering based on the cited context."
+          "reason": "The answer directly states that geological maps began to be drawn in the Paris Basin, which is consistent with the expected answer and supported by the provided context. The context specifically mentions the Paris Basin as one of the first areas to be the subject of geological mapping, thus ensuring all metrics are met."
         }
       }
     },
@@ -1685,7 +1685,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.09109730848861283
+            "score": 0.16783216783216784
           },
           {
             "label": 2,
@@ -1696,7 +1696,7 @@
             "doc_source": "raw_doc_8",
             "page": null,
             "section": null,
-            "score": 0.07870370370370369
+            "score": 0.13025210084033612
           },
           {
             "label": 3,
@@ -1707,7 +1707,7 @@
             "doc_source": "raw_doc_69",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 4,
@@ -1718,7 +1718,7 @@
             "doc_source": "raw_doc_52",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -1729,7 +1729,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -1739,7 +1739,7 @@
           53,
           2
         ],
-        "elapsed": 4.940894599996682,
+        "elapsed": 1.779033700000582,
         "usage": {
           "prompt_tokens": 1498,
           "completion_tokens": 32,
@@ -1770,7 +1770,7 @@
         }
       },
       "drag": {
-        "answer": "Lòng đất Paris chủ yếu gồm **đá vôi, thạch cao và đá vôi silic**; các lớp đầu tiên còn có **cát và đất sét** [2]. Ngoài ra, một số vùng đất thạch cao nhô lên tạo thành các đồi nhỏ như Montmartre [1].",
+        "answer": "Thành phần bên trong lòng đất Paris chủ yếu là **đá vôi và thạch cao**, ngoài ra còn có **cát, đất sét và đá vôi silic** [2]. Nhiều vùng đất ở Paris cũng nhô lên thành các đồi nhỏ do **đá thạch cao** [1].",
         "chunks": [
           {
             "label": 1,
@@ -1781,7 +1781,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.09109730848861283
+            "score": 0.16783216783216784
           },
           {
             "label": 2,
@@ -1792,7 +1792,7 @@
             "doc_source": "raw_doc_8",
             "page": null,
             "section": null,
-            "score": 0.07870370370370369
+            "score": 0.13025210084033612
           },
           {
             "label": 3,
@@ -1803,7 +1803,7 @@
             "doc_source": "raw_doc_69",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 4,
@@ -1814,7 +1814,7 @@
             "doc_source": "raw_doc_52",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -1825,7 +1825,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -1835,17 +1835,17 @@
           53,
           2
         ],
-        "elapsed": 5.860418199998094,
+        "elapsed": 6.434326100003091,
         "usage": {
-          "prompt_tokens": 3077,
-          "completion_tokens": 186,
+          "prompt_tokens": 3066,
+          "completion_tokens": 176,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages provide compatible information about the geological composition of Paris, mentioning the presence of limestone, gypsum, and clay. However, they do not directly answer the question about the primary component of the Earth's interior in Paris, indicating a lack of specificity rather than a conflict.",
-          "answer_policy": "Summarize the relevant aspects from the passages, focusing on the geological features mentioned, while noting the insufficiency in directly answering the question."
+          "rationale": "The retrieved passages provide compatible information about the geological composition of Paris, mentioning the presence of limestone, gypsum, and clay. However, they do not directly answer the question about the primary component of the Earth's interior in Paris, indicating a lack of specific evidence.",
+          "answer_policy": "Summarize the geological features mentioned in the sources, focusing on limestone and gypsum as significant components."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -1868,7 +1868,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly addresses the question about the main components of the ground in Paris, accurately listing 'đá vôi, thạch cao và đá vôi silic' as stated in the expected answer. The contexts provided support this information, confirming the presence of these materials in the geological structure of Paris. Additionally, the answer follows the expected conflict behavior by responding directly based on the cited contexts."
+          "reason": "The answer accurately reflects the expected answer by mentioning limestone and gypsum, and it also includes additional relevant materials (sand, clay, and silic limestone) that are supported by the provided contexts. The answer is directly based on the contexts, fulfilling the expected conflict behavior."
         }
       }
     },
@@ -1877,7 +1877,7 @@
       "question": "Điểm cuối của kênh Saint-Denis ở đâu?",
       "expected": "sông Seine ở phần hạ lưu",
       "baseline": {
-        "answer": "Kênh Saint-Denis **gặp sông Seine ở phần hạ lưu** và **không đi qua Paris**. [1]",
+        "answer": "Kênh Saint-Denis nối với bồn Villette theo hướng Saint-Denis, dài 4,5 km và hoàn thành vào năm 1821; con kênh này gặp sông Seine ở phần hạ lưu và không đi qua Paris. [1]",
         "chunks": [
           {
             "label": 1,
@@ -1888,7 +1888,7 @@
             "doc_source": "raw_doc_9",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -1899,7 +1899,7 @@
             "doc_source": "raw_doc_112",
             "page": null,
             "section": null,
-            "score": 0.08893280632411067
+            "score": 0.16025641025641024
           },
           {
             "label": 3,
@@ -1910,7 +1910,7 @@
             "doc_source": "raw_doc_58",
             "page": null,
             "section": null,
-            "score": 0.08712121212121213
+            "score": 0.15476190476190477
           },
           {
             "label": 4,
@@ -1921,7 +1921,7 @@
             "doc_source": "raw_doc_23",
             "page": null,
             "section": null,
-            "score": 0.07614942528735633
+            "score": 0.12406015037593984
           },
           {
             "label": 5,
@@ -1932,7 +1932,7 @@
             "doc_source": "raw_doc_51",
             "page": null,
             "section": null,
-            "score": 0.07417582417582418
+            "score": 0.11805555555555555
           }
         ],
         "ranked_ids": [
@@ -1942,10 +1942,10 @@
           24,
           52
         ],
-        "elapsed": 2.965631300001405,
+        "elapsed": 2.1041480999992928,
         "usage": {
           "prompt_tokens": 1560,
-          "completion_tokens": 33,
+          "completion_tokens": 59,
           "calls": 1
         },
         "retrieval": {
@@ -1969,11 +1969,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that the Saint-Denis canal meets the Seine River downstream, which is consistent with the expected answer. The context provided supports this claim, and the answer is relevant and correct. Additionally, it follows the expected behavior by directly answering the question based on the cited context."
+          "reason": "The answer directly states that the Saint-Denis canal meets the Seine River at its lower reaches, which is consistent with the expected answer. The context provided supports this claim, and the answer is relevant and correct, aligning with the expected behavior of directly answering the question based on the cited context."
         }
       },
       "drag": {
-        "answer": "Điểm cuối của kênh Saint-Denis là nơi nó gặp sông Seine ở phần hạ lưu [1].",
+        "answer": "Điểm cuối của kênh Saint-Denis là chỗ nó gặp sông Seine ở phần hạ lưu; kênh này không đi qua Paris [1].",
         "chunks": [
           {
             "label": 1,
@@ -1984,7 +1984,7 @@
             "doc_source": "raw_doc_9",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -1995,7 +1995,7 @@
             "doc_source": "raw_doc_112",
             "page": null,
             "section": null,
-            "score": 0.08893280632411067
+            "score": 0.16025641025641024
           },
           {
             "label": 3,
@@ -2006,7 +2006,7 @@
             "doc_source": "raw_doc_58",
             "page": null,
             "section": null,
-            "score": 0.08712121212121213
+            "score": 0.15476190476190477
           },
           {
             "label": 4,
@@ -2017,7 +2017,7 @@
             "doc_source": "raw_doc_23",
             "page": null,
             "section": null,
-            "score": 0.07614942528735633
+            "score": 0.12406015037593984
           },
           {
             "label": 5,
@@ -2028,7 +2028,7 @@
             "doc_source": "raw_doc_51",
             "page": null,
             "section": null,
-            "score": 0.07417582417582418
+            "score": 0.11805555555555555
           }
         ],
         "ranked_ids": [
@@ -2038,17 +2038,17 @@
           24,
           52
         ],
-        "elapsed": 4.803437900001882,
+        "elapsed": 6.6916934000000765,
         "usage": {
-          "prompt_tokens": 3193,
-          "completion_tokens": 136,
+          "prompt_tokens": 3194,
+          "completion_tokens": 147,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
           "rationale": "The retrieved passages consistently indicate that the kênh Saint-Denis meets the sông Seine at its lower end and does not pass through Paris. There are no conflicting details regarding the endpoint of the kênh Saint-Denis.",
-          "answer_policy": "Directly state that the endpoint of kênh Saint-Denis is where it meets sông Seine, as supported by the retrieved sources."
+          "answer_policy": "Directly state that the endpoint of kênh Saint-Denis is where it meets sông Seine, confirming it does not go through Paris."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -2071,7 +2071,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that the endpoint of the Saint-Denis canal is where it meets the Seine River downstream, which is consistent with the expected answer. The context provided supports this claim, confirming the accuracy and relevance of the answer."
+          "reason": "The answer directly states that the endpoint of the Saint-Denis canal is where it meets the Seine River downstream, which is consistent with the expected answer. The context provided supports this claim, confirming the location and the fact that the canal does not pass through Paris. All metrics are satisfied, and the answer aligns with the expected conflict behavior."
         }
       }
     },
@@ -2091,7 +2091,7 @@
             "doc_source": "raw_doc_10",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -2102,7 +2102,7 @@
             "doc_source": "raw_doc_75",
             "page": null,
             "section": null,
-            "score": 0.08
+            "score": 0.13333333333333333
           },
           {
             "label": 3,
@@ -2113,7 +2113,7 @@
             "doc_source": "raw_doc_71",
             "page": null,
             "section": null,
-            "score": 0.0754985754985755
+            "score": 0.1213235294117647
           },
           {
             "label": 4,
@@ -2124,7 +2124,7 @@
             "doc_source": "raw_doc_139",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -2135,7 +2135,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -2145,7 +2145,7 @@
           140,
           2
         ],
-        "elapsed": 3.677652800000942,
+        "elapsed": 2.458090300002368,
         "usage": {
           "prompt_tokens": 1494,
           "completion_tokens": 129,
@@ -2176,7 +2176,7 @@
         }
       },
       "drag": {
-        "answer": "Paris có khí hậu ôn đới đại dương: mùa hè mát, trung bình khoảng 18°C; mùa đông không quá lạnh, trung bình khoảng 6°C; mưa khá nhiều quanh năm và thời tiết thất thường. Lượng mưa trung bình khoảng 641 mm [1].",
+        "answer": "Paris có khí hậu ôn đới đại dương: mùa hè mát, trung bình khoảng 18°C; mùa đông không quá lạnh, trung bình khoảng 6°C; mưa nhiều quanh năm và thời tiết thất thường. Lượng mưa trung bình khoảng 641 mm [1].",
         "chunks": [
           {
             "label": 1,
@@ -2187,7 +2187,7 @@
             "doc_source": "raw_doc_10",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -2198,7 +2198,7 @@
             "doc_source": "raw_doc_75",
             "page": null,
             "section": null,
-            "score": 0.08
+            "score": 0.13333333333333333
           },
           {
             "label": 3,
@@ -2209,7 +2209,7 @@
             "doc_source": "raw_doc_71",
             "page": null,
             "section": null,
-            "score": 0.0754985754985755
+            "score": 0.1213235294117647
           },
           {
             "label": 4,
@@ -2220,7 +2220,7 @@
             "doc_source": "raw_doc_139",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -2231,7 +2231,7 @@
             "doc_source": "raw_doc_1",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -2241,16 +2241,16 @@
           140,
           2
         ],
-        "elapsed": 5.227992899999663,
+        "elapsed": 5.158725399996911,
         "usage": {
-          "prompt_tokens": 3047,
-          "completion_tokens": 159,
+          "prompt_tokens": 3049,
+          "completion_tokens": 160,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 1.0,
-          "rationale": "The retrieved passages provide compatible information about the climate of Paris, describing it as an oceanic temperate climate with mild summers and winters, along with average rainfall. There are no conflicting details among the sources regarding the climate characteristics.",
+          "rationale": "The retrieved passages provide compatible information about the climate of Paris, describing it as an oceanic temperate climate with mild summers and winters, along with average temperatures and precipitation. There are no conflicting details among the sources regarding the climate characteristics.",
           "answer_policy": "Summarize the climate characteristics of Paris as described in the retrieved passages."
         },
         "retrieval": {
@@ -2274,7 +2274,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer accurately describes the climate of Paris as stated in the context, including the average temperatures for summer and winter, the amount of rainfall, and the variability of the weather. It directly addresses the question and uses relevant information from the provided context, maintaining alignment with the expected behavior of providing a direct answer based on the cited context."
+          "reason": "The answer accurately describes the climate of Paris, directly referencing the relevant context provided. It includes specific details about summer and winter temperatures, rainfall, and the variability of the weather, all of which align with the expected answer. The answer is faithful to the context, relevant to the question, and correctly summarizes the climate characteristics of Paris as expected."
         }
       }
     },
@@ -2283,7 +2283,7 @@
       "question": "Paris trở thành nơi thịnh vượng nhất châu Âu vào thời kì nào?",
       "expected": "thế kỷ 17",
       "baseline": {
-        "answer": "Paris trở thành nơi thịnh vượng nhất châu Âu vào **thế kỷ 12**, khi Paris trở thành một trong những trung tâm của châu Âu về giáo dục và nghệ thuật. [2]",
+        "answer": "Paris trở thành nơi thịnh vượng nhất châu Âu vào **thế kỷ 17**, khi thành phố bắt đầu có những phát triển vượt bậc và được quy hoạch lại dưới thời Napoléon III; sau đó, sau Công xã Paris, Paris bước vào thời kỳ Belle Époque và trở thành trung tâm văn hóa của cả châu Âu [1].",
         "chunks": [
           {
             "label": 1,
@@ -2294,7 +2294,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -2305,7 +2305,7 @@
             "doc_source": "raw_doc_0",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 3,
@@ -2316,7 +2316,7 @@
             "doc_source": "raw_doc_78",
             "page": null,
             "section": null,
-            "score": 0.07448275862068965
+            "score": 0.11929824561403508
           },
           {
             "label": 4,
@@ -2327,7 +2327,7 @@
             "doc_source": "raw_doc_62",
             "page": null,
             "section": null,
-            "score": 0.07417582417582418
+            "score": 0.11805555555555555
           },
           {
             "label": 5,
@@ -2338,7 +2338,7 @@
             "doc_source": "raw_doc_116",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -2348,10 +2348,10 @@
           63,
           117
         ],
-        "elapsed": 3.131568299999344,
+        "elapsed": 2.231561699998565,
         "usage": {
           "prompt_tokens": 1417,
-          "completion_tokens": 49,
+          "completion_tokens": 82,
           "calls": 1
         },
         "retrieval": {
@@ -2368,18 +2368,18 @@
           "n_relevant_in_pool": 1
         },
         "ragas": {
-          "faithfulness": 0.0,
+          "faithfulness": 1.0,
           "answer_relevancy": 1.0,
-          "context_precision": 0.5,
-          "context_recall": 0.5,
-          "answer_correctness": 0.0,
-          "behavior_alignment": 0.0,
-          "ragas_avg": 0.4,
-          "reason": "The answer incorrectly states that Paris became the most prosperous city in Europe in the 12th century instead of the expected 17th century. While the answer is relevant to the question, it is factually incorrect and does not align with the expected conflict behavior of providing a direct answer based on the supplied contexts."
+          "context_precision": 1.0,
+          "context_recall": 1.0,
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 1.0,
+          "reason": "The answer directly states that Paris became the most prosperous city in Europe in the 17th century, which aligns perfectly with the expected answer. The context provided supports this claim, detailing the developments in Paris during that time. The answer is relevant, precise, and correct, and it follows the expected behavior of directly answering the question based on the supplied context."
         }
       },
       "drag": {
-        "answer": "Theo các nguồn, Paris bắt đầu có những phát triển vượt bậc vào **thế kỷ 17** [1]. Sau đó, thành phố bước vào thời kỳ **Belle Époque** và trở thành **trung tâm văn hóa của cả châu Âu** [1]. Tuy nhiên, các nguồn **không nêu rõ chính xác** Paris trở thành nơi thịnh vượng nhất châu Âu vào thời kì nào [1][2].",
+        "answer": "Paris được mô tả là bắt đầu có những phát triển vượt bậc vào **thế kỷ 17**, và sau Công xã Paris thì bước vào **thời kỳ Belle Époque**, trở thành trung tâm văn hóa của châu Âu [1]. Ngoài ra, từ **thế kỷ 19 và 20**, Paris cũng được xem là một trong những trung tâm văn hóa của thế giới [2].",
         "chunks": [
           {
             "label": 1,
@@ -2390,7 +2390,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -2401,7 +2401,7 @@
             "doc_source": "raw_doc_0",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 3,
@@ -2412,7 +2412,7 @@
             "doc_source": "raw_doc_78",
             "page": null,
             "section": null,
-            "score": 0.07448275862068965
+            "score": 0.11929824561403508
           },
           {
             "label": 4,
@@ -2423,7 +2423,7 @@
             "doc_source": "raw_doc_62",
             "page": null,
             "section": null,
-            "score": 0.07417582417582418
+            "score": 0.11805555555555555
           },
           {
             "label": 5,
@@ -2434,7 +2434,7 @@
             "doc_source": "raw_doc_116",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -2444,17 +2444,17 @@
           63,
           117
         ],
-        "elapsed": 6.127050199997029,
+        "elapsed": 7.780388399998628,
         "usage": {
-          "prompt_tokens": 2937,
-          "completion_tokens": 238,
+          "prompt_tokens": 2931,
+          "completion_tokens": 224,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages provide a historical overview of Paris's development and significance in Europe, particularly during the 17th century and the Belle Époque, but do not specify a single time period when Paris became the most prosperous city in Europe. The context does not contain enough information to pinpoint an exact time frame.",
-          "answer_policy": "Summarize the historical significance of Paris and its development over the centuries, noting that while it became a cultural and economic center, the exact period of becoming the most prosperous city is not clearly defined in the sources."
+          "rationale": "The retrieved passages provide a historical overview of Paris's development and significance in Europe, particularly during the 17th century and the Belle Époque period, but do not specify a single time period when Paris became the most prosperous city in Europe. The context does not contain enough information to pinpoint an exact time frame.",
+          "answer_policy": "Summarize the historical significance of Paris during various periods, particularly the 17th century and the Belle Époque, while noting the lack of a specific answer to the question."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -2470,14 +2470,14 @@
           "n_relevant_in_pool": 1
         },
         "ragas": {
-          "faithfulness": 0.8,
+          "faithfulness": 1.0,
           "answer_relevancy": 1.0,
           "context_precision": 1.0,
-          "context_recall": 0.8,
+          "context_recall": 1.0,
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
-          "ragas_avg": 0.9199999999999999,
-          "reason": "The answer correctly identifies the 17th century as the period when Paris began to prosper, which aligns with the expected answer. However, it introduces uncertainty by stating that the sources do not specify when Paris became the most prosperous city in Europe, which slightly detracts from faithfulness. The answer is relevant and uses precise contexts, but the additional commentary on the lack of clarity in sources affects context recall."
+          "ragas_avg": 1.0,
+          "reason": "The answer directly states that Paris became prosperous in the 17th century, which aligns perfectly with the expected answer. The provided contexts support this claim, specifically mentioning the developments in Paris during the 17th century and its subsequent cultural significance. The answer is relevant, precise, and correct, and it follows the expected behavior by directly addressing the question based on the cited contexts."
         }
       }
     },
@@ -2497,7 +2497,7 @@
             "doc_source": "raw_doc_40",
             "page": null,
             "section": null,
-            "score": 0.08333333333333333
+            "score": 0.14646464646464646
           },
           {
             "label": 2,
@@ -2508,7 +2508,7 @@
             "doc_source": "raw_doc_12",
             "page": null,
             "section": null,
-            "score": 0.08051529790660225
+            "score": 0.13574660633484165
           },
           {
             "label": 3,
@@ -2519,7 +2519,7 @@
             "doc_source": "raw_doc_120",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 4,
@@ -2530,7 +2530,7 @@
             "doc_source": "raw_doc_115",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -2541,7 +2541,7 @@
             "doc_source": "raw_doc_59",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -2551,7 +2551,7 @@
           116,
           60
         ],
-        "elapsed": 3.2873130000007222,
+        "elapsed": 1.7908454999997048,
         "usage": {
           "prompt_tokens": 1496,
           "completion_tokens": 72,
@@ -2582,7 +2582,7 @@
         }
       },
       "drag": {
-        "answer": "Con người đã có mặt ở vùng Île-de-France ít nhất từ **40.000 năm trước**, và đến **khoảng 4.000–3.800 TCN** thì đã sinh sống thường xuyên ở bờ trái một nhánh cũ của sông Seine [2]. Tuy nhiên, đoạn trích cũng nói rằng **không có nhiều hiểu biết về giai đoạn từ tiền sử đến thời kỳ Gaule La Mã** [2].",
+        "answer": "Con người đã sinh sống thường xuyên ở bờ trái một nhánh cũ của sông Seine vào đầu thời kỳ Đồ đá mới, khoảng năm 4.000 đến 3.800 trước Công Nguyên [2]. Ngoài ra, bằng chứng về sự hiện diện của con người ở vùng Île-de-France đã có từ ít nhất 40.000 năm trước [2].",
         "chunks": [
           {
             "label": 1,
@@ -2593,7 +2593,7 @@
             "doc_source": "raw_doc_40",
             "page": null,
             "section": null,
-            "score": 0.08333333333333333
+            "score": 0.14646464646464646
           },
           {
             "label": 2,
@@ -2604,7 +2604,7 @@
             "doc_source": "raw_doc_12",
             "page": null,
             "section": null,
-            "score": 0.08051529790660225
+            "score": 0.13574660633484165
           },
           {
             "label": 3,
@@ -2615,7 +2615,7 @@
             "doc_source": "raw_doc_120",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 4,
@@ -2626,7 +2626,7 @@
             "doc_source": "raw_doc_115",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -2637,7 +2637,7 @@
             "doc_source": "raw_doc_59",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -2647,17 +2647,17 @@
           116,
           60
         ],
-        "elapsed": 7.338313199998083,
+        "elapsed": 5.858896300000197,
         "usage": {
-          "prompt_tokens": 3095,
-          "completion_tokens": 236,
+          "prompt_tokens": 3099,
+          "completion_tokens": 225,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages do not provide specific information about when people began to concentrate in the Seine area. However, they do mention early human presence in the Île-de-France region, indicating habitation dating back at least 40,000 years. The context does not contain enough information to pinpoint a specific time for the concentration of people in the Seine area.",
-          "answer_policy": "Since the passages do not directly answer the question, it is best to state that the information is insufficient to determine the exact time when people began to concentrate in the Seine area."
+          "rationale": "The retrieved passages do not provide specific information about when people began to settle around the Seine. Passage [2] mentions human presence in the Île-de-France region dating back at least 40,000 years, but it does not directly answer the question about settlement around the Seine. Therefore, there is insufficient evidence to determine a specific time for settlement.",
+          "answer_policy": "Since the passages do not contain enough information to answer the question directly, it is best to state that the context does not provide a clear answer regarding the specific time of settlement around the Seine."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -2680,7 +2680,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly addresses the question by stating that humans began to reside regularly by the Seine around 4,000 to 3,800 BC, which aligns perfectly with the expected answer. The context provided supports this claim, confirming the timeline mentioned. Additionally, the answer maintains a direct response format as expected."
+          "reason": "The answer directly addresses the question by stating the time period when humans began to settle near the Seine, which aligns perfectly with the expected answer. The context provided supports this claim, confirming the timeframe of 4,000 to 3,800 BC. All metrics are satisfied, and the answer follows the expected conflict behavior by providing a direct response based on the cited context."
         }
       }
     },
@@ -2700,7 +2700,7 @@
             "doc_source": "raw_doc_13",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -2711,7 +2711,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.09090909090909091
+            "score": 0.16666666666666666
           },
           {
             "label": 3,
@@ -2722,7 +2722,7 @@
             "doc_source": "raw_doc_24",
             "page": null,
             "section": null,
-            "score": 0.07870370370370369
+            "score": 0.13025210084033612
           },
           {
             "label": 4,
@@ -2733,7 +2733,7 @@
             "doc_source": "raw_doc_132",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           },
           {
             "label": 5,
@@ -2744,7 +2744,7 @@
             "doc_source": "raw_doc_14",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -2754,7 +2754,7 @@
           133,
           15
         ],
-        "elapsed": 5.653329600001598,
+        "elapsed": 1.5468508999983897,
         "usage": {
           "prompt_tokens": 1598,
           "completion_tokens": 28,
@@ -2785,7 +2785,7 @@
         }
       },
       "drag": {
-        "answer": "Sau khi bị đế chế La Mã chinh phục, Paris được gọi là **Lutetia**; khoảng năm 300, tên này được đổi thành **Paris** [1].",
+        "answer": "Sau khi bị đế chế La Mã chinh phục, Paris được gọi là **Lutetia**, và khoảng năm **300** thì đổi tên thành **Paris** [1].",
         "chunks": [
           {
             "label": 1,
@@ -2796,7 +2796,7 @@
             "doc_source": "raw_doc_13",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -2807,7 +2807,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.09090909090909091
+            "score": 0.16666666666666666
           },
           {
             "label": 3,
@@ -2818,7 +2818,7 @@
             "doc_source": "raw_doc_24",
             "page": null,
             "section": null,
-            "score": 0.07870370370370369
+            "score": 0.13025210084033612
           },
           {
             "label": 4,
@@ -2829,7 +2829,7 @@
             "doc_source": "raw_doc_132",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           },
           {
             "label": 5,
@@ -2840,7 +2840,7 @@
             "doc_source": "raw_doc_14",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -2850,17 +2850,17 @@
           133,
           15
         ],
-        "elapsed": 4.890211800000543,
+        "elapsed": 4.6677162000014505,
         "usage": {
-          "prompt_tokens": 3270,
-          "completion_tokens": 151,
+          "prompt_tokens": 3264,
+          "completion_tokens": 144,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "Both sources agree that after being conquered by the Roman Empire, the city was known as Lutetia and was later renamed Paris around the year 300. There are no conflicting claims in the retrieved passages regarding this historical fact.",
-          "answer_policy": "Directly state that after being conquered by the Roman Empire, the city was known as Lutetia and was renamed Paris around the year 300."
+          "rationale": "Both sources agree that after being conquered by the Roman Empire, the city was known as Lutetia and was later renamed Paris around 300 AD. There are no conflicting claims in the retrieved passages.",
+          "answer_policy": "Directly state that after being conquered by the Roman Empire, the city was known as Lutetia and was renamed Paris around 300 AD."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -2883,7 +2883,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Paris was called Lutetia after being conquered by the Roman Empire, which is supported by the context provided. The answer is relevant to the question, uses precise context, covers the expected answer fully, and is correct. Additionally, it follows the expected conflict behavior by providing a direct response based on the cited context."
+          "reason": "The answer directly states that Paris was called Lutetia after being conquered by the Roman Empire, which is supported by the context provided. The answer is relevant to the question, uses precise context, covers the expected answer fully, and is correct. Additionally, it follows the expected behavior by providing a direct response based on the cited context."
         }
       }
     },
@@ -2903,7 +2903,7 @@
             "doc_source": "raw_doc_14",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -2914,7 +2914,7 @@
             "doc_source": "raw_doc_17",
             "page": null,
             "section": null,
-            "score": 0.08514492753623187
+            "score": 0.14835164835164835
           },
           {
             "label": 3,
@@ -2925,7 +2925,7 @@
             "doc_source": "raw_doc_81",
             "page": null,
             "section": null,
-            "score": 0.07179487179487179
+            "score": 0.1125
           },
           {
             "label": 4,
@@ -2936,7 +2936,7 @@
             "doc_source": "raw_doc_28",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -2947,7 +2947,7 @@
             "doc_source": "raw_doc_13",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -2957,7 +2957,7 @@
           29,
           14
         ],
-        "elapsed": 4.044058899999072,
+        "elapsed": 1.472198199997365,
         "usage": {
           "prompt_tokens": 1578,
           "completion_tokens": 28,
@@ -2988,7 +2988,7 @@
         }
       },
       "drag": {
-        "answer": "Những chiến binh Viking đã tấn công Paris lần đầu vào năm 845 [1].",
+        "answer": "Những chiến binh Viking đã tấn công Paris lần đầu vào năm **845** [1].",
         "chunks": [
           {
             "label": 1,
@@ -2999,7 +2999,7 @@
             "doc_source": "raw_doc_14",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -3010,7 +3010,7 @@
             "doc_source": "raw_doc_17",
             "page": null,
             "section": null,
-            "score": 0.08514492753623187
+            "score": 0.14835164835164835
           },
           {
             "label": 3,
@@ -3021,7 +3021,7 @@
             "doc_source": "raw_doc_81",
             "page": null,
             "section": null,
-            "score": 0.07179487179487179
+            "score": 0.1125
           },
           {
             "label": 4,
@@ -3032,7 +3032,7 @@
             "doc_source": "raw_doc_28",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           },
           {
             "label": 5,
@@ -3043,7 +3043,7 @@
             "doc_source": "raw_doc_13",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -3053,10 +3053,10 @@
           29,
           14
         ],
-        "elapsed": 4.803156299996772,
+        "elapsed": 4.157374099999288,
         "usage": {
           "prompt_tokens": 3209,
-          "completion_tokens": 112,
+          "completion_tokens": 113,
           "calls": 2
         },
         "conflict_assessment": {
@@ -3086,7 +3086,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that the Viking warriors attacked Paris for the first time in 845, which is supported by the context provided. The context specifically mentions this event, making the answer both relevant and correct. Additionally, the answer follows the expected behavior by providing a direct response based on the cited context."
+          "reason": "The answer directly states the expected answer '845' and is supported by the relevant context [1], which confirms the first Viking attack on Paris occurred in that year. The answer is precise, relevant, and correctly addresses the question without any conflict."
         }
       }
     },
@@ -3095,7 +3095,7 @@
       "question": "Paris đã trở lại làm thủ đô từ vua nào lên ngôi?",
       "expected": "Louis VI",
       "baseline": {
-        "answer": "Paris trở lại làm thủ đô của vương quốc từ thời vua **Louis VI**, rồi **Philippe Auguste** lên ngôi. [2]",
+        "answer": "Paris đã trở lại làm thủ đô của vương quốc từ thời vua **Louis VI**, rồi **Philippe Auguste** lên ngôi. [2]",
         "chunks": [
           {
             "label": 1,
@@ -3106,7 +3106,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -3117,7 +3117,7 @@
             "doc_source": "raw_doc_15",
             "page": null,
             "section": null,
-            "score": 0.08928571428571427
+            "score": 0.16233766233766234
           },
           {
             "label": 3,
@@ -3128,21 +3128,10 @@
             "doc_source": "raw_doc_16",
             "page": null,
             "section": null,
-            "score": 0.08193979933110368
+            "score": 0.13942307692307693
           },
           {
             "label": 4,
-            "chunk_id": 20,
-            "text": "Kể từ Louis XIII, và tiếp đó là Louis XIV, các vị vua Pháp chuyển đến sống tại cung điện Versailles. Năm 1682 triều đình cũng chuyển về Versailles, Jean-Baptiste Colbert trở thành người quản lý Paris. Mặc dù Versailles nằm rất gần Paris, nhưng trong suốt thời gian trị vì Louis XIV chỉ đến Paris 24 lần để dự các buổi lễ chính thức. Năm 1715, công tước Philippe II, khi đó là nhiếp chính, rời Versailles về Palais-Royal trong Paris. Tiếp đó vị vua trẻ Louis XV sống tại cung điện Tuileries. Một lần nữa, triều đình quay về Paris. Nhưng từ 1722, Louis XV lại trở lại cung điện Versailles.",
-            "document_id": 20,
-            "doc_title": "raw_doc_19",
-            "doc_source": "raw_doc_19",
-            "page": null,
-            "section": null,
-            "score": 0.07846153846153847
-          },
-          {
-            "label": 5,
             "chunk_id": 1,
             "text": "Paris nằm ở điểm gặp nhau của các hành trình thương mại đường bộ và đường sông, và là trung tâm của một vùng nông nghiệp giàu có. Vào thế kỷ 10, Paris đã là một trong những thành phố chính của Pháp cùng các cung điện hoàng gia, các tu viện và nhà thờ. Từ thế kỷ 12, Paris trở thành một trong những trung tâm của châu Âu về giáo dục và nghệ thuật. Thế kỷ 14, Paris là thành phố quan trọng bậc nhất của Cơ Đốc giáo và trong các thế kỷ 16, 17, đây là nơi diễn ra Cách mạng Pháp cùng nhiều sự kiện lịch sử quan trọng của Pháp và châu Âu. Đến thế kỷ 19 và 20, thành phố trở thành một trong những trung tâm văn hóa của thế giới, thủ đô của nghệ thuật và giải trí.",
             "document_id": 1,
@@ -3150,20 +3139,31 @@
             "doc_source": "raw_doc_0",
             "page": null,
             "section": null,
-            "score": 0.07796101949025487
+            "score": 0.12955465587044535
+          },
+          {
+            "label": 5,
+            "chunk_id": 20,
+            "text": "Kể từ Louis XIII, và tiếp đó là Louis XIV, các vị vua Pháp chuyển đến sống tại cung điện Versailles. Năm 1682 triều đình cũng chuyển về Versailles, Jean-Baptiste Colbert trở thành người quản lý Paris. Mặc dù Versailles nằm rất gần Paris, nhưng trong suốt thời gian trị vì Louis XIV chỉ đến Paris 24 lần để dự các buổi lễ chính thức. Năm 1715, công tước Philippe II, khi đó là nhiếp chính, rời Versailles về Palais-Royal trong Paris. Tiếp đó vị vua trẻ Louis XV sống tại cung điện Tuileries. Một lần nữa, triều đình quay về Paris. Nhưng từ 1722, Louis XV lại trở lại cung điện Versailles.",
+            "document_id": 20,
+            "doc_title": "raw_doc_19",
+            "doc_source": "raw_doc_19",
+            "page": null,
+            "section": null,
+            "score": 0.12916666666666665
           }
         ],
         "ranked_ids": [
           12,
           16,
           17,
-          20,
-          1
+          1,
+          20
         ],
-        "elapsed": 3.279893599999923,
+        "elapsed": 1.7158374000027834,
         "usage": {
           "prompt_tokens": 1492,
-          "completion_tokens": 34,
+          "completion_tokens": 35,
           "calls": 1
         },
         "retrieval": {
@@ -3174,8 +3174,8 @@
             12,
             16,
             17,
-            20,
-            1
+            1,
+            20
           ],
           "n_relevant_in_pool": 1
         },
@@ -3187,11 +3187,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer correctly identifies Louis VI as the king from whom Paris returned to being the capital, directly addressing the question and supported by the provided context. The context used is relevant and accurately reflects the historical information needed to answer the question."
+          "reason": "The answer directly states that Paris became the capital again under King Louis VI, which is supported by the context provided. The answer is relevant to the question, uses precise context, covers the expected answer, and is correct. Additionally, it aligns with the expected behavior of directly answering based on the cited context."
         }
       },
       "drag": {
-        "answer": "Paris trở lại làm thủ đô từ thời vua **Louis VI**, rồi được **Philippe Auguste** tiếp tục củng cố vai trò này [2]. Trước đó, Paris đã được vua **Clovis I** chọn làm thủ đô của vương quốc Franc vào thế kỷ 6 [1].",
+        "answer": "Có **hai cách nhìn trong các nguồn**:\n\n- Theo nguồn [1], **vua Clovis I** đã lấy Paris làm thủ đô của vương quốc Franc vào **thế kỷ 6**.\n- Theo nguồn [2], Paris **trở lại** vai trò thủ đô của vương quốc từ thời **vua Louis VI**, rồi được củng cố dưới thời **Philippe Auguste** vào **thế kỷ 11**.\n\nVì vậy, nếu hỏi “Paris đã trở lại làm thủ đô từ vua nào lên ngôi?”, thì nguồn [2] cho thấy đó là **từ thời Louis VI**, còn nguồn [1] nhấn mạnh vai trò sớm hơn của **Clovis I** [1][2].",
         "chunks": [
           {
             "label": 1,
@@ -3202,7 +3202,7 @@
             "doc_source": "raw_doc_11",
             "page": null,
             "section": null,
-            "score": 0.09307359307359307
+            "score": 0.17424242424242425
           },
           {
             "label": 2,
@@ -3213,7 +3213,7 @@
             "doc_source": "raw_doc_15",
             "page": null,
             "section": null,
-            "score": 0.08928571428571427
+            "score": 0.16233766233766234
           },
           {
             "label": 3,
@@ -3224,21 +3224,10 @@
             "doc_source": "raw_doc_16",
             "page": null,
             "section": null,
-            "score": 0.08193979933110368
+            "score": 0.13942307692307693
           },
           {
             "label": 4,
-            "chunk_id": 20,
-            "text": "Kể từ Louis XIII, và tiếp đó là Louis XIV, các vị vua Pháp chuyển đến sống tại cung điện Versailles. Năm 1682 triều đình cũng chuyển về Versailles, Jean-Baptiste Colbert trở thành người quản lý Paris. Mặc dù Versailles nằm rất gần Paris, nhưng trong suốt thời gian trị vì Louis XIV chỉ đến Paris 24 lần để dự các buổi lễ chính thức. Năm 1715, công tước Philippe II, khi đó là nhiếp chính, rời Versailles về Palais-Royal trong Paris. Tiếp đó vị vua trẻ Louis XV sống tại cung điện Tuileries. Một lần nữa, triều đình quay về Paris. Nhưng từ 1722, Louis XV lại trở lại cung điện Versailles.",
-            "document_id": 20,
-            "doc_title": "raw_doc_19",
-            "doc_source": "raw_doc_19",
-            "page": null,
-            "section": null,
-            "score": 0.07846153846153847
-          },
-          {
-            "label": 5,
             "chunk_id": 1,
             "text": "Paris nằm ở điểm gặp nhau của các hành trình thương mại đường bộ và đường sông, và là trung tâm của một vùng nông nghiệp giàu có. Vào thế kỷ 10, Paris đã là một trong những thành phố chính của Pháp cùng các cung điện hoàng gia, các tu viện và nhà thờ. Từ thế kỷ 12, Paris trở thành một trong những trung tâm của châu Âu về giáo dục và nghệ thuật. Thế kỷ 14, Paris là thành phố quan trọng bậc nhất của Cơ Đốc giáo và trong các thế kỷ 16, 17, đây là nơi diễn ra Cách mạng Pháp cùng nhiều sự kiện lịch sử quan trọng của Pháp và châu Âu. Đến thế kỷ 19 và 20, thành phố trở thành một trong những trung tâm văn hóa của thế giới, thủ đô của nghệ thuật và giải trí.",
             "document_id": 1,
@@ -3246,27 +3235,38 @@
             "doc_source": "raw_doc_0",
             "page": null,
             "section": null,
-            "score": 0.07796101949025487
+            "score": 0.12955465587044535
+          },
+          {
+            "label": 5,
+            "chunk_id": 20,
+            "text": "Kể từ Louis XIII, và tiếp đó là Louis XIV, các vị vua Pháp chuyển đến sống tại cung điện Versailles. Năm 1682 triều đình cũng chuyển về Versailles, Jean-Baptiste Colbert trở thành người quản lý Paris. Mặc dù Versailles nằm rất gần Paris, nhưng trong suốt thời gian trị vì Louis XIV chỉ đến Paris 24 lần để dự các buổi lễ chính thức. Năm 1715, công tước Philippe II, khi đó là nhiếp chính, rời Versailles về Palais-Royal trong Paris. Tiếp đó vị vua trẻ Louis XV sống tại cung điện Tuileries. Một lần nữa, triều đình quay về Paris. Nhưng từ 1722, Louis XV lại trở lại cung điện Versailles.",
+            "document_id": 20,
+            "doc_title": "raw_doc_19",
+            "doc_source": "raw_doc_19",
+            "page": null,
+            "section": null,
+            "score": 0.12916666666666665
           }
         ],
         "ranked_ids": [
           12,
           16,
           17,
-          20,
-          1
+          1,
+          20
         ],
-        "elapsed": 5.659925900003145,
+        "elapsed": 6.796750000001339,
         "usage": {
-          "prompt_tokens": 3068,
-          "completion_tokens": 185,
+          "prompt_tokens": 3101,
+          "completion_tokens": 309,
           "calls": 2
         },
         "conflict_assessment": {
-          "conflict_type": "no_conflict",
-          "confidence": 0.9,
-          "rationale": "The retrieved passages consistently indicate that Paris became the capital under King Clovis I in the 6th century and later under Louis VI and Philippe Auguste in the 11th century. There are no conflicting claims regarding the kings associated with Paris as the capital.",
-          "answer_policy": "Summarize the information from the sources, highlighting that Paris was established as the capital by Clovis I and later reaffirmed by Louis VI and Philippe Auguste."
+          "conflict_type": "conflicting_opinions",
+          "confidence": 0.8,
+          "rationale": "The retrieved passages present different historical perspectives on when Paris became the capital again. Passage [1] states that Clovis I made Paris the capital in the 6th century, while Passage [2] indicates that Paris returned as the capital under Louis VI and Philippe Auguste in the 11th century. This indicates a disagreement on the timeline of Paris's status as a capital.",
+          "answer_policy": "Summarize the different historical viewpoints regarding when Paris became the capital, highlighting Clovis I's role in the 6th century and the later restoration under Louis VI and Philippe Auguste."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -3276,8 +3276,8 @@
             12,
             16,
             17,
-            20,
-            1
+            1,
+            20
           ],
           "n_relevant_in_pool": 1
         },
@@ -3289,7 +3289,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Paris became the capital again under King Louis VI, which is the expected answer. The provided contexts support this claim, and the answer is relevant and correct, aligning with the expected behavior of directly answering the question."
+          "reason": "The answer correctly identifies Louis VI as the king from whom Paris returned to being the capital, directly addressing the question. It uses relevant contexts that support this claim and provides a clear explanation of the historical context without introducing any conflicting information."
         }
       }
     },
@@ -3309,7 +3309,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.07692307692307693
+            "score": 0.125
           },
           {
             "label": 2,
@@ -3320,7 +3320,7 @@
             "doc_source": "raw_doc_20",
             "page": null,
             "section": null,
-            "score": 0.07448275862068965
+            "score": 0.11929824561403508
           },
           {
             "label": 3,
@@ -3331,7 +3331,7 @@
             "doc_source": "raw_doc_73",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 4,
@@ -3342,7 +3342,7 @@
             "doc_source": "raw_doc_7",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 5,
@@ -3353,7 +3353,7 @@
             "doc_source": "raw_doc_110",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -3363,7 +3363,7 @@
           8,
           111
         ],
-        "elapsed": 3.7351175000003423,
+        "elapsed": 1.7735513000006904,
         "usage": {
           "prompt_tokens": 1459,
           "completion_tokens": 12,
@@ -3394,7 +3394,7 @@
         }
       },
       "drag": {
-        "answer": "Context không cung cấp đủ thông tin để xác định bên bờ phải sông Seine đã phát triển mạnh về hoạt động gì vào thế kỉ XII [1][4].",
+        "answer": "Bên bờ phải sông Seine, vào thế kỉ XII, **hoạt động thương mại đã phát triển mạnh** [1].",
         "chunks": [
           {
             "label": 1,
@@ -3405,7 +3405,7 @@
             "doc_source": "raw_doc_5",
             "page": null,
             "section": null,
-            "score": 0.07692307692307693
+            "score": 0.125
           },
           {
             "label": 2,
@@ -3416,7 +3416,7 @@
             "doc_source": "raw_doc_20",
             "page": null,
             "section": null,
-            "score": 0.07448275862068965
+            "score": 0.11929824561403508
           },
           {
             "label": 3,
@@ -3427,7 +3427,7 @@
             "doc_source": "raw_doc_73",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 4,
@@ -3438,7 +3438,7 @@
             "doc_source": "raw_doc_7",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 5,
@@ -3449,7 +3449,7 @@
             "doc_source": "raw_doc_110",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -3459,10 +3459,10 @@
           8,
           111
         ],
-        "elapsed": 6.168026799998188,
+        "elapsed": 6.469912299999123,
         "usage": {
           "prompt_tokens": 3018,
-          "completion_tokens": 173,
+          "completion_tokens": 167,
           "calls": 2
         },
         "conflict_assessment": {
@@ -3485,14 +3485,14 @@
           "n_relevant_in_pool": 1
         },
         "ragas": {
-          "faithfulness": 0.0,
-          "answer_relevancy": 0.0,
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
           "context_precision": 0.0,
           "context_recall": 0.0,
-          "answer_correctness": 0.0,
-          "behavior_alignment": 0.0,
-          "ragas_avg": 0.0,
-          "reason": "The answer states that the context does not provide enough information to determine the activities developed on the right bank of the Seine in the 12th century. However, the expected answer is 'thương mại và tài chính' (trade and finance), which is a direct response to the question. The answer fails to address the question and does not align with the expected behavior of providing a direct answer based on the context."
+          "answer_correctness": 1.0,
+          "behavior_alignment": 1.0,
+          "ragas_avg": 0.6,
+          "reason": "The answer correctly identifies that trade developed strongly along the right bank of the Seine in the 12th century, which aligns with the expected answer of trade and finance. However, the context provided does not support this claim, as none of the contexts mention trade or finance specifically. Therefore, while the answer is correct and relevant, it lacks context precision and recall."
         }
       }
     },
@@ -3501,7 +3501,7 @@
       "question": "Vì sao vua di chuyển đến Hôtel Saint-Pol?",
       "expected": "dễ dàng thoát khi có binh biến",
       "baseline": {
-        "answer": "Vì sự bất mãn của dân chúng đã nuôi tham vọng của quan thái thú Étienne Marcel, gây nên chính biến lớn đầu tiên trong lịch sử Pháp năm 1358; điều này khiến các vị vua không còn ở trong trung tâm thành mà chuyển đến Hôtel Saint-Pol, rồi Hôtel des Tournelles để dễ dàng thoát khi có binh biến. [4]",
+        "answer": "Vì sự bất mãn của dân chúng đã nuôi tham vọng của quan thái thú Étienne Marcel, gây nên chính biến lớn đầu tiên trong lịch sử Pháp vào năm 1358; điều này khiến các vị vua không còn ở trong trung tâm thành mà chuyển tới Hôtel Saint-Pol, rồi Hôtel des Tournelles, nơi dễ dàng thoát khi có binh biến. [4]",
         "chunks": [
           {
             "label": 1,
@@ -3512,7 +3512,7 @@
             "doc_source": "raw_doc_19",
             "page": null,
             "section": null,
-            "score": 0.08893280632411067
+            "score": 0.16025641025641024
           },
           {
             "label": 2,
@@ -3523,7 +3523,7 @@
             "doc_source": "raw_doc_32",
             "page": null,
             "section": null,
-            "score": 0.08347826086956522
+            "score": 0.14358974358974358
           },
           {
             "label": 3,
@@ -3534,7 +3534,7 @@
             "doc_source": "raw_doc_88",
             "page": null,
             "section": null,
-            "score": 0.07151979565772669
+            "score": 0.11145510835913312
           },
           {
             "label": 4,
@@ -3545,7 +3545,7 @@
             "doc_source": "raw_doc_17",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 5,
@@ -3556,7 +3556,7 @@
             "doc_source": "raw_doc_72",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           }
         ],
         "ranked_ids": [
@@ -3566,10 +3566,10 @@
           18,
           73
         ],
-        "elapsed": 6.324532499998895,
+        "elapsed": 1.8505449000003864,
         "usage": {
           "prompt_tokens": 1380,
-          "completion_tokens": 83,
+          "completion_tokens": 85,
           "calls": 1
         },
         "retrieval": {
@@ -3593,11 +3593,11 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly addresses the question by explaining that the move to Hôtel Saint-Pol was due to the need for the king to escape easily during a rebellion, which aligns perfectly with the expected answer. The context provided supports this claim, making the answer both relevant and correct."
+          "reason": "The answer directly addresses the question by explaining that the king moved to Hôtel Saint-Pol to easily escape during a coup, which aligns with the expected answer. The context provided supports this claim, making the answer faithful and relevant. Additionally, the answer uses relevant context and covers the expected answer completely, demonstrating correctness and alignment with the expected behavior."
         }
       },
       "drag": {
-        "answer": "Vì tình hình bất ổn và binh biến, các vua không còn ở trung tâm thành mà chuyển đến Hôtel Saint-Pol, nơi dễ dàng thoát khi có biến loạn để đảm bảo an toàn [4].",
+        "answer": "Vì tình hình bất ổn và binh biến, các vua không còn ở trung tâm thành mà chuyển đến Hôtel Saint-Pol để dễ thoát khi có biến [4].",
         "chunks": [
           {
             "label": 1,
@@ -3608,7 +3608,7 @@
             "doc_source": "raw_doc_19",
             "page": null,
             "section": null,
-            "score": 0.08893280632411067
+            "score": 0.16025641025641024
           },
           {
             "label": 2,
@@ -3619,7 +3619,7 @@
             "doc_source": "raw_doc_32",
             "page": null,
             "section": null,
-            "score": 0.08347826086956522
+            "score": 0.14358974358974358
           },
           {
             "label": 3,
@@ -3630,7 +3630,7 @@
             "doc_source": "raw_doc_88",
             "page": null,
             "section": null,
-            "score": 0.07151979565772669
+            "score": 0.11145510835913312
           },
           {
             "label": 4,
@@ -3641,7 +3641,7 @@
             "doc_source": "raw_doc_17",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           },
           {
             "label": 5,
@@ -3652,7 +3652,7 @@
             "doc_source": "raw_doc_72",
             "page": null,
             "section": null,
-            "score": 0.047619047619047616
+            "score": 0.09090909090909091
           }
         ],
         "ranked_ids": [
@@ -3662,16 +3662,16 @@
           18,
           73
         ],
-        "elapsed": 6.041466499998933,
+        "elapsed": 5.4967032999993535,
         "usage": {
-          "prompt_tokens": 2855,
-          "completion_tokens": 179,
+          "prompt_tokens": 2857,
+          "completion_tokens": 172,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages do not provide a direct answer to the question about why the king moved to Hôtel Saint-Pol. However, passage [4] mentions that kings moved to Hôtel Saint-Pol during times of unrest for safety, which implies a reason for the move. The other passages do not conflict with this information but do not address the question directly.",
+          "rationale": "The retrieved passages do not provide a direct answer to the question about why the king moved to Hôtel Saint-Pol. However, passage [4] mentions that kings moved to Hôtel Saint-Pol during times of political unrest for safety reasons, which implies a reason for the move. The other passages do not conflict with this information but do not address the question directly.",
           "answer_policy": "Summarize the relevant aspect from passage [4] regarding the safety concerns that led to the move to Hôtel Saint-Pol."
         },
         "retrieval": {
@@ -3695,7 +3695,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly addresses the question by explaining that the kings moved to Hôtel Saint-Pol to ensure safety during times of unrest and potential rebellion, which is consistent with the context provided. The context specifically mentions the need for a safe escape during such events, supporting the claims made in the answer."
+          "reason": "The answer directly addresses the question by explaining that the kings moved to Hôtel Saint-Pol to easily escape during times of unrest, which is consistent with the provided context. The context specifically mentions the need for kings to relocate for safety during conflicts, supporting the claims made in the answer."
         }
       }
     },
@@ -3704,7 +3704,7 @@
       "question": "Henry IV đã không thể quay lại Paris cho đến năm nào?",
       "expected": "1594",
       "baseline": {
-        "answer": "Henry IV đã không thể quay lại Paris cho đến **năm 1594**. Paris “đã không mở cửa cho nhà vua cho tới tận 1594” [1].",
+        "answer": "Henry IV đã không thể quay lại Paris cho đến **năm 1594**. Paris “đã không mở cửa cho nhà vua cho tới tận 1594” sau khi Henri IV trở thành vua năm 1589. [1]",
         "chunks": [
           {
             "label": 1,
@@ -3715,7 +3715,7 @@
             "doc_source": "raw_doc_18",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -3726,7 +3726,7 @@
             "doc_source": "raw_doc_19",
             "page": null,
             "section": null,
-            "score": 0.08712121212121213
+            "score": 0.15476190476190477
           },
           {
             "label": 3,
@@ -3737,7 +3737,7 @@
             "doc_source": "raw_doc_21",
             "page": null,
             "section": null,
-            "score": 0.07703703703703704
+            "score": 0.12549019607843137
           },
           {
             "label": 4,
@@ -3748,7 +3748,7 @@
             "doc_source": "raw_doc_10",
             "page": null,
             "section": null,
-            "score": 0.067816091954023
+            "score": 0.10263157894736842
           },
           {
             "label": 5,
@@ -3759,7 +3759,7 @@
             "doc_source": "raw_doc_88",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -3769,10 +3769,10 @@
           11,
           89
         ],
-        "elapsed": 3.077739799999108,
+        "elapsed": 1.678551700002572,
         "usage": {
           "prompt_tokens": 1430,
-          "completion_tokens": 41,
+          "completion_tokens": 53,
           "calls": 1
         },
         "retrieval": {
@@ -3796,7 +3796,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states the expected year (1594) and is supported by the context provided, which confirms that Paris did not open its doors to Henry IV until that year. The answer is relevant, precise, and correct, aligning with the expected behavior of directly answering the question based on the cited context."
+          "reason": "The answer directly states the expected year (1594) and is supported by the context provided, which confirms that Paris did not open its doors to Henry IV until that year. The answer is relevant, precise, and correct, aligning with the expected behavior of providing a direct response based on the cited context."
         }
       },
       "drag": {
@@ -3811,7 +3811,7 @@
             "doc_source": "raw_doc_18",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -3822,7 +3822,7 @@
             "doc_source": "raw_doc_19",
             "page": null,
             "section": null,
-            "score": 0.08712121212121213
+            "score": 0.15476190476190477
           },
           {
             "label": 3,
@@ -3833,7 +3833,7 @@
             "doc_source": "raw_doc_21",
             "page": null,
             "section": null,
-            "score": 0.07703703703703704
+            "score": 0.12549019607843137
           },
           {
             "label": 4,
@@ -3844,7 +3844,7 @@
             "doc_source": "raw_doc_10",
             "page": null,
             "section": null,
-            "score": 0.067816091954023
+            "score": 0.10263157894736842
           },
           {
             "label": 5,
@@ -3855,7 +3855,7 @@
             "doc_source": "raw_doc_88",
             "page": null,
             "section": null,
-            "score": 0.045454545454545456
+            "score": 0.08333333333333333
           }
         ],
         "ranked_ids": [
@@ -3865,7 +3865,7 @@
           11,
           89
         ],
-        "elapsed": 5.269843400001264,
+        "elapsed": 4.608877299997403,
         "usage": {
           "prompt_tokens": 2913,
           "completion_tokens": 109,
@@ -3918,7 +3918,7 @@
             "doc_source": "raw_doc_19",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -3929,7 +3929,7 @@
             "doc_source": "raw_doc_54",
             "page": null,
             "section": null,
-            "score": 0.08545454545454545
+            "score": 0.15
           },
           {
             "label": 3,
@@ -3940,7 +3940,7 @@
             "doc_source": "raw_doc_20",
             "page": null,
             "section": null,
-            "score": 0.0787878787878788
+            "score": 0.13333333333333333
           },
           {
             "label": 4,
@@ -3951,7 +3951,7 @@
             "doc_source": "raw_doc_22",
             "page": null,
             "section": null,
-            "score": 0.07019704433497537
+            "score": 0.10818713450292397
           },
           {
             "label": 5,
@@ -3962,7 +3962,7 @@
             "doc_source": "raw_doc_86",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -3972,7 +3972,7 @@
           23,
           87
         ],
-        "elapsed": 2.9574455999972997,
+        "elapsed": 2.3561945000001288,
         "usage": {
           "prompt_tokens": 1535,
           "completion_tokens": 42,
@@ -4003,7 +4003,7 @@
         }
       },
       "drag": {
-        "answer": "Jean-Baptiste Colbert đã trở thành người quản lý Paris trong thời Louis XIV [1].",
+        "answer": "Jean-Baptiste Colbert đã thay Louis XIV quản lý Paris từ năm 1682, khi triều đình chuyển về Versailles [1].",
         "chunks": [
           {
             "label": 1,
@@ -4014,7 +4014,7 @@
             "doc_source": "raw_doc_19",
             "page": null,
             "section": null,
-            "score": 0.09523809523809523
+            "score": 0.18181818181818182
           },
           {
             "label": 2,
@@ -4025,7 +4025,7 @@
             "doc_source": "raw_doc_54",
             "page": null,
             "section": null,
-            "score": 0.08545454545454545
+            "score": 0.15
           },
           {
             "label": 3,
@@ -4036,7 +4036,7 @@
             "doc_source": "raw_doc_20",
             "page": null,
             "section": null,
-            "score": 0.0787878787878788
+            "score": 0.13333333333333333
           },
           {
             "label": 4,
@@ -4047,7 +4047,7 @@
             "doc_source": "raw_doc_22",
             "page": null,
             "section": null,
-            "score": 0.07019704433497537
+            "score": 0.10818713450292397
           },
           {
             "label": 5,
@@ -4058,7 +4058,7 @@
             "doc_source": "raw_doc_86",
             "page": null,
             "section": null,
-            "score": 0.043478260869565216
+            "score": 0.07692307692307693
           }
         ],
         "ranked_ids": [
@@ -4068,17 +4068,17 @@
           23,
           87
         ],
-        "elapsed": 5.1540985999999975,
+        "elapsed": 7.599846900000557,
         "usage": {
-          "prompt_tokens": 3190,
-          "completion_tokens": 178,
+          "prompt_tokens": 3205,
+          "completion_tokens": 202,
           "calls": 2
         },
         "conflict_assessment": {
           "conflict_type": "no_conflict",
           "confidence": 0.9,
-          "rationale": "The retrieved passages provide information about the governance of Paris during and after Louis XIV's reign, indicating that Jean-Baptiste Colbert managed Paris during Louis XIV's time, and later, Louis XVI was a figurehead until the establishment of the Republic. However, the passages do not directly answer the question of who succeeded Louis XIV in governing Paris, as they focus on different aspects of governance and historical context.",
-          "answer_policy": "Summarize the relevant aspects from the passages, noting that Jean-Baptiste Colbert managed Paris during Louis XIV's reign, and that Louis XVI was a figurehead until the monarchy was abolished."
+          "rationale": "The retrieved passages provide information about the governance of Paris during and after Louis XIV's reign, indicating that Jean-Baptiste Colbert managed Paris during Louis XIV's time, and later, Louis XVI was a figure of the monarchy until the establishment of the Republic. However, the passages do not directly answer the question of who succeeded Louis XIV in governing Paris specifically, leading to a lack of direct evidence. Overall, the information is compatible and does not conflict.",
+          "answer_policy": "Summarize the relevant aspects of governance during and after Louis XIV's reign, noting that Jean-Baptiste Colbert managed Paris during his time, and later political changes occurred with Louis XVI and the establishment of the Republic."
         },
         "retrieval": {
           "recall@5": 1.0,
@@ -4101,7 +4101,7 @@
           "answer_correctness": 1.0,
           "behavior_alignment": 1.0,
           "ragas_avg": 1.0,
-          "reason": "The answer directly states that Jean-Baptiste Colbert became the manager of Paris during Louis XIV's reign, which is supported by the provided context. The answer is relevant to the question, uses precise context, covers the expected answer, and is correct. Additionally, it follows the expected behavior by providing a direct response based on the cited context."
+          "reason": "The answer directly states that Jean-Baptiste Colbert took over the management of Paris from Louis XIV, which is supported by the context provided. The context specifically mentions Colbert's role after the court moved to Versailles in 1682, aligning perfectly with the question asked. The answer is accurate, relevant, and follows the expected behavior of directly addressing the question based on the supplied context."
         }
       }
     }

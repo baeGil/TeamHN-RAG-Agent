@@ -398,5 +398,305 @@
     "behavior_alignment": 1.0,
     "ragas_avg": 1.0,
     "reason": "The answer directly states that Jean-Baptiste Colbert became the manager of Paris during Louis XIV's reign, which is supported by the provided context. The answer is relevant to the question, uses precise context, covers the expected answer, and is correct. Additionally, it follows the expected behavior by providing a direct response based on the cited context."
+  },
+  "0001-0001-0006:0d8dcb89a6ea526d:baseline:67666ae523ef6da4": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris became one of the main cities of France in the 10th century, which aligns perfectly with the expected answer. The provided contexts support this claim, particularly context [5], which confirms the significance of Paris in the 10th century. The answer is relevant, precise, and correct, and it follows the expected behavior by directly addressing the question based on the cited contexts."
+  },
+  "0001-0001-0006:0d8dcb89a6ea526d:drag:6071826ffb166c9a": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.6,
+    "reason": "The answer incorrectly states that Paris became an important city in the 6th century instead of the 10th century as expected. While it is relevant to the question and uses relevant contexts, it does not align with the expected answer and fails to provide the correct timeframe."
+  },
+  "0001-0002-0002:87454b8e9d07d5cc:drag:e5e06c8c8613b2d0": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly addresses the question about why people come to Paris, citing its cultural, artistic, and historical significance, which aligns with the expected answer. The contexts provided support the claims made in the answer, ensuring faithfulness and relevance. The answer is correct and follows the expected conflict behavior by responding directly based on the supplied context."
+  },
+  "0001-0003-0005:487a0a524be48712:baseline:99f0e21fc5fba034": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris is commonly referred to as 'Kinh đô ánh sáng', which is supported by the provided contexts. The answer is relevant, precise, and correct, and it aligns with the expected behavior of directly answering the question based on the cited context."
+  },
+  "0001-0003-0005:487a0a524be48712:drag:6850b33904eb986f": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris is commonly referred to as 'Kinh đô ánh sáng', which is the expected answer. The contexts provided support this claim, and the answer aligns with the expected conflict behavior by directly addressing the question based on the supplied contexts."
+  },
+  "0001-0004-0002:64b046362af48909:baseline:b673d8e92fc8b25f": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Venezia and Paris are referred to as the 'city of love', which is supported by the context provided. All metrics are satisfied as the answer is relevant, correct, and aligns with the expected behavior of directly answering the question based on the supplied context."
+  },
+  "0001-0004-0002:64b046362af48909:drag:27bed086f6c0c1e2": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Paris as the 'city of love' and is supported by the context provided, which explicitly mentions both Paris and Venezia in this regard. The answer is relevant to the question, uses precise context, covers the expected answer, and aligns with the expected behavior of directly answering based on the cited context."
+  },
+  "0001-0005-0003:59c5d69c7a8a00bf:baseline:24486e70f24d1ea6": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies 'Pantruche' as another name for Paris, which is supported by the provided context. It directly addresses the question and includes relevant information from the contexts, ensuring both precision and recall are met. The answer aligns with the expected behavior by providing a direct response based on the cited contexts."
+  },
+  "0001-0005-0003:59c5d69c7a8a00bf:drag:32c8e5f6d281d57a": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.3,
+    "reason": "The answer does not provide the expected answer 'Pantruche' and instead lists other names for Paris, which are not relevant to the question. The contexts do mention 'Pantruche', but the answer fails to directly address the question as expected."
+  },
+  "0001-0006-0002:78424ad955aea437:drag:5d390eb4e28d2c27": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that the building on top of Montmartre is the Saint-Pierre church, which is correct and supported by the context provided. The context mentions that the summit of Montmartre is the location of the Saint-Pierre church, making the answer both relevant and precise. Additionally, the answer aligns with the expected behavior of directly responding based on the cited context."
+  },
+  "0001-0007-0004:d1a019cdd626c4d0:baseline:f4f1936466637361": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately states that the Vincennes Forest is located in the eastern part of Paris and belongs to the 12th district, which is directly supported by the provided context. It addresses the question directly and uses relevant context effectively, covering all aspects of the expected answer without any conflict."
+  },
+  "0001-0007-0004:d1a019cdd626c4d0:drag:5edc748a0d2904b8": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Rừng Vincennes is located in Quận 12, phía Đông của Paris, which is consistent with the expected answer. The contexts provided support this claim, confirming the location and relevance of the information. The answer aligns with the expected behavior by providing a direct response based on the cited contexts."
+  },
+  "0001-0008-0005:e117b40a3b0db79f:baseline:96789c6f4051c2a3": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that geological maps began to be drawn in the Paris Basin, which is supported by the context provided. The context specifically mentions that the Paris Basin was one of the first places to be the subject of geological mapping, aligning perfectly with the expected answer. All metrics are scored as 1 because the answer is accurate, relevant, and well-supported by the context."
+  },
+  "0001-0008-0005:e117b40a3b0db79f:drag:7f73354b578ec823": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that geological maps began to be drawn in the Paris Basin, which is consistent with the expected answer and supported by the provided context. The context specifically mentions the Paris Basin as one of the first areas to be the subject of geological mapping, thus ensuring all metrics are met."
+  },
+  "0001-0009-0009:ac415dbf1abf29af:drag:2d0cebdc8f0b5ca1": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately reflects the expected answer by mentioning limestone and gypsum, and it also includes additional relevant materials (sand, clay, and silic limestone) that are supported by the provided contexts. The answer is directly based on the contexts, fulfilling the expected conflict behavior."
+  },
+  "0001-0010-0002:82d291ade4f01513:baseline:f802a1f7bd434259": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that the Saint-Denis canal meets the Seine River at its lower reaches, which is consistent with the expected answer. The context provided supports this claim, and the answer is relevant and correct, aligning with the expected behavior of directly answering the question based on the cited context."
+  },
+  "0001-0010-0002:82d291ade4f01513:drag:d7f2f1fa9443f8cc": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that the endpoint of the Saint-Denis canal is where it meets the Seine River downstream, which is consistent with the expected answer. The context provided supports this claim, confirming the location and the fact that the canal does not pass through Paris. All metrics are satisfied, and the answer aligns with the expected conflict behavior."
+  },
+  "0001-0011-0004:325293e4eb604070:drag:8b3c0f804e51731d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer accurately describes the climate of Paris, directly referencing the relevant context provided. It includes specific details about summer and winter temperatures, rainfall, and the variability of the weather, all of which align with the expected answer. The answer is faithful to the context, relevant to the question, and correctly summarizes the climate characteristics of Paris as expected."
+  },
+  "0001-0012-0002:24b11e62d168c1e0:baseline:e7771124a87170ad": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris became the most prosperous city in Europe in the 17th century, which aligns perfectly with the expected answer. The context provided supports this claim, detailing the developments in Paris during that time. The answer is relevant, precise, and correct, and it follows the expected behavior of directly answering the question based on the supplied context."
+  },
+  "0001-0012-0002:24b11e62d168c1e0:drag:1ba3862238a94226": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris became prosperous in the 17th century, which aligns perfectly with the expected answer. The provided contexts support this claim, specifically mentioning the developments in Paris during the 17th century and its subsequent cultural significance. The answer is relevant, precise, and correct, and it follows the expected behavior by directly addressing the question based on the cited contexts."
+  },
+  "0001-0013-0003:c0c1fc64f84d94d7:drag:c9706abded4dcd25": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly addresses the question by stating the time period when humans began to settle near the Seine, which aligns perfectly with the expected answer. The context provided supports this claim, confirming the timeframe of 4,000 to 3,800 BC. All metrics are satisfied, and the answer follows the expected conflict behavior by providing a direct response based on the cited context."
+  },
+  "0001-0014-0006:e0a4bb97f36aeb15:drag:b966c6ae40dd3c2b": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris was called Lutetia after being conquered by the Roman Empire, which is supported by the context provided. The answer is relevant to the question, uses precise context, covers the expected answer fully, and is correct. Additionally, it follows the expected behavior by providing a direct response based on the cited context."
+  },
+  "0001-0015-0005:74a00f35c390ebbd:drag:34ba5a4c4d80f836": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states the expected answer '845' and is supported by the relevant context [1], which confirms the first Viking attack on Paris occurred in that year. The answer is precise, relevant, and correctly addresses the question without any conflict."
+  },
+  "0001-0016-0001:76093406e5acfc08:baseline:c9ef0364de269a11": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Paris became the capital again under King Louis VI, which is supported by the context provided. The answer is relevant to the question, uses precise context, covers the expected answer, and is correct. Additionally, it aligns with the expected behavior of directly answering based on the cited context."
+  },
+  "0001-0016-0001:76093406e5acfc08:drag:eeca884e4dde5ab4": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies Louis VI as the king from whom Paris returned to being the capital, directly addressing the question. It uses relevant contexts that support this claim and provides a clear explanation of the historical context without introducing any conflicting information."
+  },
+  "0001-0017-0002:c166136eed6b9e60:drag:139cf2fa354b5b03": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.6,
+    "reason": "The answer correctly identifies that trade developed strongly along the right bank of the Seine in the 12th century, which aligns with the expected answer of trade and finance. However, the context provided does not support this claim, as none of the contexts mention trade or finance specifically. Therefore, while the answer is correct and relevant, it lacks context precision and recall."
+  },
+  "0001-0018-0004:d067ccc6929e93c5:baseline:2bef645af3149589": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly addresses the question by explaining that the king moved to Hôtel Saint-Pol to easily escape during a coup, which aligns with the expected answer. The context provided supports this claim, making the answer faithful and relevant. Additionally, the answer uses relevant context and covers the expected answer completely, demonstrating correctness and alignment with the expected behavior."
+  },
+  "0001-0018-0004:d067ccc6929e93c5:drag:cff9483450e02f59": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly addresses the question by explaining that the kings moved to Hôtel Saint-Pol to easily escape during times of unrest, which is consistent with the provided context. The context specifically mentions the need for kings to relocate for safety during conflicts, supporting the claims made in the answer."
+  },
+  "0001-0019-0003:7de12559f0408aac:baseline:147723286d81e51c": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states the expected year (1594) and is supported by the context provided, which confirms that Paris did not open its doors to Henry IV until that year. The answer is relevant, precise, and correct, aligning with the expected behavior of providing a direct response based on the cited context."
+  },
+  "0001-0020-0002:8904a2dc1bab102b:drag:ba1237afa754b2a8": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states that Jean-Baptiste Colbert took over the management of Paris from Louis XIV, which is supported by the context provided. The context specifically mentions Colbert's role after the court moved to Versailles in 1682, aligning perfectly with the question asked. The answer is accurate, relevant, and follows the expected behavior of directly addressing the question based on the supplied context."
   }
 }

@@ -778,5 +778,405 @@
     "behavior_alignment": 0.8,
     "ragas_avg": 0.8400000000000001,
     "reason": "The answer correctly identifies that NĐ 72/2024 is related to Nghị quyết 142/2024/QH15 and not Nghị quyết 174/2024/QH15, but it does not explicitly correct the false premise about the resolution numbers as expected. It provides relevant context and details about the effective dates and policies, but the answer could be clearer in directly addressing the false premise. Overall, it aligns well with the expected conflict behavior."
+  },
+  "DC001:d241a100423bc760:baseline:b66c59b79a37a40b": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer incorrectly states the issuance date of Nghị định 72/2024/NĐ-CP as 01/07/2024 instead of the expected date of 30/06/2024. The provided contexts do not support the claim made in the answer, and the answer does not align with the expected conflict behavior of providing the correct issuance date."
+  },
+  "DC001:d241a100423bc760:drag:179a0a71dc225b21": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.4,
+    "reason": "The answer states that the decree was signed on 01/07/2024, which is incorrect as the expected answer specifies it was issued on 30/06/2024. The answer does not align with the expected conflict behavior, which is to provide the correct issuance date directly from the context."
+  },
+  "DC002:47f29a663454588a:baseline:d5c875e2d8562cbd": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.5,
+    "reason": "The answer incorrectly states that the decree is based on a resolution extending the VAT reduction policy, which is not the same as the expected answer that cites Nghị quyết 174/2024/QH15. The answer is relevant to the question but fails to provide the correct resolution, thus affecting faithfulness and correctness. Additionally, it does not align with the expected conflict behavior by confusing the resolutions."
+  },
+  "DC002:47f29a663454588a:drag:45bfebde91cdb7b4": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.6,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.8,
+    "reason": "The answer correctly identifies the resolution date and the tax reduction policy but does not specify the exact resolution number (Nghị quyết 174/2024/QH15), which affects faithfulness and context precision. It avoids confusion with other resolutions, aligning with the expected behavior."
+  },
+  "DC003:cb96f87a202cece8:baseline:51bfe8be906ee6d7": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer states that no information was found in the documents, which is incorrect as the expected answer is clearly stated in the question. The contexts provided do not contain the relevant information to answer the question, and the answer does not address the question at all."
+  },
+  "DC003:cb96f87a202cece8:drag:05c20a9b27a5aff6": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.6,
+    "reason": "The answer correctly identifies the resolution (Nghị quyết số 204/2025/QH15) that the decree (Nghị định 174/2025/NĐ-CP) is based on, which aligns with the expected answer. However, the provided contexts do not contain relevant information to support this claim, leading to low context precision and recall scores. The answer adheres to the expected behavior of prioritizing the correct 2025 document."
+  },
+  "DC004:6f3cd98f25d4269b:baseline:d7e3a0435539d304": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states that the VAT rate for businesses using the deduction method is 8%, which is supported by the context provided. It directly addresses the question and uses relevant context to explain the reduction from 10% to 8%. The answer is accurate and aligns with the expected behavior of providing the correct VAT rate without mentioning any other rates."
+  },
+  "DC004:6f3cd98f25d4269b:drag:530da67a211d99ba": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.2,
+    "context_recall": 0.2,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.68,
+    "reason": "The answer correctly states the VAT rate of 8% as per the expected answer and aligns with the expected conflict behavior by not mentioning any other rates. However, the contexts provided do not directly support the answer, leading to low context precision and recall scores."
+  },
+  "DC005:c5c0be4e8cfdb71b:baseline:51bfe8be906ee6d7": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer states that no information was found, which is incorrect as the expected answer specifies the effective period of NĐ 180/2024. The answer does not address the question at all, and the contexts provided do not support the claim of lacking information. Therefore, all metrics score zero."
+  },
+  "DC005:c5c0be4e8cfdb71b:drag:885af401e561bb52": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.1,
+    "reason": "The answer does not provide the effective date range for NĐ 180/2024, which is the main question. It only mentions the signing date and states that the effective date is unknown, failing to address the expected answer. Additionally, it does not align with the expected conflict behavior, as it does not provide the correct effective period and does not avoid referencing other decrees."
+  },
+  "DC006:edffebd06593c34e:baseline:51bfe8be906ee6d7": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer states that no information was found in the documents, which is incorrect as the contexts provided contain relevant information about the effective dates of NĐ 72/2024. The expected answer is not addressed, and the answer does not align with the expected behavior of providing the correct effective dates."
+  },
+  "DC006:edffebd06593c34e:drag:140d0235e294ae81": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer does not provide the effective dates of NĐ 72/2024, which is the main question. It incorrectly states that the context does not provide this information, while the expected answer clearly states the effective dates. Therefore, it fails on all metrics."
+  },
+  "DC007:af72a862a31f2fbe:baseline:4731ea3721a9cf34": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states the GDP growth of 7.4% for Q3 2024, which is supported by the provided contexts. It is relevant to the question, uses precise contexts, covers the expected answer fully, and is correct. Additionally, it aligns with the expected behavior of providing a direct answer without conflict."
+  },
+  "DC007:af72a862a31f2fbe:drag:797b20dec1cc7fba": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer directly states the GDP growth of 7.4% for Q3 2024, which is supported by the provided contexts. It is relevant to the question, uses precise contexts, covers the expected answer fully, and is correct. Additionally, it aligns with the expected behavior of providing a direct answer without conflict."
+  },
+  "DC008:858ed659aeaf7a00:baseline:a11fbbec33edae2f": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states the PMI value of 51.2 for October 2024, which is supported by the provided contexts. It also explains that this value indicates expansion, aligning with the expected conflict behavior. All metrics are satisfied."
+  },
+  "DC008:858ed659aeaf7a00:drag:1e5c11017491ee4d": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states the PMI value of 51.2 for October 2024, which is supported by the provided contexts. It also explains that this value indicates expansion, aligning with the expected conflict behavior. All metrics are satisfied."
+  },
+  "DC009:92800237649d3512:baseline:d1654f71ab2f1cea": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states the PMI for November 2024 as 50.8, which is supported by the context provided. It directly addresses the question and does not confuse it with the PMI for December 2024. All relevant contexts are used appropriately, and the answer is accurate and aligned with the expected behavior."
+  },
+  "DC009:92800237649d3512:drag:aa3edac461feaafc": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states the PMI for November 2024 as 50.8, which is supported by the context provided. It directly addresses the question and does not confuse it with the PMI for December 2024. All relevant contexts are used accurately, and the answer is correct according to the expected answer."
+  },
+  "DC010:69f839f5c4f3a7c0:baseline:28b6874da1673418": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly states the PMI for December 2024 as 49.8, which is supported by the context provided. It directly addresses the question and aligns with the expected conflict behavior by prioritizing the January 2025 update regarding December 2024's PMI."
+  },
+  "DC010:69f839f5c4f3a7c0:drag:cd352be3e5cf8c3c": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer states that the provided contexts do not specify the PMI for December 2024, which is incorrect as the expected answer clearly states that the PMI is 49.8. The answer is relevant to the question but fails to provide the correct information, thus lacking faithfulness and correctness. Additionally, it does not align with the expected behavior of prioritizing the January 2025 update for the December 2024 PMI inquiry."
+  },
+  "DC014:247f2a08856141ed:baseline:f74828ccf14995e4": {
+    "faithfulness": 0.5,
+    "answer_relevancy": 0.5,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.5,
+    "ragas_avg": 0.4,
+    "reason": "The answer discusses the extension of the VAT reduction policy but fails to identify the specific decree (NĐ 72/2024/NĐ-CP) that applies in August 2024, which is crucial for the question. It mentions the lack of specific decree information in the context, which is partially true but does not align with the expected answer. The answer does not fully address the question about which decree to use, leading to a low score in answer correctness and relevancy. However, it does mention relevant context about the VAT policy, which provides some level of context precision and recall."
+  },
+  "DC014:247f2a08856141ed:drag:7c4d335902e37717": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.6,
+    "context_recall": 0.6,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.76,
+    "reason": "The answer correctly identifies that the policy is still in effect in August 2024, referencing the extension until June 2025. However, it fails to mention the specific decree (NĐ 72/2024/NĐ-CP) that is required for the question, which affects the faithfulness and context precision scores. The answer is relevant and aligns with the expected conflict behavior by using the correct temporal condition."
+  },
+  "DC015:0b799e0a3dc44114:baseline:41348e8876d31437": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.6,
+    "context_recall": 0.8,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.8400000000000001,
+    "reason": "The answer correctly identifies the relevant resolution regarding the extension of the VAT reduction policy, which aligns with the expected answer. However, it does not explicitly mention the decree (NĐ 180/2024/NĐ-CP) as the basis, which slightly affects context precision. The answer is relevant and correct, addressing the question appropriately and following the expected conflict behavior regarding temporal scope."
+  },
+  "DC015:0b799e0a3dc44114:drag:0995863007df023a": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.6,
+    "context_recall": 0.8,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.8,
+    "reason": "The answer correctly identifies the relevant policy regarding the VAT reduction, referencing the extension until June 2025, which aligns with the expected answer. However, it does not explicitly mention NĐ 180/2024/NĐ-CP, which is the specific decree that should be cited, leading to a slight deduction in faithfulness and context precision. The answer is relevant and addresses the question directly, and it follows the expected conflict behavior by considering the temporal scope of the policy."
+  },
+  "DC020:b26d36d9a2a1a7d4:baseline:83bb7f725df7dd4a": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer incorrectly states the latest PMI as 50.8 for November, while the expected answer specifies 49.8 for December 2024. The answer does not align with the freshness conflict behavior, as it fails to prioritize the most recent data and instead presents an outdated figure. Additionally, the contexts provided do not support the claim made in the answer, leading to low scores in faithfulness, context precision, and context recall."
+  },
+  "DC020:b26d36d9a2a1a7d4:drag:ffbcd46be2ed1994": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer incorrectly states that the latest PMI is 50.8, while the expected answer specifies that the latest PMI is 49.8 for December 2024. This indicates a lack of faithfulness and correctness. The answer does not use relevant contexts to support its claim, and it fails to align with the expected conflict behavior by not prioritizing the most recent data correctly."
+  },
+  "DC021:b7aab0abd8b48fa3:baseline:d60490646f8ce4d6": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies 12.8% as the growth rate for December 2024, supported by the context that states the growth increased from 8.2% in November to 12.8% in December. It addresses the question directly, uses relevant contexts, and aligns with the expected conflict behavior by clarifying the distinction between the two figures based on the months they represent."
+  },
+  "DC021:b7aab0abd8b48fa3:drag:376467358000bc01": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies 12.8% as the growth rate for December 2024, supported by the context that states the growth increased from 8.2% in November to 12.8% in December. It addresses the question directly and uses relevant contexts effectively, ensuring all necessary information is included. The answer also aligns with the expected conflict behavior by resolving the conflict based on the month of the indicators."
+  },
+  "DC022:f51c8b813f8d6aa8:baseline:e6ff2cdd35360c24": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies the FDI commitment for December 2024 as 6.8 billion USD and distinguishes it from the 4.1 billion USD commitment for November 2024, aligning with the expected conflict behavior of differentiating between the two months."
+  },
+  "DC022:f51c8b813f8d6aa8:drag:9b57190199530842": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 1.0,
+    "reason": "The answer correctly identifies the FDI commitment for December 2024 as 6.8 billion USD and distinguishes it from the 4.1 billion USD commitment for November 2024, aligning with the expected conflict behavior of differentiating between the two months."
+  },
+  "DC037:e579a72cd7365ccb:baseline:5a6f92c741611055": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer does not address the question about the specific VAT decrees with an 8% mechanism and different effective periods. Instead, it incorrectly states that only one policy exists, which contradicts the expected answer. The provided contexts do not support the claims made in the answer, leading to a complete lack of faithfulness, relevancy, and correctness."
+  },
+  "DC037:e579a72cd7365ccb:drag:fd5e5938e709e6e7": {
+    "faithfulness": 0.4,
+    "answer_relevancy": 0.6,
+    "context_precision": 0.5,
+    "context_recall": 0.4,
+    "answer_correctness": 0.2,
+    "behavior_alignment": 0.5,
+    "ragas_avg": 0.42000000000000004,
+    "reason": "The answer discusses VAT decrees but incorrectly identifies the nature of the decrees and their effective periods. It mentions a 2% reduction instead of the expected 8% and does not provide the correct decrees as per the expected answer. While it attempts to present complementary information, it does not align with the expected conflict behavior as it does not clarify the relationship between the decrees mentioned."
+  },
+  "DC063:015477cc515856f9:baseline:51bfe8be906ee6d7": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer states that no information was found in the documents, which is incorrect as the contexts provided contain relevant information about the VAT reduction and the applicable tax rate. The expected answer specifies the use of a specific decree and the tax rate, which is not addressed in the answer. Therefore, all metrics score zero."
+  },
+  "DC063:015477cc515856f9:drag:fd583dd3a3741ca9": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.2,
+    "context_recall": 0.2,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.68,
+    "reason": "The answer correctly states the reduced VAT rate of 8% and the extension of the policy until June 2025, aligning with the expected answer. However, the contexts provided do not directly support the claims made in the answer, leading to low context precision and recall. The answer effectively combines the temporal aspect with the tax deduction method as expected."
+  },
+  "DC070:a0979c0bc6c125f9:baseline:bec9ae6647fc04f3": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.9,
+    "answer_correctness": 0.8,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.8800000000000001,
+    "reason": "The answer provides a detailed overview of FDI trends from October to December 2024, aligning with the expected answer. It correctly identifies the increase in commitments and realizations, although it lacks specific figures for October. The contexts used are relevant and support the claims made, but the absence of detailed data for October slightly affects faithfulness and correctness. The answer effectively distinguishes between monthly commitments and realizations, demonstrating good behavior alignment."
+  },
+  "DC070:a0979c0bc6c125f9:drag:ff635321704a43ed": {
+    "faithfulness": 0.8,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.9,
+    "context_recall": 0.9,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.9199999999999999,
+    "reason": "The answer accurately summarizes the FDI developments from October to December 2024, correctly distinguishing between commitments and realizations. It uses relevant contexts to support its claims, although it notes the lack of detailed data for October, which is consistent with the provided contexts. The answer aligns well with the expected conflict behavior by connecting multiple documents and differentiating between monthly commitments and realized/cumulative figures."
+  },
+  "DC088:c6aa35e2d1eef66d:baseline:51bfe8be906ee6d7": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.0,
+    "reason": "The answer does not address the question and fails to provide any relevant information regarding NĐ 180/2024. It also does not refute the false premise presented in the question, nor does it provide the correct timeline for the decree, which is expected behavior."
+  },
+  "DC088:c6aa35e2d1eef66d:drag:02ddfd3b8890b0ef": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.5,
+    "context_recall": 0.5,
+    "answer_correctness": 1.0,
+    "behavior_alignment": 1.0,
+    "ragas_avg": 0.8,
+    "reason": "The answer correctly refutes the false premise about NĐ 180/2024's validity period and provides the correct information regarding its effective dates. However, the contexts provided do not directly support the specific claims made in the answer, leading to lower context precision and recall scores."
+  },
+  "DC089:bb6877d6c742888f:baseline:3cbf9ae811fbae96": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer incorrectly states that NĐ 72/2024 is related to the policy of reducing VAT according to Nghị quyết 174/2024/QH15, which is false. The expected answer correctly identifies that NĐ 72/2024 is based on Nghị quyết 142/2024/QH15, not 174/2024. The answer does not address the question correctly and fails to correct the false premise about the resolution number."
+  },
+  "DC089:bb6877d6c742888f:drag:b6d2af6b572739fe": {
+    "faithfulness": 0.0,
+    "answer_relevancy": 1.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "answer_correctness": 0.0,
+    "behavior_alignment": 0.0,
+    "ragas_avg": 0.2,
+    "reason": "The answer incorrectly states that NĐ 72/2024 is related to Nghị quyết 174/2024/QH15, which is false. The expected answer correctly identifies that NĐ 72/2024 is based on Nghị quyết 142/2024/QH15. The answer does not address the question correctly and fails to use relevant contexts, leading to a complete misalignment with the expected conflict behavior."
   }
 }
